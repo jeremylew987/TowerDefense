@@ -1,7 +1,7 @@
 package coms309.trivia.bhall1.controller;
 
-import coms309.login.bhall1.model.User;
-import coms309.login.bhall1.repository.UserRepository;
+import coms309.trivia.bhall1.model.User;
+import coms309.trivia.bhall1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
