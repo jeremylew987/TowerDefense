@@ -1,4 +1,4 @@
-package coms309.login.bhall1.controller;
+package coms309.trivia.bhall1.controller;
 
 import coms309.login.bhall1.model.User;
 import coms309.login.bhall1.repository.UserRepository;
