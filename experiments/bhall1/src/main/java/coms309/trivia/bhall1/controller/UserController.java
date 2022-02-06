@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("users/all")
+    @GetMapping("/users/all")
     List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -32,6 +32,7 @@ public class UserController {
             User user = foundUser.get();
             user.setPassword(updatedUser.getPassword());
             user.setUsername(updatedUser.getUsername());
+            userRepository.save(user);
             return user;
         }
         return null;
