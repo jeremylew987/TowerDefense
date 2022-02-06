@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -18,19 +19,21 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/users/register/{u}/{p}")
-    User createUser(@PathVariable String u, @PathVariable String p){
-        User newUser = new User();
-        newUser.setUsername(u);
-        newUser.setPassword(p);
-
-        userRepository.save(newUser);
-        return newUser;
+    @PostMapping("/users/register")
+    User createUser(@RequestBody User user){
+        userRepository.save(user);
+        return user;
     }
 
-    @PostMapping("/users/register")
-    User createUser(@RequestBody User newUser){
-        userRepository.save(newUser);
-        return newUser;
+    @PostMapping("/users/update/{id}")
+    User updateUser(@RequestBody User updatedUser, @PathVariable Long id) {
+        Optional<User> foundUser = userRepository.findById(id);
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
+            user.setPassword(updatedUser.getPassword());
+            user.setUsername(updatedUser.getUsername());
+            return user;
+        }
+        return null;
     }
 }
