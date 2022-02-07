@@ -35,7 +35,7 @@ public class page2 extends AppCompatActivity {
                 finish();
 
             }});
-String address = "";
+String address = "https://35dbb763-3eb6-4fea-8b30-f5cd4fdd1e3a.mock.pstmn.io/test";
         RequestQueue queue = Volley.newRequestQueue(page2.this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, address, null, new Response.Listener<JSONObject>() {
             @Override
