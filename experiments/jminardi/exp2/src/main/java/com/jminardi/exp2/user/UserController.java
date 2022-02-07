@@ -19,7 +19,9 @@ public class UserController
 
 	@PostMapping("/users/new")
 	public String saveUser(Users user) {
+		logger.info("Entered into Controller Layer");
 		usersRepository.save(user);
+		logger.info("New user created: " + user.getId() + ": " + user.getUsername() + ", " + user.getFirstName() + " " + user.getLastName());
 		return "New User "+ user.getUsername() + " Saved";
 	}
 
@@ -35,6 +37,7 @@ public class UserController
 	public Collection<Users> findUserById(@PathVariable("userId") int id) {
 		logger.info("Entered into Controller Layer");
 		Collection<Users> results = usersRepository.findById(id);
+		logger.info("User: " + results.toString());
 		return results;
 	}
 
