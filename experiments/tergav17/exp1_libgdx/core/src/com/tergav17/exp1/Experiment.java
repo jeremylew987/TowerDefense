@@ -9,6 +9,7 @@ public class Experiment extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture[] boing = new Texture[19];
 	Texture background;
+	Texture scroller;
 
 	float count = 0;
 	int frame = 0;
@@ -20,13 +21,15 @@ public class Experiment extends ApplicationAdapter {
 	double floor = 50;
 	double scale = 0.5;
 
+	int scrollX = 2200;
+
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		for (int i = 0; i < 19; i++) boing[i] = new Texture("boing" + i + ".png");
 		background = new Texture("background.jpg");
-
+		scroller = new Texture("scroller.png");
 	}
 
 	@Override
@@ -42,7 +45,16 @@ public class Experiment extends ApplicationAdapter {
 
 		batch.draw(background, 0, -300, 2200, 1080);
 
+
 		/* end background */
+
+		/* draw scroller */
+
+		batch.draw(scroller, scrollX, 700);
+		scrollX -= 5;
+		if (scrollX < -4791) scrollX = 2220;
+
+		/* end background * /
 
 		/* begin bounce ops */
 
