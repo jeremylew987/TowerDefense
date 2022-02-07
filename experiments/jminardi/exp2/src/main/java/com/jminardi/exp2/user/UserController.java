@@ -17,7 +17,7 @@ public class UserController
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
-	@PostMapping("users/new")
+	@PostMapping("/users/new")
 	public String saveUser(Users user) {
 		usersRepository.save(user);
 		return "New User "+ user.getUsername() + " Saved";
