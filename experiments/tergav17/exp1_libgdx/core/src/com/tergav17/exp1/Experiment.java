@@ -23,7 +23,6 @@ public class Experiment extends ApplicationAdapter {
 
 	int scrollX = 2200;
 
-
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -87,6 +86,8 @@ public class Experiment extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		background.dispose();
+		scroller.dispose();
 		for (int i = 0; i < 19; i++) boing[i].dispose();
 	}
 }
