@@ -1,4 +1,4 @@
-package com.jminardi.user;
+package com.jminardi.exp2.user;
 
 
 import javax.persistence.Column;
@@ -13,15 +13,16 @@ import org.hibernate.annotations.NotFoundAction;
 
 /**
  * Simple object representing a user.
+ *
  * @author James Minardi
  */
 @Entity
-@Table(name= "users")
+@Table(name = "users")
 public class Users
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Integer id;
 
@@ -45,6 +46,7 @@ public class Users
 	{
 		return this.id;
 	}
+
 	public void setId(Integer id)
 	{
 		this.id = id;
@@ -54,8 +56,39 @@ public class Users
 	{
 		return this.username;
 	}
+
 	public void setUsername(String username)
 	{
 		this.username = username;
+	}
+
+	public String getPassword()
+	{
+		return this.password;
+	}
+
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
+	public String getFirst_name()
+	{
+		return this.first_name;
+	}
+
+	public void setFirst_name(String first_name)
+	{
+		this.password = first_name;
+	}
+
+	public String getLast_namePassword()
+	{
+		return this.last_name;
+	}
+
+	public void setLast_name(String last_name)
+	{
+		this.last_name = last_name;
 	}
 }
