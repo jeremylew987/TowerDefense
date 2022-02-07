@@ -34,13 +34,13 @@ public class Users
 	@NotFound(action = NotFoundAction.IGNORE)
 	private String password;
 
-	@Column(name = "first_name")
+	@Column(name = "firstname")
 	@NotFound(action = NotFoundAction.IGNORE)
-	private String first_name;
+	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "lastname")
 	@NotFound(action = NotFoundAction.IGNORE)
-	private String last_name;
+	private String lastName;
 
 	public Integer getId()
 	{
@@ -72,23 +72,23 @@ public class Users
 		this.password = password;
 	}
 
-	public String getFirst_name()
+	public String getFirstName()
 	{
-		return this.first_name;
+		return this.firstName;
 	}
 
-	public void setFirst_name(String first_name)
+	public void setFirstName(String firstName)
 	{
-		this.password = first_name;
+		this.firstName = firstName;
 	}
 
-	public String getLast_namePassword()
+	public String getLastName()
 	{
-		return this.last_name;
+		return this.lastName;
 	}
 
-	public void setLast_name(String last_name)
+	public void setLastName(String lastName)
 	{
-		this.last_name = last_name;
+		this.lastName = lastName;
 	}
 }
