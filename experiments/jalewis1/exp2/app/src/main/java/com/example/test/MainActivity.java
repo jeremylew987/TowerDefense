@@ -2,15 +2,23 @@ package com.example.test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +52,33 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/test";
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, address, data, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String res = "";
+                        try {
+                            res = response.getString("response");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        password1.setText(res);
 
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
 
 
 
