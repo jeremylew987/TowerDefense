@@ -41,7 +41,7 @@ String address = "https://35dbb763-3eb6-4fea-8b30-f5cd4fdd1e3a.mock.pstmn.io/tes
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                     info.setText(response.getString("name"));
+                     info.setText(response.getString("response"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
