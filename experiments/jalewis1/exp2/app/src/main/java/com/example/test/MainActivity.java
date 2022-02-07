@@ -34,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
+        Button page = findViewById(R.id.button2);
+        page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, page2.class));
+            }});
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/test";
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, address, data, new Response.Listener<JSONObject>() {
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         String res = "";
