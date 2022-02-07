@@ -7,7 +7,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Experiment extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img[] = new Texture[19];
+	Texture[] boing = new Texture[19];
+	Texture background;
+	Texture scroller;
 
 	float count = 0;
 	int frame = 0;
@@ -16,13 +18,18 @@ public class Experiment extends ApplicationAdapter {
 	double y = 500;
 	double dx = 15;
 	double dy = 0;
+	double floor = 50;
+	double scale = 0.5;
+
+	int scrollX = 2200;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		for (int i = 0; i < 19; i++) img[i] = new Texture("boing" + i + ".png");
-
+		for (int i = 0; i < 19; i++) boing[i] = new Texture("boing" + i + ".png");
+		background = new Texture("background.jpg");
+		scroller = new Texture("scroller.png");
 	}
 
 	@Override
@@ -34,6 +41,21 @@ public class Experiment extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
 
+		/* draw background */
+
+		batch.draw(background, 0, -300, 2200, 1080);
+
+
+		/* end background */
+
+		/* draw scroller */
+
+		batch.draw(scroller, scrollX, 700);
+		scrollX -= 5;
+		if (scrollX < -4791) scrollX = 2220;
+
+		/* end background * /
+
 		/* begin bounce ops */
 
 		// update physics
@@ -42,12 +64,21 @@ public class Experiment extends ApplicationAdapter {
 
 		// check constraints
 		dy = dy - 0.3;
-		if (y < 0.0) dy = Math.abs(dy);
-		if (x < 0.0) dx = Math.abs(dx);
-		if (x > 2220 - 256) dx = -Math.abs(dx);
+		if (y < floor) dy = Math.abs(dy);
+		if (x < -512) {
+			scale = 0.25 + (Math.random() * 0.75);
+			dx = scale * 15;
+			floor = 450 - 400 * scale;
+		}
+		if (x > 2220 + 256) {
+			scale = 0.25 + (Math.random() * 0.75);
+			dx = -scale * 15;
+			floor = 450 - 400 * scale;
+
+		}
 		if (y > 1080 - 512) dy = -1;
 
-		batch.draw(img[frame % 19], (int) x, (int) y, 256, 256);
+		batch.draw(boing[frame % 19], (int) x, (int) y, (int) (256 * scale), (int) (256 * scale));
 
 		/* end bounce ops */
 		batch.end();
@@ -56,6 +87,6 @@ public class Experiment extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		for (int i = 0; i < 19; i++) img[i].dispose();
+		for (int i = 0; i < 19; i++) boing[i].dispose();
 	}
 }
