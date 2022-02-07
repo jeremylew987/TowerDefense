@@ -91,4 +91,10 @@ public class Users
 	{
 		this.lastName = lastName;
 	}
+
+
+	@Override
+	public String toString() {
+		return this.id + ": " + this.username + ", " + this.firstName + " " + this.lastName;
+	}
 }
