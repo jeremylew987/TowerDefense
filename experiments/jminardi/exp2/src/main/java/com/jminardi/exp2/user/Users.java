@@ -95,6 +95,6 @@ public class Users
 
 	@Override
 	public String toString() {
-		return this.id + ": " + this.username + ", " + this.firstName + " " + this.lastName;
+		return "["+this.id + ": " + this.username + ", " + this.firstName + " " + this.lastName + "]";
 	}
 }

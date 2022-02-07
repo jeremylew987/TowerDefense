@@ -21,15 +21,15 @@ public class UserController
 	public String saveUser(Users user) {
 		logger.info("Entered into Controller Layer");
 		usersRepository.save(user);
-		logger.info("New user created: " + user.getId() + ": " + user.getUsername() + ", " + user.getFirstName() + " " + user.getLastName());
-		return "New User "+ user.getUsername() + " Saved";
+		logger.info("New User " + user.toString() + " Saved");
+		return "New User " + user.toString() + " Saved";
 	}
 
 	@GetMapping("/users")
 	public List<Users> getAllUsers() {
 		logger.info("Entered into Controller Layer");
 		List<Users> results = usersRepository.findAll();
-		logger.info("Number of Records Fetched:" + results.size());
+		logger.info("# of Records Fetched:" + results.size());
 		return results;
 	}
 
@@ -39,6 +39,14 @@ public class UserController
 		Collection<Users> results = usersRepository.findById(id);
 		logger.info("User: " + results.toString());
 		return results;
+	}
+
+	@GetMapping("/users/delete/{userId}")
+	public void deleteUserById(@PathVariable("userId") int id) {
+		logger.info("Entered into Controller Layer");
+		Collection<Users> results = usersRepository.findById(id);
+		usersRepository.deleteById(id);
+		logger.info("Deleted User " + results.toString());
 	}
 
 }

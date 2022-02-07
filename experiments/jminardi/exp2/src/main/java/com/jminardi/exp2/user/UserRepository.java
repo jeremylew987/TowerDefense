@@ -13,6 +13,7 @@ public interface UserRepository extends JpaRepository<Users, Integer>
 {
 	List<Users> findAll();
 	Collection<Users> findById(@Param("id") int id);
+	void deleteById(@Param("id") int id);
 	Optional<Users> findByUsername(@Param("username") String username);
 	Optional<Users> findByPassword(@Param("password") String password);
 	Optional<Users> findByFirstName(@Param("firstName") String firstName);
