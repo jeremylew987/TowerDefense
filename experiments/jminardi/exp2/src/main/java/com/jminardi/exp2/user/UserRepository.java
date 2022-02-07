@@ -15,9 +15,9 @@ public interface UserRepository extends JpaRepository<Users, Integer>
 	Collection<Users> findById(@Param("id") int id);
 	Optional<Users> findByUsername(@Param("username") String username);
 	Optional<Users> findByPassword(@Param("password") String password);
-	Optional<Users> findByFirst_name(@Param("first_name") String first_name);
-	Optional<Users> findByLast_name(@Param("last_name") String last_name);
-	Users save (Users user);
+	Optional<Users> findByFirstName(@Param("firstName") String firstName);
+	Optional<Users> findByLastName(@Param("lastName") String lastName);
+	Users save(Users user);
 
 
 }
