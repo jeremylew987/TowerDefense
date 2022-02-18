@@ -2,6 +2,8 @@ package coms309.login.bhall1.controller;
 
 import coms309.login.bhall1.model.User;
 import coms309.login.bhall1.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,38 +16,46 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping("/users/all")
     List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @PostMapping("/users/register")
-    User createUser(@RequestBody User user){
+    public String createUser(@RequestBody User user){
+        logger.info("Entered into Controller Layer.");
         userRepository.save(user);
-        return user;
+        logger.info("Created user with UID " + user.getId());
+        return "Created user with UID " + user.getId();
     }
 
     @PostMapping("/users/update/{id}")
-    User updateUser(@RequestBody User updatedUser, @PathVariable Long id) {
+    public String updateUser(@RequestBody User updatedUser, @PathVariable Long id) {
         Optional<User> foundUser = userRepository.findById(id);
         if (foundUser.isPresent()) {
             User user = foundUser.get();
             user.setPassword(updatedUser.getPassword());
             user.setUsername(updatedUser.getUsername());
             userRepository.save(user);
-            return user;
+            logger.info("User with UID " + id + " has been updated");
+            return "User with UID " + id + " has been updated";
         }
-        return null;
+        logger.info("User with UID " + id + " not found");
+        return "User with UID " + id + " not found";
     }
 
     @PostMapping("/users/delete/{id}")
-    User deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable Long id) {
         Optional<User> foundUser = userRepository.findById(id);
         if (foundUser.isPresent()) {
             User user = foundUser.get();
             userRepository.delete(user);
-            return user;
+            logger.info("User with UID " + id + " has been deleted from the database");
+            return "User with UID " + id + " has been deleted from the database";
         }
-        return null;
+        logger.info("User with UID " + id + " not found");
+        return "User with UID " + id + " not found";
     }
 }
