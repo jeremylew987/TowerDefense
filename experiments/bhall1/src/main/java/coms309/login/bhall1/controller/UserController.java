@@ -37,4 +37,15 @@ public class UserController {
         }
         return null;
     }
+
+    @PostMapping("/users/delete/{id}")
+    User deleteUser(@PathVariable Long id) {
+        Optional<User> foundUser = userRepository.findById(id);
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
+            userRepository.delete(user);
+            return user;
+        }
+        return null;
+    }
 }
