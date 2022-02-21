@@ -33,9 +33,9 @@ public class createLgoin extends AppCompatActivity {
                 finish();
 
             }});
-        String address = "https://35dbb763-3eb6-4fea-8b30-f5cd4fdd1e3a.mock.pstmn.io/test";
+        String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, address, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
