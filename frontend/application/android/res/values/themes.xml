@@ -1,5 +1,5 @@
 <resources>
-  <style name="GdxTheme.NoActionBar" >
+  <style name="GdxTheme.NoActionBar" parent = "Theme.AppCompat">
   <item name="windowActionBar">false</item>
   <item name="windowNoTitle">true</item>
 </style>
