@@ -1,11 +1,17 @@
 package coms309.login.bhall1.user;
 
+import coms309.login.bhall1.registration.token.ConfirmationToken;
+import coms309.login.bhall1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -16,6 +22,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -34,7 +41,22 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        //TODO: Send confirmation token
-        return "confirmation token";
+        // TODO: Take token expire date from configuration
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        // TODO: Send verification email
+
+        return token;
+    }
+
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
     }
 }
