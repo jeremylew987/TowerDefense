@@ -39,13 +39,11 @@ public class User implements UserDetails {
     private UserRole userRole;
     private Boolean locked;
 
-    public User(String username, String email, String password, UserRole userRole, Boolean locked, Boolean enabled) {
+    public User(String username, String email, String password, UserRole userRole) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
-        this.locked = locked;
-        this.enabled = enabled;
     }
 
     private Boolean enabled;
