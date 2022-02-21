@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.se309.tower">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:appCategory="game"
@@ -11,7 +13,8 @@
         android:theme="@style/GdxTheme">
         <activity
             android:name=".loginPage"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="landscape"/>
 
         <activity
             android:name=".AndroidLauncher"
