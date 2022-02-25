@@ -16,12 +16,12 @@ import org.hibernate.annotations.NotFoundAction;
  *
  * @author James Minardi
  */
-@Entity
+@Entity // Tell springboot this class refers to a row in the table "users"
 @Table(name = "users")
 public class Users
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Tell springboot is is the Unique ID
 	@Column(name = "id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Integer id;
