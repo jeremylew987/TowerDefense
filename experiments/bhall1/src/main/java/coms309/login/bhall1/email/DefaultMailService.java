@@ -17,6 +17,7 @@ public class DefaultMailService implements MailService{
     private final static Logger LOGGER = LoggerFactory
             .getLogger(DefaultMailService.class);
 
+    @Autowired
     JavaMailSender mailSender;
 
     public void sendEmail(Mail mail) {
