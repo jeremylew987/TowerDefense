@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,6 +29,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+    }
+
+    public Optional<User> loadUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public String registerUser(User user) {

@@ -5,6 +5,7 @@ import coms309.login.bhall1.email.MailService;
 import coms309.login.bhall1.registration.token.ConfirmationToken;
 import coms309.login.bhall1.registration.token.ConfirmationTokenService;
 import coms309.login.bhall1.user.User;
+import coms309.login.bhall1.user.UserRepository;
 import coms309.login.bhall1.user.UserRole;
 import coms309.login.bhall1.user.UserService;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,11 @@ public class RegistrationService {
     private final MailService mailService;
 
     public String register(RegistrationRequest request) {
-        boolean validEmail = emailValidator.test(request.getEmail());
-        if (!validEmail) {
+        if (!emailValidator.test(request.getEmail())) {
             throw new IllegalStateException("Email is not valid");
+        }
+        if (userService.loadUserByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalStateException("Email already taken");
         }
         String token = userService.registerUser(
                 new User(
