@@ -1,6 +1,7 @@
 package coms309.login.bhall1.registration;
 
-import coms309.login.bhall1.email.EmailSender;
+import coms309.login.bhall1.email.Mail;
+import coms309.login.bhall1.email.MailService;
 import coms309.login.bhall1.registration.token.ConfirmationToken;
 import coms309.login.bhall1.registration.token.ConfirmationTokenService;
 import coms309.login.bhall1.user.User;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -20,7 +20,7 @@ public class RegistrationService {
     private final UserService userService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
+    private final MailService mailService;
 
     public String register(RegistrationRequest request) {
         boolean validEmail = emailValidator.test(request.getEmail());
@@ -37,9 +37,12 @@ public class RegistrationService {
         );
 
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
-        emailSender.send(
-                request.getEmail(),
-                buildEmail(request.getUsername(), link));
+        mailService.sendEmail(new Mail(
+                "coms309.2do7",
+                "" + request.getEmail(),
+                "Confirm your account",
+                "" + buildEmail(request.getUsername(), link)
+        ));
 
         return token;
     }
