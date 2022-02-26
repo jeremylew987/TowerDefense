@@ -2,6 +2,7 @@ package com.se309.tower;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,13 @@ public class loginPage extends AppCompatActivity {
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
+        SharedPreferences mPrefs = getSharedPreferences("test",0);
+        String usernameSave = mPrefs.getString("username","none");
+        String passwordSave = mPrefs.getString("password","none");
+
+
+
+
         Button page = findViewById(R.id.button2);
         page.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +50,8 @@ public class loginPage extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = username.getText().toString();
-                String pass = password.getText().toString();
+                final String name = username.getText().toString();
+                final String pass = password.getText().toString();
                 username1.setText(name);
                 password1.setText(pass);
 
@@ -67,8 +75,11 @@ public class loginPage extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        SharedPreferences.Editor mEditor = mPrefs.edit();
+                        mEditor.putString("username",name);
+                        mEditor.putString("password",pass);
                         password1.setText(res);
-
+                        startActivity(new Intent(loginPage.this, HomePage.class));
                     }
                 }, new Response.ErrorListener() {
                     @Override
