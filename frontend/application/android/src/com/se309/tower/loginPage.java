@@ -33,9 +33,53 @@ public class loginPage extends AppCompatActivity {
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
-        SharedPreferences mPrefs = getSharedPreferences("test",0);
+        final SharedPreferences mPrefs = getSharedPreferences("test",0);
         String usernameSave = mPrefs.getString("username","none");
         String passwordSave = mPrefs.getString("password","none");
+
+        if(!(usernameSave.equals("none") || passwordSave.equals("none"))) {
+            username1.setText(usernameSave);
+            password1.setText(passwordSave);
+            RequestQueue queue = Volley.newRequestQueue(loginPage.this);
+            JSONObject data = new JSONObject();
+            try {
+                data.put("username",usernameSave);
+                data.put("passphrase",passwordSave);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/test";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    String res = "";
+                    try {
+                        res = response.getString("response");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(res.equals("true")) {
+                        password1.setText(res);
+                        startActivity(new Intent(loginPage.this, HomePage.class));
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    error.printStackTrace();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
+                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setMessage(error.getMessage());
+                    alertDialogBuilder.setPositiveButton("Ok", null);
+                    alertDialogBuilder.setNegativeButton("", null);
+                    alertDialogBuilder.create().show();
+                }
+            });
+            queue.add(request);
+        }
+
 
 
 
@@ -75,11 +119,13 @@ public class loginPage extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences.Editor mEditor = mPrefs.edit();
-                        mEditor.putString("username",name);
-                        mEditor.putString("password",pass);
-                        password1.setText(res);
-                        startActivity(new Intent(loginPage.this, HomePage.class));
+                        if(res.equals("true")) {
+                            SharedPreferences.Editor mEditor = mPrefs.edit();
+                            mEditor.putString("username", name).commit();
+                            mEditor.putString("password", pass).commit();
+                            password1.setText(res);
+                            startActivity(new Intent(loginPage.this, HomePage.class));
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
