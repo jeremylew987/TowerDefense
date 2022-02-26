@@ -78,7 +78,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         return token;
     }
 
-    public boolean verifyByUsername(String username, String password) {
+    public boolean verifyUserByUsername(String username, String password) {
         logger.info("Entered into Service Layer");
         Optional<User> result = userRepository.findByUsername(username);
         if (result.isEmpty()) {
@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
     }
 
 
-    public boolean verifyByEmail(String email, String password) {
+    public boolean verifyUserByEmail(String email, String password) {
         logger.info("Entered into Service Layer");
         Optional<User> result = userRepository.findByEmail(email);
         if (result.isEmpty()) {
