@@ -1,6 +1,8 @@
 package com.se309.tower;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,7 @@ public class createLgoin extends AppCompatActivity {
         final EditText password = findViewById(R.id.Passowrdtext);
         final EditText email = findViewById(R.id.Email);
         Button submit = findViewById(R.id.CreateLogin);
+        final SharedPreferences mPrefs = getSharedPreferences("test",0);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +43,8 @@ public class createLgoin extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = username.getText().toString();
-                String pass = password.getText().toString();
+                final String name = username.getText().toString();
+                final String pass = password.getText().toString();
                 String emailS = email.getText().toString();
 
 
@@ -58,7 +61,19 @@ public class createLgoin extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                String res = "";
+                try {
+                    res = response.getString("response");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(res.equals("true")) {
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("username", name).commit();
+                    mEditor.putString("password", pass).commit();
+                    
+                    startActivity(new Intent(createLgoin.this, HomePage.class));
+                }
             }
         }, new Response.ErrorListener() {
             @Override

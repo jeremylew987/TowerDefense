@@ -13,7 +13,7 @@
         android:theme="@style/GdxTheme">
         <activity
             android:name=".HomePage"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="landscape" />
         <activity
             android:name=".createLgoin"
