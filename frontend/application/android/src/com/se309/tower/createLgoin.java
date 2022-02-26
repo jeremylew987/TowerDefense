@@ -28,7 +28,7 @@ public class createLgoin extends AppCompatActivity {
         final EditText username = findViewById(R.id.UsernameText);
         final EditText password = findViewById(R.id.Passowrdtext);
         final EditText email = findViewById(R.id.Email);
-
+        Button submit = findViewById(R.id.CreateLogin);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,9 +37,24 @@ public class createLgoin extends AppCompatActivity {
                 finish();
 
             }});
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = username.getText().toString();
+                String pass = password.getText().toString();
+                String emailS = email.getText().toString();
+
 
         String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("username",name);
+                    data.put("passphrase",pass);
+                    data.put("email",emailS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -59,7 +74,11 @@ public class createLgoin extends AppCompatActivity {
             }
         });
         queue.add(request);
+            }
 
+
+
+        });
 
     }
 }
