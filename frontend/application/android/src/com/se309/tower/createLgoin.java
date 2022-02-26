@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,7 +25,10 @@ public class createLgoin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_lgoin);
         Button back = findViewById(R.id.button3);
-        final TextView info = findViewById(R.id.textView3);
+        final EditText username = findViewById(R.id.UsernameText);
+        final EditText password = findViewById(R.id.Passowrdtext);
+        final EditText email = findViewById(R.id.Email);
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,16 +37,13 @@ public class createLgoin extends AppCompatActivity {
                 finish();
 
             }});
+
         String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    info.setText(response.getString("response"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
         }, new Response.ErrorListener() {
             @Override
