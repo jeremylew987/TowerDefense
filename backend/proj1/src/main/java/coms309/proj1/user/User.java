@@ -28,27 +28,30 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "user_seq"
     )
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String username;
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
-    private Boolean locked = false;
-    private Boolean enabled = false;
+    private UserRole role;
+    private Boolean locked;
+    private Boolean enabled;
 
-    public User(String username, String email, String password, UserRole userRole) {
+    public User(String username, String email, String password, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
+        this.locked = false;
+        this.enabled = false;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(userRole.name());
+        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(auth);
     }
 
@@ -84,7 +87,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "["+this.id + ": " + this.username + ", " + this.email + "]";
+        return "["+this.userId + ": " + this.username + ", " + this.email + "]";
     }
 
 }
