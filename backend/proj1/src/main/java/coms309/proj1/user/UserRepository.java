@@ -8,11 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Repository
+@Repository // Indicates this class interacts with the database
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
+    Optional<User> findAll(String userId);
+
 
     @Transactional
     @Modifying
