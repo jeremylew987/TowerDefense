@@ -26,6 +26,16 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
+    public void get() throws RequestException {
+        synchronized(this) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RequestException(e.getMessage());
+            }
+        }
+    }
+
 
     /**
      * Getter-ville
