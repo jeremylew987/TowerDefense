@@ -1,6 +1,7 @@
 package coms309.proj1.registration;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class RegistrationController {
 
+    @Autowired
     private RegistrationService registrationService;
 
     @PostMapping
@@ -15,7 +17,7 @@ public class RegistrationController {
         return registrationService.register(request);
     }
 
-    @GetMapping(path = "/confirm")
+    @GetMapping(path = "/confirm") // /confirm?token=
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }
