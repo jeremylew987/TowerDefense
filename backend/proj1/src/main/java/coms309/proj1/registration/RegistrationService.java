@@ -26,9 +26,7 @@ public class RegistrationService {
         if (!emailValidator.test(request.getEmail())) {
             throw new IllegalStateException("Email is not valid");
         }
-        if (userService.loadUserByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email already taken");
-        }
+        
         String token = userService.registerUser(
                 new User(
                         request.getUsername(),
