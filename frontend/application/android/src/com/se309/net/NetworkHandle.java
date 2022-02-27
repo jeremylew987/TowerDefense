@@ -23,4 +23,24 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
+
+    /**
+     * Getter-ville
+     */
+
+    public String getDefaultResource() {
+        return defaultResource;
+    }
+
+    public void setDefaultResource(String defaultResource) {
+        this.defaultResource = defaultResource;
+    }
+
+    public NetworkManager getParentManager() {
+        return parentManager;
+    }
+
+    public void setParentManager(NetworkManager parentManager) {
+        this.parentManager = parentManager;
+    }
 }

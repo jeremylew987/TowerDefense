@@ -63,4 +63,33 @@ public class NetworkManager {
 
         return handle;
     }
+
+
+    /**
+     * Getter-ville
+     */
+
+    public Context getContext() {
+        return context;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public Cache getCache() {
+        return cache;
+    }
+
+    public RequestQueue getRequestQueue() {
+        return requestQueue;
+    }
+
+    public Network getNetwork() {
+        return network;
+    }
 }
