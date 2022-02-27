@@ -8,6 +8,8 @@ import coms309.proj1.user.User;
 import coms309.proj1.user.UserRole;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +28,10 @@ public class RegistrationService {
         if (!emailValidator.test(request.getEmail())) {
             throw new IllegalStateException("Email is not valid");
         }
-        if (userService.loadUserByEmail(request.getEmail()).isPresent()) {
+        try {
+            userService.loadUserByUsername(request.getEmail());
             throw new IllegalStateException("Email already taken");
-        }
+        } catch (UsernameNotFoundException e) {}
         String token = userService.registerUser(
                 new User(
                         request.getUsername(),
