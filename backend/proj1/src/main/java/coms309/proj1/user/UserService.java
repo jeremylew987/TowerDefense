@@ -49,14 +49,6 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         return result.get();
     }
 
-    public Optional<User> loadUserByEmail(String email) {
-        logger.info("Entered into Service Layer");
-        Optional<User> result = userRepository.findByEmail(email);
-        logger.info("Retrieved " + result.toString() + " by email");
-        return result;
-    }
-
-
     public String registerUser(User user) {
         logger.info("Entered into Service Layer");
         boolean userExists = userRepository.findByEmail(user.getEmail())
