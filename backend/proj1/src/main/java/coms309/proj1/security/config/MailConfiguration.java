@@ -20,7 +20,7 @@ public class MailConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(env.getProperty("spring.mail.host"));
-        //mailSender.setPort(Integer.valueOf(env.getProperty("spring.mail.port"))); // TODO: THIS FAILS RUN?
+        mailSender.setPort(Integer.parseInt(env.getProperty("spring.mail.port"))); //TODO: error?
         mailSender.setUsername(env.getProperty("spring.mail.username"));
         mailSender.setPassword(env.getProperty("spring.mail.password"));
 
