@@ -4,10 +4,14 @@ import android.content.Context;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.StringRequest;
 
 /**
  * NetworkManager.java
@@ -55,15 +59,37 @@ public class NetworkManager {
 
     /**
      * Spawns in a new network handle, and returns it to the caller
-     * @param defaultResource
+     * @param defaultResource The address that all requests will be sent to.
      * @return
      */
     public NetworkHandle spawnHandler(String defaultResource) {
         NetworkHandle handle = new NetworkHandle(defaultResource, this);
 
-
-        
         return handle;
+    }
+
+    public String SendStringGET(final NetworkHandle caller, String resource) {
+        StringRequest request = new StringRequest(Request.Method.GET, host + resource, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                synchronized (caller) {
+                    caller.notify();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                synchronized (caller) {
+                    caller.notify();
+                }
+            }
+
+        });
+
+        return null;
     }
 
 

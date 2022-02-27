@@ -9,8 +9,11 @@ package com.se309.net;
 public class NetworkHandle {
 
     // Incoming objects
-    String defaultResource;
-    NetworkManager parentManager;
+    private String defaultResource;
+    private NetworkManager parentManager;
+
+    // Reply switch
+    protected ResponseContainer response;
 
     /**
      * Spawned from NetworkManager, provides an abstract interface to the networking components.
