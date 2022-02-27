@@ -61,6 +61,8 @@ public class NetworkManager {
     public NetworkHandle spawnHandler(String defaultResource) {
         NetworkHandle handle = new NetworkHandle(defaultResource, this);
 
+
+        
         return handle;
     }
 
