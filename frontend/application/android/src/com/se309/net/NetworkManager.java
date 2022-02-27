@@ -21,6 +21,8 @@ public class NetworkManager {
 
     // Incoming objects
     private Context context;
+    private String host;
+
 
     // Queue specific objects
     private Cache cache;
@@ -28,10 +30,16 @@ public class NetworkManager {
     private Network network;
 
 
-    public NetworkManager(Context context) {
+    /**
+     * The constructor for NetworkManager, should be started at the beginning of the application only once
+     * @param context The app context
+     * @param host The address to the server, will be used for NetworkHandles
+     */
+    public NetworkManager(Context context, String host) {
 
         // Save local instances
         this.context = context;
+        this.host = host;
 
         // Set up RequestQueue
         cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024);
@@ -41,9 +49,18 @@ public class NetworkManager {
         requestQueue = new RequestQueue(cache, network);
 
         // Start it up
-
         requestQueue.start();
 
     }
 
+    /**
+     * Spawns in a new network handle, and returns it to the caller
+     * @param defaultResource
+     * @return
+     */
+    public NetworkHandle spawnHandler(String defaultResource) {
+        NetworkHandle handle = new NetworkHandle(defaultResource, this);
+
+        return handle;
+    }
 }
