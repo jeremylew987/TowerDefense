@@ -52,13 +52,10 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
     public Optional<User> loadUserByEmail(String email) {
         logger.info("Entered into Service Layer");
         Optional<User> result = userRepository.findByEmail(email);
-        if (result.isEmpty()) {
-            logger.info("User with email " + result.toString() + " not found");
-            throw new BadCredentialsException(String.format(EMAIL_NOT_FOUND_MSG, email));
-        }
-        logger.info("Retrieved " + result.get().toString() + " by email");
+        logger.info("Retrieved " + result.toString() + " by email");
         return result;
     }
+
 
     public String registerUser(User user) {
         logger.info("Entered into Service Layer");
@@ -71,8 +68,8 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        logger.info ("Password set for " + user.toString());
         userRepository.save(user);
+        logger.info ("Saved user to database");
 
         // TODO: Take token expire date from configuration
         String token = UUID.randomUUID().toString();
