@@ -11,16 +11,28 @@ import java.util.List;
 public class UserController
 {
 	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@GetMapping("/users")
+	@GetMapping(value={"/user", "/users"})
 	public List<User> getAllUsers() {
 		logger.info("Entered into Controller Layer");
-		List<User> results = userRepository.findAll();
+		List<User> results = userService.loadUsers();
 		logger.info("Records Fetched:" + results.size());
 		return results;
+	}
+
+	@GetMapping(value={"/user/verifyLoginByUsername/{username}/{password}"})
+	public boolean verifyUsername(@PathVariable String username, @PathVariable String password) {
+		logger.info("Entered into Controller Layer");
+		return userService.verifyUserByUsername(username, password);
+	}
+
+	@GetMapping(value={"/user/verifyLoginByEmail/{email}/{password}"})
+	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
+		logger.info("Entered into Controller Layer");
+		return userService.verifyUserByEmail(email, password);
 	}
 
 }

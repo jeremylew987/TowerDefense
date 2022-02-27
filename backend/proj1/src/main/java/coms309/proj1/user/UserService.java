@@ -5,19 +5,20 @@ import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, UserDetailsPasswordService
+{
 
     private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
 
@@ -25,15 +26,23 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    public List<User> loadUsers() {
+        logger.info("Entered into Service Layer");
+        return userRepository.findAll();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Entered into Service Layer");
-        UserDetails result = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+        Optional<User> result = userRepository.findByUsername(username);
+        if (result.isEmpty()) {
+            logger.warn("User [" + username + "] not found");
+            throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)); // Does this method assume the user exists?
+        }
         logger.info("Retrieved " + result.toString() + " by username");
-        return result;
+        return result.get();
     }
 
     public Optional<User> loadUserByEmail(String email) {
@@ -69,8 +78,56 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
+    public boolean verifyUserByUsername(String username, String password) {
+        logger.info("Entered into Service Layer");
+        Optional<User> result = userRepository.findByUsername(username);
+        if (result.isEmpty()) {
+            logger.warn("Username [" + username + "] does not exist");
+            return false;
+        }
+
+        logger.info ("Username [" + username + "] exists");
+
+        if (!bCryptPasswordEncoder.matches(password, result.get().getPassword())) {
+            logger.warn ("Password does not match user [" + username + "]");
+            return false;
+        }
+        logger.info("Username [" + username + "] matches password");
+        return true;
+    }
+
+
+    public boolean verifyUserByEmail(String email, String password) {
+        logger.info("Entered into Service Layer");
+        Optional<User> result = userRepository.findByEmail(email);
+        if (result.isEmpty()) {
+            logger.warn("User with email [" + email + "] does not exist");
+            return false;
+        }
+
+        logger.info ("User with email [" + email + "] exists");
+
+        if (!bCryptPasswordEncoder.matches(password, result.get().getPassword())) {
+            logger.warn ("Password does not match email [" + email + "]");
+            return false;
+        }
+        logger.info("User with email [" + email + "] matches password");
+        return true;
+    }
+
     public int enableUser(String email) {
-        logger.info("Entered into Service Layer\n");
+        logger.info("Entered into Service Layer");
         return userRepository.enableUser(email);
+    }
+
+
+    @Override
+    public UserDetails updatePassword(UserDetails user, String newPassword)
+    {
+        logger.info("Entered into Service Layer\n");
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+        ((User)user).setPassword(encodedPassword);
+        logger.info ("Password set for " + ((User)user).toString());
+        return user;
     }
 }
