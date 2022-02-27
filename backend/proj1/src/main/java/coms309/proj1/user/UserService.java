@@ -5,6 +5,7 @@ import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -20,7 +21,10 @@ import java.util.UUID;
 public class UserService implements UserDetailsService, UserDetailsPasswordService
 {
 
-    private final static String USER_NOT_FOUND_MSG = "User with email %s not found";
+    private final static String USERNAME_NOT_FOUND_MSG = "User %s does not exist";
+    private final static String EMAIL_NOT_FOUND_MSG = "User with email %s does not exist";
+    private final static String BAD_CREDENTIALS_MSG = "Username %s does not exist";
+
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,7 +43,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         Optional<User> result = userRepository.findByUsername(username);
         if (result.isEmpty()) {
             logger.warn("User [" + username + "] not found");
-            throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)); // Does this method assume the user exists?
+            throw new UsernameNotFoundException(String.format(USERNAME_NOT_FOUND_MSG, username));
         }
         logger.info("Retrieved " + result.toString() + " by username");
         return result.get();
@@ -49,8 +53,9 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         logger.info("Entered into Service Layer");
         Optional<User> result = userRepository.findByEmail(email);
         logger.info("Retrieved " + result.toString() + " by email");
-        return userRepository.findByEmail(email);
+        return result;
     }
+
 
     public String registerUser(User user) {
         logger.info("Entered into Service Layer");
@@ -58,12 +63,13 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
                 .isPresent();
         if (userExists) {
             // Does this throw the exception or just log it?
-            logger.info("Email is already registered to " + user.toString(), new IllegalStateException());
+            logger.info("Email is already registered to " + user.toString());
+            new IllegalStateException("Email is already registered to " + user.toString());
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        logger.info ("Password set for " + user.toString());
         userRepository.save(user);
+        logger.info ("Saved user to database");
 
         // TODO: Take token expire date from configuration
         String token = UUID.randomUUID().toString();
