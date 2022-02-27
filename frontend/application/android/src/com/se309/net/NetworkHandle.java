@@ -29,10 +29,14 @@ public class NetworkHandle {
     public void get() throws RequestException {
         synchronized(this) {
             try {
+                parentManager.SendStringGET(this, defaultResource);
+
                 this.wait();
             } catch (InterruptedException e) {
                 throw new RequestException(e.getMessage());
             }
+
+
         }
     }
 

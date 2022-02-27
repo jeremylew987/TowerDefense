@@ -12,6 +12,10 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Type;
 
 /**
  * NetworkManager.java
@@ -33,6 +37,9 @@ public class NetworkManager {
     private RequestQueue requestQueue;
     private Network network;
 
+    // Gson stuff
+    private GsonBuilder builder;
+
 
     /**
      * The constructor for NetworkManager, should be started at the beginning of the application only once
@@ -51,6 +58,11 @@ public class NetworkManager {
         network = new BasicNetwork(new HurlStack());
 
         requestQueue = new RequestQueue(cache, network);
+
+        // Quickly set up Gson stuff
+        GsonBuilder builder = new GsonBuilder();
+
+        builder.setPrettyPrinting();
 
         // Start it up
         requestQueue.start();
@@ -104,6 +116,18 @@ public class NetworkManager {
             }
 
         });
+    }
+
+    public String serialize(Object src) {
+        Gson gson = builder.create();
+
+        return gson.toJson(src);
+    }
+
+    public Object deserialize(String src, Type ty) {
+        Gson gson = builder.create();
+
+        return gson.fromJson(src, ty);
     }
 
 
