@@ -26,11 +26,11 @@ public class RegistrationService {
 
     public String register(RegistrationRequest request) {
         if (!emailValidator.test(request.getEmail())) {
-            throw new IllegalStateException("Email is not valid");
+            throw new EmailException("Email is not valid");
         }
         try {
             userService.loadUserByUsername(request.getEmail());
-            throw new IllegalStateException("Email already taken");
+            throw new EmailException("Email already taken");
         } catch (UsernameNotFoundException e) {}
         String token = userService.registerUser(
                 new User(
@@ -41,7 +41,7 @@ public class RegistrationService {
                 )
         );
 
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+        String link = "http://localhost:8080/registration/confirm?token=" + token;
         mailService.sendEmail(new Mail(
                 "coms309.2do7",
                 "" + request.getEmail(),
