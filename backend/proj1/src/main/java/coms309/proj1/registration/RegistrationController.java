@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class RegistrationController {
 
+    @Autowired
     private RegistrationService registrationService;
 
-    @PostMapping
+    @PostMapping(path = "/")
     public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
     }

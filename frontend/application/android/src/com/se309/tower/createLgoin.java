@@ -1,10 +1,13 @@
 package com.se309.tower;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,7 +27,11 @@ public class createLgoin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_lgoin);
         Button back = findViewById(R.id.button3);
-        final TextView info = findViewById(R.id.textView3);
+        final EditText username = findViewById(R.id.UsernameText);
+        final EditText password = findViewById(R.id.Passowrdtext);
+        final EditText email = findViewById(R.id.Email);
+        Button submit = findViewById(R.id.CreateLogin);
+        final SharedPreferences mPrefs = getSharedPreferences("test",0);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,15 +40,39 @@ public class createLgoin extends AppCompatActivity {
                 finish();
 
             }});
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String name = username.getText().toString();
+                final String pass = password.getText().toString();
+                String emailS = email.getText().toString();
+
+
         String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("username",name);
+                    data.put("passphrase",pass);
+                    data.put("email",emailS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                String res = "";
                 try {
-                    info.setText(response.getString("response"));
+                    res = response.getString("response");
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                if(res.equals("true")) {
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("username", name).commit();
+                    mEditor.putString("password", pass).commit();
+                    
+                    startActivity(new Intent(createLgoin.this, HomePage.class));
                 }
             }
         }, new Response.ErrorListener() {
@@ -58,7 +89,11 @@ public class createLgoin extends AppCompatActivity {
             }
         });
         queue.add(request);
+            }
 
+
+
+        });
 
     }
 }

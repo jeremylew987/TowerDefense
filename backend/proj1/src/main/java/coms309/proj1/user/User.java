@@ -1,6 +1,5 @@
 package coms309.proj1.user;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,27 +27,30 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "user_seq"
     )
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String username;
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
-    private Boolean locked = false;
-    private Boolean enabled = false;
+    private UserRole role;
+    private Boolean locked;
+    private Boolean enabled;
 
-    public User(String username, String email, String password, UserRole userRole) {
+    public User(String username, String email, String password, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
+        this.locked = false;
+        this.enabled = false;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(userRole.name());
+        SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(auth);
     }
 
@@ -60,6 +62,20 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void  setUsername(String username) {
+        this.username = username;
+    }
+    public void  setEmail(String email) {
+        this.email  = email;
+    }
+    public String  getEmail() {
+        return this.email;
     }
 
     @Override
@@ -81,4 +97,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    @Override
+    public String toString() {
+        return "["+this.userId + ": " + this.username + ", " + this.email + "]";
+    }
+
 }

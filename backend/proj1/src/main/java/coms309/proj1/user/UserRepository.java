@@ -8,14 +8,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Repository
+@Repository // Indicates this class interacts with the database
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    //Optional<User> findAll(String userId);
     Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
+
+    User save(User user);
 
     @Transactional
     @Modifying
     @Query("UPDATE User u SET u.enabled = TRUE WHERE u.email = ?1")
     int enableUser(String email);
+
+
 }
