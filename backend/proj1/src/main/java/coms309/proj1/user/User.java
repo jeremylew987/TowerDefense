@@ -71,6 +71,12 @@ public class User implements UserDetails {
     public void  setUsername(String username) {
         this.username = username;
     }
+    public void  setEmail(String email) {
+        this.email  = email;
+    }
+    public String  getEmail() {
+        return this.email;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
