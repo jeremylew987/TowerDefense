@@ -100,7 +100,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "["+this.userId + ": " + this.username + ", " + this.email + "]";
+        return this.userId + ": " + this.username + ", " + this.email;
     }
 
 }
