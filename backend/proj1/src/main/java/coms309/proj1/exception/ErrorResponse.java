@@ -23,8 +23,24 @@ public class ErrorResponse
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date timestamp;
 
+
+	/**
+	 * Determines whether to print the stack trace
+	 * int http errors or not.
+	 */
+	private static boolean useStackTrace = false;
+
+	/**
+	 * The HTTP code associated with response
+	 */
 	private int code;
+
+	/**
+	 * Status name associated with the response
+	 */
 	private String status;
+
+
 	private String message;
 	private String stackTrace;
 	private Object data;
@@ -60,5 +76,12 @@ public class ErrorResponse
 	{
 		this(httpStatus, message, stackTrace);
 		this.data = data;
+	}
+
+	public static void setUseStackTrace(boolean v) {
+		useStackTrace = false;
+	}
+	public static boolean getUseStackTrace() {
+		return useStackTrace;
 	}
 }
