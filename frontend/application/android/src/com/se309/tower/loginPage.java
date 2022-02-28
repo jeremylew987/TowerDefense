@@ -142,7 +142,7 @@ public class loginPage extends AppCompatActivity {
                         error.printStackTrace();
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
                         alertDialogBuilder.setTitle("Error");
-                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setMessage("Bad username or Password");
                         alertDialogBuilder.setPositiveButton("Ok", null);
                         alertDialogBuilder.setNegativeButton("", null);
                         alertDialogBuilder.create().show();
