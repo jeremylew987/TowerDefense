@@ -1,4 +1,4 @@
-package exception;
+package coms309.proj1.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;

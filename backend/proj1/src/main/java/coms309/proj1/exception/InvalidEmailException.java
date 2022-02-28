@@ -1,4 +1,4 @@
-package exception;
+package coms309.proj1.exception;
 
 public class InvalidEmailException extends RuntimeException
 {
