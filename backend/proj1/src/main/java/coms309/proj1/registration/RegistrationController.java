@@ -15,7 +15,7 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @PostMapping(path = "/")
+    @PostMapping
     public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
     }
