@@ -2,6 +2,7 @@ package coms309.proj1.security.config;
 
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,11 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration/**", "/login/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated().and()
-                .formLogin().disable();
+                // Paths allowed to be accessed anonymously
+                    .antMatchers("/registration/**", "/login/**", "/user", "/users")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                .and().formLogin().disable();
     }
 
     @Override
