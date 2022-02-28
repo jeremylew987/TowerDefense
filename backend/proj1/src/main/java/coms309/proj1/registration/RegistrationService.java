@@ -29,7 +29,7 @@ public class RegistrationService {
 
     private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
-
+    // TODO: Return JSON object with token inside
     public String register(RegistrationRequest request) {
         logger.info("Entered into Registration Service Layer");
         if (!emailValidator.test(request.getEmail())) {
