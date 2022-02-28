@@ -2,6 +2,7 @@ package coms309.proj1.registration;
 
 import coms309.proj1.email.Mail;
 import coms309.proj1.email.MailService;
+import coms309.proj1.exception.InvalidEmailException;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import coms309.proj1.user.User;
@@ -26,7 +27,7 @@ public class RegistrationService {
 
     public String register(RegistrationRequest request) {
         if (!emailValidator.test(request.getEmail())) {
-            throw new EmailException("Email is not valid");
+            throw new InvalidEmailException();
         }
         try {
             userService.loadUserByUsername(request.getEmail());
