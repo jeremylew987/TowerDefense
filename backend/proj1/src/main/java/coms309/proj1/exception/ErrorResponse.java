@@ -8,6 +8,8 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Null;
+
 
 /**
  * This class contains data for a custom exception response
@@ -24,12 +26,6 @@ public class ErrorResponse
 	private Date timestamp;
 
 
-	/**
-	 * Determines whether to print the stack trace
-	 * int http errors or not.
-	 */
-	private static boolean useStackTrace = false;
-	private String stackTrace;
 
 	/**
 	 * The HTTP code associated with response
@@ -47,7 +43,14 @@ public class ErrorResponse
 	/**
 	 * Optional object to provide a more verbose exception
 	 */
-	private Object data;
+	//private Object data;
+
+	/**
+	 * Determines whether to print the stack trace
+	 * int http errors or not.
+	 */
+	private static boolean useStackTrace = false;
+	private String stackTrace;
 
 	public ErrorResponse()
 	{
@@ -57,9 +60,10 @@ public class ErrorResponse
 	public ErrorResponse(HttpStatus httpStatus, String message)
 	{
 		this();
-
-		this.code = httpStatus.value();
-		this.status = httpStatus.name();
+		if (httpStatus != null) {
+			this.code = httpStatus.value();
+			this.status = httpStatus.name();
+		}
 		this.message = message;
 	}
 
@@ -68,11 +72,12 @@ public class ErrorResponse
 		this(httpStatus, message);
 		this.stackTrace = stackTrace;
 	}
-	public ErrorResponse(HttpStatus httpStatus, String message, String stackTrace, Object data)
-	{
-		this(httpStatus, message, stackTrace);
-		this.data = data;
-	}
+	
+//	public ErrorResponse(HttpStatus httpStatus, String message, String stackTrace, Object data)
+//	{
+//		this(httpStatus, message, stackTrace);
+//		this.data = data;
+//	}
 
 	public static void setUseStackTrace(boolean v) {
 		useStackTrace = false;
