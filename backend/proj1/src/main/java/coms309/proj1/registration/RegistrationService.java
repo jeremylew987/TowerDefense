@@ -54,7 +54,7 @@ public class RegistrationService {
                 "Confirm your account",
                 "" + buildEmail(request.getUsername(), link)
         ));
-
+        logger.info("Registration email sent");
         return token;
     }
 
