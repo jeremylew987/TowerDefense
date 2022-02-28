@@ -2,6 +2,7 @@ package coms309.proj1.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.io.PrintWriter;
@@ -11,8 +12,6 @@ import java.io.StringWriter;
  * This class contains custom HTTP code exception handlers.
  * The ResponseEntity, constructed with ErrorResponse, will
  * automatically be serialized in JSON and used as the message body.
- *
- * @author jminardi
  */
 @ControllerAdvice
 public class ControllerExceptionAdvice
@@ -40,7 +39,29 @@ public class ControllerExceptionAdvice
 	}
 
 	/**
-	 * Handles null pointer exceptions
+	 * Handles email not found exception
+	 */
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException e) {
+		// TODO: Custom logic
+
+		HttpStatus status = HttpStatus.NOT_FOUND; // 404 ()
+		return createResponse(e, status);
+	}
+
+	/**
+	 * Handles username not found exception
+	 */
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+		// TODO: Custom logic
+
+		HttpStatus status = HttpStatus.NOT_FOUND; // 404 ()
+		return createResponse(e, status);
+	}
+
+	/**
+	 * Handles invalid email addresses
 	 */
 	@ExceptionHandler(InvalidEmailException.class)
 	public ResponseEntity<ErrorResponse> handleInvalidEmailException(InvalidEmailException e) {
