@@ -9,6 +9,8 @@ import coms309.proj1.user.User;
 import coms309.proj1.user.UserRole;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,17 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final MailService mailService;
 
+    private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+
+
     public String register(RegistrationRequest request) {
+        logger.info("Entered into Registration Service Layer");
         if (!emailValidator.test(request.getEmail())) {
+            logger.warn("Invalid email: ", request.getEmail());
             throw new InvalidEmailException();
         }
-        try {
-            userService.loadUserByUsername(request.getEmail());
-            throw new EmailException("Email already taken");
-        } catch (UsernameNotFoundException e) {}
+
+        // Register user checks for taken username/email
         String token = userService.registerUser(
                 new User(
                         request.getUsername(),
