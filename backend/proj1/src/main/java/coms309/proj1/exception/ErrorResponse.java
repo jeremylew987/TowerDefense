@@ -29,6 +29,7 @@ public class ErrorResponse
 	 * int http errors or not.
 	 */
 	private static boolean useStackTrace = false;
+	private String stackTrace;
 
 	/**
 	 * The HTTP code associated with response
@@ -42,20 +43,15 @@ public class ErrorResponse
 
 
 	private String message;
-	private String stackTrace;
+
+	/**
+	 * Optional object to provide a more verbose exception
+	 */
 	private Object data;
 
 	public ErrorResponse()
 	{
 		timestamp = new Date();
-	}
-
-	public ErrorResponse(String message)
-	{
-		this();
-		this.code = HttpStatus.NOT_FOUND.value();
-		this.status = HttpStatus.NOT_FOUND.name();
-		this.message = message;
 	}
 
 	public ErrorResponse(HttpStatus httpStatus, String message)
