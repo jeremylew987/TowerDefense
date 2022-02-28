@@ -36,11 +36,11 @@ public class ResponseContainer {
         isError = error;
     }
 
-    public VolleyError getErrorType() {
+    public VolleyError getError() {
         return error;
     }
 
-    public void setErrorType(VolleyError error) {
+    public void setError(VolleyError error) {
         this.error = error;
     }
 }

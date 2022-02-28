@@ -48,32 +48,41 @@ public class createLgoin extends AppCompatActivity {
                 String emailS = email.getText().toString();
 
 
-        String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
+        //String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
+        // registration http://localhost:8080/registration
+                String address = "http://10.49.41.72:8080/registration/";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
                 JSONObject data = new JSONObject();
                 try {
                     data.put("username",name);
-                    data.put("passphrase",pass);
+
                     data.put("email",emailS);
+
+                    data.put("password",pass);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 String res = "";
                 try {
                     res = response.getString("response");
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(createLgoin.this);
+                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setMessage(res);
+                    alertDialogBuilder.setPositiveButton("Ok", null);
+                    alertDialogBuilder.setNegativeButton("", null);
+                    alertDialogBuilder.create().show();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(createLgoin.this);
+                    alertDialogBuilder.setTitle("Success");
+                    alertDialogBuilder.setMessage("Check your email");
+                    alertDialogBuilder.setPositiveButton("Ok", null);
+                    alertDialogBuilder.setNegativeButton("", null);
+                    alertDialogBuilder.create().show();
                 }
-                if(res.equals("true")) {
-                    SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("username", name).commit();
-                    mEditor.putString("password", pass).commit();
-                    
-                    startActivity(new Intent(createLgoin.this, HomePage.class));
-                }
+
             }
         }, new Response.ErrorListener() {
             @Override
