@@ -72,7 +72,7 @@ public class ErrorResponse
 		this(httpStatus, message);
 		this.stackTrace = stackTrace;
 	}
-	
+
 //	public ErrorResponse(HttpStatus httpStatus, String message, String stackTrace, Object data)
 //	{
 //		this(httpStatus, message, stackTrace);
@@ -80,7 +80,7 @@ public class ErrorResponse
 //	}
 
 	public static void setUseStackTrace(boolean v) {
-		useStackTrace = false;
+		useStackTrace = v;
 	}
 	public static boolean getUseStackTrace() {
 		return useStackTrace;
