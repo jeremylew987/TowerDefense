@@ -2,6 +2,7 @@ package coms309.proj1.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.io.PrintWriter;
@@ -17,6 +18,17 @@ import java.io.StringWriter;
 @ControllerAdvice
 public class ControllerExceptionAdvice
 {
+	/**
+	 * Helper method to generate response entity
+	 */
+	private ResponseEntity<ErrorResponse> createResponse(Exception e, HttpStatus status) {
+		if (ErrorResponse.getUseStackTrace()) {
+			String stackTrace = getStackTrace(e);
+			return new ResponseEntity<>(new ErrorResponse(status, e.getMessage(), stackTrace), status);
+		}
+		return new ResponseEntity<>(new ErrorResponse(status, e.getMessage()), status);
+	}
+
 	/**
 	 * Helper method to convert a stack trace to a string
 	 */
@@ -36,10 +48,7 @@ public class ControllerExceptionAdvice
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.BAD_REQUEST; // 400 (Will not process request due to client error)
-		// convert stack trace to String
-		String stackTrace = getStackTrace(e);
-
-		return new ResponseEntity<>(new ErrorResponse(status, e.getMessage(), stackTrace), status);
+		return createResponse(e, status);
 	}
 
 	/**
@@ -50,10 +59,7 @@ public class ControllerExceptionAdvice
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404
-		// convert stack trace to String
-		String stackTrace = getStackTrace(e);
-
-		return new ResponseEntity<>(new ErrorResponse(status, e.getMessage(), stackTrace), status);
+		return createResponse(e, status);
 	}
 
 	/**
@@ -64,9 +70,6 @@ public class ControllerExceptionAdvice
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 500
-		// convert stack trace to String
-		String stackTrace = getStackTrace(e);
-
-		return new ResponseEntity<>(new ErrorResponse(status, e.getMessage(), stackTrace), status);
+		return createResponse(e, status);
 	}
 }
