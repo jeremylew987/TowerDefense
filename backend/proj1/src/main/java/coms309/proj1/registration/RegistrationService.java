@@ -58,6 +58,7 @@ public class RegistrationService {
         return token;
     }
 
+    //TODO: Add custom exceptions for confirmToken
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
