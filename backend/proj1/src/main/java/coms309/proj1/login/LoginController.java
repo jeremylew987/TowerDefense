@@ -1,5 +1,6 @@
 package coms309.proj1.login;
 
+import coms309.proj1.exception.ErrorResponse;
 import coms309.proj1.registration.RegistrationController;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ErrorResponse> login(@RequestBody LoginRequest request) {
         logger.info("Entered into Login Controller Layer");
         return loginService.login(request);
     }
