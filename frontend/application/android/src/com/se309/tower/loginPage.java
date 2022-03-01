@@ -33,7 +33,7 @@ public class loginPage extends AppCompatActivity {
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
-        final SharedPreferences mPrefs = getSharedPreferences("test",0);
+        final SharedPreferences mPrefs = getSharedPreferences("test",MODE_PRIVATE);
         String usernameSave = mPrefs.getString("username","none");
         String passwordSave = mPrefs.getString("password","none");
 
@@ -117,7 +117,7 @@ public class loginPage extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         String res = "";
                         try {
-                            res = response.getString("error");
+                            res = response.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
@@ -127,10 +127,13 @@ public class loginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("true")) {
+                        if(res.equals("Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
-                            mEditor.putString("email", name).commit();
+                            mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
+                            password1.setText(res);
+                            username1.setText(mPrefs.getString("email","none"));
+                            password1.setText(mPrefs.getString("password","none"));
                             password1.setText(res);
                             startActivity(new Intent(loginPage.this, HomePage.class));
                         }
