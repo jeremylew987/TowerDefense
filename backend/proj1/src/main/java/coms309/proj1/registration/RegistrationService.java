@@ -47,7 +47,7 @@ public class RegistrationService {
                 )
         );
 
-        String link = "http://localhost:8080/registration/confirm?token=" + token;
+        String link = "http://coms-309-027.class.las.iastate.edu:8080/registration/confirm?token=" + token;
         mailService.sendEmail(new Mail(
                 "coms309.2do7",
                 "" + request.getEmail(),
