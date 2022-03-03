@@ -1,6 +1,6 @@
 package coms309.proj1.user;
 
-import coms309.proj1.Friend.Friend;
+import coms309.proj1.friend.Relationship;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,8 +42,8 @@ public class User implements UserDetails {
     private Boolean locked;
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "user")
-    public List<Friend> friends;
+    @OneToMany(mappedBy = "owner", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Relationship> friends;
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;
@@ -106,6 +107,29 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return this.userId + ": " + this.username + ", " + this.email;
+    }
+
+
+    public Relationship addFriend(Relationship r) {
+        r.setOwner(this);
+        friends.add(r);
+        return r;
+    }
+
+    public Relationship removeFriend(Relationship r) {
+
+        if(friends.remove(r)) {
+            return r;
+        }
+        return null;
+    }
+
+    public List<User> getFriends() {
+        List<User> list = new ArrayList<User>();
+        for (Relationship friend : friends) {
+            list.add(friend.getFriend());
+        }
+        return list;
     }
 
 }
