@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import coms309.proj1.Friend.Friend;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,6 +40,9 @@ public class User implements UserDetails {
     private UserRole role;
     private Boolean locked;
     private Boolean enabled;
+
+    @OneToMany(mappedBy = "user")
+    public List<Friend> friends;
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;
