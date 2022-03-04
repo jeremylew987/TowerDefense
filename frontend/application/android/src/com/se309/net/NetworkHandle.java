@@ -1,5 +1,7 @@
 package com.se309.net;
 
+import java.lang.reflect.Type;
+
 /**
  * NetworkHandle.java
  *
@@ -26,7 +28,7 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
-    public void get() throws RequestException {
+    public Object get(Type ty) throws RequestException {
         synchronized(this) {
             try {
                 parentManager.SendStringGET(this, defaultResource);
@@ -36,7 +38,13 @@ public class NetworkHandle {
                 throw new RequestException(e.getMessage());
             }
 
+            // If there is an error, throw it
+            if (response.isError()) throw new RequestException(response.getBody(), response.getError());
 
+            // Otherwise, extract body and deserialize
+            String body = response.getBody();
+
+            return parentManager.deserialize(body, ty);
         }
     }
 

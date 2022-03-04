@@ -19,10 +19,11 @@ public class HomePage extends AppCompatActivity {
         final SharedPreferences mPrefs = getSharedPreferences("test",0);
         String usernameSave = mPrefs.getString("username","none");
         String passwordSave = mPrefs.getString("password","none");
+        /*
         if((usernameSave.equals("none") || passwordSave.equals("none"))) {
             startActivity(new Intent(HomePage.this, loginPage.class));
         }
-
+*/
         TextView curUser = findViewById(R.id.curUser);
         curUser.setText(usernameSave);
 

@@ -17,7 +17,7 @@ public class UserController
 
 	@GetMapping(value={"/user", "/users"})
 	public List<User> getAllUsers() {
-		logger.info("Entered into Controller Layer");
+		logger.info("Entered into User Controller Layer");
 		List<User> results = userService.loadUsers();
 		logger.info("Records Fetched:" + results.size());
 		return results;
@@ -25,13 +25,13 @@ public class UserController
 
 	@GetMapping(value={"/user/verifyLoginByUsername/{username}/{password}"})
 	public boolean verifyUsername(@PathVariable String username, @PathVariable String password) {
-		logger.info("Entered into Controller Layer");
+		logger.info("Entered into User Controller Layer");
 		return userService.verifyUserByUsername(username, password);
 	}
 
 	@GetMapping(value={"/user/verifyLoginByEmail/{email}/{password}"})
 	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
-		logger.info("Entered into Controller Layer");
+		logger.info("Entered into User Controller Layer");
 		return userService.verifyUserByEmail(email, password);
 	}
 

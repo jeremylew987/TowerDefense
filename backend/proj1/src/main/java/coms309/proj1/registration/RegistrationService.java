@@ -2,12 +2,15 @@ package coms309.proj1.registration;
 
 import coms309.proj1.email.Mail;
 import coms309.proj1.email.MailService;
+import coms309.proj1.exception.InvalidEmailException;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import coms309.proj1.user.User;
 import coms309.proj1.user.UserRole;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,14 +27,17 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final MailService mailService;
 
+    private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+
+    // TODO: Return JSON object with token inside
     public String register(RegistrationRequest request) {
+        logger.info("Entered into Registration Service Layer");
         if (!emailValidator.test(request.getEmail())) {
-            throw new EmailException("Email is not valid");
+            logger.warn("Invalid email: ", request.getEmail());
+            throw new InvalidEmailException();
         }
-        try {
-            userService.loadUserByUsername(request.getEmail());
-            throw new EmailException("Email already taken");
-        } catch (UsernameNotFoundException e) {}
+
+        // Register user checks for taken username/email
         String token = userService.registerUser(
                 new User(
                         request.getUsername(),
@@ -41,17 +47,18 @@ public class RegistrationService {
                 )
         );
 
-        String link = "http://localhost:8080/registration/confirm?token=" + token;
+        String link = "http://coms-309-027.class.las.iastate.edu:8080/registration/confirm?token=" + token;
         mailService.sendEmail(new Mail(
                 "coms309.2do7",
                 "" + request.getEmail(),
                 "Confirm your account",
                 "" + buildEmail(request.getUsername(), link)
         ));
-
+        logger.info("Registration email sent");
         return token;
     }
 
+    //TODO: Add custom exceptions for confirmToken
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService

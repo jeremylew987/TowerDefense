@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import coms309.proj1.exception.*;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -49,15 +50,38 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         return result.get();
     }
 
+    public UserDetails loadUserByEmail(String email) throws EmailNotFoundException
+    {
+        logger.info("Entered into Service Layer");
+        Optional<User> result = userRepository.findByEmail(email);
+        if (result.isEmpty()) {
+            logger.warn(String.format(EMAIL_NOT_FOUND_MSG, email));
+            throw new EmailNotFoundException(String.format(EMAIL_NOT_FOUND_MSG, email));
+        }
+        logger.info("Retrieved " + result.toString() + " by email");
+        return result.get();
+    }
+
     public String registerUser(User user) {
         logger.info("Entered into Service Layer");
-        boolean userExists = userRepository.findByEmail(user.getEmail())
-                .isPresent();
-        if (userExists) {
-            // Does this throw the exception or just log it?
-            logger.info("Email is already registered to " + user.toString());
-            new IllegalStateException("Email is already registered to " + user.toString());
+
+        // continues if loadUser by Email & Username return not found.
+        // Throws email or username taken exception if a user is returned
+        try {
+            UserDetails taken = loadUserByEmail(user.getEmail());
+            logger.warn("Email is already registered to " + taken.getUsername());
+            throw new EmailTakenException(user.getEmail() + " is already registered");
+        } catch(EmailNotFoundException ignored) {
+            logger.info("Email is not registered");
         }
+        try {
+            UserDetails taken = loadUserByUsername(user.getUsername());
+            logger.warn("Username is already taken by " + user.toString());
+            throw new UsernameTakenException(user.getUsername() + " is already taken");
+        } catch(UsernameNotFoundException ignored) {
+            logger.info("Username is not taken");
+        }
+
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
