@@ -2,11 +2,6 @@ package coms309.server;
 
 import java.io.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.util.Iterator;
-import java.util.Set;
 
 public class Server {
 
@@ -52,6 +47,7 @@ public class Server {
         private DataInputStream dataIn;
         private DataOutputStream dataOut;
         private int pid;
+        private boolean connected = true;
 
         public Connection(Socket s, int id) {
             socket = s;
@@ -60,6 +56,9 @@ public class Server {
                 // Establish data in & out connection
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
+
+                this.run();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,7 +72,9 @@ public class Server {
                         new InputStreamReader(dataIn));
                 String authToken = clientReader.readLine();
 
-                URL fetchUserCredentialsUrl =new URL(authServerLocation + "/users/token=" + authToken);
+                System.out.println(authToken);
+
+                URL fetchUserCredentialsUrl = new URL(authServerLocation + "/users/token=" + authToken);
                 HttpURLConnection fetchUserCredentials = (HttpURLConnection) fetchUserCredentialsUrl
                         .openConnection();
                 fetchUserCredentials.setRequestMethod("POST");
@@ -95,13 +96,20 @@ public class Server {
                 while (true) {}
             } catch (IOException e) {
                 e.printStackTrace();
+                try {
+                    dataOut.writeChars("Invalid user\n");
+                    this.socket.close(); // reject user connection
+                    this.connected = false;
+                } catch (IOException ex) {
+                    ex.printStackTrace(); // wtf... shouldn't happen
+                }
             }
         }
     }
 
-    public static void main(String[] args) {
-        Server s = new Server(25565, 4);
-        s.waitForPlayers();
+    public static void main(String[] args) throws MalformedURLException {
+        Server server = new Server(25565, 4);
+        server.waitForPlayers();
     }
 
 }
