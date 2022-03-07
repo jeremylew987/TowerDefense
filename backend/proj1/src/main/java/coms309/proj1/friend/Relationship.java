@@ -21,11 +21,11 @@ public class Relationship {
 	private LocalDateTime createdDate;
 
 	@ManyToOne
-	//@JoinColumn(name = "friend_id", referencedColumnName = "user_id")
+	@JoinColumn(name = "friend_id")
 	private User friend;
 
 	@ManyToOne
-	//@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
+	@JoinColumn(name = "owner_id")
 	private User owner;
 
 	public Relationship() {
