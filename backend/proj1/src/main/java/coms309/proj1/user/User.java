@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private Boolean locked;
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "owner", cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner")// cascade=CascadeType.ALL, orphanRemoval = true
     private List<Relationship> friends;
 
     public User(String username, String email, String password, UserRole role) {
