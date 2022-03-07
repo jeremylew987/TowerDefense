@@ -38,6 +38,11 @@ public class Relationship {
 		super();
 		this.friend = friend;
 	}
+	public Relationship(User owner, User friend) {
+		this.createdDate = LocalDateTime.now();
+		this.friend = friend;
+		this.owner = owner;
+	}
 
 	public Integer getId() {
 		return relationshipId;
