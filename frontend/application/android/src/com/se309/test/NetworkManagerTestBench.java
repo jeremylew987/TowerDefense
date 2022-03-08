@@ -9,7 +9,6 @@ public class NetworkManagerTestBench {
      * @param nw Incoming NetworkManager object
      */
     public static void testNetworkFunctions(NetworkManager nw) {
-
     }
 
 }
