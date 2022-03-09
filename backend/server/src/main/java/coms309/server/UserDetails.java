@@ -35,4 +35,9 @@ public class UserDetails {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    @Override
+    public String toString() {
+        return uid + "," + username + "," + level;
+    }
 }

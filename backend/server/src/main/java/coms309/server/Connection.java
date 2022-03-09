@@ -21,6 +21,11 @@ public class Connection implements Runnable {
     public int pid;
     public UserDetails userDetails;
 
+    @Override
+    public String toString() {
+        return pid + "," + userDetails.toString();
+    }
+
     public Connection(Socket s, int id) {
         this.socket = s;
         this.pid = id;
@@ -37,11 +42,13 @@ public class Connection implements Runnable {
 
     public boolean validateUser() {
         try {
+            this.writeTo("AWAIT_TOKEN\0");
             // Authenticate user with Auth server
             BufferedReader clientReader = new BufferedReader(
                     new InputStreamReader(dataIn));
             this.authToken = clientReader.readLine();
 
+            /*
             // Form HTTP Request
             URL fetchUserCredentialsUrl = new URL(authServerLocation + "/users/token=" + authToken);
             HttpURLConnection fetchUserCredentials = (HttpURLConnection) fetchUserCredentialsUrl
@@ -49,7 +56,7 @@ public class Connection implements Runnable {
             fetchUserCredentials.setRequestMethod("POST");
             fetchUserCredentials.connect();
 
-            // Read Auth Server response
+            / Read Auth Server response
             BufferedReader authReader = new BufferedReader(
                     new InputStreamReader(fetchUserCredentials.getInputStream()));
             String inputLine;
@@ -63,19 +70,22 @@ public class Connection implements Runnable {
             // Close connection with Auth Server
             fetchUserCredentials.disconnect();
 
+             */
+
+            this.userDetails = new UserDetails("1f2u8","benhall",62);
             System.out.println("Player with ID: " + this.pid + ", UID: " + this.userDetails.getUid() + " has been successfully authenticated");
             this.validated = true;
         } catch (IOException ex) {
             System.out.println("Player with ID: " + this.pid + " has failed to authenticate: " + ex.getMessage());
             this.validated = false;
         }
-        return true;
+        return validated;
     }
 
     @Override
     public void run() {
         while (this.isAlive) {
-            if (!this.writeTo("\0")) {
+            if (!this.writeTo("")) {
                 this.close();
             }
         }
@@ -83,7 +93,8 @@ public class Connection implements Runnable {
 
     public boolean writeTo(String s) {
         try {
-            this.dataOut.writeChars(s);
+            this.dataOut.writeUTF(s);
+            this.dataOut.flush();
         } catch (IOException ex) {
             return false;
         }

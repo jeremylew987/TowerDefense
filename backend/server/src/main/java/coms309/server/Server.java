@@ -7,14 +7,14 @@ public class Server {
 
     private ServerSocket socket;
     private int maxPlayers;
-    private int numPlayers;
+    private int currPlayer;
     private HttpURLConnection authServer;
     private Connection[] clients;
 
     public Server(int port, int maxPlayers) {
 
         this.maxPlayers = maxPlayers;
-        this.numPlayers = 0;
+        this.currPlayer = 0;
         this.clients = new Connection[maxPlayers];
         try {
             socket = new ServerSocket(port);
@@ -25,20 +25,21 @@ public class Server {
     }
 
     public void writeToAll(String s) {
-        for (int i = 1; i <= numPlayers; i++) {
-            try {
-                clients[i].writeTo(s);
-            } catch (NullPointerException ex) {
-                System.out.println("Player with ID: " + numPlayers + " is no longer connected.");
+        for (int i = 0; i <= currPlayer; i++) {
+            if (clients[i] == null) {
+                System.out.println("Player with ID:" + currPlayer + " is no longer connected.");
+                continue;
             }
+            clients[i].writeTo(s);
         }
     }
 
     public void checkClientConnections() {
         // check if any connections have disconnected
-        for (int i = 1; i <= numPlayers; i++) {
+        for (int i = 0; i < currPlayer; i++) {
+            if (clients[i] == null) { continue; }
             if (!clients[i].isAlive) {
-                this.writeToAll("Player #" + numPlayers + " has disconnected.\n");
+                this.writeToAll("PLAYER_LEFT," + i + "\n\r");
                 clients[i] = null;
             }
         }
@@ -47,20 +48,19 @@ public class Server {
     public void waitForPlayers() {
         try {
             // wait until max players have connected
-            while (numPlayers < maxPlayers) {
+            while (currPlayer < maxPlayers) {
                 // check if array item is already claimed
-                if (clients[numPlayers] != null) {
-                    numPlayers++;
+                if (clients[currPlayer] != null) {
+                    currPlayer++;
                     continue;
                 }
 
                 // accept new connection
                 Socket s = socket.accept();
                 checkClientConnections();
-                numPlayers++;
-                System.out.println("Player with ID: " + numPlayers + " has connected.");
-                Connection c = new Connection(s, numPlayers);
-                clients[numPlayers] = c;
+                System.out.println("Player with ID:" + currPlayer + " is attempting to connect.");
+                Connection c = new Connection(s, currPlayer);
+                clients[currPlayer] = c;
 
                 // validate new connection
                 if (c.validateUser()) {
@@ -69,19 +69,30 @@ public class Server {
                     t.start();
 
                     // update player data to users
-                    this.writeToAll("Player #" + numPlayers + " has connected.\n");
+                    this.writeToAll("PLAYER_JOIN," + currPlayer + "\n\r");
+
+                    // tell new client current users
+                    for (int i = 0; i < maxPlayers; i++) {
+                        if (clients[i] == null || i==currPlayer) {
+                            continue;
+                        }
+                        c.writeTo("CURR_PLAYER,"+ clients[i] + "\n\r");
+                    }
+
                 } else {
-                    numPlayers--;
-                    c.writeTo("Failed to authenticate user.");
+                    currPlayer--;
+                    c.writeTo("JOIN_FAILURE\n\r");
                     c.close();
                 }
 
+                currPlayer++;
+
                 // make sure all users are connected before starting, otherwise restart
-                if (numPlayers == maxPlayers) {
+                if (currPlayer == maxPlayers) {
                     checkClientConnections(); // update status
                     for (int i = 1; i < maxPlayers; i++) {
                         if (clients[i] == null) { // if array item is null
-                            numPlayers = i; // set iterator to null object id to fill array fully
+                            currPlayer = i; // set iterator to null object id to fill array fully
                         }
                     }
                 }
