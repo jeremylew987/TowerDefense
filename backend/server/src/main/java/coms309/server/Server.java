@@ -2,22 +2,16 @@ package coms309.server;
 
 import java.io.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.util.Iterator;
-import java.util.Set;
 
 public class Server {
 
     private ServerSocket socket;
     private int maxPlayers;
     private int numPlayers;
-    private String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private HttpURLConnection authServer;
     private Connection[] clients;
 
-    public Server(int port, int maxPlayers) throws MalformedURLException {
+    public Server(int port, int maxPlayers) {
 
         this.maxPlayers = maxPlayers;
         this.numPlayers = 0;
@@ -30,72 +24,71 @@ public class Server {
         System.out.println("Server started on port: " + port);
     }
 
+    public void writeToAll(String s) {
+        for (int i = 1; i <= numPlayers; i++) {
+            try {
+                clients[i].writeTo(s);
+            } catch (NullPointerException ex) {
+                System.out.println("Player with ID: " + numPlayers + " is no longer connected.");
+            }
+        }
+    }
+
+    public void checkClientConnections() {
+        // check if any connections have disconnected
+        for (int i = 1; i <= numPlayers; i++) {
+            if (!clients[i].isAlive) {
+                this.writeToAll("Player #" + numPlayers + " has disconnected.\n");
+                clients[i] = null;
+            }
+        }
+    }
+
     public void waitForPlayers() {
         try {
             // wait until max players have connected
             while (numPlayers < maxPlayers) {
+                // check if array item is already claimed
+                if (clients[numPlayers] != null) {
+                    numPlayers++;
+                    continue;
+                }
+
+                // accept new connection
                 Socket s = socket.accept();
+                checkClientConnections();
                 numPlayers++;
-                System.out.println("Player #" + numPlayers + " has connected.");
+                System.out.println("Player with ID: " + numPlayers + " has connected.");
                 Connection c = new Connection(s, numPlayers);
                 clients[numPlayers] = c;
+
+                // validate new connection
+                if (c.validateUser()) {
+                    // start new thread
+                    Thread t = new Thread(c);
+                    t.start();
+
+                    // update player data to users
+                    this.writeToAll("Player #" + numPlayers + " has connected.\n");
+                } else {
+                    numPlayers--;
+                    c.writeTo("Failed to authenticate user.");
+                    c.close();
+                }
+
+                // make sure all users are connected before starting, otherwise restart
+                if (numPlayers == maxPlayers) {
+                    checkClientConnections(); // update status
+                    for (int i = 1; i < maxPlayers; i++) {
+                        if (clients[i] == null) { // if array item is null
+                            numPlayers = i; // set iterator to null object id to fill array fully
+                        }
+                    }
+                }
             }
             System.out.println("All players have connected, starting game.");
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private class Connection implements Runnable {
-
-        private Socket socket;
-        private DataInputStream dataIn;
-        private DataOutputStream dataOut;
-        private int pid;
-
-        public Connection(Socket s, int id) {
-            socket = s;
-            pid = id;
-            try {
-                // Establish data in & out connection
-                dataIn = new DataInputStream(socket.getInputStream());
-                dataOut = new DataOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Authenticate user with Auth server
-                BufferedReader clientReader = new BufferedReader(
-                        new InputStreamReader(dataIn));
-                String authToken = clientReader.readLine();
-
-                URL fetchUserCredentialsUrl =new URL(authServerLocation + "/users/token=" + authToken);
-                HttpURLConnection fetchUserCredentials = (HttpURLConnection) fetchUserCredentialsUrl
-                        .openConnection();
-                fetchUserCredentials.setRequestMethod("POST");
-                fetchUserCredentials.connect();
-
-                // Read Auth Server response
-                BufferedReader authReader = new BufferedReader(
-                        new InputStreamReader(fetchUserCredentials.getInputStream()));
-                String inputLine;
-                StringBuffer content = new StringBuffer();
-                while ((inputLine = authReader.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                authReader.close();
-
-                // Close connection with Auth Server
-                fetchUserCredentials.disconnect();
-
-                while (true) {}
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
