@@ -2,6 +2,7 @@ package coms309.proj1.security.config;
 
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Paths allowed to be accessed anonymously
-                    .antMatchers("/registration/**", "/login/**", "/user", "/users")
+                    .antMatchers("/registration/**", "/login/**", "/user/**", "/users")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
@@ -46,5 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         provider.setUserDetailsService(userService);
         return provider;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

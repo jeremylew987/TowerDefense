@@ -1,5 +1,7 @@
 package coms309.proj1.user;
 
+import coms309.proj1.registration.token.ConfirmationTokenService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -11,7 +13,10 @@ import java.util.List;
 public class UserController
 {
 	@Autowired
-	UserService userService;
+	private UserService userService;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -33,6 +38,17 @@ public class UserController
 	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
 		logger.info("Entered into User Controller Layer");
 		return userService.verifyUserByEmail(email, password);
+	}
+
+	@GetMapping(value={"/user/verifyUser"})
+	public UserDTO verifyToken(@RequestParam("token") String token) {
+		logger.info("Entered into User Controller Layer");
+		return convertToDto(userService.verifyUserByToken(token));
+	}
+
+	private UserDTO convertToDto(User user) {
+		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+		return userDTO;
 	}
 
 }
