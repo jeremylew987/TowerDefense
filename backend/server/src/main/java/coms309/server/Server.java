@@ -27,7 +27,6 @@ public class Server {
     public void writeToAll(String s) {
         for (int i = 0; i <= currPlayer; i++) {
             if (clients[i] == null) {
-                System.out.println("Player with ID:" + currPlayer + " is no longer connected.");
                 continue;
             }
             clients[i].writeTo(s);
@@ -39,8 +38,8 @@ public class Server {
         for (int i = 0; i < currPlayer; i++) {
             if (clients[i] == null) { continue; }
             if (!clients[i].isAlive) {
-                this.writeToAll("PLAYER_LEFT," + i + "\n\r");
                 clients[i] = null;
+                currPlayer--;
             }
         }
     }
@@ -59,7 +58,7 @@ public class Server {
                 Socket s = socket.accept();
                 checkClientConnections();
                 System.out.println("Player with ID:" + currPlayer + " is attempting to connect.");
-                Connection c = new Connection(s, currPlayer);
+                Connection c = new Connection(s, currPlayer, this);
                 clients[currPlayer] = c;
 
                 // validate new connection
@@ -69,14 +68,14 @@ public class Server {
                     t.start();
 
                     // update player data to users
-                    this.writeToAll("PLAYER_JOIN," + currPlayer + "\n\r");
+                    this.writeToAll("PLAYER_JOIN," + c.userObject.toString() + "\n\r");
 
                     // tell new client current users
                     for (int i = 0; i < maxPlayers; i++) {
                         if (clients[i] == null || i==currPlayer) {
                             continue;
                         }
-                        c.writeTo("CURR_PLAYER,"+ clients[i] + "\n\r");
+                        c.writeTo("CURR_PLAYER,"+ clients[i].userObject.toString() + "\n\r");
                     }
 
                 } else {

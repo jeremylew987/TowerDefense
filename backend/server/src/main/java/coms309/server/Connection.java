@@ -1,32 +1,31 @@
 package coms309.server;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.URL;
+import java.net.*;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class Connection implements Runnable {
 
+    private Server server;
     private Socket socket;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
     public boolean validated;
     public boolean isAlive;
 
-    private String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
+    private String authServerLocation = "http://localhost:8080";//"http://coms-309-027.class.las.iastate.edu:8080";
     private String authToken;
 
     // user credentials
     public int pid;
-    public UserDetails userDetails;
+    public JsonObject userObject;
 
-    @Override
-    public String toString() {
-        return pid + "," + userDetails.toString();
-    }
-
-    public Connection(Socket s, int id) {
+    public Connection(Socket s, int id, Server server) {
+        this.server = server;
         this.socket = s;
         this.pid = id;
         this.authServerLocation = authServerLocation;
@@ -48,44 +47,66 @@ public class Connection implements Runnable {
                     new InputStreamReader(dataIn));
             this.authToken = clientReader.readLine();
 
-            /*
             // Form HTTP Request
-            URL fetchUserCredentialsUrl = new URL(authServerLocation + "/users/token=" + authToken);
-            HttpURLConnection fetchUserCredentials = (HttpURLConnection) fetchUserCredentialsUrl
-                    .openConnection();
-            fetchUserCredentials.setRequestMethod("POST");
-            fetchUserCredentials.connect();
+            String url = authServerLocation + "/user/verifyUser";
+            String charset = "UTF-8";
+            String query = String.format("token=%s",
+                    URLEncoder.encode(authToken, charset));
 
-            / Read Auth Server response
-            BufferedReader authReader = new BufferedReader(
-                    new InputStreamReader(fetchUserCredentials.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
+            URLConnection connection = new URL(url + "?" + query).openConnection();
+            connection.setRequestProperty("Accept-Charset", charset);
 
-            while ((inputLine = authReader.readLine()) != null) {
-                content.append(inputLine);
-            }
-            authReader.close();
+            // Get response and parse to json object
+            String response = convertStreamToString(connection.getInputStream());
+            JsonReader reader = Json.createReader(new StringReader(response));
 
-            // Close connection with Auth Server
-            fetchUserCredentials.disconnect();
+            // Save user object
+            userObject = reader.readObject();
+            reader.close();
 
-             */
-
-            this.userDetails = new UserDetails("1f2u8","benhall",62);
-            System.out.println("Player with ID: " + this.pid + ", UID: " + this.userDetails.getUid() + " has been successfully authenticated");
+            System.out.println("Player with ID:" + this.pid + " has been successfully authenticated");
             this.validated = true;
         } catch (IOException ex) {
-            System.out.println("Player with ID: " + this.pid + " has failed to authenticate: " + ex.getMessage());
+            System.out.println("Player with ID:" + this.pid + " has failed to authenticate: " + ex.getMessage());
             this.validated = false;
         }
         return validated;
     }
 
+    private static String convertStreamToString(InputStream is) {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public void run() {
         while (this.isAlive) {
-            if (!this.writeTo("")) {
+
+            try {
+                Scanner scanner = new Scanner(new InputStreamReader(dataIn, "UTF-8"));
+                scanner.useDelimiter("\n\r");
+                String parsedOutput[] = scanner.nextLine().split(",",2);
+                if (parsedOutput[0].equals("SAY")) {
+                    this.server.writeToAll("[" + userObject.getString("username") + "]: " + parsedOutput[1] + "\n\r");
+                }
+            } catch (Exception ex) {
                 this.close();
             }
         }
@@ -102,12 +123,13 @@ public class Connection implements Runnable {
     }
 
     public void close() {
-        System.out.println("Player with ID: " + this.pid + " has disconnected.");
+        System.out.println("Player with ID:" + this.pid + " has disconnected.");
+        server.writeToAll("PLAYER_LEFT," + pid + "\n\r");
         this.isAlive = false;
         try {
             this.socket.close();
         } catch (IOException ex) {
-            System.out.println("Player with ID: " + this.pid + " has disconnected before a proper connection has been formed.");
+            System.out.println("Player with ID:" + this.pid + " has disconnected before a proper connection has been formed.");
         }
     }
 }
