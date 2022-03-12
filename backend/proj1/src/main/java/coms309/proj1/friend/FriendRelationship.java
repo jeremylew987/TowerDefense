@@ -1,16 +1,14 @@
 package coms309.proj1.friend;
 
 import coms309.proj1.user.User;
-import org.apache.tomcat.jni.Time;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "relationship")
-public class Relationship {
+public class FriendRelationship
+{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,17 +26,17 @@ public class Relationship {
 	@JoinColumn(name = "owner_id")
 	private User owner;
 
-	public Relationship() {
+	public FriendRelationship() {
 		this.createdDate = LocalDateTime.now();
 		this.friend = null;
 		this.owner = null;
 
 	}
-	public Relationship(User friend) {
+	public FriendRelationship(User friend) {
 		super();
 		this.friend = friend;
 	}
-	public Relationship(User owner, User friend) {
+	public FriendRelationship(User owner, User friend) {
 		this.createdDate = LocalDateTime.now();
 		this.friend = friend;
 		this.owner = owner;

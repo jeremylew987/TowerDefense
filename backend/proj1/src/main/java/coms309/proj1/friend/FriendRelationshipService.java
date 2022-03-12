@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RelationshipService
+public class FriendRelationshipService
 {
 	@Autowired
-	RelationshipRepository relationshipRepository;
+	FriendRelationshipRepository relationshipRepository;
 
 	@Autowired
 	UserRepository userRepository;

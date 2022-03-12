@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RelationshipRepository extends JpaRepository<Relationship, Integer>
+public interface FriendRelationshipRepository extends JpaRepository<FriendRelationship, Integer>
 {
 	boolean existsByOwnerAndFriend(User owner, User friend);
-	List<Relationship> findByOwner(User user);
-	List<Relationship> findByFriend(User user);
+	List<FriendRelationship> findByOwner(User user);
+	List<FriendRelationship> findByFriend(User user);
 
 }
