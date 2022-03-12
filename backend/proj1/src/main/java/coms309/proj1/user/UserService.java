@@ -1,6 +1,8 @@
 package coms309.proj1.user;
 
 import coms309.proj1.exception.*;
+import coms309.proj1.friend.FriendRelationship;
+import coms309.proj1.friend.FriendRelationshipRepository;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
 
 
     private final UserRepository userRepository;
+    private final FriendRelationshipRepository friendRelationshipRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
@@ -152,4 +155,17 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         logger.info ("Password set for " + ((User)user).toString());
         return user;
     }
+
+    public FriendRelationship addFriend(String owner_name, String friend_name) {
+        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
+        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
+        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+            return null;
+        }
+        FriendRelationship fr = new FriendRelationship(owner_opt.get(), friend_opt.get());
+        owner_opt.get().addFriendRelationship(fr);
+        return fr;
+
+    }
+
 }
