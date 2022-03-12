@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import coms309.proj1.friend.FriendRelationship;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ public class UserController
 {
 	@Autowired
 	UserService userService;
+
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -33,6 +35,12 @@ public class UserController
 	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
 		logger.info("Entered into User Controller Layer");
 		return userService.verifyUserByEmail(email, password);
+	}
+
+	@GetMapping(value={"/user/addFriend/{owner}/{friend}"})
+	public FriendRelationship addFriend(@PathVariable String owner, @PathVariable String friend) {
+		logger.info("Entered into User Controller Layer");
+		return userService.addFriend(owner, friend);
 	}
 
 }
