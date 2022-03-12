@@ -1,5 +1,6 @@
 package coms309.proj1.friend;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import coms309.proj1.user.User;
 
 import javax.persistence.*;
@@ -18,13 +19,25 @@ public class FriendRelationship
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 
-	@ManyToOne
-	@JoinColumn(name = "friend_id")
-	private User friend;
-
+	/*
+	 * @ManyToOne  -> Several friend relationship rows can map to one user
+	 * @JoinColumn -> specified ownership of the key i.e. FriendRelationship table will contain
+	 * 			      a foreign key form the User table and the column name will be owner_id
+	 * @JsonIgnore -> Avoids infinite loops when returning user/friend relationship object (FR -> user ->[phones->...)
+	 */
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
+	@JsonIgnore
 	private User owner;
+
+	@ManyToOne
+	@JoinColumn(name = "friend_id")
+	@JsonIgnore
+	private User friend;
+
+
+	// =============================== Constructors ================================== //
+
 
 	public FriendRelationship() {
 		this.createdDate = LocalDateTime.now();
@@ -32,22 +45,20 @@ public class FriendRelationship
 		this.owner = null;
 
 	}
-	public FriendRelationship(User friend) {
-		super();
-		this.friend = friend;
-	}
 	public FriendRelationship(User owner, User friend) {
-		this.createdDate = LocalDateTime.now();
+		super();
 		this.friend = friend;
 		this.owner = owner;
 	}
+
+	// =============================== Getters & Setters ================================== //
 
 	public Integer getId() {
 		return relationshipId;
 	}
 
-	public void setId(Integer relationshipId) {
-		this.relationshipId = relationshipId;
+	public void setId(Integer id) {
+		this.relationshipId = id;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -62,15 +73,15 @@ public class FriendRelationship
 		return owner;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setOwner(User user) {
+		this.owner = user;
 	}
 
 	public User getFriend() {
 		return friend;
 	}
 
-	public void setFriend(User friend) {
-		this.friend = friend;
+	public void setFriend(User user) {
+		this.friend = user;
 	}
 }
