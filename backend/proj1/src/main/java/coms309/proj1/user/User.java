@@ -59,8 +59,11 @@ public class User implements UserDetails
 	/**
 	 * One instance of User can map to multiple instances of FriendRelationship
 	 * -> One User row can map to multiple rows in the FriendRelationship table
+	 *
+	 * orphanRemoval means removing from collection friends will remove the row from
+	 * 				 the friend relationship table.
 	 */
-	@OneToMany(mappedBy = "owner")// cascade=CascadeType.ALL, orphanRemoval = true
+	@OneToMany(mappedBy = "owner", orphanRemoval = true)// cascade=CascadeType.ALL, orphanRemoval = true
 	private List<FriendRelationship> friends;
 
 	public User(String username, String email, String password, UserRole role) {
@@ -131,28 +134,29 @@ public class User implements UserDetails
 	}
 
 
-	public FriendRelationship addFriend(FriendRelationship r) {
-		this.friends.add(r);
-		return r;
-	}
-
-	public FriendRelationship removeFriend(FriendRelationship r) {
-
-		if (this.friends.remove(r)) {
-			return r;
-		}
-		return null;
+	/**
+	 * @return true
+	 */
+	public boolean addFriendRelationship(FriendRelationship r) {
+		return this.friends.add(r);
 	}
 
 	/**
-	 * @return list of friend relationships the user has
+	 * @return true if entity was contained in the list
+	 */
+	public boolean removeFriendRelationship(FriendRelationship r) {
+		return this.friends.remove(r);
+	}
+
+	/**
+	 * @return list of friend relationships the owner has
 	 */
 	public List<FriendRelationship> getFriendRelationships() {
 		return this.friends;
 	}
 
 	/**
-	 * @return list of friends the user has
+	 * @return list of users the owner is friends with
 	 */
 	public List<User> getFriends() {
 		List<User> list = new ArrayList<User>();
