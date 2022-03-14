@@ -50,7 +50,7 @@ public class UserController
 	}
 
 	@GetMapping(value={"/user/friends/{owner}"})
-	public List<User> addFriend(@PathVariable String owner) {
+	public List<User> getFriends(@PathVariable String owner) {
 		logger.info("Entered into User Controller Layer");
 		return userService.getFriends(owner);
 	}

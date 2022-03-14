@@ -64,7 +64,7 @@ public class User implements UserDetails
 	 * 				 the friend relationship table.
 	 */
 	@OneToMany(mappedBy = "owner", orphanRemoval = true)// cascade=CascadeType.ALL, orphanRemoval = true
-	private List<FriendRelationship> friends;
+	private List<FriendRelationship> friends = new ArrayList<>();
 
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
@@ -73,7 +73,6 @@ public class User implements UserDetails
 		this.role = role;
 		this.locked = false;
 		this.enabled = false;
-		this.friends = new ArrayList<>();
 	}
 
 	@Override

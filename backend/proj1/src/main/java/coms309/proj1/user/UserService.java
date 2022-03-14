@@ -166,6 +166,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         }
         FriendRelationship fr = new FriendRelationship(owner_opt.get(), friend_opt.get());
         owner_opt.get().addFriendRelationship(fr);
+        userRepository.save(owner_opt.get());
         logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
         return fr;
 
@@ -185,6 +186,8 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         for (FriendRelationship friendRelationship : owner_opt.get().getFriendRelationships()) {
             if (friendRelationship.getFriend() == friend_opt.get()) {
                 logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
+                owner_opt.get().removeFriendRelationship(friendRelationship);
+                userRepository.save(owner_opt.get());
                 return friendRelationship;
             }
         }
