@@ -15,6 +15,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -157,6 +158,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
     }
 
     public FriendRelationship addFriend(String owner_name, String friend_name) {
+        logger.info("Entered into Service Layer\n");
         Optional<User> owner_opt = userRepository.findByUsername(owner_name);
         Optional <User> friend_opt = userRepository.findByUsername(friend_name);
         if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
@@ -164,8 +166,30 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         }
         FriendRelationship fr = new FriendRelationship(owner_opt.get(), friend_opt.get());
         owner_opt.get().addFriendRelationship(fr);
+        logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
         return fr;
 
+    }
+
+    /**
+     * @return FriendRelationship of owner and friend if it exists. Null otherwise
+     */
+    public FriendRelationship removeFriend(String owner_name, String friend_name) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
+        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
+        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+            logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
+            return null;
+        }
+        for (FriendRelationship friendRelationship : owner_opt.get().getFriendRelationships()) {
+            if (friendRelationship.getFriend() == friend_opt.get()) {
+                logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
+                return friendRelationship;
+            }
+        }
+        logger.info(friend_name + "is not in " + owner_name + "'s friend list\n");
+        return null;
     }
 
 }
