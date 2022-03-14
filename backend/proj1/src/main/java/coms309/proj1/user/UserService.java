@@ -192,4 +192,16 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         return null;
     }
 
+    public List<User> getFriends(String owner_name) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
+        if (owner_opt.isEmpty()) {
+            logger.info("User" + owner_name + " is not found\n");
+            return null;
+        }
+        List<User> friends = owner_opt.get().getFriends();
+        logger.info("Retrieved " + friends.size() + " friend records\n");
+        return owner_opt.get().getFriends();
+    }
+
 }

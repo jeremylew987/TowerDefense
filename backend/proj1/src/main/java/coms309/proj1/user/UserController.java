@@ -37,10 +37,22 @@ public class UserController
 		return userService.verifyUserByEmail(email, password);
 	}
 
-	@GetMapping(value={"/user/addFriend/{owner}/{friend}"})
+	@GetMapping(value={"/user/friends/{owner}/{friend}"})
 	public FriendRelationship addFriend(@PathVariable String owner, @PathVariable String friend) {
 		logger.info("Entered into User Controller Layer");
 		return userService.addFriend(owner, friend);
+	}
+
+	@DeleteMapping(value={"/user/friends/{owner}/{friend}"})
+	public FriendRelationship deleteFriend(@PathVariable String owner, @PathVariable String friend) {
+		logger.info("Entered into User Controller Layer");
+		return userService.removeFriend(owner, friend);
+	}
+
+	@GetMapping(value={"/user/friends/{owner}"})
+	public List<User> addFriend(@PathVariable String owner) {
+		logger.info("Entered into User Controller Layer");
+		return userService.getFriends(owner);
 	}
 
 }
