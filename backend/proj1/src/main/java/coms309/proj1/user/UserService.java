@@ -164,11 +164,12 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
         if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
             return null;
         }
-        FriendRelationship fr = new FriendRelationship(owner_opt.get(), friend_opt.get());
-        owner_opt.get().addFriendRelationship(fr);
+        FriendRelationship friendRelationship = new FriendRelationship(owner_opt.get(), friend_opt.get());
+        owner_opt.get().addFriendRelationship(friendRelationship);
+        friendRelationshipRepository.save(friendRelationship);
         userRepository.save(owner_opt.get());
         logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
-        return fr;
+        return friendRelationship;
 
     }
 
@@ -187,6 +188,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
             if (friendRelationship.getFriend() == friend_opt.get()) {
                 logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
                 owner_opt.get().removeFriendRelationship(friendRelationship);
+                friendRelationshipRepository.delete(friendRelationship);
                 userRepository.save(owner_opt.get());
                 return friendRelationship;
             }
