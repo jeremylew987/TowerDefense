@@ -1,5 +1,8 @@
 package coms309.proj1.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import coms309.proj1.friend.FriendRelationship;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +50,7 @@ public class User implements UserDetails
 	/**
 	 * Encrypted password of the user
 	 */
+	@JsonIgnore
 	private String password;
 
 	@Enumerated(EnumType.STRING)
@@ -63,8 +67,11 @@ public class User implements UserDetails
 	 * orphanRemoval means removing from collection friends will remove the row from
 	 * 				 the friend relationship table.
 	 */
-	@OneToMany(mappedBy = "owner", orphanRemoval = true)// cascade=CascadeType.ALL, orphanRemoval = true
-	private List<FriendRelationship> friends = new ArrayList<>();
+	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)// cascade=CascadeType.ALL, orphanRemoval = true
+	//@JsonManagedReference
+	@JsonIgnoreProperties("friends")
+	//@JsonIgnore
+	private List<FriendRelationship> friends = new ArrayList<FriendRelationship>();
 
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
