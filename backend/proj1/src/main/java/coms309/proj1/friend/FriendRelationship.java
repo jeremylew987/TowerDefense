@@ -1,6 +1,8 @@
 package coms309.proj1.friend;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coms309.proj1.user.User;
 
 import javax.persistence.*;
@@ -25,13 +27,17 @@ public class FriendRelationship
 	 * 			      a foreign key form the User table and the column name will be owner_id
 	 * @JsonIgnore -> Avoids infinite loops when returning user/friend relationship object (FR -> user ->[phones->...)
 	 */
-	@ManyToOne
-	@JoinColumn(name = "owner_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_id", referencedColumnName="user_id")
+	//@JsonIgnoreProperties("friends")
+	//@JsonBackReference
 	@JsonIgnore
 	private User owner;
 
-	@ManyToOne
-	@JoinColumn(name = "friend_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "friend_id", referencedColumnName="user_id")
+	//@JsonIgnoreProperties("friends")
+	//@JsonBackReference
 	@JsonIgnore
 	private User friend;
 
@@ -46,7 +52,7 @@ public class FriendRelationship
 
 	}
 	public FriendRelationship(User owner, User friend) {
-		super();
+		this.createdDate = LocalDateTime.now();
 		this.friend = friend;
 		this.owner = owner;
 	}
