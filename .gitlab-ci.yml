@@ -8,8 +8,8 @@ maven-build:       # This job runs in the build stage, which runs first.
   tags:
     - springboot_tag
   script:
-    - echo "Compiling the code..."
-    - cd backend
+    - echo "Compiling Proj1..."
+    - cd backend/proj1
     - mvn package
     - echo "Compile complete."
 
