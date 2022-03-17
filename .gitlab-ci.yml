@@ -21,7 +21,6 @@ stages:          # List of stages for jobs, and their order of execution
 maven-build:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
-    - backend_tag
     - springboot_tag
   script:
     - echo "Compiling the code..."
@@ -32,7 +31,6 @@ maven-build:       # This job runs in the build stage, which runs first.
 android-build:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
-    - frontend_tag
     - android_tag
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
