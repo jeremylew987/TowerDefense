@@ -62,3 +62,8 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+
+tags:
+  - android_tag
+  - springboot_tag
+
