@@ -18,28 +18,56 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+maven-build:       # This job runs in the build stage, which runs first.
   stage: build
+  tags:
+    - backend_tag
+    - springboot_tag
   script:
     - echo "Compiling the code..."
+    - cd backend
+    - mvn package
+    - echo "Compile complete."
+
+android-build:       # This job runs in the build stage, which runs first.
+  stage: build
+  tags:
+    - frontend_tag
+    - android_tag
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  script:
+    - echo "Compiling the code..."
+    - cd frontend
+    - ./gradlew assemble
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
+    tags:
+    - backend_tag
+    - springboot_tag
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+    - echo "Running unit tests... This will take about 5 seconds."
+    - sleep 5
+    - echo "Code coverage is --%"
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
+    tags:
+    - backend_tag
+    - springboot_tag
   script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
+    - echo "Linting code... This will take about 5 seconds."
+    - sleep 5
     - echo "No lint issues found."
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+    tags:
+    - backend_tag
+    - springboot_tag
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
