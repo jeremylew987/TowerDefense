@@ -10,7 +10,7 @@ maven-build:       # This job runs in the build stage, which runs first.
   script:
     - echo "Compiling Proj1..."
     - cd backend/proj1
-    - mvn package -B
+    - mvn package -Bf pom.xml
     - echo "Compile complete."
 
 #android-build:       # This job runs in the build stage, which runs first.
