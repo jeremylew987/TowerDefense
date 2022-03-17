@@ -1,16 +1,16 @@
 stages:          # List of stages for jobs, and their order of execution
-  - build
+  - mavenbuild
   - test
   - deploy
 
 maven-build:       # This job runs in the build stage, which runs first.
-  stage: build
+  stage: mavenbuild
   tags:
     - springboot_tag
   script:
     - echo "Compiling Proj1..."
     - cd backend/proj1
-    - mvn package
+    - mvn package -B
     - echo "Compile complete."
 
 #android-build:       # This job runs in the build stage, which runs first.
@@ -30,14 +30,14 @@ unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running unit tests... This will take about 5 seconds."
-    - sleep 5
+    - sleep 1
     - echo "Code coverage is --%"
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
     - echo "Linting code... This will take about 5 seconds."
-    - sleep 5
+    - sleep 1
     - echo "No lint issues found."
 
 deploy-job:      # This job runs in the deploy stage.
