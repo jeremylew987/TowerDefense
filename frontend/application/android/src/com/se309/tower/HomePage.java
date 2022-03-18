@@ -30,7 +30,7 @@ public class HomePage extends AppCompatActivity {
 
         Button joinGame = findViewById(R.id.JoinGame);
         Button createGame = findViewById(R.id.CreateGame);
-
+        Button social = findViewById(R.id.Social);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +58,13 @@ public class HomePage extends AppCompatActivity {
                 SharedPreferences.Editor mEditor = mPrefs.edit();
                 mEditor.putString("gameCode", code.getText().toString()).commit();
                 startActivity(new Intent(HomePage.this, lobby.class));
+
+            }});
+        social.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(HomePage.this, Social.class));
 
             }});
     }
