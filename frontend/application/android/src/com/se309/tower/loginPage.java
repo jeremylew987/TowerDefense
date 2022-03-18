@@ -33,6 +33,19 @@ public class loginPage extends AppCompatActivity {
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
+        // Get reference for debug button
+        Button debug = findViewById(R.id.debugButton);
+
+        // Create Click Listener for debug routine
+        debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start debug tasks
+
+                System.out.println("")
+            }
+        });
+
         final SharedPreferences mPrefs = getSharedPreferences("test",MODE_PRIVATE);
         String usernameSave = mPrefs.getString("username","none");
         String passwordSave = mPrefs.getString("password","none");
