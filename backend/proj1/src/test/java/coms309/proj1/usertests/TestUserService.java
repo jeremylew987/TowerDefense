@@ -62,7 +62,12 @@ public class TestUserService
 
 		assertEquals(username, user1.getUsername());
 		assertEquals(email, user1.getEmail());
+	}
 
+	/**
+	 * Tests that the UsernameNotFoundException is thrown when a user is not found in userRepository
+	 */
+	public void loadNullUserByUsernameTest() {
 		// Test username does not exist
 		when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 		try {
@@ -72,7 +77,7 @@ public class TestUserService
 		}
 		fail();
 	}
-
+	
 	@Test
 	public void loadUserByEmailTest() {
 		// Test email exists
@@ -82,8 +87,12 @@ public class TestUserService
 
 		assertEquals(username, user1.getUsername());
 		assertEquals(email, user1.getEmail());
+	}
 
-		// Test email does not exist
+	/**
+	 * Tests that the EmailNotFoundException is thrown when a user is not found in userRepository
+	 */
+	private void loadNullUserByEmailTest() {
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		try {
 			userService.loadUserByEmail(email);
