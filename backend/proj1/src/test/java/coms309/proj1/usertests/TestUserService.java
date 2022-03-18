@@ -100,8 +100,8 @@ public class TestUserService
 						LocalDateTime.now().plusMinutes(15),
 						user)
 				);
-		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
-		when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+		when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
 
 		when(bCryptPasswordEncoder.encode(password)).thenReturn(encryptedPassword);
 
