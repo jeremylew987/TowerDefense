@@ -93,26 +93,24 @@ public class TestUserService
 		fail();
 	}
 
+	/**
+	 * Asserts that the registerUser() method returns a
+	 * valid UUID token without exceptions or errors
+	 */
 	@Test
 	public void registerUserTest() {
-//		ConfirmationToken confirmationToken =
-//				mock(ConfirmationToken.class, withSettings().useConstructor
-//						("11223344",
-//						LocalDateTime.now(),
-//						LocalDateTime.now().plusMinutes(15),
-//						user)
-//				);
+		// Must return Optional.empty() which means the username/email does not exist in the system
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
 		when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
 
 		when(bCryptPasswordEncoder.encode(password)).thenReturn(encryptedPassword);
-
-		//doNothing().when(userRepository).save(user);
 		when(userRepository.save(user)).thenReturn(user);
 
 		UUID defaultUuid = UUID.fromString("8d8b30e3-de52-4f1c-a71c-9905a8043dac");
 
 		doNothing().when(confirmationTokenService).saveConfirmationToken(any(ConfirmationToken.class));
+
+		// Block is required for the mocking of the static method UUID.randomUUID()
 		try(MockedStatic<UUID> mockedUuid = mockStatic(UUID.class)) {
 			mockedUuid.when(UUID::randomUUID).thenReturn(defaultUuid);
 			String token = userService.registerUser(user);
