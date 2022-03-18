@@ -17,6 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.se309.config.NetworkConfig;
+import com.se309.net.NetworkManager;
+import com.se309.test.NetworkManagerTestBench;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,9 @@ public class loginPage extends AppCompatActivity {
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
 
+        // Set up initial network manager
+        final NetworkManager networkManager = new NetworkManager(this, NetworkConfig.BACKEND_URL);
+
         // Get reference for debug button
         Button debug = findViewById(R.id.debugButton);
 
@@ -42,7 +48,9 @@ public class loginPage extends AppCompatActivity {
             public void onClick(View view) {
                 // Start debug tasks
 
-                System.out.println("Debug Button");
+                System.out.println("Starting network tests...");
+
+                NetworkManagerTestBench.testNetworkFunctions(networkManager);
             }
         });
 
