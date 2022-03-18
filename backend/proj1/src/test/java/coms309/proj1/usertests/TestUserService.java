@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,13 +95,13 @@ public class TestUserService
 
 	@Test
 	public void registerUserTest() {
-		ConfirmationToken confirmationToken =
-				mock(ConfirmationToken.class, withSettings().useConstructor
-						("11223344",
-						LocalDateTime.now(),
-						LocalDateTime.now().plusMinutes(15),
-						user)
-				);
+//		ConfirmationToken confirmationToken =
+//				mock(ConfirmationToken.class, withSettings().useConstructor
+//						("11223344",
+//						LocalDateTime.now(),
+//						LocalDateTime.now().plusMinutes(15),
+//						user)
+//				);
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
 		when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
 
@@ -107,9 +109,15 @@ public class TestUserService
 
 		//doNothing().when(userRepository).save(user);
 		when(userRepository.save(user)).thenReturn(user);
+
+		UUID defaultUuid = UUID.fromString("8d8b30e3-de52-4f1c-a71c-9905a8043dac");
+
 		doNothing().when(confirmationTokenService).saveConfirmationToken(any(ConfirmationToken.class));
-		String token = userService.registerUser(user);
-		assertEquals("11223344", token);
+		try(MockedStatic<UUID> mockedUuid = mockStatic(UUID.class)) {
+			mockedUuid.when(UUID::randomUUID).thenReturn(defaultUuid);
+			String token = userService.registerUser(user);
+			assertEquals(defaultUuid.toString(), UUID.randomUUID().toString());
+		}
 	}
 
 }
