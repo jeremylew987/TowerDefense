@@ -9,6 +9,10 @@ public class NetworkManagerTestBench {
      * @param nw Incoming NetworkManager object
      */
     public static void testNetworkFunctions(NetworkManager nw) {
+
+        System.out.println("Testing serialization...");
+
+        System.out.println(nw.serialize("Hello, world"));
     }
 
 }

@@ -60,7 +60,7 @@ public class NetworkManager {
         requestQueue = new RequestQueue(cache, network);
 
         // Quickly set up Gson stuff
-        GsonBuilder builder = new GsonBuilder();
+        builder = new GsonBuilder();
 
         builder.setPrettyPrinting();
 
