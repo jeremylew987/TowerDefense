@@ -50,7 +50,8 @@ public class createLgoin extends AppCompatActivity {
 
         //String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
         // registration http://localhost:8080/registration
-                String address = "http://10.49.41.72:8080/registration/";
+                //String address = "http://10.48.40.205:8080/registration/";
+                String address =  "http://coms-309-027.class.las.iastate.edu:8080/registration/";
         RequestQueue queue = Volley.newRequestQueue(createLgoin.this);
                 JSONObject data = new JSONObject();
                 try {

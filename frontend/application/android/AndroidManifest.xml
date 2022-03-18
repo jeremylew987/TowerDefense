@@ -10,8 +10,14 @@
         android:icon="@drawable/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/GdxTheme">
+        android:theme="@style/GdxTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Social"
+            android:exported="false" />
+        <activity
+            android:name=".lobby"
+            android:exported="false" />
         <activity
             android:name=".HomePage"
             android:exported="true"
@@ -24,19 +30,17 @@
             android:name=".loginPage"
             android:exported="true"
             android:screenOrientation="landscape">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:label="@string/app_name"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

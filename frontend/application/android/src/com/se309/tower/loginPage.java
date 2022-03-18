@@ -49,7 +49,8 @@ public class loginPage extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/test";
+            //String address = "http://10.48.40.205:8080/login";
+            String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -67,7 +68,7 @@ public class loginPage extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    startActivity(new Intent(loginPage.this, HomePage.class));
                     error.printStackTrace();
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
                     alertDialogBuilder.setTitle("Error");
@@ -111,7 +112,8 @@ public class loginPage extends AppCompatActivity {
                 }
                 //String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/test";
                 // login https://localhost:8080/login
-                String address = "http://10.49.41.72:8080/login";
+                //String address = "http://10.48.40.205:8080/login";
+                String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
