@@ -42,7 +42,7 @@ public class loginPage extends AppCompatActivity {
             public void onClick(View view) {
                 // Start debug tasks
 
-                System.out.println("")
+                System.out.println("Debug Button");
             }
         });
 
