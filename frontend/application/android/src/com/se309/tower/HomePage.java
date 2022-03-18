@@ -28,6 +28,10 @@ public class HomePage extends AppCompatActivity {
         curUser.setText(usernameSave);
 
 
+        Button joinGame = findViewById(R.id.JoinGame);
+        Button createGame = findViewById(R.id.CreateGame);
+
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,5 +44,21 @@ public class HomePage extends AppCompatActivity {
 
             }});
 
+        createGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePage.this, lobby.class));
+
+            }});
+        joinGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView code = findViewById(R.id.GameCode);
+
+                SharedPreferences.Editor mEditor = mPrefs.edit();
+                mEditor.putString("gameCode", code.getText().toString()).commit();
+                startActivity(new Intent(HomePage.this, lobby.class));
+
+            }});
     }
 }

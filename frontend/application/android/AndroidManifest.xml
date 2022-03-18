@@ -14,10 +14,12 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Social"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".lobby"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".HomePage"
             android:exported="true"
