@@ -24,7 +24,7 @@ maven-test:   # This job runs in the test stage.
     - echo "Proj1 unit tests complete."
   artifacts:
     paths:
-      - backend/proj1/target/*.jar
+      - /target/*.jar
 
 
 maven-deploy:
