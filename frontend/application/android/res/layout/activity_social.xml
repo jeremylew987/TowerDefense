@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,8 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Friends"
-            android:state_pressed="true"/>
+            android:backgroundTint="#B5B0B0"
+            android:state_pressed="true"
+            android:text="Friends" />
 
         <Button
             android:id="@+id/RecentPlayers"
@@ -44,5 +46,61 @@
             android:layout_height="wrap_content"
             android:text="Leaderboards" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="729dp"
+        android:layout_height="353dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:id="@+id/friendRequest"
+            android:layout_width="361dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Freind" />
+
+            <EditText
+                android:id="@+id/addFriendText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Friend Name"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/addFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friend Requests" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/friendList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friends List" />
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
