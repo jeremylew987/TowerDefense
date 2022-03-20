@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 public class NetworkHandle {
 
     // Incoming objects
-    private String defaultResource;
+    private String defaultEndpoint;
     private NetworkManager parentManager;
 
     // Reply switch
@@ -19,19 +19,19 @@ public class NetworkHandle {
 
     /**
      * Spawned from NetworkManager, provides an abstract interface to the networking components.
-     * @param defaultResource
+     * @param defaultEndpoint the default endpoint
      */
-    public NetworkHandle(String defaultResource, NetworkManager parentManager) {
+    public NetworkHandle(String defaultEndpoint, NetworkManager parentManager) {
 
         // Save local instances
-        this.defaultResource = defaultResource;
+        this.defaultEndpoint = defaultEndpoint;
         this.parentManager = parentManager;
     }
 
     public Object get(Type ty) throws RequestException {
         synchronized(this) {
             try {
-                parentManager.SendStringGET(this, defaultResource);
+                parentManager.SendStringGET(this, defaultEndpoint);
 
                 this.wait();
             } catch (InterruptedException e) {
@@ -53,12 +53,12 @@ public class NetworkHandle {
      * Getter-ville
      */
 
-    public String getDefaultResource() {
-        return defaultResource;
+    public String getDefaultEndpoint() {
+        return defaultEndpoint;
     }
 
-    public void setDefaultResource(String defaultResource) {
-        this.defaultResource = defaultResource;
+    public void setDefaultEndpoint(String defaultEndpoint) {
+        this.defaultEndpoint = defaultEndpoint;
     }
 
     public NetworkManager getParentManager() {
