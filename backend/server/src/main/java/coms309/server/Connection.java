@@ -61,7 +61,7 @@ public class Connection implements Runnable {
             JsonReader reader = Json.createReader(new StringReader(response));
 
             // Save user object
-            userObject = reader.readObject();
+            JsonObject userObject = reader.readObject();
             reader.close();
 
             System.out.println("Player with ID:" + this.pid + " has been successfully authenticated");
