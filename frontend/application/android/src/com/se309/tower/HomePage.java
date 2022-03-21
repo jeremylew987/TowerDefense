@@ -40,14 +40,14 @@ public class HomePage extends AppCompatActivity {
                 SharedPreferences.Editor mEditor = mPrefs.edit();
                 mEditor.remove("username").commit();
                 mEditor.remove("password").commit();
-                startActivity(new Intent(HomePage.this, loginPage.class));
+                startActivity(new Intent(HomePage.this, LoginPage.class));
 
             }});
 
         createGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomePage.this, lobby.class));
+                startActivity(new Intent(HomePage.this, LobbyPage.class));
 
             }});
         joinGame.setOnClickListener(new View.OnClickListener() {
@@ -57,14 +57,14 @@ public class HomePage extends AppCompatActivity {
 
                 SharedPreferences.Editor mEditor = mPrefs.edit();
                 mEditor.putString("gameCode", code.getText().toString()).commit();
-                startActivity(new Intent(HomePage.this, lobby.class));
+                startActivity(new Intent(HomePage.this, LobbyPage.class));
 
             }});
         social.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(HomePage.this, Social.class));
+                startActivity(new Intent(HomePage.this, SocialPage.class));
 
             }});
     }

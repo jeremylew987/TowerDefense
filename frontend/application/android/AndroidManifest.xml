@@ -13,11 +13,11 @@
         android:theme="@style/GdxTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Social"
+            android:name=".SocialPage"
             android:exported="false"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".lobby"
+            android:name=".LobbyPage"
             android:exported="false"
             android:screenOrientation="landscape"/>
         <activity
@@ -25,11 +25,11 @@
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".createLgoin"
+            android:name=".CreateLogin"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".loginPage"
+            android:name=".LoginPage"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AndroidLauncher"
+            android:name=".GameLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:label="@string/app_name"
             android:screenOrientation="landscape" />

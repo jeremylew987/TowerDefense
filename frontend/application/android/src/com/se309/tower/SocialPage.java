@@ -12,7 +12,7 @@ import android.widget.Toolbar;
 
 import org.json.JSONObject;
 
-public class Social extends AppCompatActivity {
+public class SocialPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
