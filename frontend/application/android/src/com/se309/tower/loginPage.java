@@ -47,7 +47,7 @@ public class loginPage extends AppCompatActivity {
 
         System.out.println("Starting network tests...");
 
-        //NetworkManagerTestBench.testNetworkFunctions(networkManager, this);
+        NetworkManagerTestBench.testNetworkFunctions(networkManager, this);
 
         // Create Click Listener for debug routine
         debug.setOnClickListener(new View.OnClickListener() {

@@ -11,7 +11,9 @@ import com.android.volley.toolbox.Volley;
 import com.se309.config.NetworkConfig;
 import com.se309.net.NetworkHandle;
 import com.se309.net.NetworkManager;
+import com.se309.net.NetworkResponse;
 import com.se309.net.RequestException;
+import com.se309.net.ResponseContainer;
 
 public class NetworkManagerTestBench {
 
@@ -43,13 +45,17 @@ public class NetworkManagerTestBench {
 
         NetworkHandle handle = nw.spawnHandler("/test");
 
-        try {
-            UserDummy getFromMock = (UserDummy) handle.get(UserDummy.class, context);
 
-            System.out.println("Username: " + getFromMock.getUsername() + " Password: " + getFromMock.getPassword());
-        } catch (RequestException e) {
-            System.out.println("Could not perform GET");
-        }
+        handle.get(context, UserDummy.class, new NetworkResponse() {
+            @Override
+            public void onResponse(ResponseContainer container) {
+
+                UserDummy back = (UserDummy) container.getBody();
+
+                System.out.println("Username: " + back.getUsername() + " Password: " + back.getPassword());
+            }
+        });
+
 
         System.out.println("Tests finished!");
     }

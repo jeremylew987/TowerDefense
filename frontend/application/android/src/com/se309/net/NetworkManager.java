@@ -86,33 +86,13 @@ public class NetworkManager {
 
     /**
      * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
-     * @param caller The thread calling this function
-     * @param endpoint
      */
-    public void SendStringGET(final NetworkHandle caller, final String endpoint, Context context) {
+    public void SendStringGET(final Type ty, final String endpoint, Context context, final NetworkResponse responseHandle) {
 
         System.out.println("SendStringGET to " + host + endpoint);
 
 
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-
-        //String Request initialized
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, NetworkConfig.MOCK_URL + "/test", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                System.out.println(response.toString());
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                System.out.println("!!!!!!!!!!!!!!!!!");
-            }
-        });
-
-        mRequestQueue.add(mStringRequest);
 
         // After this function is called, the caller thread should .wait() until volley has finished it's request
         // When that happens, the caller will be notified after it's response has been posted
@@ -123,13 +103,10 @@ public class NetworkManager {
 
                 System.out.println("Getting response...");
 
-                ResponseContainer container = new ResponseContainer(endpoint, false, null);
+                ResponseContainer container = new ResponseContainer(deserialize(response.toString(), ty), false, null);
 
-                caller.response = container;
+                responseHandle.onResponse(container);
 
-                synchronized (caller) {
-                    caller.notify();
-                }
             }
 
         }, new Response.ErrorListener() {
@@ -141,14 +118,12 @@ public class NetworkManager {
 
                 ResponseContainer container = new ResponseContainer(error.getMessage(), true, error);
 
-                synchronized (caller) {
-                    caller.notify();
-                }
+                responseHandle.onResponse(container);
             }
 
         });
 
-        requestQueue.add(request);
+        mRequestQueue.add(request);
 
         System.out.println("Placed in queue");
     }

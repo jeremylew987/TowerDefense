@@ -30,32 +30,12 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
-    public Object get(Type ty, Context context) throws RequestException {
+    public void get(Context context, Type ty, NetworkResponse response) {
 
         System.out.println("Get function");
 
-        synchronized(this) {
-            try {
+        parentManager.SendStringGET(ty, defaultEndpoint, context, response);
 
-                System.out.println("Sync'd");
-
-                parentManager.SendStringGET(this, defaultEndpoint, context);
-
-                System.out.println("Waiting...");
-
-                this.wait();
-            } catch (InterruptedException e) {
-                throw new RequestException(e.getMessage());
-            }
-
-            // If there is an error, throw it
-            if (response.isError()) throw new RequestException(response.getBody(), response.getError());
-
-            // Otherwise, extract body and deserialize
-            String body = response.getBody();
-
-            return parentManager.deserialize(body, ty);
-        }
     }
 
 
