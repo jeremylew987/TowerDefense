@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.se309.config.NetworkConfig;
+import com.se309.game.GameLauncher;
 import com.se309.net.NetworkManager;
 import com.se309.test.NetworkManagerTestBench;
 
@@ -115,7 +116,7 @@ public class LoginPage extends AppCompatActivity {
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, CreateLogin.class));
+                startActivity(new Intent(LoginPage.this, CreateLoginPage.class));
             }});
 
         submit.setOnClickListener(new View.OnClickListener() {

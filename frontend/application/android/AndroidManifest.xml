@@ -25,7 +25,7 @@
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".CreateLogin"
+            android:name=".CreateLoginPage"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameLauncher"
+            android:name="com.se309.game.GameLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:label="@string/app_name"
             android:screenOrientation="landscape" />

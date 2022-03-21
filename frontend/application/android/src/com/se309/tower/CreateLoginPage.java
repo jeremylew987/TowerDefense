@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CreateLogin extends AppCompatActivity {
+public class CreateLoginPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class CreateLogin extends AppCompatActivity {
         // registration http://localhost:8080/registration
                 //String address = "http://10.48.40.205:8080/registration/";
                 String address =  "http://coms-309-027.class.las.iastate.edu:8080/registration/";
-        RequestQueue queue = Volley.newRequestQueue(CreateLogin.this);
+        RequestQueue queue = Volley.newRequestQueue(CreateLoginPage.this);
                 JSONObject data = new JSONObject();
                 try {
                     data.put("username",name);
@@ -67,14 +67,14 @@ public class CreateLogin extends AppCompatActivity {
                 String res = "";
                 try {
                     res = response.getString("response");
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLogin.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                     alertDialogBuilder.setTitle("Error");
                     alertDialogBuilder.setMessage(res);
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
                 } catch (JSONException e) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLogin.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                     alertDialogBuilder.setTitle("Success");
                     alertDialogBuilder.setMessage("Check your email");
                     alertDialogBuilder.setPositiveButton("Ok", null);
@@ -88,7 +88,7 @@ public class CreateLogin extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 error.printStackTrace();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLogin.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                 alertDialogBuilder.setTitle("Error");
                 alertDialogBuilder.setMessage(error.getMessage());
                 alertDialogBuilder.setPositiveButton("Ok", null);
