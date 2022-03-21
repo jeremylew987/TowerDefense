@@ -46,7 +46,7 @@ public class NetworkManagerTestBench {
         NetworkHandle handle = nw.spawnHandler("/test");
 
 
-        handle.get(context, UserDummy.class, new NetworkResponse() {
+        handle.get(UserDummy.class, new NetworkResponse() {
             @Override
             public void onResponse(ResponseContainer container) {
 

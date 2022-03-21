@@ -59,7 +59,7 @@ public class NetworkManager {
 
         network = new BasicNetwork(new HurlStack());
 
-        //requestQueue = new RequestQueue(cache, network);
+        requestQueue = new RequestQueue(cache, network);
 
         // Quickly set up Gson stuff
         builder = new GsonBuilder();
@@ -67,9 +67,9 @@ public class NetworkManager {
         builder.setPrettyPrinting();
 
         // Start it up
-        //requestQueue.start();
+        requestQueue.start();
 
-        requestQueue = Volley.newRequestQueue(context);
+        //requestQueue = Volley.newRequestQueue(context);
 
     }
 
@@ -87,12 +87,9 @@ public class NetworkManager {
     /**
      * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
      */
-    public void SendStringGET(final Type ty, final String endpoint, Context context, final NetworkResponse responseHandle) {
+    public void SendStringGET(final Type ty, final String endpoint, final NetworkResponse responseHandle) {
 
         System.out.println("SendStringGET to " + host + endpoint);
-
-
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
         // After this function is called, the caller thread should .wait() until volley has finished it's request
         // When that happens, the caller will be notified after it's response has been posted
@@ -123,7 +120,7 @@ public class NetworkManager {
 
         });
 
-        mRequestQueue.add(request);
+        requestQueue.add(request);
 
         System.out.println("Placed in queue");
     }

@@ -30,11 +30,11 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
-    public void get(Context context, Type ty, NetworkResponse response) {
+    public void get(Type ty, NetworkResponse response) {
 
         System.out.println("Get function");
 
-        parentManager.SendStringGET(ty, defaultEndpoint, context, response);
+        parentManager.SendStringGET(ty, defaultEndpoint, response);
 
     }
 

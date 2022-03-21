@@ -45,15 +45,16 @@ public class loginPage extends AppCompatActivity {
         // Get reference for debug button
         Button debug = findViewById(R.id.debugButton);
 
-        System.out.println("Starting network tests...");
 
-        NetworkManagerTestBench.testNetworkFunctions(networkManager, this);
 
         // Create Click Listener for debug routine
         debug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetworkManagerTestBench.SimpleVolleyGETRequest(loginPage.this);
+
+                System.out.println("Starting network tests...");
+
+                NetworkManagerTestBench.testNetworkFunctions(networkManager, loginPage.this);
 
 
             }
