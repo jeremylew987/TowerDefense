@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.se309.config.NetworkConfig;
 import com.se309.net.NetworkManager;
 import com.se309.net.ResponseContainer;
@@ -56,6 +57,8 @@ public class loginPage extends AppCompatActivity {
 
                 NetworkManagerTestBench.testNetworkFunctions(networkManager, loginPage.this);
 
+                Intent intent = new Intent(getBaseContext(),AndroidLauncher.class);
+                startActivity(intent);
 
             }
         });

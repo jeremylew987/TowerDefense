@@ -11,6 +11,9 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+		System.out.println("Test to see if it still runs");
+
 		initialize(new TowerDefense(), config);
 	}
 }

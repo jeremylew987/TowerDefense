@@ -32,8 +32,6 @@ public class NetworkHandle {
 
     public void get(Type ty, NetworkResponse response) {
 
-        System.out.println("Get function");
-
         parentManager.SendStringGET(ty, defaultEndpoint, response);
 
     }
