@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.se309.config.NetworkConfig;
 
 import java.lang.reflect.Type;
 
@@ -58,7 +59,7 @@ public class NetworkManager {
 
         network = new BasicNetwork(new HurlStack());
 
-        requestQueue = new RequestQueue(cache, network);
+        //requestQueue = new RequestQueue(cache, network);
 
         // Quickly set up Gson stuff
         builder = new GsonBuilder();
@@ -66,8 +67,9 @@ public class NetworkManager {
         builder.setPrettyPrinting();
 
         // Start it up
-        requestQueue.start();
+        //requestQueue.start();
 
+        requestQueue = Volley.newRequestQueue(context);
 
     }
 
@@ -87,9 +89,30 @@ public class NetworkManager {
      * @param caller The thread calling this function
      * @param endpoint
      */
-    public void SendStringGET(final NetworkHandle caller, final String endpoint) {
+    public void SendStringGET(final NetworkHandle caller, final String endpoint, Context context) {
 
         System.out.println("SendStringGET to " + host + endpoint);
+
+
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //String Request initialized
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, NetworkConfig.MOCK_URL + "/test", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                System.out.println(response.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                System.out.println("!!!!!!!!!!!!!!!!!");
+            }
+        });
+
+        mRequestQueue.add(mStringRequest);
 
         // After this function is called, the caller thread should .wait() until volley has finished it's request
         // When that happens, the caller will be notified after it's response has been posted

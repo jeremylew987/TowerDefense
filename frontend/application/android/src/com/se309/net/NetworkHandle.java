@@ -1,5 +1,7 @@
 package com.se309.net;
 
+import android.content.Context;
+
 import java.lang.reflect.Type;
 
 /**
@@ -28,7 +30,7 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
-    public Object get(Type ty) throws RequestException {
+    public Object get(Type ty, Context context) throws RequestException {
 
         System.out.println("Get function");
 
@@ -37,7 +39,7 @@ public class NetworkHandle {
 
                 System.out.println("Sync'd");
 
-                parentManager.SendStringGET(this, defaultEndpoint);
+                parentManager.SendStringGET(this, defaultEndpoint, context);
 
                 System.out.println("Waiting...");
 

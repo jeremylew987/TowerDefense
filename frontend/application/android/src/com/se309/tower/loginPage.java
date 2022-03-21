@@ -1,6 +1,7 @@
 package com.se309.tower;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +17,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.se309.config.NetworkConfig;
 import com.se309.net.NetworkManager;
+import com.se309.net.ResponseContainer;
 import com.se309.test.NetworkManagerTestBench;
 
 import org.json.JSONException;
@@ -42,15 +45,17 @@ public class loginPage extends AppCompatActivity {
         // Get reference for debug button
         Button debug = findViewById(R.id.debugButton);
 
+        System.out.println("Starting network tests...");
+
+        //NetworkManagerTestBench.testNetworkFunctions(networkManager, this);
+
         // Create Click Listener for debug routine
         debug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Start debug tasks
+                NetworkManagerTestBench.SimpleVolleyGETRequest(loginPage.this);
 
-                System.out.println("Starting network tests...");
 
-                NetworkManagerTestBench.testNetworkFunctions(networkManager);
             }
         });
 
@@ -187,4 +192,5 @@ public class loginPage extends AppCompatActivity {
 
 
     }
+
 }

@@ -1,5 +1,13 @@
 package com.se309.test;
 
+import android.content.Context;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.se309.config.NetworkConfig;
 import com.se309.net.NetworkHandle;
 import com.se309.net.NetworkManager;
@@ -11,7 +19,7 @@ public class NetworkManagerTestBench {
      * A simple test bench for the network manager
      * @param nw Incoming NetworkManager object
      */
-    public static void testNetworkFunctions(NetworkManager nw) {
+    public static void testNetworkFunctions(NetworkManager nw, Context context) {
 
         // Test the basic Gson serialization routines
 
@@ -36,7 +44,7 @@ public class NetworkManagerTestBench {
         NetworkHandle handle = nw.spawnHandler("/test");
 
         try {
-            UserDummy getFromMock = (UserDummy) handle.get(UserDummy.class);
+            UserDummy getFromMock = (UserDummy) handle.get(UserDummy.class, context);
 
             System.out.println("Username: " + getFromMock.getUsername() + " Password: " + getFromMock.getPassword());
         } catch (RequestException e) {
@@ -44,6 +52,31 @@ public class NetworkManagerTestBench {
         }
 
         System.out.println("Tests finished!");
+    }
+
+    /**
+     * I am going fucking bonkers
+     */
+    public static void SimpleVolleyGETRequest(Context context) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //String Request initialized
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, NetworkConfig.MOCK_URL + "/test", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                System.out.println(response.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                System.out.println("!!!!!!!!!!!!!!!!!");
+            }
+        });
+
+        mRequestQueue.add(mStringRequest);
     }
 
 }
