@@ -12,6 +12,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -67,6 +68,7 @@ public class NetworkManager {
         // Start it up
         requestQueue.start();
 
+
     }
 
     /**
@@ -83,18 +85,22 @@ public class NetworkManager {
     /**
      * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
      * @param caller The thread calling this function
-     * @param resource
+     * @param endpoint
      */
-    public void SendStringGET(final NetworkHandle caller, final String resource) {
+    public void SendStringGET(final NetworkHandle caller, final String endpoint) {
+
+        System.out.println("SendStringGET to " + host + endpoint);
 
         // After this function is called, the caller thread should .wait() until volley has finished it's request
         // When that happens, the caller will be notified after it's response has been posted
-        StringRequest request = new StringRequest(Request.Method.GET, host + resource, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, host + endpoint, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
-                ResponseContainer container = new ResponseContainer(resource, false, null);
+                System.out.println("Getting response...");
+
+                ResponseContainer container = new ResponseContainer(endpoint, false, null);
 
                 caller.response = container;
 
@@ -108,6 +114,8 @@ public class NetworkManager {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                System.out.println("Fail!");
+
                 ResponseContainer container = new ResponseContainer(error.getMessage(), true, error);
 
                 synchronized (caller) {
@@ -116,6 +124,10 @@ public class NetworkManager {
             }
 
         });
+
+        requestQueue.add(request);
+
+        System.out.println("Placed in queue");
     }
 
     public String serialize(Object src) {

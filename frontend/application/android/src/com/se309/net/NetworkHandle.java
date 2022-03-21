@@ -29,9 +29,17 @@ public class NetworkHandle {
     }
 
     public Object get(Type ty) throws RequestException {
+
+        System.out.println("Get function");
+
         synchronized(this) {
             try {
+
+                System.out.println("Sync'd");
+
                 parentManager.SendStringGET(this, defaultEndpoint);
+
+                System.out.println("Waiting...");
 
                 this.wait();
             } catch (InterruptedException e) {
