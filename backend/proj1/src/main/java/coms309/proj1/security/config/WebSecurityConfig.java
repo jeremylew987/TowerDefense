@@ -27,11 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Paths allowed to be accessed anonymously
-                    .antMatchers("/registration/**", "/login/**", "/user", "/users")
+                    .antMatchers("/registration/**", "/user", "/users")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
-                .and().formLogin().disable();
+                .and().formLogin().loginPage("/login/**").permitAll();
     }
 
     @Override
