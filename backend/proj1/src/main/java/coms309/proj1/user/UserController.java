@@ -15,7 +15,7 @@ public class UserController
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@GetMapping(value={"/user", "/users"})
+	@GetMapping(value={"/users"})
 	public List<User> getAllUsers() {
 		logger.info("Entered into User Controller Layer");
 		List<User> results = userService.loadUsers();
