@@ -157,6 +157,7 @@ public class User implements UserDetails
 	/**
 	 * @return list of friend relationships the owner has
 	 */
+	@JsonIgnore
 	public List<FriendRelationship> getFriendRelationships() {
 		return this.friends;
 	}
