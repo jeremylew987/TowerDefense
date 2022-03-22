@@ -26,12 +26,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                // Paths allowed to be accessed anonymously
-                    .antMatchers("/registration/**", "/user", "/users")
+                    .antMatchers("/", "/registration/**", "/login/**").permitAll()
+                    .antMatchers("/admin").hasRole("ADMIN")
+                    .antMatchers("/users").hasRole("USER")
+                    .anyRequest().authenticated()
+                    .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
                     .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                .and().formLogin().loginPage("/login/**").permitAll();
+                    .and()
+                .httpBasic().disable();
     }
 
     @Override
