@@ -6,10 +6,8 @@ import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -46,8 +44,9 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
             logger.warn("User [" + username + "] not found");
             throw new UsernameNotFoundException(String.format(USERNAME_NOT_FOUND_MSG, username));
         }
-        logger.info("Retrieved " + result.toString() + " by username");
-        return result.get();
+        User user = result.get();
+        logger.info("Retrieved " + user.toString() + " by username");
+        return user;
     }
 
     public UserDetails loadUserByEmail(String email) throws EmailNotFoundException
