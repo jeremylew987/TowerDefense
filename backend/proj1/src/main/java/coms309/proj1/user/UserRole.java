@@ -1,7 +1,7 @@
 package coms309.proj1.user;
 
-public enum Authority
+public enum UserRole
 {
-    ROLE_USER,
-    ROLE_ADMIN
+    USER,
+    ADMIN
 }
