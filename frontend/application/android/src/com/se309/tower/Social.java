@@ -1,5 +1,6 @@
 package com.se309.tower;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,9 +17,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Social extends AppCompatActivity {
@@ -27,6 +30,8 @@ public class Social extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
+        final RequestQueue queue = Volley.newRequestQueue(Social.this);
+        final SharedPreferences mPrefs = getSharedPreferences("test",0);
 
 
         Button back = findViewById(R.id.backSocial);
@@ -46,16 +51,53 @@ public class Social extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String friendUsername = addFriendText.getText().toString();
+                String usernameSave = mPrefs.getString("username","none");
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/friends/" + usernameSave + "/"+friendUsername;
                 //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String res = "";
+                        try {
+                            res = response.getString("response");
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                            alertDialogBuilder.setTitle("response");
+                            alertDialogBuilder.setMessage(res);
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+                        } catch (JSONException e) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                            alertDialogBuilder.setTitle("Success");
+                            alertDialogBuilder.setMessage("Check your email");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+                        }
 
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
             }});
 
         //call for friends TODO loop through using friend function
-        RequestQueue queue = Volley.newRequestQueue(Social.this);
-        final SharedPreferences mPrefs = getSharedPreferences("test",0);
+
+
         String usernameSave = mPrefs.getString("username","none");
         String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/friends/" + usernameSave;
-        JsonArrayRequest userClubs = new JsonArrayRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest FriendList = new JsonArrayRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Log.i("Response: " , response.toString());
@@ -75,7 +117,7 @@ public class Social extends AppCompatActivity {
 
             }
         });
-        queue.add(userClubs);
+        queue.add(FriendList);
         //same for freiendRquests
 
 
