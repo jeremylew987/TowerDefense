@@ -1,5 +1,7 @@
 package coms309.server;
 
+import coms309.server.Map.Map;
+
 import static coms309.server.GameLogic.GameState.*;
 
 public class GameLogic {
