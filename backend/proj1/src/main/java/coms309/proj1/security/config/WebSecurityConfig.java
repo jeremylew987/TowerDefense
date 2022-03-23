@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/users").hasRole("USER")
                     .anyRequest().authenticated()
                     .and()
+                .formLogin().disable()
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
