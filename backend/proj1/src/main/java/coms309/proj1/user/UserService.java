@@ -6,6 +6,7 @@ import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,12 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
     private final static String EMAIL_NOT_FOUND_MSG = "User with email %s does not exist";
     private final static String BAD_CREDENTIALS_MSG = "Username %s does not exist";
 
-
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
 
     public List<User> loadUsers() {
         logger.info("Entered into Service Layer");
