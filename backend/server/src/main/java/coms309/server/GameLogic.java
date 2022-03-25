@@ -1,6 +1,5 @@
 package coms309.server;
 
-import coms309.server.Map.GrassyFields;
 import coms309.server.Map.Map;
 
 import static coms309.server.GameLogic.Difficulty.MEDIUM;
@@ -29,7 +28,7 @@ public class GameLogic {
         this.clients = clients;
         difficulty = MEDIUM;
         round = 1;
-        this.map = new GrassyFields();
+        this.map = new Map(1);
     }
 
     public GameLogic(Server s, Connection[] c, Difficulty diff, Map m) {

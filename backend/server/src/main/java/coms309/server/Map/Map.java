@@ -20,7 +20,11 @@ public class Map {
     public LinkedList<Coordinate> path;
     public String imageUrl;
 
-    public void loadMap(String s, int mapId) {
+    public Map(int mapId) {
+        loadMap(mapId);
+    }
+
+    public void loadMap(int mapId) {
         JSONParser jsonParser = new JSONParser();
 
         try (FileReader reader = new FileReader("maps.json"))
@@ -44,7 +48,6 @@ public class Map {
         if (mapId == mip) {
             this.mapId = mapId;
             this.name = (String) map.get("name");
-            this.imageUrl = (String) map.get("imageUrl");
             return;
         }
     }
