@@ -5,7 +5,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.*;
 import java.net.*;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Connection implements Runnable {
@@ -103,8 +102,29 @@ public class Connection implements Runnable {
                 Scanner scanner = new Scanner(new InputStreamReader(dataIn, "UTF-8"));
                 scanner.useDelimiter("\n\r");
                 String parsedOutput[] = scanner.nextLine().split(",",2);
-                if (parsedOutput[0].equals("SAY")) {
-                    this.server.writeToAll("[" + userObject.getString("username") + "]: " + parsedOutput[1] + "\n\r");
+                switch (parsedOutput[0])
+                {
+                    case "SAY":
+                        this.server.writeToAll("[" + userObject.getString("username") + "]: " + parsedOutput[1] + "\n\r");
+                        break;
+                    case "SETGL":
+                        switch (parsedOutput[1]) {
+                            case "DIFF":
+                                this.server.gameLogic.setDifficulty(this.pid,parsedOutput[2]);
+                                break;
+                            case "MAP":
+                                this.server.gameLogic.setMap(this.pid, Integer.parseInt(parsedOutput[2]));
+                                break;
+                            case "PAUSE":
+                                this.server.gameLogic.pauseGame(this.pid);
+                                break;
+                            case "RESUME":
+                                this.server.gameLogic.resumeGame(this.pid);
+                            default:
+                                break;
+                        }
+                    default:
+                        break;
                 }
             } catch (Exception ex) {
                 this.close();

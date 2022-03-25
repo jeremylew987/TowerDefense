@@ -10,6 +10,7 @@ public class Server {
     private int currPlayer;
     private HttpURLConnection authServer;
     private Connection[] clients;
+    public GameLogic gameLogic;
 
     public Server(int port, int maxPlayers) {
 
@@ -21,6 +22,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        gameLogic = new GameLogic(this, this.clients);
         System.out.println("Server started on port: " + port);
     }
 

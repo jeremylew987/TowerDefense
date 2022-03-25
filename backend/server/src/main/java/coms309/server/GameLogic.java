@@ -1,7 +1,9 @@
 package coms309.server;
 
+import coms309.server.Map.GrassyFields;
 import coms309.server.Map.Map;
 
+import static coms309.server.GameLogic.Difficulty.MEDIUM;
 import static coms309.server.GameLogic.GameState.*;
 
 public class GameLogic {
@@ -20,6 +22,15 @@ public class GameLogic {
     private GameState gameState;
     private int round;
     private Map map;
+
+    public GameLogic(Server s, Connection[] clients) {
+        server = s;
+        gameState = NOT_STARTED;
+        this.clients = clients;
+        difficulty = MEDIUM;
+        round = 1;
+        this.map = new GrassyFields();
+    }
 
     public GameLogic(Server s, Connection[] c, Difficulty diff, Map m) {
         server = s;
@@ -58,9 +69,9 @@ public class GameLogic {
 
     // PLAYER FUNCTIONS
 
-    public void setDifficulty(int pid, Difficulty difficulty) {
+    public void setDifficulty(int pid, String difficulty) {
         if (isAdmin(pid)) {
-            this.difficulty = difficulty;
+            this.difficulty = Difficulty.valueOf(difficulty);
         } else {
             clients[pid].writeTo("ERR,NOT_AUTH\n\r");
         }
@@ -68,10 +79,10 @@ public class GameLogic {
 
     // AUTHORIZED FUNCTIONS
 
-    public void setMap(int pid, Map m) {
+    public void setMap(int pid, int m) {
         if (isAdmin(pid)) {
-            this.map = m;
-            server.writeToAll("SETGL,MAP," + m.toString() + "\n\r");
+            //this.map = m;
+            server.writeToAll("SETGL,MAP," + m + "\n\r");
         } else {
             clients[pid].writeTo("ERR,NOT_AUTH\n\r");
         }
