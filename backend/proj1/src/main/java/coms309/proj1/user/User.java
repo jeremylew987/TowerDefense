@@ -13,11 +13,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class User{
 
     @Id
     @SequenceGenerator(
@@ -38,8 +36,8 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    private Boolean locked;
-    private Boolean enabled;
+    Boolean locked;
+    Boolean enabled;
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;
@@ -50,59 +48,25 @@ public class User implements UserDetails {
         this.enabled = false;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        //SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role.name());
-        //return Collections.singletonList(auth);
-
-        UserRole role = getRole();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.name()));
-        return authorities;
-    }
-
-    @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
-
-    @Override
     public String getUsername() {
-        return username;
+        return this.username;
     }
+    public String  getEmail() {
+        return this.email;
+    }
+    public UserRole getRole() { return this.role; }
 
     public void setPassword(String password) {
         this.password = password;
     }
-
     public void  setUsername(String username) {
         this.username = username;
     }
     public void  setEmail(String email) {
         this.email  = email;
-    }
-    public String  getEmail() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
     }
 
     @Override
