@@ -9,16 +9,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/")
 @AllArgsConstructor
-public class RootController {
+public class MainController
+{
 
-	private final Logger logger = LoggerFactory.getLogger(RootController.class);
+	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	@GetMapping
-	public ResponseEntity<ErrorResponse> login() {
-		logger.info("Entered into Root Controller Layer");
-		return new ResponseEntity<ErrorResponse>(new ErrorResponse(HttpStatus.ACCEPTED, "Home Screen"), HttpStatus.ACCEPTED);
+	@GetMapping(path = "/")
+	public ResponseEntity<ErrorResponse> root_endpoint() {
+		logger.info("Entered into Main Controller Layer");
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse(HttpStatus.ACCEPTED, "Root Screen"), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(path = "/home")
+	public ResponseEntity<ErrorResponse> home_endpoint() {
+		logger.info("Entered into Main Controller Layer");
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse(HttpStatus.ACCEPTED, "Home Screen2"), HttpStatus.ACCEPTED);
 	}
 
 }
