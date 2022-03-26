@@ -28,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/", "/registration/**").permitAll()
-                    .antMatchers("/admin").hasAuthority("ADMIN")
-                    .antMatchers("/home", "/users").hasAnyAuthority("ADMIN", "USER")
+                    .antMatchers("/admin*").hasAuthority("ADMIN")
+                    .antMatchers("/home", "/user*").hasAnyAuthority("ADMIN", "USER")
                     .anyRequest().authenticated()
                     .and()
                 .httpBasic()
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/home") // Go here when no previous end point is available
+                    .defaultSuccessUrl("/home", true) // Go here when when success always
                     .permitAll()
                     .and()
                 .logout()
