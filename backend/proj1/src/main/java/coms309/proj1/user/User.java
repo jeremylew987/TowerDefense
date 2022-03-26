@@ -48,6 +48,9 @@ public class User{
         this.enabled = false;
     }
 
+    public Long getId() {
+        return this.userId;
+    }
     public String getPassword() {
         return this.password;
     }
