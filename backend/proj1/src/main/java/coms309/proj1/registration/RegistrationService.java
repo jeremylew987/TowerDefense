@@ -30,7 +30,7 @@ public class RegistrationService {
     private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
     // TODO: Return JSON object with token inside
-    public String register(RegistrationRequest request) {
+    public ConfirmationToken register(RegistrationRequest request) {
         logger.info("Entered into Registration Service Layer");
         if (!emailValidator.test(request.getEmail())) {
             logger.warn("Invalid email: ", request.getEmail());
@@ -38,7 +38,7 @@ public class RegistrationService {
         }
 
         // Register user checks for taken username/email
-        String token = userService.registerUser(
+        ConfirmationToken confirmationToken = userService.registerUser(
                 new User(
                         request.getUsername(),
                         request.getEmail(),
@@ -47,7 +47,7 @@ public class RegistrationService {
                 )
         );
 
-        String link = "http://coms-309-027.class.las.iastate.edu:8080/registration/confirm?token=" + token;
+        String link = "http://coms-309-027.class.las.iastate.edu:8080/registration/confirm?token=" + confirmationToken.getToken();
         mailService.sendEmail(new Mail(
                 "coms309.2do7",
                 "" + request.getEmail(),
@@ -55,12 +55,12 @@ public class RegistrationService {
                 "" + buildEmail(request.getUsername(), link)
         ));
         logger.info("Registration email sent");
-        return token;
+        return confirmationToken;
     }
 
     //TODO: Add custom exceptions for confirmToken
     @Transactional
-    public String confirmToken(String token) {
+    public boolean confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
@@ -79,7 +79,7 @@ public class RegistrationService {
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
-        return "confirmed";
+        return true;
     }
 
     private String buildEmail(String name, String link) {

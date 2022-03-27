@@ -48,7 +48,7 @@ public class UserService {
         return userDetailsService.loadUserByEmail(email);
     }
 
-    public String registerUser(User user) {
+    public ConfirmationToken registerUser(User user) {
         logger.info("Entered into Service Layer");
 
         // continues if loadUser by Email & Username return not found.
@@ -83,7 +83,7 @@ public class UserService {
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         logger.info("Saved confirmation token");
-        return token;
+        return confirmationToken;
     }
 
 //    public boolean verifyUserByUsername(String username, String password) {
