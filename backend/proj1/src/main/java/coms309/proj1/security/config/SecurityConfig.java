@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                     .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
+                    .loginPage("/login") // Get request of the login page
+                    .loginProcessingUrl("/login") // URL to post request the login parameters
                     .defaultSuccessUrl("/login/success", true) // Go here when when success always
                     .permitAll()
                     .and()
