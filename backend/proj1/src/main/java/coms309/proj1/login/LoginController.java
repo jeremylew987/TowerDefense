@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class LoginController {
 
-    private LoginService loginService;
-
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
-    
+
     @GetMapping
     public ResponseEntity<GeneralResponse> loginPage() {
         logger.info("Entered into Login Controller Layer");
