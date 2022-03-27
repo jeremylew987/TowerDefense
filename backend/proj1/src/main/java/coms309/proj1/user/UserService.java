@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,10 +76,11 @@ public class UserService {
 
         // TODO: Take token expire date from configuration
         String token = UUID.randomUUID().toString();
+        Date date = new Date();
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
+                date,
+                new Date(date.getTime() + (15 * 60 * 1000)), // 15 minutes +
                 user
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -70,9 +71,9 @@ public class RegistrationService {
             throw new IllegalStateException("email already confirmed");
         }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiredAt();
+        Date expiredAt = confirmationToken.getExpiredAt();
 
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (expiredAt.before(new Date())) {
             throw new IllegalStateException("token expired");
         }
 
