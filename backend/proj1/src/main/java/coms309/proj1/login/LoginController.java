@@ -1,7 +1,6 @@
 package coms309.proj1.login;
 
-import coms309.proj1.exception.ErrorResponse;
-import coms309.proj1.registration.RegistrationController;
+import coms309.proj1.exception.GeneralResponse;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +17,19 @@ public class LoginController {
 
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @PostMapping
-    public ResponseEntity<ErrorResponse> login(@RequestBody LoginRequest request) {
+//    @PostMapping
+//    public ResponseEntity<ErrorResponse> loginRequest(@RequestBody LoginRequest request) {
+//        logger.info("Entered into Login Controller Layer");
+//        return loginService.login(request);
+//    }
+    @GetMapping
+    public ResponseEntity<GeneralResponse> loginPage() {
         logger.info("Entered into Login Controller Layer");
-        return loginService.login(request);
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Screen"), HttpStatus.ACCEPTED);
     }
-
+    @GetMapping(path = "/success")
+    public ResponseEntity<GeneralResponse> loginResponse() {
+        logger.info("Entered into Login Controller Layer");
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success"), HttpStatus.ACCEPTED);
+    }
 }
