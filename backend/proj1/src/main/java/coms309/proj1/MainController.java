@@ -1,6 +1,6 @@
 package coms309.proj1;
 
-import coms309.proj1.exception.ErrorResponse;
+import coms309.proj1.exception.GeneralResponse;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +16,15 @@ public class MainController
 	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@GetMapping(path = "/")
-	public ResponseEntity<ErrorResponse> root_endpoint() {
+	public ResponseEntity<GeneralResponse> root_endpoint() {
 		logger.info("Entered into Main Controller Layer");
-		return new ResponseEntity<ErrorResponse>(new ErrorResponse(HttpStatus.ACCEPTED, "Root Screen"), HttpStatus.ACCEPTED);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Root Screen"), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping(path = "/home")
-	public ResponseEntity<ErrorResponse> home_endpoint() {
+	public ResponseEntity<GeneralResponse> home_endpoint() {
 		logger.info("Entered into Main Controller Layer");
-		return new ResponseEntity<ErrorResponse>(new ErrorResponse(HttpStatus.ACCEPTED, "Home Screen2"), HttpStatus.ACCEPTED);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Home Screen"), HttpStatus.ACCEPTED);
 	}
 
 }
