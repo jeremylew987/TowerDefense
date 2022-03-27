@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 		}
 		User user = result.get();
 		logger.info("Retrieved " + user.toString() + " by username");
-		return new MyUserDetails(user);
+		return new UserDetailsImpl(user);
 	}
 
 	public UserDetails loadUserByEmail(String email) throws EmailNotFoundException {
@@ -54,6 +54,6 @@ public class UserDetailsServiceImpl implements UserDetailsService
 		}
 		User user = result.get();
 		logger.info("Retrieved " + user.toString() + " by email");
-		return new MyUserDetails(user);
+		return new UserDetailsImpl(user);
 	}
 }
