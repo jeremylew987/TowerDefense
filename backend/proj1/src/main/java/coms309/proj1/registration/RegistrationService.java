@@ -11,12 +11,11 @@ import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -24,8 +23,9 @@ public class RegistrationService {
 
     private final UserService userService;
     private final EmailValidator emailValidator;
-    private final ConfirmationTokenService confirmationTokenService;
     private final MailService mailService;
+
+    private ConfirmationTokenService confirmationTokenService;
 
     private final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 

@@ -1,5 +1,6 @@
 package coms309.proj1.security.config;
 
+import coms309.proj1.user.UserDetailsServiceImpl;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserService userService;
+    UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public UserDetailsService userDetailsService() {
-        return userService;
+        return userDetailsService;
     }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

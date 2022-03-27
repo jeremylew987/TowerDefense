@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final static String USERNAME_NOT_FOUND_MSG = "User %s does not exist";
     private final static String EMAIL_NOT_FOUND_MSG = "User with email %s does not exist";
@@ -27,84 +27,64 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserDetailsServiceImpl userDetailsService;
 
-//    @Autowired
-//    private final ConfirmationTokenService confirmationTokenService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private ConfirmationTokenService confirmationTokenService;
 
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
-
 
     public List<User> loadUsers() {
         logger.info("Entered into Service Layer");
         return userRepository.findAll();
     }
 
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("Entered into Service Layer");
-        Optional<User> result = userRepository.findByUsername(username);
-
-        if (result.isEmpty()) {
-            logger.warn("User [" + username + "] not found");
-            throw new UsernameNotFoundException(String.format(USERNAME_NOT_FOUND_MSG, username));
-        }
-        User user = result.get();
-        logger.info("Retrieved " + user.toString() + " by username");
-        return new MyUserDetails(user);
+        return userDetailsService.loadUserByUsername(username);
     }
 
     public UserDetails loadUserByEmail(String email) throws EmailNotFoundException {
-        logger.info("Entered into Service Layer");
-        Optional<User> result = userRepository.findByEmail(email);
-
-        if (result.isEmpty()) {
-            logger.warn(String.format(EMAIL_NOT_FOUND_MSG, email));
-            throw new EmailNotFoundException(String.format(EMAIL_NOT_FOUND_MSG, email));
-        }
-          User user = result.get();
-        logger.info("Retrieved " + user.toString() + " by email");
-        return new MyUserDetails(user);
+        return userDetailsService.loadUserByEmail(email);
     }
 
-//    public String registerUser(User user) {
-//        logger.info("Entered into Service Layer");
-//
-//        // continues if loadUser by Email & Username return not found.
-//        // Throws email or username taken exception if a user is returned
-//        try {
-//            UserDetails taken = loadUserByEmail(user.getEmail());
-//            logger.warn("Email is already registered to " + taken.getUsername());
-//            throw new EmailTakenException(user.getEmail() + " is already registered");
-//        } catch(EmailNotFoundException ignored) {
-//            logger.info("Email is not registered");
-//        }
-//        try {
-//            UserDetails taken = loadUserByUsername(user.getUsername());
-//            logger.warn("Username is already taken by " + user.toString());
-//            throw new UsernameTakenException(user.getUsername() + " is already taken");
-//        } catch(UsernameNotFoundException ignored) {
-//            logger.info("Username is not taken");
-//        }
-//
-//        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-//        user.setPassword(encodedPassword);
-//        userRepository.save(user);
-//        logger.info ("Saved user to database");
-//
-//        // TODO: Take token expire date from configuration
-//        String token = UUID.randomUUID().toString();
-//        ConfirmationToken confirmationToken = new ConfirmationToken(
-//                token,
-//                LocalDateTime.now(),
-//                LocalDateTime.now().plusMinutes(15),
-//                user
-//        );
-//        confirmationTokenService.saveConfirmationToken(confirmationToken);
-//        logger.info("Saved confirmation token");
-//        return token;
-//    }
+    public String registerUser(User user) {
+        logger.info("Entered into Service Layer");
+
+        // continues if loadUser by Email & Username return not found.
+        // Throws email or username taken exception if a user is returned
+        try {
+            UserDetails taken = userDetailsService.loadUserByEmail(user.getEmail());
+            logger.warn("Email is already registered to " + taken.getUsername());
+            throw new EmailTakenException(user.getEmail() + " is already registered");
+        } catch(EmailNotFoundException ignored) {
+            logger.info("Email is not registered");
+        }
+        try {
+            UserDetails taken = userDetailsService.loadUserByUsername(user.getUsername());
+            logger.warn("Username is already taken by " + user.toString());
+            throw new UsernameTakenException(user.getUsername() + " is already taken");
+        } catch(UsernameNotFoundException ignored) {
+            logger.info("Username is not taken");
+        }
+
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+        logger.info ("Saved user to database");
+
+        // TODO: Take token expire date from configuration
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        logger.info("Saved confirmation token");
+        return token;
+    }
 
 //    public boolean verifyUserByUsername(String username, String password) {
 //        logger.info("Entered into Service Layer");
