@@ -17,79 +17,57 @@ import java.io.StringWriter;
 public class ControllerExceptionAdvice
 {
 	/**
-	 * Helper method to generate response entity
-	 */
-	private ResponseEntity<ErrorResponse> createResponse(Exception e, HttpStatus status) {
-		if (ErrorResponse.getUseStackTrace()) {
-			String stackTrace = getStackTrace(e);
-			return new ResponseEntity<>(new ErrorResponse(status, e.getMessage(), stackTrace), status);
-		}
-		return new ResponseEntity<>(new ErrorResponse(status, e.getMessage()), status);
-	}
-
-	/**
-	 * Helper method to convert a stack trace to a string
-	 */
-	private String getStackTrace(Exception e) {
-		// convert stack trace to String
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		e.printStackTrace(printWriter);
-		return stringWriter.toString();
-	}
-
-	/**
 	 * Handles email not found exception
 	 */
 	@ExceptionHandler(EmailNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException e) {
+	public ResponseEntity<GeneralResponse> handleEmailNotFoundException(EmailNotFoundException e) {
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404 ()
-		return createResponse(e, status);
+		return new ResponseEntity<>(new GeneralResponse(status, e.getMessage()), status);
 	}
 
 	/**
 	 * Handles username not found exception
 	 */
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+	public ResponseEntity<GeneralResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404 ()
-		return createResponse(e, status);
+		return new ResponseEntity<>(new GeneralResponse(status, e.getMessage()), status);
 	}
 
 	/**
 	 * Handles invalid email addresses
 	 */
 	@ExceptionHandler(InvalidEmailException.class)
-	public ResponseEntity<ErrorResponse> handleInvalidEmailException(InvalidEmailException e) {
+	public ResponseEntity<GeneralResponse> handleInvalidEmailException(InvalidEmailException e) {
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.BAD_REQUEST; // 400 (Will not process request due to client error)
-		return createResponse(e, status);
+		return new ResponseEntity<>(new GeneralResponse(status, e.getMessage()), status);
 	}
 
 	/**
 	 * Handles null pointer exceptions (Test)
 	 */
 	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<ErrorResponse> handleNullPointerException(Exception e) {
+	public ResponseEntity<GeneralResponse> handleNullPointerException(Exception e) {
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.NOT_FOUND; // 404
-		return createResponse(e, status);
+		return new ResponseEntity<>(new GeneralResponse(status, e.getMessage()), status);
 	}
 
 	/**
 	 * Fallback exception handler for all exception types
 	 */
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleException(Exception e) {
+	public ResponseEntity<GeneralResponse> handleException(Exception e) {
 		// TODO: Custom logic
 
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 500
-		return createResponse(e, status);
+		return new ResponseEntity<>(new GeneralResponse(status, e.getMessage()), status);
 	}
 }
