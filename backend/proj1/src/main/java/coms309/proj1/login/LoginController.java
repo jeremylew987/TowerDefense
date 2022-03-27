@@ -16,12 +16,7 @@ public class LoginController {
     private LoginService loginService;
 
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-//    @PostMapping
-//    public ResponseEntity<ErrorResponse> loginRequest(@RequestBody LoginRequest request) {
-//        logger.info("Entered into Login Controller Layer");
-//        return loginService.login(request);
-//    }
+    
     @GetMapping
     public ResponseEntity<GeneralResponse> loginPage() {
         logger.info("Entered into Login Controller Layer");
