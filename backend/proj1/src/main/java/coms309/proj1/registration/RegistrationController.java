@@ -1,6 +1,8 @@
 package coms309.proj1.registration;
 
+import coms309.proj1.exception.GeneralResponse;
 import coms309.proj1.login.LoginException;
+import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.user.UserController;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -21,15 +23,18 @@ public class RegistrationController {
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<GeneralResponse> register(@RequestBody RegistrationRequest request) {
         logger.info("Entered into Registration Controller Layer");
-        return registrationService.register(request);
+        ConfirmationToken confirmationToken =  registrationService.register(request);
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Confirmation token created", confirmationToken), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/confirm")
-    public String confirm(@RequestParam("token") String token) {
+    public ResponseEntity<GeneralResponse> confirm(@RequestParam("token") String token) {
         logger.info("Entered into Registration Controller Layer");
-        return registrationService.confirmToken(token);
+        registrationService.confirmToken(token);
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Email verification complete"), HttpStatus.ACCEPTED);
+
     }
 
 }

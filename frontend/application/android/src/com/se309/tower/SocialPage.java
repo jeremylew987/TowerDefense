@@ -24,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Social extends AppCompatActivity {
+public class SocialPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,7 @@ package com.se309.net;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
 import com.android.volley.Request;
@@ -12,10 +13,14 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.se309.config.NetworkConfig;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 
 /**
  * NetworkManager.java
@@ -67,6 +72,8 @@ public class NetworkManager {
         // Start it up
         requestQueue.start();
 
+        //requestQueue = Volley.newRequestQueue(context);
+
     }
 
     /**
@@ -80,27 +87,20 @@ public class NetworkManager {
         return handle;
     }
 
-    /**
-     * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
-     * @param caller The thread calling this function
-     * @param resource
-     */
-    public void SendStringGET(final NetworkHandle caller, final String resource) {
+    public void SendStringPOST(Object post, final String endpoint, final NetworkResponse responseHandle) {
 
-        // After this function is called, the caller thread should .wait() until volley has finished it's request
-        // When that happens, the caller will be notified after it's response has been posted
-        StringRequest request = new StringRequest(Request.Method.GET, host + resource, new Response.Listener<String>() {
+        final String requestBody = serialize(post);
+
+        // This will simply send off a post
+        StringRequest request = new StringRequest(Request.Method.POST, host + endpoint, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
-                ResponseContainer container = new ResponseContainer(resource, false, null);
+                ResponseContainer container = new ResponseContainer(response.toString(), false, null);
 
-                caller.response = container;
+                responseHandle.onResponse(container);
 
-                synchronized (caller) {
-                    caller.notify();
-                }
             }
 
         }, new Response.ErrorListener() {
@@ -110,12 +110,62 @@ public class NetworkManager {
 
                 ResponseContainer container = new ResponseContainer(error.getMessage(), true, error);
 
-                synchronized (caller) {
-                    caller.notify();
+                responseHandle.onResponse(container);
+            }
+
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
                 }
             }
 
+
+        };
+
+        requestQueue.add(request);
+
+    }
+
+    /**
+     * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
+     */
+    public void SendStringGET(final Type ty, final String endpoint, final NetworkResponse responseHandle) {
+
+        // Send off the GET
+        StringRequest request = new StringRequest(Request.Method.GET, host + endpoint, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                ResponseContainer container = new ResponseContainer(deserialize(response.toString(), ty), false, null);
+
+                responseHandle.onResponse(container);
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ResponseContainer container = new ResponseContainer(error.getMessage(), true, error);
+
+                responseHandle.onResponse(container);
+            }
+
         });
+
+        requestQueue.add(request);
+
     }
 
     public String serialize(Object src) {

@@ -18,13 +18,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.se309.config.NetworkConfig;
+import com.se309.game.GameLauncher;
 import com.se309.net.NetworkManager;
 import com.se309.test.NetworkManagerTestBench;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class loginPage extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +43,20 @@ public class loginPage extends AppCompatActivity {
         // Get reference for debug button
         Button debug = findViewById(R.id.debugButton);
 
+
+
         // Create Click Listener for debug routine
         debug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Start debug tasks
 
                 System.out.println("Starting network tests...");
 
-                NetworkManagerTestBench.testNetworkFunctions(networkManager);
+                NetworkManagerTestBench.testNetworkFunctions(networkManager, LoginPage.this);
+
+                Intent intent = new Intent(getBaseContext(), GameLauncher.class);
+                startActivity(intent);
+
             }
         });
 
@@ -61,7 +67,7 @@ public class loginPage extends AppCompatActivity {
         if(!(usernameSave.equals("none") || passwordSave.equals("none"))) {
             username1.setText(usernameSave);
             password1.setText(passwordSave);
-            RequestQueue queue = Volley.newRequestQueue(loginPage.this);
+            RequestQueue queue = Volley.newRequestQueue(LoginPage.this);
             JSONObject data = new JSONObject();
             try {
                 data.put("username",usernameSave);
@@ -83,15 +89,15 @@ public class loginPage extends AppCompatActivity {
                     }
                     if(res.equals("true")) {
                         password1.setText(res);
-                        startActivity(new Intent(loginPage.this, HomePage.class));
+                        startActivity(new Intent(LoginPage.this, HomePage.class));
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    startActivity(new Intent(loginPage.this, HomePage.class));
+                    startActivity(new Intent(LoginPage.this, HomePage.class));
                     error.printStackTrace();
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginPage.this);
                     alertDialogBuilder.setTitle("Error");
                     alertDialogBuilder.setMessage(error.getMessage());
                     alertDialogBuilder.setPositiveButton("Ok", null);
@@ -110,7 +116,7 @@ public class loginPage extends AppCompatActivity {
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(loginPage.this, createLgoin.class));
+                startActivity(new Intent(LoginPage.this, CreateLoginPage.class));
             }});
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +128,7 @@ public class loginPage extends AppCompatActivity {
                 password1.setText(pass);
 
 
-                RequestQueue queue = Volley.newRequestQueue(loginPage.this);
+                RequestQueue queue = Volley.newRequestQueue(LoginPage.this);
                 JSONObject data = new JSONObject();
                 try {
                     data.put("email",name);
@@ -143,7 +149,7 @@ public class loginPage extends AppCompatActivity {
                             res = response.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginPage.this);
                             alertDialogBuilder.setTitle("Error");
                             alertDialogBuilder.setMessage("Bad USER OR PASS");
                             alertDialogBuilder.setPositiveButton("Ok", null);
@@ -158,7 +164,7 @@ public class loginPage extends AppCompatActivity {
                             username1.setText(mPrefs.getString("email","none"));
                             password1.setText(mPrefs.getString("password","none"));
                             password1.setText(res);
-                            startActivity(new Intent(loginPage.this, HomePage.class));
+                            startActivity(new Intent(LoginPage.this, HomePage.class));
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -166,7 +172,7 @@ public class loginPage extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(loginPage.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginPage.this);
                         alertDialogBuilder.setTitle("Error");
                         alertDialogBuilder.setMessage("Bad username or Password");
                         alertDialogBuilder.setPositiveButton("Ok", null);
@@ -187,4 +193,5 @@ public class loginPage extends AppCompatActivity {
 
 
     }
+
 }

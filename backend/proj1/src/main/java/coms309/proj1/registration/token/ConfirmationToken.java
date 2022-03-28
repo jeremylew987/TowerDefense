@@ -1,5 +1,6 @@
 package coms309.proj1.registration.token;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import coms309.proj1.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -28,9 +30,13 @@ public class ConfirmationToken {
 
     @Column(nullable = false)
     private String token;
-    private LocalDateTime createdAt;
-    private LocalDateTime expiredAt;
-    private LocalDateTime confirmedAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date expiredAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date confirmedAt;
 
     @ManyToOne
     @JoinColumn(
@@ -40,13 +46,13 @@ public class ConfirmationToken {
     private User user;
 
     public ConfirmationToken(String token,
-                             LocalDateTime createdAt,
-                             LocalDateTime expiredAt,
+                             Date createdAt,
+                             Date expiredAt,
                              User user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;
-        this.confirmedAt = confirmedAt;
+        this.confirmedAt = null;
         this.user = user;
     }
 }

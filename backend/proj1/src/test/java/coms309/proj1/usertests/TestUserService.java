@@ -3,10 +3,7 @@ package coms309.proj1.usertests;
 import coms309.proj1.exception.EmailNotFoundException;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
-import coms309.proj1.user.User;
-import coms309.proj1.user.UserRepository;
-import coms309.proj1.user.UserRole;
-import coms309.proj1.user.UserService;
+import coms309.proj1.user.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +31,9 @@ public class TestUserService
 	@Mock
 	UserRepository userRepository;
 
+	@InjectMocks
+	UserDetailsServiceImpl userDetailsService;
+
 	@Mock
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -58,10 +58,10 @@ public class TestUserService
 		// Test username exists
 		when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-		User user1 = (User) userService.loadUserByUsername(username);
+		UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
 
-		assertEquals(username, user1.getUsername());
-		assertEquals(email, user1.getEmail());
+		assertEquals(username, userDetails.getUsername());
+		assertEquals(email, userDetails.getEmail());
 	}
 
 	/**
@@ -83,10 +83,10 @@ public class TestUserService
 		// Test email exists
 		when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
-		User user1 = (User) userService.loadUserByEmail(email);
+		UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByEmail(email);
 
-		assertEquals(username, user1.getUsername());
-		assertEquals(email, user1.getEmail());
+		assertEquals(username, userDetails.getUsername());
+		assertEquals(email, userDetails.getEmail());
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class TestUserService
 		// Block is required for the mocking of the static method UUID.randomUUID()
 		try(MockedStatic<UUID> mockedUuid = mockStatic(UUID.class)) {
 			mockedUuid.when(UUID::randomUUID).thenReturn(defaultUuid);
-			String token = userService.registerUser(user);
+			//String token = userService.registerUser(user);
 			assertEquals(defaultUuid.toString(), UUID.randomUUID().toString());
 		}
 	}

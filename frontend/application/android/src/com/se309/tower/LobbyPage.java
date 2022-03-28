@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class lobby extends AppCompatActivity {
+public class LobbyPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
