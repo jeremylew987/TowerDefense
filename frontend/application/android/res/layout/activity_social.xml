@@ -2,57 +2,55 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/jgsdgjsdkgjsdk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
-    tools:context=".HomePage">
+    android:background="#03A9F4"
+    tools:context=".SocialPage">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/backSocial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Logout" />
+            android:text="Back" />
 
         <Button
-            android:id="@+id/Settings"
+            android:id="@+id/Friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Settings" />
+            android:backgroundTint="#B5B0B0"
+            android:state_pressed="true"
+            android:text="Friends" />
 
         <Button
-            android:id="@+id/Store"
+            android:id="@+id/RecentPlayers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Store" />
+            android:text="Recent Players" />
 
         <Button
-            android:id="@+id/Social"
+            android:id="@+id/Leaderboards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Social" />
+            android:text="Leaderboards" />
 
-        <Button
-            android:id="@+id/curUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout2"
+        android:layout_width="729dp"
         android:layout_height="353dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,42 +58,49 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <LinearLayout
-            android:layout_width="366dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/CreateGame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Create  Game" />
-
-            <EditText
-                android:id="@+id/GameCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Game Code" />
-
-            <Button
-                android:id="@+id/JoinGame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Join Game" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/friendRequest"
+            android:layout_width="361dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/FriendListHome"
+                android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Friends" />
+                android:text="Add Freind" />
+
+            <EditText
+                android:id="@+id/addFriendText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Friend Name"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/addFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friend Requests" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/friendList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friends List" />
         </LinearLayout>
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

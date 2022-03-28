@@ -17,13 +17,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails
-{
-
+public class User{
 
 	/**
 	 * Id marks userId as primary key for user table
@@ -54,11 +50,11 @@ public class User implements UserDetails
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private UserRole role;
+    private UserRole role;
 
-	private Boolean locked;
+	Boolean locked;
 
-	private Boolean enabled;
+	Boolean enabled;
 
 	/**
 	 * One instance of User can map to multiple instances of FriendRelationship
@@ -67,10 +63,8 @@ public class User implements UserDetails
 	 * orphanRemoval means removing from collection friends will remove the row from
 	 * 				 the friend relationship table.
 	 */
-	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)// cascade=CascadeType.ALL, orphanRemoval = true
-	//@JsonManagedReference
+	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("friends")
-	//@JsonIgnore
 	private List<FriendRelationship> friends = new ArrayList<FriendRelationship>();
 
 	public User(String username, String email, String password, UserRole role) {
@@ -82,57 +76,30 @@ public class User implements UserDetails
 		this.enabled = false;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority auth = new SimpleGrantedAuthority(role.name());
-		return Collections.singletonList(auth);
-	}
 
-	@Override
-	public String getPassword() {
-		return password;
-	}
+    public Long getId() {
+        return this.userId;
+    }
+    public String getPassword() {
+        return this.password;
+    }
+    public String getUsername() {
+        return this.username;
+    }
+    public String  getEmail() {
+        return this.email;
+    }
+    public UserRole getRole() { return this.role; }
 
-	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return !locked;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public void  setUsername(String username) {
+        this.username = username;
+    }
+    public void  setEmail(String email) {
+        this.email  = email;
+    }
 
 	@Override
 	public String toString() {

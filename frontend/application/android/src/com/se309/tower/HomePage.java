@@ -14,7 +14,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        Button back = findViewById(R.id.Back2);
+
         Button logout = findViewById(R.id.logout);
         final SharedPreferences mPrefs = getSharedPreferences("test",0);
         String usernameSave = mPrefs.getString("username","none");
@@ -24,16 +24,14 @@ public class HomePage extends AppCompatActivity {
             startActivity(new Intent(HomePage.this, loginPage.class));
         }
 */
-        TextView curUser = findViewById(R.id.curUser);
+        Button curUser = findViewById(R.id.curUser);
         curUser.setText(usernameSave);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                finish();
+        Button joinGame = findViewById(R.id.JoinGame);
+        Button createGame = findViewById(R.id.CreateGame);
+        Button social = findViewById(R.id.Social);
 
-            }});
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,9 +40,32 @@ public class HomePage extends AppCompatActivity {
                 SharedPreferences.Editor mEditor = mPrefs.edit();
                 mEditor.remove("username").commit();
                 mEditor.remove("password").commit();
-                startActivity(new Intent(HomePage.this, loginPage.class));
+                startActivity(new Intent(HomePage.this, LoginPage.class));
 
             }});
 
+        createGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePage.this, LobbyPage.class));
+
+            }});
+        joinGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView code = findViewById(R.id.GameCode);
+
+                SharedPreferences.Editor mEditor = mPrefs.edit();
+                mEditor.putString("gameCode", code.getText().toString()).commit();
+                startActivity(new Intent(HomePage.this, LobbyPage.class));
+
+            }});
+        social.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(HomePage.this, SocialPage.class));
+
+            }});
     }
 }
