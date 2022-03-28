@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,27 +53,31 @@ public class SocialPage extends AppCompatActivity {
             public void onClick(View view) {
                 String friendUsername = addFriendText.getText().toString();
                 String usernameSave = mPrefs.getString("username","none");
-                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/friends/" + usernameSave + "/"+friendUsername;
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/add" + usernameSave;
                 //call add friend command
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String res = "";
+                        JSONObject res = null;
                         try {
-                            res = response.getString("response");
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                            alertDialogBuilder.setTitle("response");
-                            alertDialogBuilder.setMessage(res);
+                            alertDialogBuilder.setTitle("Added User");
+                            alertDialogBuilder.setMessage("");
                             alertDialogBuilder.setPositiveButton("Ok", null);
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
+
                         } catch (JSONException e) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                            alertDialogBuilder.setTitle("Success");
-                            alertDialogBuilder.setMessage("Check your email");
-                            alertDialogBuilder.setPositiveButton("Ok", null);
-                            alertDialogBuilder.setNegativeButton("", null);
-                            alertDialogBuilder.create().show();
+
                         }
 
                     }
@@ -95,15 +100,21 @@ public class SocialPage extends AppCompatActivity {
         //call for friends TODO loop through using friend function
 
 
-        String usernameSave = mPrefs.getString("username","none");
-        String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/friends/" + usernameSave;
-        JsonArrayRequest FriendList = new JsonArrayRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONArray>() {
+       
+        String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends";
+        JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
                 Log.i("Response: " , response.toString());
+                JSONArray res = null;
+                try {
+                    res = response.getJSONArray("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 for (int i = 0; i < response.length(); i++) {
                     try {
-                        friend(response.getJSONObject(i));
+                        friend(res.getJSONObject(i));
                     } catch (Exception e){
                         e.printStackTrace();
                     }
