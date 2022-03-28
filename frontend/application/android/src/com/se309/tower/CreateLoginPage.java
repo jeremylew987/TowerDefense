@@ -66,17 +66,17 @@ public class CreateLoginPage extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 String res = "";
                 try {
-                    res = response.getString("response");
+                    res = response.getString("message");
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setTitle("");
                     alertDialogBuilder.setMessage(res);
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
                 } catch (JSONException e) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("Success");
-                    alertDialogBuilder.setMessage("Check your email");
+                    alertDialogBuilder.setTitle("error");
+                    alertDialogBuilder.setMessage("Issue completing the request");
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
