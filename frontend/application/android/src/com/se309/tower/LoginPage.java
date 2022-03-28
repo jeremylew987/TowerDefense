@@ -131,7 +131,7 @@ public class LoginPage extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(LoginPage.this);
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("email",name);
+                    data.put("username",name);
                     data.put("password",pass);
 
                 } catch (JSONException e) {
@@ -156,12 +156,12 @@ public class LoginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("Success")) {
+                        if(res.equals("Login Screen")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
                             password1.setText(res);
-                            username1.setText(mPrefs.getString("email","none"));
+                            username1.setText(mPrefs.getString("username","none"));
                             password1.setText(mPrefs.getString("password","none"));
                             password1.setText(res);
                             startActivity(new Intent(LoginPage.this, HomePage.class));

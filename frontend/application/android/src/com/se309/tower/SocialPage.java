@@ -30,7 +30,7 @@ public class SocialPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
-        final RequestQueue queue = Volley.newRequestQueue(Social.this);
+        final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
         final SharedPreferences mPrefs = getSharedPreferences("test",0);
 
 
@@ -60,14 +60,14 @@ public class SocialPage extends AppCompatActivity {
                         String res = "";
                         try {
                             res = response.getString("response");
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
                             alertDialogBuilder.setTitle("response");
                             alertDialogBuilder.setMessage(res);
                             alertDialogBuilder.setPositiveButton("Ok", null);
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         } catch (JSONException e) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
                             alertDialogBuilder.setTitle("Success");
                             alertDialogBuilder.setMessage("Check your email");
                             alertDialogBuilder.setPositiveButton("Ok", null);
@@ -81,7 +81,7 @@ public class SocialPage extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Social.this);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
                         alertDialogBuilder.setTitle("Error");
                         alertDialogBuilder.setMessage(error.getMessage());
                         alertDialogBuilder.setPositiveButton("Ok", null);
