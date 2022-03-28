@@ -100,7 +100,7 @@ public class SocialPage extends AppCompatActivity {
         //call for friends TODO loop through using friend function
 
 
-       
+
         String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends";
         JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONObject>() {
             @Override

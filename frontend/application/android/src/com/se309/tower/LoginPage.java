@@ -83,11 +83,11 @@ public class LoginPage extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     String res = "";
                     try {
-                        res = response.getString("response");
+                        res = response.getString("message");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(res.equals("true")) {
+                    if(res.equals("Login Success")) {
                         password1.setText(res);
                         startActivity(new Intent(LoginPage.this, HomePage.class));
                     }
@@ -156,7 +156,7 @@ public class LoginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("Login Screen")) {
+                        if(res.equals("Login Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
