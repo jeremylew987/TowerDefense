@@ -6,17 +6,13 @@ import coms309.proj1.registration.token.ConfirmationTokenService;
 import coms309.proj1.user.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,11 +24,11 @@ public class TestUserService
 	@InjectMocks
 	UserService userService;
 
-	@Mock
-	UserRepository userRepository;
-
 	@InjectMocks
 	UserDetailsServiceImpl userDetailsService;
+
+	@Mock
+	UserRepository userRepository;
 
 	@Mock
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -67,11 +63,12 @@ public class TestUserService
 	/**
 	 * Tests that the UsernameNotFoundException is thrown when a user is not found in userRepository
 	 */
+	@Test
 	public void loadNullUserByUsernameTest() {
 		// Test username does not exist
 		when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 		try {
-			userService.loadUserByUsername(username);
+			userDetailsService.loadUserByUsername(username);
 		} catch (UsernameNotFoundException e) {
 			return;
 		}
@@ -92,10 +89,11 @@ public class TestUserService
 	/**
 	 * Tests that the EmailNotFoundException is thrown when a user is not found in userRepository
 	 */
+	@Test
 	private void loadNullUserByEmailTest() {
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		try {
-			userService.loadUserByEmail(email);
+			userDetailsService.loadUserByEmail(email);
 		} catch (EmailNotFoundException e) {
 			return;
 		}
@@ -122,8 +120,9 @@ public class TestUserService
 		// Block is required for the mocking of the static method UUID.randomUUID()
 		try(MockedStatic<UUID> mockedUuid = mockStatic(UUID.class)) {
 			mockedUuid.when(UUID::randomUUID).thenReturn(defaultUuid);
-			//String token = userService.registerUser(user);
-			assertEquals(defaultUuid.toString(), UUID.randomUUID().toString());
+			ConfirmationToken token = userService.registerUser(user);
+			assertEquals(defaultUuid.toString(), token.getToken());
+			//assertEquals(defaultUuid.toString(), UUID.randomUUID().toString());
 		}
 	}
 
