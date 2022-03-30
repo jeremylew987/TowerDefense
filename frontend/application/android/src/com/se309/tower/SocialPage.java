@@ -136,7 +136,7 @@ public class SocialPage extends AppCompatActivity {
     }
 
 
-    private void friend(JSONObject friend){
+    public void friend(JSONObject friend){
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendList);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
 
