@@ -8,8 +8,6 @@ package com.se309.render;
 
 public class Element {
 
-
-
     private int x;
     private int y;
 
@@ -21,6 +19,19 @@ public class Element {
     public Element(int x, int y) {
         this.x = x;
         this.y = y;
+
+        orientation = Orientation.TopLeft;
+        width = 100;
+        height = 100;
+    }
+
+    public Element(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        orientation = Orientation.TopLeft;
     }
 
     public int getX() {
@@ -39,5 +50,27 @@ public class Element {
         this.y = y;
     }
 
+    public int getWidth() {
+        return width;
+    }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
 }

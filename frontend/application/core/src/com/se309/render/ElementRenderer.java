@@ -26,6 +26,21 @@ public class ElementRenderer {
 
         for (Element e : elements) {
 
+            // Do x,y calculations
+            int x = 0, y = 0;
+
+            if (e.getOrientation() == Orientation.TopLeft) {
+                x = e.getX();
+                y = e.getY();
+            }
+
+            // If it is a TextureElement...
+            if (e instanceof TextureElement) {
+                TextureElement es = (TextureElement) e;
+                batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
+            }
+
+
         }
 
     }
