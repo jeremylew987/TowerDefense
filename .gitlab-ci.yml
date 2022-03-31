@@ -39,5 +39,7 @@ maven-deploy:
     - sudo systemctl stop service-coms309-proj1.service
     - sudo systemctl start service-coms309-proj1.service
     - echo "Proj1 successfully deployed."
+  only:
+    - main
 
 
