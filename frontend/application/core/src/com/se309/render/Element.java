@@ -8,9 +8,15 @@ package com.se309.render;
 
 public class Element {
 
+
+
     private int x;
     private int y;
 
+    private int width;
+    private int height;
+
+    private Orientation orientation;
 
     public Element(int x, int y) {
         this.x = x;
@@ -32,4 +38,6 @@ public class Element {
     public void setY(int y) {
         this.y = y;
     }
+
+    
 }
