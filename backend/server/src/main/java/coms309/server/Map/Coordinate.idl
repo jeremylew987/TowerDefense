@@ -1,0 +1,9 @@
+namespace coms309.server;
+
+table Coordinate {
+    x:short;
+    y:short;
+    objID:long;
+    entityID:long;
+    ownerID:long;
+}

@@ -1,7 +1,0 @@
-PLAYER_JOIN,{UserObject user}
-PLAYER_LEFT,{UserObject user}
-JOIN_FAILURE
-CURR_PLAYER,{UserObject user}
-SAY,{String UserObject.name},{String message}
-ERR,{String error_message}
-SETGL,{<E> GameLobby},{}

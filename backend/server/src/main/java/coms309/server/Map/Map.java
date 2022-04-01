@@ -10,15 +10,13 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.Collection;
 
 public class Map {
 
     public String name;
     public int mapId;
     public Coordinate[][] grid;
-    public LinkedList<Coordinate> path;
-    public String imageUrl;
 
     public Map(int mapId) {
         loadMap(mapId);
@@ -52,25 +50,15 @@ public class Map {
         }
     }
 
-    public void placeObject(int objectId, int X, int Y) throws AlreadyOccupiedException, InvalidPositionException {
-        if (grid[X][Y].isOccupied()) {
+    public void placeObject(int playerId, int objectId, int X, int Y) throws AlreadyOccupiedException, InvalidPositionException {
+        if (grid[X][Y].getTower().getObjectId() < 2) {
             throw new AlreadyOccupiedException();
-        } if ( X >= this.grid.length || Y >= this.grid[0].length || X < 0 || Y < 0 ) {
-            throw new InvalidPositionException();
         } else {
-            grid[X][Y].setOccupied(true);
-            grid[X][Y].setObjectId(objectId);
+            this.grid[X][Y] = new Coordinate(X, Y, objectId, playerId);
         }
     }
 
     public void clearCoordinate() {
-        for ( int i = 0; i < grid.length; i++ ) {
-            for ( int j = 0; j < grid[0].length; j++ ) {
-                if (grid[i][j].getObjectId() > 1) {
-                    grid[i][j] = new Coordinate(0);
-                }
-            }
-        }
     }
 
 }

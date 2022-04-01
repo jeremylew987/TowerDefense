@@ -1,0 +1,30 @@
+[
+  {
+    "id":0,
+    "name": "Empty",
+    "range": null,
+    "damage": null,
+    "cooldown": null
+  },
+  {
+    "id":1,
+    "name": "Path",
+    "range": null,
+    "damage": null,
+    "cooldown": null
+  },
+  {
+    "id":2,
+    "name": "Melee",
+    "range": 1,
+    "damage": 1,
+    "cooldown": 20
+  },
+  {
+    "id":3,
+    "name": "Ranged",
+    "range": 6,
+    "damage": 1,
+    "cooldown": 40
+  }
+]

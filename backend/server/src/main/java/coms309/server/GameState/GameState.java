@@ -1,39 +1,41 @@
-package coms309.server;
+package coms309.server.GameState;
 
+import coms309.server.Connection;
 import coms309.server.Map.Map;
+import coms309.server.Server;
 
-import static coms309.server.GameLogic.Difficulty.MEDIUM;
-import static coms309.server.GameLogic.GameState.*;
+import static coms309.server.GameState.GameState.Difficulty.MEDIUM;
+import static coms309.server.GameState.GameState.GameTime.*;
 
-public class GameLogic {
+public class GameState {
 
     public enum Difficulty{
         EASY, MEDIUM, HARD
     }
 
-    public enum GameState {
+    public enum GameTime {
         PAUSED, IN_ROUND, END_OF_ROUND, GAME_OVER, NOT_STARTED
     }
 
     private Server server;
     private Connection[] clients;
     private Difficulty difficulty;
-    private GameState gameState;
+    private GameTime gameTime;
     private int round;
     private Map map;
 
-    public GameLogic(Server s, Connection[] clients) {
+    public GameState(Server s, Connection[] clients) {
         server = s;
-        gameState = NOT_STARTED;
+        gameTime = NOT_STARTED;
         this.clients = clients;
         difficulty = MEDIUM;
         round = 1;
         this.map = new Map(1);
     }
 
-    public GameLogic(Server s, Connection[] c, Difficulty diff, Map m) {
+    public GameState(Server s, Connection[] c, Difficulty diff, Map m) {
         server = s;
-        gameState = NOT_STARTED;
+        gameTime = NOT_STARTED;
         clients = c;
         difficulty = diff;
         round = 1;
@@ -46,8 +48,8 @@ public class GameLogic {
         return difficulty;
     }
 
-    public GameState getGameState() {
-        return gameState;
+    public GameTime getGameState() {
+        return gameTime;
     }
 
     public int getRound() {
@@ -90,34 +92,38 @@ public class GameLogic {
     public void startGame(int pid) { // gameState = IN_ROUND (if NOT_STARTED)
         if (!isAdmin(pid)) {
             clients[pid].writeTo("ERR,NOT_AUTH\n\r");
-        } else if (gameState != NOT_STARTED) {
+        } else if (gameTime != NOT_STARTED) {
             clients[pid].writeTo("ERR,INV_PARAM\n\r");
         } else {
-            this.gameState = IN_ROUND;
-            server.writeToAll("SETGL,STATE," + gameState.toString() + "\n\r");
+            this.gameTime = IN_ROUND;
+            server.writeToAll("SETGL,STATE," + gameTime.toString() + "\n\r");
         }
     }
 
     // NON-AUTHORIZED FUNCTIONS
 
     public void pauseGame(int pid) { // gameState = PAUSED
-        if (gameState != PAUSED) {
-            this.gameState = PAUSED;
-            server.writeToAll("SETGL,PAUSED," + gameState.toString() + "\n\r");
+        if (gameTime != PAUSED) {
+            this.gameTime = PAUSED;
+            server.writeToAll("SETGL,PAUSED," + gameTime.toString() + "\n\r");
         } else {
             clients[pid].writeTo("ERR,INV_PARAM\n\r");
         }
     }
 
     public void resumeGame(int pid) { // gameState = IN_ROUND (if PAUSED)
-        if (gameState != PAUSED) {
+        if (gameTime != PAUSED) {
             clients[pid].writeTo("ERR,INV_PARAM\n\r");
         } else {
-            this.gameState = PAUSED;
-            server.writeToAll("SETGL,IN_ROUND," + gameState.toString() + "\n\r");
+            this.gameTime = PAUSED;
+            server.writeToAll("SETGL,IN_ROUND," + gameTime.toString() + "\n\r");
         }
     }
 
     // GAME LOGIC FUNCTIONS
+
+    public void placeObj(int pid, int objId) {
+
+    }
 
 }

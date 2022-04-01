@@ -1,5 +1,7 @@
 package coms309.server;
 
+import coms309.server.GameState.GameState;
+
 import java.io.*;
 import java.net.*;
 
@@ -10,7 +12,7 @@ public class Server {
     private int currPlayer;
     private HttpURLConnection authServer;
     private Connection[] clients;
-    public GameLogic gameLogic;
+    public GameState gameLogic;
 
     public Server(int port, int maxPlayers) {
 
@@ -22,7 +24,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        gameLogic = new GameLogic(this, this.clients);
+        gameLogic = new GameState(this, this.clients);
         System.out.println("Server started on port: " + port);
     }
 

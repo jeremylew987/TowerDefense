@@ -120,6 +120,9 @@ public class Connection implements Runnable {
                                 break;
                             case "RESUME":
                                 this.server.gameLogic.resumeGame(this.pid);
+                                break;
+                            case "PLACE":
+                                this.server.gameLogic.placeObj(this.pid,Integer.parseInt(parsedOutput[2]));
                             default:
                                 break;
                         }
