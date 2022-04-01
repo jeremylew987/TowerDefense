@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -23,6 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setAuthenticationManager(authenticationManager());
+
         http.httpBasic()
                 .and()
                 .csrf().disable()
@@ -45,7 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
                     .deleteCookies("JSESSIONID")
-                    .permitAll();
+                    .permitAll()
+                    .and()
+                .addFilterAt(
+                        loginFilter,
+                        UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
