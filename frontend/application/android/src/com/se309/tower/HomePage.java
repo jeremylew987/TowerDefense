@@ -67,5 +67,12 @@ public class HomePage extends AppCompatActivity {
                 startActivity(new Intent(HomePage.this, SocialPage.class));
 
             }});
+        curUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(HomePage.this, ProfilePage.class));
+
+            }});
     }
 }
