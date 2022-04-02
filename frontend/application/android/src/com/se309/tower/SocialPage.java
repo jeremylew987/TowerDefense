@@ -1,6 +1,7 @@
 package com.se309.tower;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,14 @@ public class SocialPage extends AppCompatActivity {
             public void onClick(View view) {
 
                 finish();
+
+            }});
+        Button Leaderboards = findViewById(R.id.Leaderboards);
+        Leaderboards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(SocialPage.this, LeaderboardsPage.class));
 
             }});
 

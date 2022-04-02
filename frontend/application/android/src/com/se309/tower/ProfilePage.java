@@ -3,6 +3,8 @@ package com.se309.tower;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,7 +29,14 @@ public class ProfilePage extends AppCompatActivity {
         TextView Details = findViewById(R.id.ProfileDetails);
         Details.setText(GetProfileDetails());
 
+        Button back = findViewById(R.id.ProfileBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                finish();
+
+            }});
 
     }
 

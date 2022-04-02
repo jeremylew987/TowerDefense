@@ -13,6 +13,9 @@
         android:theme="@style/GdxTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".LeaderboardsPage"
+            android:exported="false" />
+        <activity
             android:name=".ProfilePage"
             android:exported="false"
             android:screenOrientation="landscape" />
