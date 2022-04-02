@@ -12,6 +12,7 @@ public class LeaderboardsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboards_page);
 
+        final Boolean[] FriendOnly = {false};
 
         Button back = findViewById(R.id.LeaderboardBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -21,7 +22,46 @@ public class LeaderboardsPage extends AppCompatActivity {
                 finish();
 
             }});
+        final Button Friend = findViewById(R.id.LeaderboardFriends);
+        Friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(FriendOnly[0]){
+                FriendOnly[0] = false;
+                Friend.setText("Friends only: OFF");
 
+            }
+            else {
+                FriendOnly[0] = true;
+                Friend.setText("Friends only: ON");
+            }
+
+
+            }});
+
+        Button Level = findViewById(R.id.LeaderboardLevel);
+        Button Round = findViewById(R.id.LeaderboardRound);
+        Level.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+setupLeaderList("Level");
+
+            }});
+        Round.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                setupLeaderList("Round");
+
+            }});
+
+
+    }
+
+    void setupLeaderList(String mode){
+
+        String address = "";
         
     }
 }
