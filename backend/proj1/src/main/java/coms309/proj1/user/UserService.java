@@ -53,7 +53,7 @@ public class UserService {
         return userDetailsService.loadUserByEmail(email);
     }
 
-    public ConfirmationToken registerUser(User user) {
+    public ConfirmationToken  registerUser(User user) {
         logger.info("Entered into Service Layer");
 
         // continues if loadUser by Email & Username return not found.
@@ -67,7 +67,7 @@ public class UserService {
         }
         try {
             UserDetails taken = userDetailsService.loadUserByUsername(user.getUsername());
-            logger.warn("Username is already taken by " + user.toString());
+            logger.warn("Username is already taken by " + taken.toString());
             throw new UsernameTakenException(user.getUsername() + " is already taken");
         } catch(UsernameNotFoundException ignored) {
             logger.info("Username is not taken");
