@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
+import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
 
 public class TowerDefense extends ApplicationAdapter {
@@ -56,9 +57,9 @@ public class TowerDefense extends ApplicationAdapter {
 		text.setOrientation(Orientation.MiddleLeft);
 		renderer.addElement(text);
 
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.Middle);
-		renderer.addElement(text);
+		TextElement textElement = new TextElement("Hello, world!", 0, 0);
+		textElement.setOrientation(Orientation.Middle);
+		renderer.addElement(textElement);
 
 	}
 

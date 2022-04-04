@@ -1,6 +1,7 @@
 package com.se309.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
@@ -15,8 +16,13 @@ public class ElementRenderer {
 
     private ArrayList<Element> elements;
 
+    private GlyphLayout layout;
+
     public ElementRenderer() {
         elements = new ArrayList<>();
+
+        // Layout for string width/height calculations
+        layout = new GlyphLayout();
     }
 
     /**
@@ -33,8 +39,16 @@ public class ElementRenderer {
             // Do x,y calculations
             int x = 0, y = 0;
 
-            // Preset width / height if relevent
-            
+            // Preset width / height if relevant
+            if (e instanceof TextElement) {
+                // TextElement width / height preset
+                TextElement es = (TextElement) e;
+
+                layout.setText(es.getFont(), es.getText());
+                es.setWidth((int) layout.width);
+                es.setHeight((int) layout.height);
+            }
+
 
             // Calculate X orientations
             if (e.getOrientation() == Orientation.TopLeft || e.getOrientation() == Orientation.MiddleLeft || e.getOrientation() == Orientation.BottomLeft) {
@@ -54,10 +68,16 @@ public class ElementRenderer {
                 y = (height / 2 - e.getHeight() / 2) - e.getY();
             }
 
-            // If it is a TextureElement...
+
             if (e instanceof TextureElement) {
+                // If it is a TextureElement...
                 TextureElement es = (TextureElement) e;
                 batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
+            } else if (e instanceof  TextElement) {
+                // If it is a TextElement...
+                TextElement es = (TextElement) e;
+
+                es.getFont().draw(batch, es.getText(), x, y);
             }
 
 
