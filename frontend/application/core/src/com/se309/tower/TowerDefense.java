@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.se309.render.ElementRenderer;
+import com.se309.render.Orientation;
 import com.se309.render.TextureElement;
 
 public class TowerDefense extends ApplicationAdapter {
@@ -23,7 +24,41 @@ public class TowerDefense extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		renderer.addElement(new TextureElement(img, 0, 0));
+		TextureElement text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.TopLeft);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.TopMiddle);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.TopRight);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.MiddleRight);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.BottomRight);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.BottomMiddle);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.BottomLeft);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.MiddleLeft);
+		renderer.addElement(text);
+
+		text = new TextureElement(img, 0, 0);
+		text.setOrientation(Orientation.Middle);
+		renderer.addElement(text);
 
 	}
 
@@ -31,7 +66,7 @@ public class TowerDefense extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
-		//batch.draw(img, 0, 0);
+
 		renderer.render(batch);
 
 		batch.end();
