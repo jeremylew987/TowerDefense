@@ -2,6 +2,12 @@ package com.se309.render;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+/**
+ * TextElement.java
+ *
+ * Allows for strings to be rendered as elements
+ */
+
 public class TextElement extends Element{
 
     private String text;

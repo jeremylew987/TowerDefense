@@ -9,6 +9,12 @@ import com.se309.render.Orientation;
 import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
 
+/**
+ * TowerDefense.java
+ *
+ * Main entry point to LibGDX project
+ */
+
 public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
