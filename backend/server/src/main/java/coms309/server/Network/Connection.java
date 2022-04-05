@@ -1,11 +1,13 @@
-package coms309.server;
+package coms309.server.Network;
 
+import coms309.server.Server;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 public class Connection implements Runnable {
 
@@ -16,18 +18,16 @@ public class Connection implements Runnable {
     public boolean validated;
     public boolean isAlive;
 
-    private String authServerLocation = "http://localhost:8080";//"http://coms-309-027.class.las.iastate.edu:8080";
-    private String authToken;
+    private final String authServerLocation = "http://localhost:8080"; //"http://coms-309-027.class.las.iastate.edu:8080";
 
     // user credentials
     public int pid;
     public JsonObject userObject;
 
     public Connection(Socket s, int id, Server server) {
-        this.server = server;
         this.socket = s;
+        this.server = server;
         this.pid = id;
-        this.authServerLocation = authServerLocation;
         this.isAlive = true;
         try {
             // Establish data in & out connection
@@ -40,11 +40,10 @@ public class Connection implements Runnable {
 
     public boolean validateUser() {
         try {
-            this.writeTo("AWAIT_TOKEN\0");
             // Authenticate user with Auth server
             BufferedReader clientReader = new BufferedReader(
                     new InputStreamReader(dataIn));
-            this.authToken = clientReader.readLine();
+            String authToken = clientReader.readLine();
 
             // Form HTTP Request
             String url = authServerLocation + "/user/verifyUser";
@@ -63,10 +62,8 @@ public class Connection implements Runnable {
             JsonObject userObject = reader.readObject();
             reader.close();
 
-            System.out.println("Player with ID:" + this.pid + " has been successfully authenticated");
             this.validated = true;
         } catch (IOException ex) {
-            System.out.println("Player with ID:" + this.pid + " has failed to authenticate: " + ex.getMessage());
             this.validated = false;
         }
         return validated;
@@ -97,62 +94,38 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         while (this.isAlive) {
-
             try {
                 Scanner scanner = new Scanner(new InputStreamReader(dataIn, "UTF-8"));
                 scanner.useDelimiter("\n\r");
-                String parsedOutput[] = scanner.nextLine().split(",",2);
-                switch (parsedOutput[0])
-                {
-                    case "SAY":
-                        this.server.writeToAll("[" + userObject.getString("username") + "]: " + parsedOutput[1] + "\n\r");
-                        break;
-                    case "SETGL":
-                        switch (parsedOutput[1]) {
-                            case "DIFF":
-                                this.server.gameLogic.setDifficulty(this.pid,parsedOutput[2]);
-                                break;
-                            case "MAP":
-                                this.server.gameLogic.setMap(this.pid, Integer.parseInt(parsedOutput[2]));
-                                break;
-                            case "PAUSE":
-                                this.server.gameLogic.pauseGame(this.pid);
-                                break;
-                            case "RESUME":
-                                this.server.gameLogic.resumeGame(this.pid);
-                                break;
-                            case "PLACE":
-                                this.server.gameLogic.placeObj(this.pid,Integer.parseInt(parsedOutput[2]));
-                            default:
-                                break;
-                        }
-                    default:
-                        break;
-                }
+                scanner.nextLine();
             } catch (Exception ex) {
-                this.close();
+                kill("LOST_CONN");
             }
         }
     }
 
-    public boolean writeTo(String s) {
+    public void write(byte[] data) {
         try {
-            this.dataOut.writeUTF(s);
+            this.dataOut.write(data);
             this.dataOut.flush();
-        } catch (IOException ex) {
-            return false;
+        } catch (IOException e) {
+            kill("LOST_CONN");
         }
-        return true;
     }
-
-    public void close() {
-        System.out.println("Player with ID:" + this.pid + " has disconnected.");
-        server.writeToAll("PLAYER_LEFT," + pid + "\n\r");
-        this.isAlive = false;
+    public void kill(String reason) {
         try {
+            Message m = new Message(
+                    "Server",
+                    "DISCONNECT",
+                    "" + reason
+            );
+            this.write(m.serialize());
             this.socket.close();
-        } catch (IOException ex) {
-            System.out.println("Player with ID:" + this.pid + " has disconnected before a proper connection has been formed.");
+        } catch (IOException e) {
+            server.logger.log(Level.INFO, this.socket.getRemoteSocketAddress().toString() + " disconnected prematurely.");
+        } finally {
+            server.logger.log(Level.INFO, this.socket.getRemoteSocketAddress().toString() + " lost connection: DISCONNECT." + reason);
         }
+        this.isAlive = false;
     }
 }

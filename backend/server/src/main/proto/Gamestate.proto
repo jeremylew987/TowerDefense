@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package coms309.server;
+
+option java_multiple_files = true;
+option java_package = "coms309.server.Schema";
+option java_outer_classname = "GamestateProto";
+
+message GamestateSchema {
+  optional uint32 difficulty = 1;
+  optional uint32 status = 2;
+  optional uint32 map = 3;
+  optional uint32 round = 4;
+
+  message Player {
+    optional int32 pid = 1;
+    optional string id = 2;
+  }
+
+  repeated Player players = 5;
+}
