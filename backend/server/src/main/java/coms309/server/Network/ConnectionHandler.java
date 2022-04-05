@@ -1,5 +1,6 @@
 package coms309.server.Network;
 
+import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
 import coms309.server.Server;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ConnectionHandler {
         }
     }
 
-    public void writeToAll(byte[] data) {
+    public void writeToAll(DataObjectSchema data) {
         for (int i = 0; i < server.getMaxPlayers(); i++) {
             if (clients[i] == null || !clients[i].isValidated() || !clients[i].isAlive()) {
                 continue;
@@ -88,6 +89,11 @@ public class ConnectionHandler {
                                 .setId(clients[i].getUserObject().getInt("userId")));
             }
         }
-        writeToAll(gs.build().toByteArray());
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp(0)
+                        .setGamestate(gs.build())
+                        .build();
+        writeToAll(d);
     }
 }

@@ -1,23 +1,30 @@
 package coms309.server;
 
+import com.google.protobuf.BlockingService;
+import com.google.protobuf.Service;
 import coms309.server.GameLogic.GameState.GameState;
 import coms309.server.Network.ConnectionHandler;
+
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
 
     private ServerSocket socket;
+    private String address;
     private int maxPlayers;
     private GameState gamestate;
     private ConnectionHandler connectionHandler;
     public final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public Server(int port, int maxPlayers) {
+    public Server(String address, int port, int maxPlayers) {
+        this.address = address;
         this.maxPlayers = maxPlayers;
         try {
+            // Establish Server Socket
             socket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,7 +54,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server(25565, 4);
+        Server server = new Server("localhost", 25565, 4);
         server.connectionHandler.awaitNewConnections();
     }
 

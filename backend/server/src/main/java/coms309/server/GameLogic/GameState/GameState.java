@@ -1,6 +1,7 @@
 package coms309.server.GameLogic.GameState;
 
 import coms309.server.GameLogic.Map.Map;
+import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Server;
 import coms309.server.Schema.GamestateSchema;
 
@@ -39,44 +40,68 @@ public class GameState {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-        GamestateSchema.Builder gs =
-                GamestateSchema.newBuilder()
-                        .setDifficulty(difficulty);
-        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp('0')
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setDifficulty(difficulty)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Difficulty has been set to " + difficulty);
     }
     public void setMap(int map) {
         this.map.loadMap(map);
-        GamestateSchema.Builder gs =
-                GamestateSchema.newBuilder()
-                        .setMap(map);
-        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp('0')
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setMap(map)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Map has been set to " + map);
     }
     public void setStatus(int status) {
         this.status = status;
-        GamestateSchema.Builder gs =
-                GamestateSchema.newBuilder()
-                        .setStatus(status);
-        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp('0')
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setStatus(status)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Status has been set to " + status);
     }
     public void setRound(int round) {
         this.round = round;
-        GamestateSchema.Builder gs =
-                GamestateSchema.newBuilder()
-                        .setRound(round);
-        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp('0')
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setRound(round)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
-    public byte[] serialize() {
-        GamestateSchema gs =
-                GamestateSchema.newBuilder()
-                        .setDifficulty(difficulty)
-                        .setStatus(status)
-                        .setMap(map.getMapId())
-                        .setRound(round)
-                        .build();
-        return gs.toByteArray();
+    public DataObjectSchema serialize() {
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setTimestamp('0')
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setDifficulty(difficulty)
+                                        .setStatus(status)
+                                        .setMap(map.getMapId())
+                                        .setRound(round)
+                                        .build()
+                        ).build();
+        return d;
     }
 }

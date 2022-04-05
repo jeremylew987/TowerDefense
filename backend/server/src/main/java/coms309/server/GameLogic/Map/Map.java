@@ -1,6 +1,6 @@
 package coms309.server.GameLogic.Map;
 
-import coms309.server.GameLogic.Exceptions.AlreadyOccupiedException;
+import coms309.server.GameLogic.Exceptions.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

@@ -1,11 +1,18 @@
 package coms309.server.Network;
 
+import com.google.protobuf.ByteString;
+import coms309.server.Schema.DataObjectSchema;
+import coms309.server.Schema.GamestateSchema;
+import coms309.server.Schema.MessageSchema;
 import coms309.server.Server;
+import org.junit.runner.Request;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -154,22 +161,53 @@ public class Connection implements Runnable {
 
         while (this.isAlive) {
             try {
-                Scanner scanner = new Scanner(new InputStreamReader(dataIn, "UTF-8"));
-                scanner.useDelimiter("\n\r");
-                scanner.nextLine();
+                read();
             } catch (Exception ex) {
-                kill("LOST_CONN");
+                kill("LOST_CONNECTION");
             }
         }
     }
-    public void write(byte[] data) {
+
+    public void write(DataObjectSchema data) {
         try {
-            this.dataOut.write(data);
-            this.dataOut.flush();
+            data.writeDelimitedTo(dataOut);
         } catch (IOException e) {
-            kill("LOST_CONN");
+            kill("LOST_CONNECTION");
         }
     }
+
+    public void read() throws IOException {
+        DataObjectSchema data =
+                DataObjectSchema.parseDelimitedFrom(dataIn);
+
+        switch (data.getDataCase()) {
+            case ENTITY:
+                // Receive commands for entities
+                break;
+            case GAMESTATE:
+                GamestateSchema g = data.getGamestate();
+                if (g.hasMap()) {
+                    server.getGamestate().setMap(g.getMap());
+                }
+                if (g.hasDifficulty()) {
+                    server.getGamestate().setDifficulty(g.getDifficulty());
+                }
+                if (g.hasStatus()) {
+                    server.getGamestate().setStatus(g.getStatus());
+                }
+                break;
+            case MESSAGE:
+                Message m = new Message(data.getMessage());
+                if (!userObject.getString("username").equals(m.author)) {
+                    server.logger.log(Level.WARNING, "Message author and client details do not match!");
+                    m.author = userObject.getString("username");
+                }
+                server.getConnectionHandler().writeToAll(data); // relay chat to users
+                server.logger.log(Level.INFO, m.toString());
+                break;
+        }
+    }
+
     public void kill(String reason) {
         this.isAlive = false;
         try {
