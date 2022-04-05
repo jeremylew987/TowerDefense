@@ -1,5 +1,7 @@
 package com.se309.net;
 
+import android.content.Context;
+
 import java.lang.reflect.Type;
 
 /**
@@ -11,7 +13,7 @@ import java.lang.reflect.Type;
 public class NetworkHandle {
 
     // Incoming objects
-    private String defaultResource;
+    private String defaultEndpoint;
     private NetworkManager parentManager;
 
     // Reply switch
@@ -19,33 +21,19 @@ public class NetworkHandle {
 
     /**
      * Spawned from NetworkManager, provides an abstract interface to the networking components.
-     * @param defaultResource
+     * @param defaultEndpoint the default endpoint
      */
-    public NetworkHandle(String defaultResource, NetworkManager parentManager) {
+    public NetworkHandle(String defaultEndpoint, NetworkManager parentManager) {
 
         // Save local instances
-        this.defaultResource = defaultResource;
+        this.defaultEndpoint = defaultEndpoint;
         this.parentManager = parentManager;
     }
 
-    public Object get(Type ty) throws RequestException {
-        synchronized(this) {
-            try {
-                parentManager.SendStringGET(this, defaultResource);
+    public void get(Type ty, NetworkResponse response) {
 
-                this.wait();
-            } catch (InterruptedException e) {
-                throw new RequestException(e.getMessage());
-            }
+        parentManager.SendStringGET(ty, defaultEndpoint, response);
 
-            // If there is an error, throw it
-            if (response.isError()) throw new RequestException(response.getBody(), response.getError());
-
-            // Otherwise, extract body and deserialize
-            String body = response.getBody();
-
-            return parentManager.deserialize(body, ty);
-        }
     }
 
 
@@ -53,12 +41,12 @@ public class NetworkHandle {
      * Getter-ville
      */
 
-    public String getDefaultResource() {
-        return defaultResource;
+    public String getDefaultEndpoint() {
+        return defaultEndpoint;
     }
 
-    public void setDefaultResource(String defaultResource) {
-        this.defaultResource = defaultResource;
+    public void setDefaultEndpoint(String defaultEndpoint) {
+        this.defaultEndpoint = defaultEndpoint;
     }
 
     public NetworkManager getParentManager() {
