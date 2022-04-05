@@ -15,7 +15,6 @@ public  final class MessageSchema extends
     super(builder);
   }
   private MessageSchema() {
-    date_ = 0L;
     author_ = "";
     code_ = "";
     message_ = "";
@@ -49,26 +48,21 @@ public  final class MessageSchema extends
             }
             break;
           }
-          case 8: {
+          case 10: {
+            com.google.protobuf.ByteString bs = input.readBytes();
             bitField0_ |= 0x00000001;
-            date_ = input.readInt64();
+            author_ = bs;
             break;
           }
           case 18: {
             com.google.protobuf.ByteString bs = input.readBytes();
             bitField0_ |= 0x00000002;
-            author_ = bs;
+            code_ = bs;
             break;
           }
           case 26: {
             com.google.protobuf.ByteString bs = input.readBytes();
             bitField0_ |= 0x00000004;
-            code_ = bs;
-            break;
-          }
-          case 34: {
-            com.google.protobuf.ByteString bs = input.readBytes();
-            bitField0_ |= 0x00000008;
             message_ = bs;
             break;
           }
@@ -97,31 +91,16 @@ public  final class MessageSchema extends
   }
 
   private int bitField0_;
-  public static final int DATE_FIELD_NUMBER = 1;
-  private long date_;
+  public static final int AUTHOR_FIELD_NUMBER = 1;
+  private volatile java.lang.Object author_;
   /**
-   * <code>required int64 date = 1;</code>
+   * <code>required string author = 1;</code>
    */
-  public boolean hasDate() {
+  public boolean hasAuthor() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>required int64 date = 1;</code>
-   */
-  public long getDate() {
-    return date_;
-  }
-
-  public static final int AUTHOR_FIELD_NUMBER = 2;
-  private volatile java.lang.Object author_;
-  /**
-   * <code>required string author = 2;</code>
-   */
-  public boolean hasAuthor() {
-    return ((bitField0_ & 0x00000002) == 0x00000002);
-  }
-  /**
-   * <code>required string author = 2;</code>
+   * <code>required string author = 1;</code>
    */
   public java.lang.String getAuthor() {
     java.lang.Object ref = author_;
@@ -138,7 +117,7 @@ public  final class MessageSchema extends
     }
   }
   /**
-   * <code>required string author = 2;</code>
+   * <code>required string author = 1;</code>
    */
   public com.google.protobuf.ByteString
       getAuthorBytes() {
@@ -154,16 +133,16 @@ public  final class MessageSchema extends
     }
   }
 
-  public static final int CODE_FIELD_NUMBER = 3;
+  public static final int CODE_FIELD_NUMBER = 2;
   private volatile java.lang.Object code_;
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   public boolean hasCode() {
-    return ((bitField0_ & 0x00000004) == 0x00000004);
+    return ((bitField0_ & 0x00000002) == 0x00000002);
   }
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   public java.lang.String getCode() {
     java.lang.Object ref = code_;
@@ -180,7 +159,7 @@ public  final class MessageSchema extends
     }
   }
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   public com.google.protobuf.ByteString
       getCodeBytes() {
@@ -196,16 +175,16 @@ public  final class MessageSchema extends
     }
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 4;
+  public static final int MESSAGE_FIELD_NUMBER = 3;
   private volatile java.lang.Object message_;
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   public boolean hasMessage() {
-    return ((bitField0_ & 0x00000008) == 0x00000008);
+    return ((bitField0_ & 0x00000004) == 0x00000004);
   }
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   public java.lang.String getMessage() {
     java.lang.Object ref = message_;
@@ -222,7 +201,7 @@ public  final class MessageSchema extends
     }
   }
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   public com.google.protobuf.ByteString
       getMessageBytes() {
@@ -244,10 +223,6 @@ public  final class MessageSchema extends
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
-    if (!hasDate()) {
-      memoizedIsInitialized = 0;
-      return false;
-    }
     if (!hasAuthor()) {
       memoizedIsInitialized = 0;
       return false;
@@ -267,16 +242,13 @@ public  final class MessageSchema extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeInt64(1, date_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, author_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, author_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, code_);
     }
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, code_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, message_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
     }
     unknownFields.writeTo(output);
   }
@@ -287,17 +259,13 @@ public  final class MessageSchema extends
 
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, date_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, author_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, author_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, code_);
     }
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, code_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, message_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -316,11 +284,6 @@ public  final class MessageSchema extends
     coms309.server.Schema.MessageSchema other = (coms309.server.Schema.MessageSchema) obj;
 
     boolean result = true;
-    result = result && (hasDate() == other.hasDate());
-    if (hasDate()) {
-      result = result && (getDate()
-          == other.getDate());
-    }
     result = result && (hasAuthor() == other.hasAuthor());
     if (hasAuthor()) {
       result = result && getAuthor()
@@ -347,11 +310,6 @@ public  final class MessageSchema extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    if (hasDate()) {
-      hash = (37 * hash) + DATE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getDate());
-    }
     if (hasAuthor()) {
       hash = (37 * hash) + AUTHOR_FIELD_NUMBER;
       hash = (53 * hash) + getAuthor().hashCode();
@@ -482,14 +440,12 @@ public  final class MessageSchema extends
     }
     public Builder clear() {
       super.clear();
-      date_ = 0L;
-      bitField0_ = (bitField0_ & ~0x00000001);
       author_ = "";
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000001);
       code_ = "";
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000002);
       message_ = "";
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -517,17 +473,13 @@ public  final class MessageSchema extends
       if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
         to_bitField0_ |= 0x00000001;
       }
-      result.date_ = date_;
+      result.author_ = author_;
       if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
         to_bitField0_ |= 0x00000002;
       }
-      result.author_ = author_;
+      result.code_ = code_;
       if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
         to_bitField0_ |= 0x00000004;
-      }
-      result.code_ = code_;
-      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-        to_bitField0_ |= 0x00000008;
       }
       result.message_ = message_;
       result.bitField0_ = to_bitField0_;
@@ -572,21 +524,18 @@ public  final class MessageSchema extends
 
     public Builder mergeFrom(coms309.server.Schema.MessageSchema other) {
       if (other == coms309.server.Schema.MessageSchema.getDefaultInstance()) return this;
-      if (other.hasDate()) {
-        setDate(other.getDate());
-      }
       if (other.hasAuthor()) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         author_ = other.author_;
         onChanged();
       }
       if (other.hasCode()) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         code_ = other.code_;
         onChanged();
       }
       if (other.hasMessage()) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         message_ = other.message_;
         onChanged();
       }
@@ -596,9 +545,6 @@ public  final class MessageSchema extends
     }
 
     public final boolean isInitialized() {
-      if (!hasDate()) {
-        return false;
-      }
       if (!hasAuthor()) {
         return false;
       }
@@ -630,47 +576,15 @@ public  final class MessageSchema extends
     }
     private int bitField0_;
 
-    private long date_ ;
+    private java.lang.Object author_ = "";
     /**
-     * <code>required int64 date = 1;</code>
+     * <code>required string author = 1;</code>
      */
-    public boolean hasDate() {
+    public boolean hasAuthor() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 date = 1;</code>
-     */
-    public long getDate() {
-      return date_;
-    }
-    /**
-     * <code>required int64 date = 1;</code>
-     */
-    public Builder setDate(long value) {
-      bitField0_ |= 0x00000001;
-      date_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>required int64 date = 1;</code>
-     */
-    public Builder clearDate() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      date_ = 0L;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object author_ = "";
-    /**
-     * <code>required string author = 2;</code>
-     */
-    public boolean hasAuthor() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required string author = 2;</code>
+     * <code>required string author = 1;</code>
      */
     public java.lang.String getAuthor() {
       java.lang.Object ref = author_;
@@ -687,7 +601,7 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string author = 2;</code>
+     * <code>required string author = 1;</code>
      */
     public com.google.protobuf.ByteString
         getAuthorBytes() {
@@ -703,36 +617,36 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string author = 2;</code>
+     * <code>required string author = 1;</code>
      */
     public Builder setAuthor(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
       author_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>required string author = 2;</code>
+     * <code>required string author = 1;</code>
      */
     public Builder clearAuthor() {
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000001);
       author_ = getDefaultInstance().getAuthor();
       onChanged();
       return this;
     }
     /**
-     * <code>required string author = 2;</code>
+     * <code>required string author = 1;</code>
      */
     public Builder setAuthorBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
       author_ = value;
       onChanged();
       return this;
@@ -740,13 +654,13 @@ public  final class MessageSchema extends
 
     private java.lang.Object code_ = "";
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public boolean hasCode() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public java.lang.String getCode() {
       java.lang.Object ref = code_;
@@ -763,7 +677,7 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCodeBytes() {
@@ -779,36 +693,36 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public Builder setCode(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000002;
       code_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public Builder clearCode() {
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000002);
       code_ = getDefaultInstance().getCode();
       onChanged();
       return this;
     }
     /**
-     * <code>required string code = 3;</code>
+     * <code>required string code = 2;</code>
      */
     public Builder setCodeBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000002;
       code_ = value;
       onChanged();
       return this;
@@ -816,13 +730,13 @@ public  final class MessageSchema extends
 
     private java.lang.Object message_ = "";
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public boolean hasMessage() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -839,7 +753,7 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -855,36 +769,36 @@ public  final class MessageSchema extends
       }
     }
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public Builder setMessage(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000004;
       message_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public Builder clearMessage() {
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000004);
       message_ = getDefaultInstance().getMessage();
       onChanged();
       return this;
     }
     /**
-     * <code>required string message = 4;</code>
+     * <code>required string message = 3;</code>
      */
     public Builder setMessageBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000004;
       message_ = value;
       onChanged();
       return this;

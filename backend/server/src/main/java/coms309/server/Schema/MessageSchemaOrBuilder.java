@@ -8,52 +8,43 @@ public interface MessageSchemaOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>required int64 date = 1;</code>
-   */
-  boolean hasDate();
-  /**
-   * <code>required int64 date = 1;</code>
-   */
-  long getDate();
-
-  /**
-   * <code>required string author = 2;</code>
+   * <code>required string author = 1;</code>
    */
   boolean hasAuthor();
   /**
-   * <code>required string author = 2;</code>
+   * <code>required string author = 1;</code>
    */
   java.lang.String getAuthor();
   /**
-   * <code>required string author = 2;</code>
+   * <code>required string author = 1;</code>
    */
   com.google.protobuf.ByteString
       getAuthorBytes();
 
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   boolean hasCode();
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   java.lang.String getCode();
   /**
-   * <code>required string code = 3;</code>
+   * <code>required string code = 2;</code>
    */
   com.google.protobuf.ByteString
       getCodeBytes();
 
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   boolean hasMessage();
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   java.lang.String getMessage();
   /**
-   * <code>required string message = 4;</code>
+   * <code>required string message = 3;</code>
    */
   com.google.protobuf.ByteString
       getMessageBytes();

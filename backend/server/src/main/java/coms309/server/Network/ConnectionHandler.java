@@ -8,18 +8,21 @@ import java.util.logging.Level;
 
 public class ConnectionHandler {
 
-    public Server server;
-    public Connection[] clients;
+    private Server server;
+    private Connection[] clients;
     private int playerIterator;
 
     public ConnectionHandler(Server server) {
         this.server = server;
-        this.clients = new Connection[4];
+        this.clients = new Connection[server.getMaxPlayers()];
+        for (int i = 0; i < clients.length; i++){
+            this.clients[i] = null;
+        }
     }
 
     public void writeToAll(byte[] data) {
-        for (int i = 0; i <= playerIterator; i++) {
-            if (clients[i] == null) {
+        for (int i = 0; i < server.getMaxPlayers(); i++) {
+            if (clients[i] == null || !clients[i].isValidated() || !clients[i].isAlive()) {
                 continue;
             }
             clients[i].write(data);
@@ -27,63 +30,64 @@ public class ConnectionHandler {
     }
 
     public void updateConnectionStatus() {
+        boolean playerChanged = false;
         GamestateSchema.Builder gs = GamestateSchema.newBuilder();
-        for (int i = 0; i < playerIterator; i++) {
+        for (int i = 0; i < server.getMaxPlayers(); i++) {
             if (clients[i] == null) { continue; }
-            if (!clients[i].isAlive) {
+            if (!clients[i].isAlive()) {
                 clients[i] = null;
-                playerIterator--;
-            } else {
-                gs.addPlayers(
-                        GamestateSchema.Player.newBuilder()
-                                .setPid(i)
-                                .setId((String) clients[i].userObject.getString("id")));
             }
         }
-        writeToAll(gs.build().toByteArray());
     }
 
-    public void waitForPlayers() {
+    public void awaitNewConnections() {
+        playerIterator = 0;
         try {
             // wait until max players have connected
-            while (playerIterator < server.maxPlayers) {
-                // 1. See if client spot is already filled
-                if (clients[playerIterator] != null) {
-                    playerIterator++;
-                    continue;
+            while (playerIterator < server.getMaxPlayers()) {
+                updateConnectionStatus();
+                boolean hasEmpty = false;
+                boolean hasUnverified = false;
+
+                // find next empty spot
+                for (int i = 0; i < server.getMaxPlayers(); i++) {
+                    if (clients[i] == null) { // if array item is null
+                        playerIterator = i; // set iterator to null object id to fill array fully
+                        hasEmpty = true;
+                        break;
+                    } else if (!clients[i].isValidated()) { hasUnverified = true; }
                 }
 
-                // 2. Accept new connection
-                Socket s = server.socket.accept();
-                updateConnectionStatus();
-                server.logger.log(Level.INFO, s.getRemoteSocketAddress().toString() + " is attempting to connect.");
+                // breakthrough statement (when all users are connected)
+                if (!hasEmpty) {
+                    if (hasUnverified) { continue; }
+                    break;
+                }
+
+                // accept new connection
+                Socket s = server.getSocket().accept();
                 Connection c = new Connection(s, playerIterator, server);
                 clients[playerIterator] = c;
-
-                // 3. Validate user with authentication server
-                if (c.validateUser()) {
-                    // start new thread
-                    Thread t = new Thread(c);
-                    t.start();
-                } else {
-                    c.kill("AUTH_FAILED");
-                    playerIterator--;
-                }
-                playerIterator++;
-
-                // 4. Check if all users are connected
-                if (playerIterator == server.maxPlayers) {
-                    updateConnectionStatus(); // GET: Update status
-                    for (int i = 1; i < server.maxPlayers; i++) {
-                        if (clients[i] == null) { // if array item is null
-                            playerIterator = i; // set iterator to null object id to fill array fully
-                        }
-                    }
-                }
+                server.logger.log(Level.INFO, c.getAddress() + " is attempting to connect.");
+                c.setThread(new Thread(c));
+                c.getThread().start();
             }
-            server.gamestate.setStatus(1);
+            server.getGamestate().setStatus(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void announcePlayers() {
+        GamestateSchema.Builder gs = GamestateSchema.newBuilder();
+        for (int i = 0; i < server.getMaxPlayers(); i++) {
+            if (clients[i] != null && clients[i].isValidated() && clients[i].isAlive()) {
+                gs.addPlayers(
+                        GamestateSchema.Player.newBuilder()
+                                .setPid(i)
+                                .setId(clients[i].getUserObject().getInt("userId")));
+            }
+        }
+        writeToAll(gs.build().toByteArray());
     }
 }

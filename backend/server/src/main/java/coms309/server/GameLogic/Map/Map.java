@@ -1,14 +1,11 @@
 package coms309.server.GameLogic.Map;
 
-import coms309.server.Exceptions.AlreadyOccupiedException;
+import coms309.server.GameLogic.Exceptions.AlreadyOccupiedException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class Map {
 
@@ -66,6 +63,10 @@ public class Map {
 
     public int getMapId() {
         return this.mapId;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

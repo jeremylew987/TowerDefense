@@ -7,12 +7,12 @@ import java.io.FileReader;
 
 public class Entity {
 
-    public int x, y;
-    public int objectId;
+    private int x, y;
+    private int objectId;
 
     // Load from database
-    public String name;
-    public int range, damage, cooldown;
+    private String name;
+    private int range, damage, cooldown;
 
     public Entity(int objectId, int x, int y) {
         this.x = x; this.y = y;
@@ -41,7 +41,49 @@ public class Entity {
         }
     }
 
+    public int getX() {
+        return x;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public int getObjectId() {
-        return this.objectId;
+        return objectId;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRange() {
+        return range;
+    }
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
     }
 }

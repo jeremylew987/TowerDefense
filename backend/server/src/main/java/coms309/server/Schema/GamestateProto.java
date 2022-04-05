@@ -37,8 +37,8 @@ public final class GamestateProto {
       "mestateSchema\022\022\n\ndifficulty\030\001 \001(\r\022\016\n\006sta" +
       "tus\030\002 \001(\r\022\013\n\003map\030\003 \001(\r\022\r\n\005round\030\004 \001(\r\0227\n" +
       "\007players\030\005 \003(\0132&.coms309.server.Gamestat" +
-      "eSchema.Player\032!\n\006Player\022\013\n\003pid\030\001 \001(\005\022\n\n" +
-      "\002id\030\002 \001(\tB)\n\025coms309.server.SchemaB\016Game" +
+      "eSchema.Player\032!\n\006Player\022\013\n\003pid\030\001 \001(\r\022\n\n" +
+      "\002id\030\002 \001(\004B)\n\025coms309.server.SchemaB\016Game" +
       "stateProtoP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =

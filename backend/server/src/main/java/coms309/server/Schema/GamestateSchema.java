@@ -111,27 +111,22 @@ public  final class GamestateSchema extends
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 pid = 1;</code>
+     * <code>optional uint32 pid = 1;</code>
      */
     boolean hasPid();
     /**
-     * <code>optional int32 pid = 1;</code>
+     * <code>optional uint32 pid = 1;</code>
      */
     int getPid();
 
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional uint64 id = 2;</code>
      */
     boolean hasId();
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional uint64 id = 2;</code>
      */
-    java.lang.String getId();
-    /**
-     * <code>optional string id = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getIdBytes();
+    long getId();
   }
   /**
    * Protobuf type {@code coms309.server.GamestateSchema.Player}
@@ -146,7 +141,7 @@ public  final class GamestateSchema extends
     }
     private Player() {
       pid_ = 0;
-      id_ = "";
+      id_ = 0L;
     }
 
     @java.lang.Override
@@ -179,13 +174,12 @@ public  final class GamestateSchema extends
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              pid_ = input.readInt32();
+              pid_ = input.readUInt32();
               break;
             }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 16: {
               bitField0_ |= 0x00000002;
-              id_ = bs;
+              id_ = input.readUInt64();
               break;
             }
           }
@@ -216,58 +210,31 @@ public  final class GamestateSchema extends
     public static final int PID_FIELD_NUMBER = 1;
     private int pid_;
     /**
-     * <code>optional int32 pid = 1;</code>
+     * <code>optional uint32 pid = 1;</code>
      */
     public boolean hasPid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional int32 pid = 1;</code>
+     * <code>optional uint32 pid = 1;</code>
      */
     public int getPid() {
       return pid_;
     }
 
     public static final int ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object id_;
+    private long id_;
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional uint64 id = 2;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional uint64 id = 2;</code>
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          id_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string id = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getId() {
+      return id_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -283,10 +250,10 @@ public  final class GamestateSchema extends
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, pid_);
+        output.writeUInt32(1, pid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, id_);
+        output.writeUInt64(2, id_);
       }
       unknownFields.writeTo(output);
     }
@@ -298,10 +265,11 @@ public  final class GamestateSchema extends
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, pid_);
+          .computeUInt32Size(1, pid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, id_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, id_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -327,8 +295,8 @@ public  final class GamestateSchema extends
       }
       result = result && (hasId() == other.hasId());
       if (hasId()) {
-        result = result && getId()
-            .equals(other.getId());
+        result = result && (getId()
+            == other.getId());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -347,7 +315,8 @@ public  final class GamestateSchema extends
       }
       if (hasId()) {
         hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getId().hashCode();
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getId());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -469,7 +438,7 @@ public  final class GamestateSchema extends
         super.clear();
         pid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = "";
+        id_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -549,9 +518,7 @@ public  final class GamestateSchema extends
           setPid(other.getPid());
         }
         if (other.hasId()) {
-          bitField0_ |= 0x00000002;
-          id_ = other.id_;
-          onChanged();
+          setId(other.getId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -583,19 +550,19 @@ public  final class GamestateSchema extends
 
       private int pid_ ;
       /**
-       * <code>optional int32 pid = 1;</code>
+       * <code>optional uint32 pid = 1;</code>
        */
       public boolean hasPid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int32 pid = 1;</code>
+       * <code>optional uint32 pid = 1;</code>
        */
       public int getPid() {
         return pid_;
       }
       /**
-       * <code>optional int32 pid = 1;</code>
+       * <code>optional uint32 pid = 1;</code>
        */
       public Builder setPid(int value) {
         bitField0_ |= 0x00000001;
@@ -604,7 +571,7 @@ public  final class GamestateSchema extends
         return this;
       }
       /**
-       * <code>optional int32 pid = 1;</code>
+       * <code>optional uint32 pid = 1;</code>
        */
       public Builder clearPid() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -613,78 +580,34 @@ public  final class GamestateSchema extends
         return this;
       }
 
-      private java.lang.Object id_ = "";
+      private long id_ ;
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional uint64 id = 2;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional uint64 id = 2;</code>
        */
-      public java.lang.String getId() {
-        java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            id_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getId() {
+        return id_;
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional uint64 id = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getIdBytes() {
-        java.lang.Object ref = id_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          id_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       */
-      public Builder setId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setId(long value) {
+        bitField0_ |= 0x00000002;
         id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional uint64 id = 2;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = getDefaultInstance().getId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       */
-      public Builder setIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        id_ = value;
+        id_ = 0L;
         onChanged();
         return this;
       }

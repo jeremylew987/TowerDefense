@@ -42,7 +42,7 @@ public class GameState {
         GamestateSchema.Builder gs =
                 GamestateSchema.newBuilder()
                         .setDifficulty(difficulty);
-        server.connectionHandler.writeToAll(gs.build().toByteArray());
+        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
         server.logger.log(Level.INFO, "Difficulty has been set to " + difficulty);
     }
     public void setMap(int map) {
@@ -50,7 +50,7 @@ public class GameState {
         GamestateSchema.Builder gs =
                 GamestateSchema.newBuilder()
                         .setMap(map);
-        server.connectionHandler.writeToAll(gs.build().toByteArray());
+        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
         server.logger.log(Level.INFO, "Map has been set to " + map);
     }
     public void setStatus(int status) {
@@ -58,7 +58,7 @@ public class GameState {
         GamestateSchema.Builder gs =
                 GamestateSchema.newBuilder()
                         .setStatus(status);
-        server.connectionHandler.writeToAll(gs.build().toByteArray());
+        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
         server.logger.log(Level.INFO, "Status has been set to " + status);
     }
     public void setRound(int round) {
@@ -66,7 +66,7 @@ public class GameState {
         GamestateSchema.Builder gs =
                 GamestateSchema.newBuilder()
                         .setRound(round);
-        server.connectionHandler.writeToAll(gs.build().toByteArray());
+        server.getConnectionHandler().writeToAll(gs.build().toByteArray());
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
     public byte[] serialize() {

@@ -13,22 +13,30 @@ public class Connection implements Runnable {
 
     private Server server;
     private Socket socket;
+    private Thread thread;
+
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
-    public boolean validated;
-    public boolean isAlive;
+    private boolean validated;
+    private boolean isAlive;
+    private String address;
 
     private final String authServerLocation = "http://localhost:8080"; //"http://coms-309-027.class.las.iastate.edu:8080";
 
     // user credentials
-    public int pid;
-    public JsonObject userObject;
+    private int playerId;
+    private JsonObject userObject;
 
-    public Connection(Socket s, int id, Server server) {
-        this.socket = s;
+    public Connection(Socket socket, int id, Server server) {
+        this.socket = socket;
+        this.thread = thread;
         this.server = server;
-        this.pid = id;
+        this.address = socket.getRemoteSocketAddress().toString();
+
+        this.playerId = id;
         this.isAlive = true;
+        this.validated = false;
+
         try {
             // Establish data in & out connection
             dataIn = new DataInputStream(socket.getInputStream());
@@ -36,6 +44,44 @@ public class Connection implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Server getServer() {
+        return server;
+    }
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public void setThread(Thread thread) { this.thread = thread; }
+    public Thread getThread() { return this.thread; }
+
+    public DataInputStream getDataIn() {
+        return dataIn;
+    }
+    public DataOutputStream getDataOut() {
+        return dataOut;
+    }
+
+    public String getAddress() {return address;}
+    public boolean isValidated() {
+        return validated;
+    }
+    public boolean isAlive() {
+        return isAlive;
+    }
+    public int getPlayerId() {
+        return playerId;
+    }
+    public JsonObject getUserObject() {
+        return userObject;
+    }
+    public Socket getSocket() {
+        return this.socket;
     }
 
     public boolean validateUser() {
@@ -59,16 +105,14 @@ public class Connection implements Runnable {
             JsonReader reader = Json.createReader(new StringReader(response));
 
             // Save user object
-            JsonObject userObject = reader.readObject();
+            userObject = reader.readObject();
             reader.close();
-
             this.validated = true;
         } catch (IOException ex) {
             this.validated = false;
         }
         return validated;
     }
-
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -93,6 +137,21 @@ public class Connection implements Runnable {
 
     @Override
     public void run() {
+        // authenticate user
+        if (validateUser()) {
+            Message m = new Message(
+                    "Server",
+                    "SUCCESS",
+                    "AUTH_SUCCESS"
+            );
+            write(m.serialize());
+            server.logger.log(
+                    Level.INFO,
+                    userObject.getString("username") + "(" + address + ") has connected."
+            );
+            server.getConnectionHandler().announcePlayers();
+        } else { kill("AUTH_FAILED"); }
+
         while (this.isAlive) {
             try {
                 Scanner scanner = new Scanner(new InputStreamReader(dataIn, "UTF-8"));
@@ -103,7 +162,6 @@ public class Connection implements Runnable {
             }
         }
     }
-
     public void write(byte[] data) {
         try {
             this.dataOut.write(data);
@@ -113,19 +171,13 @@ public class Connection implements Runnable {
         }
     }
     public void kill(String reason) {
+        this.isAlive = false;
         try {
-            Message m = new Message(
-                    "Server",
-                    "DISCONNECT",
-                    "" + reason
-            );
-            this.write(m.serialize());
             this.socket.close();
         } catch (IOException e) {
-            server.logger.log(Level.INFO, this.socket.getRemoteSocketAddress().toString() + " disconnected prematurely.");
-        } finally {
-            server.logger.log(Level.INFO, this.socket.getRemoteSocketAddress().toString() + " lost connection: DISCONNECT." + reason);
+            server.logger.log(Level.INFO, address + " disconnected without warning.");
         }
-        this.isAlive = false;
+        server.logger.log(Level.INFO, address + " lost connection: DISCONNECT." + reason);
+        server.getConnectionHandler().announcePlayers();
     }
 }

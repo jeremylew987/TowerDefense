@@ -13,8 +13,8 @@ message GamestateSchema {
   optional uint32 round = 4;
 
   message Player {
-    optional int32 pid = 1;
-    optional string id = 2;
+    optional uint32 pid = 1;
+    optional uint64 id = 2;
   }
 
   repeated Player players = 5;
