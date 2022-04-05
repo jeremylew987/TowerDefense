@@ -1,8 +1,11 @@
-package coms309.server;
+package coms309.server.Demo;
 
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import coms309.server.Network.Message;
 import coms309.server.Schema.DataObjectSchema;
+import coms309.server.Schema.GamestateSchema;
+import org.junit.internal.runners.statements.RunAfters;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 public class Demo {
     public static void main(String[] args) {
@@ -18,28 +22,19 @@ public class Demo {
             Socket s = new Socket();
             SocketAddress socketAddress = new InetSocketAddress("localhost", 25565);
             s.connect(socketAddress);
-            DataInputStream dataIn = new DataInputStream(s.getInputStream());
-            DataOutputStream dataOut = new DataOutputStream(s.getOutputStream());
 
-            dataOut.writeChars("e31499d5-85bb-4520-bfc2-81b239c3f2f1\n");
-            dataOut.flush();
-
-            DataObjectSchema objType =
-                    DataObjectSchema.parseDelimitedFrom(dataIn);
+            Client c = new Client(s);
+            Thread t = new Thread(c);
+            t.start();
 
             Scanner sc = new Scanner(System.in);
-            while ( true ) {
-                Message m = new Message(
-                        "ben",
-                        "CHAT",
-                        sc.nextLine()
-                );
-                m.serialize().writeDelimitedTo(dataOut);
-                dataOut.flush();
+            while (true) {
+                String input = sc.nextLine();
+                c.write(input);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }
+

@@ -48,21 +48,21 @@ public final class DataObjectProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020DataObject.proto\022\016coms309.server\"\305\001\n\020D" +
-      "ataObjectSchema\022\021\n\ttimestamp\030\001 \002(\003\0224\n\tga" +
-      "mestate\030\002 \001(\0132\037.coms309.server.Gamestate" +
-      "SchemaH\000\0220\n\007message\030\003 \001(\0132\035.coms309.serv" +
-      "er.MessageSchemaH\000\022.\n\006entity\030\004 \001(\0132\034.com" +
-      "s309.server.EntitySchemaH\000B\006\n\004data\"\255\001\n\017G" +
-      "amestateSchema\022\022\n\ndifficulty\030\001 \001(\r\022\016\n\006st" +
-      "atus\030\002 \001(\r\022\013\n\003map\030\003 \001(\r\022\r\n\005round\030\004 \001(\r\0227" +
-      "\n\007players\030\005 \003(\0132&.coms309.server.Gamesta" +
-      "teSchema.Player\032!\n\006Player\022\013\n\003pid\030\001 \001(\r\022\n",
-      "\n\002id\030\002 \001(\004\">\n\rMessageSchema\022\016\n\006author\030\001 " +
-      "\001(\t\022\014\n\004code\030\002 \002(\t\022\017\n\007message\030\003 \002(\t\"G\n\014En" +
-      "titySchema\022\t\n\001x\030\001 \002(\r\022\t\n\001y\030\002 \002(\r\022\020\n\010obje" +
-      "ctId\030\003 \002(\r\022\017\n\007ownerId\030\004 \002(\rB*\n\025coms309.s" +
-      "erver.SchemaB\017DataObjectProtoP\001"
+      "\n\020DataObject.proto\022\016coms309.server\"\262\001\n\020D" +
+      "ataObjectSchema\0224\n\tgamestate\030\001 \001(\0132\037.com" +
+      "s309.server.GamestateSchemaH\000\0220\n\007message" +
+      "\030\002 \001(\0132\035.coms309.server.MessageSchemaH\000\022" +
+      ".\n\006entity\030\003 \001(\0132\034.coms309.server.EntityS" +
+      "chemaH\000B\006\n\004data\"\255\001\n\017GamestateSchema\022\022\n\nd" +
+      "ifficulty\030\001 \001(\r\022\016\n\006status\030\002 \001(\r\022\013\n\003map\030\003" +
+      " \001(\r\022\r\n\005round\030\004 \001(\r\0227\n\007players\030\005 \003(\0132&.c" +
+      "oms309.server.GamestateSchema.Player\032!\n\006" +
+      "Player\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\">\n\rMessa",
+      "geSchema\022\016\n\006author\030\001 \001(\t\022\014\n\004code\030\002 \002(\t\022\017" +
+      "\n\007message\030\003 \002(\t\"G\n\014EntitySchema\022\t\n\001x\030\001 \002" +
+      "(\r\022\t\n\001y\030\002 \002(\r\022\020\n\010objectId\030\003 \002(\r\022\017\n\007owner" +
+      "Id\030\004 \002(\rB*\n\025coms309.server.SchemaB\017DataO" +
+      "bjectProtoP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81,7 +81,7 @@ public final class DataObjectProto {
     internal_static_coms309_server_DataObjectSchema_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_DataObjectSchema_descriptor,
-        new java.lang.String[] { "Timestamp", "Gamestate", "Message", "Entity", "Data", });
+        new java.lang.String[] { "Gamestate", "Message", "Entity", "Data", });
     internal_static_coms309_server_GamestateSchema_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_coms309_server_GamestateSchema_fieldAccessorTable = new

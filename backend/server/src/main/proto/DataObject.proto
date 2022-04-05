@@ -7,11 +7,10 @@ option java_package = "coms309.server.Schema";
 option java_outer_classname = "DataObjectProto";
 
 message DataObjectSchema {
-  required int64 timestamp = 1;
   oneof data {
-    GamestateSchema gamestate = 2;
-    MessageSchema message = 3;
-    EntitySchema entity = 4;
+    GamestateSchema gamestate = 1;
+    MessageSchema message = 2;
+    EntitySchema entity = 3;
   }
 }
 message GamestateSchema {

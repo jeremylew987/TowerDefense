@@ -15,7 +15,6 @@ public  final class DataObjectSchema extends
     super(builder);
   }
   private DataObjectSchema() {
-    timestamp_ = 0L;
   }
 
   @java.lang.Override
@@ -46,14 +45,9 @@ public  final class DataObjectSchema extends
             }
             break;
           }
-          case 8: {
-            bitField0_ |= 0x00000001;
-            timestamp_ = input.readInt64();
-            break;
-          }
-          case 18: {
+          case 10: {
             coms309.server.Schema.GamestateSchema.Builder subBuilder = null;
-            if (dataCase_ == 2) {
+            if (dataCase_ == 1) {
               subBuilder = ((coms309.server.Schema.GamestateSchema) data_).toBuilder();
             }
             data_ =
@@ -62,12 +56,12 @@ public  final class DataObjectSchema extends
               subBuilder.mergeFrom((coms309.server.Schema.GamestateSchema) data_);
               data_ = subBuilder.buildPartial();
             }
-            dataCase_ = 2;
+            dataCase_ = 1;
             break;
           }
-          case 26: {
+          case 18: {
             coms309.server.Schema.MessageSchema.Builder subBuilder = null;
-            if (dataCase_ == 3) {
+            if (dataCase_ == 2) {
               subBuilder = ((coms309.server.Schema.MessageSchema) data_).toBuilder();
             }
             data_ =
@@ -76,12 +70,12 @@ public  final class DataObjectSchema extends
               subBuilder.mergeFrom((coms309.server.Schema.MessageSchema) data_);
               data_ = subBuilder.buildPartial();
             }
-            dataCase_ = 3;
+            dataCase_ = 2;
             break;
           }
-          case 34: {
+          case 26: {
             coms309.server.Schema.EntitySchema.Builder subBuilder = null;
-            if (dataCase_ == 4) {
+            if (dataCase_ == 3) {
               subBuilder = ((coms309.server.Schema.EntitySchema) data_).toBuilder();
             }
             data_ =
@@ -90,7 +84,7 @@ public  final class DataObjectSchema extends
               subBuilder.mergeFrom((coms309.server.Schema.EntitySchema) data_);
               data_ = subBuilder.buildPartial();
             }
-            dataCase_ = 4;
+            dataCase_ = 3;
             break;
           }
         }
@@ -122,9 +116,9 @@ public  final class DataObjectSchema extends
   private java.lang.Object data_;
   public enum DataCase
       implements com.google.protobuf.Internal.EnumLite {
-    GAMESTATE(2),
-    MESSAGE(3),
-    ENTITY(4),
+    GAMESTATE(1),
+    MESSAGE(2),
+    ENTITY(3),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -140,9 +134,9 @@ public  final class DataObjectSchema extends
 
     public static DataCase forNumber(int value) {
       switch (value) {
-        case 2: return GAMESTATE;
-        case 3: return MESSAGE;
-        case 4: return ENTITY;
+        case 1: return GAMESTATE;
+        case 2: return MESSAGE;
+        case 3: return ENTITY;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -158,94 +152,79 @@ public  final class DataObjectSchema extends
         dataCase_);
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 1;
-  private long timestamp_;
+  public static final int GAMESTATE_FIELD_NUMBER = 1;
   /**
-   * <code>required int64 timestamp = 1;</code>
-   */
-  public boolean hasTimestamp() {
-    return ((bitField0_ & 0x00000001) == 0x00000001);
-  }
-  /**
-   * <code>required int64 timestamp = 1;</code>
-   */
-  public long getTimestamp() {
-    return timestamp_;
-  }
-
-  public static final int GAMESTATE_FIELD_NUMBER = 2;
-  /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
    */
   public boolean hasGamestate() {
+    return dataCase_ == 1;
+  }
+  /**
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
+   */
+  public coms309.server.Schema.GamestateSchema getGamestate() {
+    if (dataCase_ == 1) {
+       return (coms309.server.Schema.GamestateSchema) data_;
+    }
+    return coms309.server.Schema.GamestateSchema.getDefaultInstance();
+  }
+  /**
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
+   */
+  public coms309.server.Schema.GamestateSchemaOrBuilder getGamestateOrBuilder() {
+    if (dataCase_ == 1) {
+       return (coms309.server.Schema.GamestateSchema) data_;
+    }
+    return coms309.server.Schema.GamestateSchema.getDefaultInstance();
+  }
+
+  public static final int MESSAGE_FIELD_NUMBER = 2;
+  /**
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
+   */
+  public boolean hasMessage() {
     return dataCase_ == 2;
   }
   /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
    */
-  public coms309.server.Schema.GamestateSchema getGamestate() {
+  public coms309.server.Schema.MessageSchema getMessage() {
     if (dataCase_ == 2) {
-       return (coms309.server.Schema.GamestateSchema) data_;
+       return (coms309.server.Schema.MessageSchema) data_;
     }
-    return coms309.server.Schema.GamestateSchema.getDefaultInstance();
+    return coms309.server.Schema.MessageSchema.getDefaultInstance();
   }
   /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
    */
-  public coms309.server.Schema.GamestateSchemaOrBuilder getGamestateOrBuilder() {
+  public coms309.server.Schema.MessageSchemaOrBuilder getMessageOrBuilder() {
     if (dataCase_ == 2) {
-       return (coms309.server.Schema.GamestateSchema) data_;
+       return (coms309.server.Schema.MessageSchema) data_;
     }
-    return coms309.server.Schema.GamestateSchema.getDefaultInstance();
+    return coms309.server.Schema.MessageSchema.getDefaultInstance();
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 3;
+  public static final int ENTITY_FIELD_NUMBER = 3;
   /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
-  public boolean hasMessage() {
+  public boolean hasEntity() {
     return dataCase_ == 3;
   }
   /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
-   */
-  public coms309.server.Schema.MessageSchema getMessage() {
-    if (dataCase_ == 3) {
-       return (coms309.server.Schema.MessageSchema) data_;
-    }
-    return coms309.server.Schema.MessageSchema.getDefaultInstance();
-  }
-  /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
-   */
-  public coms309.server.Schema.MessageSchemaOrBuilder getMessageOrBuilder() {
-    if (dataCase_ == 3) {
-       return (coms309.server.Schema.MessageSchema) data_;
-    }
-    return coms309.server.Schema.MessageSchema.getDefaultInstance();
-  }
-
-  public static final int ENTITY_FIELD_NUMBER = 4;
-  /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
-   */
-  public boolean hasEntity() {
-    return dataCase_ == 4;
-  }
-  /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
   public coms309.server.Schema.EntitySchema getEntity() {
-    if (dataCase_ == 4) {
+    if (dataCase_ == 3) {
        return (coms309.server.Schema.EntitySchema) data_;
     }
     return coms309.server.Schema.EntitySchema.getDefaultInstance();
   }
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
   public coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder() {
-    if (dataCase_ == 4) {
+    if (dataCase_ == 3) {
        return (coms309.server.Schema.EntitySchema) data_;
     }
     return coms309.server.Schema.EntitySchema.getDefaultInstance();
@@ -257,10 +236,6 @@ public  final class DataObjectSchema extends
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
-    if (!hasTimestamp()) {
-      memoizedIsInitialized = 0;
-      return false;
-    }
     if (hasMessage()) {
       if (!getMessage().isInitialized()) {
         memoizedIsInitialized = 0;
@@ -279,17 +254,14 @@ public  final class DataObjectSchema extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeInt64(1, timestamp_);
+    if (dataCase_ == 1) {
+      output.writeMessage(1, (coms309.server.Schema.GamestateSchema) data_);
     }
     if (dataCase_ == 2) {
-      output.writeMessage(2, (coms309.server.Schema.GamestateSchema) data_);
+      output.writeMessage(2, (coms309.server.Schema.MessageSchema) data_);
     }
     if (dataCase_ == 3) {
-      output.writeMessage(3, (coms309.server.Schema.MessageSchema) data_);
-    }
-    if (dataCase_ == 4) {
-      output.writeMessage(4, (coms309.server.Schema.EntitySchema) data_);
+      output.writeMessage(3, (coms309.server.Schema.EntitySchema) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -299,21 +271,17 @@ public  final class DataObjectSchema extends
     if (size != -1) return size;
 
     size = 0;
-    if (((bitField0_ & 0x00000001) == 0x00000001)) {
+    if (dataCase_ == 1) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, timestamp_);
+        .computeMessageSize(1, (coms309.server.Schema.GamestateSchema) data_);
     }
     if (dataCase_ == 2) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, (coms309.server.Schema.GamestateSchema) data_);
+        .computeMessageSize(2, (coms309.server.Schema.MessageSchema) data_);
     }
     if (dataCase_ == 3) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, (coms309.server.Schema.MessageSchema) data_);
-    }
-    if (dataCase_ == 4) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(4, (coms309.server.Schema.EntitySchema) data_);
+        .computeMessageSize(3, (coms309.server.Schema.EntitySchema) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -332,24 +300,19 @@ public  final class DataObjectSchema extends
     coms309.server.Schema.DataObjectSchema other = (coms309.server.Schema.DataObjectSchema) obj;
 
     boolean result = true;
-    result = result && (hasTimestamp() == other.hasTimestamp());
-    if (hasTimestamp()) {
-      result = result && (getTimestamp()
-          == other.getTimestamp());
-    }
     result = result && getDataCase().equals(
         other.getDataCase());
     if (!result) return false;
     switch (dataCase_) {
-      case 2:
+      case 1:
         result = result && getGamestate()
             .equals(other.getGamestate());
         break;
-      case 3:
+      case 2:
         result = result && getMessage()
             .equals(other.getMessage());
         break;
-      case 4:
+      case 3:
         result = result && getEntity()
             .equals(other.getEntity());
         break;
@@ -367,21 +330,16 @@ public  final class DataObjectSchema extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    if (hasTimestamp()) {
-      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTimestamp());
-    }
     switch (dataCase_) {
-      case 2:
+      case 1:
         hash = (37 * hash) + GAMESTATE_FIELD_NUMBER;
         hash = (53 * hash) + getGamestate().hashCode();
         break;
-      case 3:
+      case 2:
         hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
         hash = (53 * hash) + getMessage().hashCode();
         break;
-      case 4:
+      case 3:
         hash = (37 * hash) + ENTITY_FIELD_NUMBER;
         hash = (53 * hash) + getEntity().hashCode();
         break;
@@ -506,8 +464,6 @@ public  final class DataObjectSchema extends
     }
     public Builder clear() {
       super.clear();
-      timestamp_ = 0L;
-      bitField0_ = (bitField0_ & ~0x00000001);
       dataCase_ = 0;
       data_ = null;
       return this;
@@ -534,25 +490,21 @@ public  final class DataObjectSchema extends
       coms309.server.Schema.DataObjectSchema result = new coms309.server.Schema.DataObjectSchema(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
-      if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-        to_bitField0_ |= 0x00000001;
-      }
-      result.timestamp_ = timestamp_;
-      if (dataCase_ == 2) {
+      if (dataCase_ == 1) {
         if (gamestateBuilder_ == null) {
           result.data_ = data_;
         } else {
           result.data_ = gamestateBuilder_.build();
         }
       }
-      if (dataCase_ == 3) {
+      if (dataCase_ == 2) {
         if (messageBuilder_ == null) {
           result.data_ = data_;
         } else {
           result.data_ = messageBuilder_.build();
         }
       }
-      if (dataCase_ == 4) {
+      if (dataCase_ == 3) {
         if (entityBuilder_ == null) {
           result.data_ = data_;
         } else {
@@ -602,9 +554,6 @@ public  final class DataObjectSchema extends
 
     public Builder mergeFrom(coms309.server.Schema.DataObjectSchema other) {
       if (other == coms309.server.Schema.DataObjectSchema.getDefaultInstance()) return this;
-      if (other.hasTimestamp()) {
-        setTimestamp(other.getTimestamp());
-      }
       switch (other.getDataCase()) {
         case GAMESTATE: {
           mergeGamestate(other.getGamestate());
@@ -628,9 +577,6 @@ public  final class DataObjectSchema extends
     }
 
     public final boolean isInitialized() {
-      if (!hasTimestamp()) {
-        return false;
-      }
       if (hasMessage()) {
         if (!getMessage().isInitialized()) {
           return false;
@@ -678,64 +624,32 @@ public  final class DataObjectSchema extends
 
     private int bitField0_;
 
-    private long timestamp_ ;
-    /**
-     * <code>required int64 timestamp = 1;</code>
-     */
-    public boolean hasTimestamp() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int64 timestamp = 1;</code>
-     */
-    public long getTimestamp() {
-      return timestamp_;
-    }
-    /**
-     * <code>required int64 timestamp = 1;</code>
-     */
-    public Builder setTimestamp(long value) {
-      bitField0_ |= 0x00000001;
-      timestamp_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>required int64 timestamp = 1;</code>
-     */
-    public Builder clearTimestamp() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      timestamp_ = 0L;
-      onChanged();
-      return this;
-    }
-
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.GamestateSchema, coms309.server.Schema.GamestateSchema.Builder, coms309.server.Schema.GamestateSchemaOrBuilder> gamestateBuilder_;
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public boolean hasGamestate() {
-      return dataCase_ == 2;
+      return dataCase_ == 1;
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public coms309.server.Schema.GamestateSchema getGamestate() {
       if (gamestateBuilder_ == null) {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           return (coms309.server.Schema.GamestateSchema) data_;
         }
         return coms309.server.Schema.GamestateSchema.getDefaultInstance();
       } else {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           return gamestateBuilder_.getMessage();
         }
         return coms309.server.Schema.GamestateSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public Builder setGamestate(coms309.server.Schema.GamestateSchema value) {
       if (gamestateBuilder_ == null) {
@@ -747,11 +661,11 @@ public  final class DataObjectSchema extends
       } else {
         gamestateBuilder_.setMessage(value);
       }
-      dataCase_ = 2;
+      dataCase_ = 1;
       return this;
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public Builder setGamestate(
         coms309.server.Schema.GamestateSchema.Builder builderForValue) {
@@ -761,15 +675,15 @@ public  final class DataObjectSchema extends
       } else {
         gamestateBuilder_.setMessage(builderForValue.build());
       }
-      dataCase_ = 2;
+      dataCase_ = 1;
       return this;
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public Builder mergeGamestate(coms309.server.Schema.GamestateSchema value) {
       if (gamestateBuilder_ == null) {
-        if (dataCase_ == 2 &&
+        if (dataCase_ == 1 &&
             data_ != coms309.server.Schema.GamestateSchema.getDefaultInstance()) {
           data_ = coms309.server.Schema.GamestateSchema.newBuilder((coms309.server.Schema.GamestateSchema) data_)
               .mergeFrom(value).buildPartial();
@@ -778,26 +692,26 @@ public  final class DataObjectSchema extends
         }
         onChanged();
       } else {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           gamestateBuilder_.mergeFrom(value);
         }
         gamestateBuilder_.setMessage(value);
       }
-      dataCase_ = 2;
+      dataCase_ = 1;
       return this;
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public Builder clearGamestate() {
       if (gamestateBuilder_ == null) {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           dataCase_ = 0;
           data_ = null;
           onChanged();
         }
       } else {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           dataCase_ = 0;
           data_ = null;
         }
@@ -806,32 +720,32 @@ public  final class DataObjectSchema extends
       return this;
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public coms309.server.Schema.GamestateSchema.Builder getGamestateBuilder() {
       return getGamestateFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     public coms309.server.Schema.GamestateSchemaOrBuilder getGamestateOrBuilder() {
-      if ((dataCase_ == 2) && (gamestateBuilder_ != null)) {
+      if ((dataCase_ == 1) && (gamestateBuilder_ != null)) {
         return gamestateBuilder_.getMessageOrBuilder();
       } else {
-        if (dataCase_ == 2) {
+        if (dataCase_ == 1) {
           return (coms309.server.Schema.GamestateSchema) data_;
         }
         return coms309.server.Schema.GamestateSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+     * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.GamestateSchema, coms309.server.Schema.GamestateSchema.Builder, coms309.server.Schema.GamestateSchemaOrBuilder> 
         getGamestateFieldBuilder() {
       if (gamestateBuilder_ == null) {
-        if (!(dataCase_ == 2)) {
+        if (!(dataCase_ == 1)) {
           data_ = coms309.server.Schema.GamestateSchema.getDefaultInstance();
         }
         gamestateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -841,7 +755,7 @@ public  final class DataObjectSchema extends
                 isClean());
         data_ = null;
       }
-      dataCase_ = 2;
+      dataCase_ = 1;
       onChanged();;
       return gamestateBuilder_;
     }
@@ -849,29 +763,29 @@ public  final class DataObjectSchema extends
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.MessageSchema, coms309.server.Schema.MessageSchema.Builder, coms309.server.Schema.MessageSchemaOrBuilder> messageBuilder_;
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public boolean hasMessage() {
-      return dataCase_ == 3;
+      return dataCase_ == 2;
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public coms309.server.Schema.MessageSchema getMessage() {
       if (messageBuilder_ == null) {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           return (coms309.server.Schema.MessageSchema) data_;
         }
         return coms309.server.Schema.MessageSchema.getDefaultInstance();
       } else {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           return messageBuilder_.getMessage();
         }
         return coms309.server.Schema.MessageSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public Builder setMessage(coms309.server.Schema.MessageSchema value) {
       if (messageBuilder_ == null) {
@@ -883,11 +797,11 @@ public  final class DataObjectSchema extends
       } else {
         messageBuilder_.setMessage(value);
       }
-      dataCase_ = 3;
+      dataCase_ = 2;
       return this;
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public Builder setMessage(
         coms309.server.Schema.MessageSchema.Builder builderForValue) {
@@ -897,15 +811,15 @@ public  final class DataObjectSchema extends
       } else {
         messageBuilder_.setMessage(builderForValue.build());
       }
-      dataCase_ = 3;
+      dataCase_ = 2;
       return this;
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public Builder mergeMessage(coms309.server.Schema.MessageSchema value) {
       if (messageBuilder_ == null) {
-        if (dataCase_ == 3 &&
+        if (dataCase_ == 2 &&
             data_ != coms309.server.Schema.MessageSchema.getDefaultInstance()) {
           data_ = coms309.server.Schema.MessageSchema.newBuilder((coms309.server.Schema.MessageSchema) data_)
               .mergeFrom(value).buildPartial();
@@ -914,26 +828,26 @@ public  final class DataObjectSchema extends
         }
         onChanged();
       } else {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           messageBuilder_.mergeFrom(value);
         }
         messageBuilder_.setMessage(value);
       }
-      dataCase_ = 3;
+      dataCase_ = 2;
       return this;
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public Builder clearMessage() {
       if (messageBuilder_ == null) {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           dataCase_ = 0;
           data_ = null;
           onChanged();
         }
       } else {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           dataCase_ = 0;
           data_ = null;
         }
@@ -942,32 +856,32 @@ public  final class DataObjectSchema extends
       return this;
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public coms309.server.Schema.MessageSchema.Builder getMessageBuilder() {
       return getMessageFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     public coms309.server.Schema.MessageSchemaOrBuilder getMessageOrBuilder() {
-      if ((dataCase_ == 3) && (messageBuilder_ != null)) {
+      if ((dataCase_ == 2) && (messageBuilder_ != null)) {
         return messageBuilder_.getMessageOrBuilder();
       } else {
-        if (dataCase_ == 3) {
+        if (dataCase_ == 2) {
           return (coms309.server.Schema.MessageSchema) data_;
         }
         return coms309.server.Schema.MessageSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.MessageSchema message = 3;</code>
+     * <code>optional .coms309.server.MessageSchema message = 2;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.MessageSchema, coms309.server.Schema.MessageSchema.Builder, coms309.server.Schema.MessageSchemaOrBuilder> 
         getMessageFieldBuilder() {
       if (messageBuilder_ == null) {
-        if (!(dataCase_ == 3)) {
+        if (!(dataCase_ == 2)) {
           data_ = coms309.server.Schema.MessageSchema.getDefaultInstance();
         }
         messageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -977,7 +891,7 @@ public  final class DataObjectSchema extends
                 isClean());
         data_ = null;
       }
-      dataCase_ = 3;
+      dataCase_ = 2;
       onChanged();;
       return messageBuilder_;
     }
@@ -985,29 +899,29 @@ public  final class DataObjectSchema extends
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.EntitySchema, coms309.server.Schema.EntitySchema.Builder, coms309.server.Schema.EntitySchemaOrBuilder> entityBuilder_;
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public boolean hasEntity() {
-      return dataCase_ == 4;
+      return dataCase_ == 3;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public coms309.server.Schema.EntitySchema getEntity() {
       if (entityBuilder_ == null) {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           return (coms309.server.Schema.EntitySchema) data_;
         }
         return coms309.server.Schema.EntitySchema.getDefaultInstance();
       } else {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           return entityBuilder_.getMessage();
         }
         return coms309.server.Schema.EntitySchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public Builder setEntity(coms309.server.Schema.EntitySchema value) {
       if (entityBuilder_ == null) {
@@ -1019,11 +933,11 @@ public  final class DataObjectSchema extends
       } else {
         entityBuilder_.setMessage(value);
       }
-      dataCase_ = 4;
+      dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public Builder setEntity(
         coms309.server.Schema.EntitySchema.Builder builderForValue) {
@@ -1033,15 +947,15 @@ public  final class DataObjectSchema extends
       } else {
         entityBuilder_.setMessage(builderForValue.build());
       }
-      dataCase_ = 4;
+      dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public Builder mergeEntity(coms309.server.Schema.EntitySchema value) {
       if (entityBuilder_ == null) {
-        if (dataCase_ == 4 &&
+        if (dataCase_ == 3 &&
             data_ != coms309.server.Schema.EntitySchema.getDefaultInstance()) {
           data_ = coms309.server.Schema.EntitySchema.newBuilder((coms309.server.Schema.EntitySchema) data_)
               .mergeFrom(value).buildPartial();
@@ -1050,26 +964,26 @@ public  final class DataObjectSchema extends
         }
         onChanged();
       } else {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           entityBuilder_.mergeFrom(value);
         }
         entityBuilder_.setMessage(value);
       }
-      dataCase_ = 4;
+      dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public Builder clearEntity() {
       if (entityBuilder_ == null) {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           dataCase_ = 0;
           data_ = null;
           onChanged();
         }
       } else {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           dataCase_ = 0;
           data_ = null;
         }
@@ -1078,32 +992,32 @@ public  final class DataObjectSchema extends
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public coms309.server.Schema.EntitySchema.Builder getEntityBuilder() {
       return getEntityFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     public coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder() {
-      if ((dataCase_ == 4) && (entityBuilder_ != null)) {
+      if ((dataCase_ == 3) && (entityBuilder_ != null)) {
         return entityBuilder_.getMessageOrBuilder();
       } else {
-        if (dataCase_ == 4) {
+        if (dataCase_ == 3) {
           return (coms309.server.Schema.EntitySchema) data_;
         }
         return coms309.server.Schema.EntitySchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         coms309.server.Schema.EntitySchema, coms309.server.Schema.EntitySchema.Builder, coms309.server.Schema.EntitySchemaOrBuilder> 
         getEntityFieldBuilder() {
       if (entityBuilder_ == null) {
-        if (!(dataCase_ == 4)) {
+        if (!(dataCase_ == 3)) {
           data_ = coms309.server.Schema.EntitySchema.getDefaultInstance();
         }
         entityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1113,7 +1027,7 @@ public  final class DataObjectSchema extends
                 isClean());
         data_ = null;
       }
-      dataCase_ = 4;
+      dataCase_ = 3;
       onChanged();;
       return entityBuilder_;
     }

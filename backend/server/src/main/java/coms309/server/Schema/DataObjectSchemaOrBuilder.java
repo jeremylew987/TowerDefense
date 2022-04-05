@@ -8,50 +8,41 @@ public interface DataObjectSchemaOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>required int64 timestamp = 1;</code>
-   */
-  boolean hasTimestamp();
-  /**
-   * <code>required int64 timestamp = 1;</code>
-   */
-  long getTimestamp();
-
-  /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
    */
   boolean hasGamestate();
   /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
    */
   coms309.server.Schema.GamestateSchema getGamestate();
   /**
-   * <code>optional .coms309.server.GamestateSchema gamestate = 2;</code>
+   * <code>optional .coms309.server.GamestateSchema gamestate = 1;</code>
    */
   coms309.server.Schema.GamestateSchemaOrBuilder getGamestateOrBuilder();
 
   /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
    */
   boolean hasMessage();
   /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
    */
   coms309.server.Schema.MessageSchema getMessage();
   /**
-   * <code>optional .coms309.server.MessageSchema message = 3;</code>
+   * <code>optional .coms309.server.MessageSchema message = 2;</code>
    */
   coms309.server.Schema.MessageSchemaOrBuilder getMessageOrBuilder();
 
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
   boolean hasEntity();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
   coms309.server.Schema.EntitySchema getEntity();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 4;</code>
+   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
    */
   coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder();
 

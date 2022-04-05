@@ -42,7 +42,6 @@ public class GameState {
         this.difficulty = difficulty;
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp('0')
                         .setGamestate(
                                 GamestateSchema.newBuilder()
                                         .setDifficulty(difficulty)
@@ -55,7 +54,6 @@ public class GameState {
         this.map.loadMap(map);
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp('0')
                         .setGamestate(
                                 GamestateSchema.newBuilder()
                                         .setMap(map)
@@ -68,7 +66,6 @@ public class GameState {
         this.status = status;
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp('0')
                         .setGamestate(
                                 GamestateSchema.newBuilder()
                                         .setStatus(status)
@@ -81,7 +78,6 @@ public class GameState {
         this.round = round;
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp('0')
                         .setGamestate(
                                 GamestateSchema.newBuilder()
                                         .setRound(round)
@@ -93,7 +89,6 @@ public class GameState {
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp('0')
                         .setGamestate(
                                 GamestateSchema.newBuilder()
                                         .setDifficulty(difficulty)

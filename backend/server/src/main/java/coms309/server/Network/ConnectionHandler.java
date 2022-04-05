@@ -91,7 +91,6 @@ public class ConnectionHandler {
         }
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp(0)
                         .setGamestate(gs.build())
                         .build();
         writeToAll(d);

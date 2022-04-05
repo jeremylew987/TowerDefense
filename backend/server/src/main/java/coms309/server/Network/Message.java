@@ -27,7 +27,6 @@ public class Message{
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
-                        .setTimestamp(0)
                         .setMessage(
                                 MessageSchema.newBuilder()
                                         .setAuthor(this.author)
