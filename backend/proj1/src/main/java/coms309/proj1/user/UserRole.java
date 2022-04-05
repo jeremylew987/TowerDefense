@@ -1,6 +1,10 @@
 package coms309.proj1.user;
 
-public enum UserRole {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+public enum UserRole
+{
     USER,
     ADMIN
 }
