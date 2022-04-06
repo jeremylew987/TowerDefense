@@ -25,6 +25,9 @@ import com.se309.test.NetworkManagerTestBench;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
 public class LoginPage extends AppCompatActivity {
 
     @Override
@@ -36,6 +39,9 @@ public class LoginPage extends AppCompatActivity {
         final TextView username1 = findViewById(R.id.textView);
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
+
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
 
         // Set up initial network manager
         final NetworkManager networkManager = new NetworkManager(this, NetworkConfig.BACKEND_URL);
@@ -87,7 +93,7 @@ public class LoginPage extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(res.equals("Login Success")) {
+                    if(res.equals("Root Screen")) {
                         password1.setText(res);
                         startActivity(new Intent(LoginPage.this, HomePage.class));
                     }
@@ -156,7 +162,7 @@ public class LoginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("Login Success")) {
+                        if(res.equals("Root Screen")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
