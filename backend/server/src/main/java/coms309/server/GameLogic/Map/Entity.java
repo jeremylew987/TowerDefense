@@ -46,6 +46,7 @@ public class Entity {
             }
             throw new ClassNotFoundException();
         }
+        reader.close();
     }
 
     public Tile getTile() {

@@ -1,7 +1,6 @@
 package coms309.server;
 
-import com.google.protobuf.BlockingService;
-import com.google.protobuf.Service;
+
 import coms309.server.GameLogic.GameState.GameState;
 import coms309.server.Network.ConnectionHandler;
 
@@ -9,7 +8,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,9 +31,11 @@ public class Server {
         // 2. Load server settings from "server.properties"
         Properties prop = new Properties();
         try {
-            prop.load(getClass().getClassLoader().getResourceAsStream("server.properties"));
+            InputStream f = getClass().getClassLoader().getResourceAsStream("server.properties");
+            prop.load(f);
             this.maxPlayers = Integer.parseInt(prop.getProperty("server.maxPlayers"));
             this.port = Integer.parseInt(prop.getProperty("server.port"));
+            f.close();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Could not load server properties from file!");
             ex.printStackTrace();

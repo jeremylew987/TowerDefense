@@ -37,6 +37,7 @@ public class Map {
                 break;
             }
         }
+        reader.close();
     }
 
     /**

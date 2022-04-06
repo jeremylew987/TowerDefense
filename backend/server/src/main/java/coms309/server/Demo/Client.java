@@ -27,9 +27,12 @@ public class Client implements Runnable {
     public void read() throws IOException {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
-
-        Message r = new Message(data.getMessage());
-        System.out.println(r.toString());
+        try {
+            Message r = new Message(data.getMessage());
+            System.out.println(r);
+        } catch (NullPointerException ex) {
+            System.out.println("Authentication Failed.");
+        }
     }
 
     public void write(String data) throws IOException {
