@@ -8,7 +8,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+
+	public TowerDefense(GameConfiguration config) {
+
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

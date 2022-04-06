@@ -1,0 +1,45 @@
+stages:          # List of stages for jobs, and their order of execution
+  - mavenbuild
+  - maventest
+  - mavendeploy
+
+maven-build:       # This job runs in the build stage, which runs first.
+  stage: mavenbuild
+  tags:
+    - springboot_tag
+  script:
+    - echo "Compiling Proj1..."
+    - cd backend/proj1
+    - mvn package -f pom.xml
+    - echo "PRoj1 Compile complete."
+
+maven-test:   # This job runs in the test stage.
+  stage: maventest    # It only starts when the job in the build stage completes successfully.
+  tags:
+    - springboot_tag
+  script:
+    - echo "Running Proj1 unit tests..."
+    - cd backend/proj1
+    - mvn test -f pom.xml
+    - echo "Proj1 unit tests complete."
+  artifacts:
+    paths:
+      - backend/proj1/target/*.jar
+
+
+maven-deploy:
+  stage: mavendeploy
+  tags:
+    - springboot_tag
+  script:       # Builds then copies the jar to the /target folder then restarts service
+    - echo "Deploying proj1..."
+    - cd backend/proj1
+    - mvn package -f pom.xml
+    - sudo mv target/*.jar /target/coms309-proj1.jar
+    - sudo systemctl stop service-coms309-proj1.service
+    - sudo systemctl start service-coms309-proj1.service
+    - echo "Proj1 successfully deployed."
+  only:
+    - main
+
+
