@@ -16,8 +16,10 @@ import java.util.List;
 public class UserController
 {
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
+	@Autowired
+	private ModelMapper modelMapper;
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -73,6 +75,17 @@ public class UserController
 		logger.info("Entered into User Controller Layer");
 		List<User> friends =  userService.getFriends(((UserDetailsImpl)authentication.getPrincipal()).getUsername());
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all friends", friends), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value={"/user/verifyUser"})
+	public UserDTO verifyToken(@RequestParam("token") String token) {
+		logger.info("Entered into User Controller Layer");
+		return convertToDto(userService.verifyUserByToken(token));
+	}
+
+	private UserDTO convertToDto(User user) {
+		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+		return userDTO;
 	}
 
 }

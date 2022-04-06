@@ -2,6 +2,9 @@ stages:          # List of stages for jobs, and their order of execution
   - mavenbuild
   - maventest
   - mavendeploy
+  - gameserver-build
+  - gameserver-test
+  - gameserver-deploy
 
 maven-build:       # This job runs in the build stage, which runs first.
   stage: mavenbuild
@@ -11,7 +14,7 @@ maven-build:       # This job runs in the build stage, which runs first.
     - echo "Compiling Proj1..."
     - cd backend/proj1
     - mvn package -f pom.xml
-    - echo "PRoj1 Compile complete."
+    - echo "Proj1 Compile complete."
 
 maven-test:   # This job runs in the test stage.
   stage: maventest    # It only starts when the job in the build stage completes successfully.
@@ -25,7 +28,6 @@ maven-test:   # This job runs in the test stage.
   artifacts:
     paths:
       - backend/proj1/target/*.jar
-
 
 maven-deploy:
   stage: mavendeploy
@@ -42,4 +44,36 @@ maven-deploy:
   only:
     - main
 
+gameserver-build:       # This job runs in the build stage, which runs first.
+  stage: gameserver-deploy
+  script:
+    - echo "Compiling Game Server..."
+    - cd backend/server
+    - gradlew assemble
+    - echo "Game Server Compile complete."
+
+gameserver-test:   # This job runs in the test stage.
+  stage: gameserver-test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - echo "Running Game Server unit tests..."
+    - cd backend/server
+    - gradlew build
+    - echo "Game Server unit tests complete."
+  artifacts:
+    paths:
+      - backend/server/target/*.jar
+
+
+gameserver-deploy:
+  stage: gameserver-deploy
+  script:       # Builds then copies the jar to the /target folder then restarts service
+    - echo "Deploying proj1..."
+    - cd backend/server
+    - gradlew assemble
+    - sudo mv target/*.jar /target/coms309-server.jar
+    - sudo systemctl stop service-coms309-server.service
+    - sudo systemctl start service-coms309-server.service
+    - echo "Game server successfully deployed."
+  only:
+    - main
 

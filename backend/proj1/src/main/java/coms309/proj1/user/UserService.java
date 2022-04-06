@@ -129,6 +129,12 @@ public class UserService {
 //        return true;
 //    }
 
+    public User verifyUserByToken(String token) {
+        logger.info("Entered into Service Layer");
+        ConfirmationToken c = confirmationTokenService.getToken(token);
+        return c.getUser();
+    }
+
     public int enableUser(String email) {
         logger.info("Entered into Service Layer");
         return userRepository.enableUser(email);
