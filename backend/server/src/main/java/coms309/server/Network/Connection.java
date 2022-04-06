@@ -29,7 +29,7 @@ public class Connection implements Runnable {
     private boolean isAlive;
     private String address;
 
-    private final String authServerLocation = "http://localhost:8080"; //"http://coms-309-027.class.las.iastate.edu:8080";
+    private final String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private Player player;
 
     public Connection(Socket socket, int id, Server server) {
@@ -174,7 +174,11 @@ public class Connection implements Runnable {
             case GAMESTATE:
                 GamestateSchema g = data.getGamestate();
                 if (g.hasMap()) {
-                    server.getGamestate().setMap(g.getMap());
+                    try {
+                        server.getGamestate().setMap(g.getMap());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (g.hasDifficulty()) {
                     server.getGamestate().setDifficulty(g.getDifficulty());
