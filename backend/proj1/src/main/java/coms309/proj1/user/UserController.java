@@ -80,7 +80,13 @@ public class UserController
 	@GetMapping(value={"/user/verifyUser"})
 	public UserDTO verifyToken(@RequestParam("token") String token) {
 		logger.info("Entered into User Controller Layer");
-		return modelMapper.map(userService.verifyUserByToken(token), UserDTO.class);
+		UserDTO u;
+		try {
+			u = modelMapper.map(userService.verifyUserByToken(token), UserDTO.class);
+		} catch (RuntimeException ex) {
+			u = null;
+		}
+		return u;
 	}
 
 }

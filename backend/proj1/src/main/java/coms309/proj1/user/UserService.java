@@ -29,15 +29,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     private final FriendRelationshipRepository friendRelationshipRepository;
-
     private UserDetailsServiceImpl userDetailsService;
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private ConfirmationTokenService confirmationTokenService;
-
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<User> loadUsers() {
@@ -129,10 +124,10 @@ public class UserService {
 //        return true;
 //    }
 
-    public User verifyUserByToken(String token) {
+    public User verifyUserByToken(String token) throws RuntimeException {
         logger.info("Entered into Service Layer");
-        ConfirmationToken c = confirmationTokenService.getToken(token);
-        return c.getUser();
+        Optional<ConfirmationToken> c = confirmationTokenService.getToken(token);
+        return c.orElseThrow(RuntimeException::new).getUser();
     }
 
     public int enableUser(String email) {

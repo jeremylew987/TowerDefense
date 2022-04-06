@@ -36,5 +36,4 @@ public class RegistrationController {
         return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Email verification complete"), HttpStatus.ACCEPTED);
 
     }
-
 }
