@@ -31,6 +31,7 @@ public class Map {
         JSONParser jsonParser = new JSONParser();
         Object obj = jsonParser.parse(
                 new InputStreamReader(inputStream, "UTF-8"));
+        inputStream.close();
         JSONArray maps = (JSONArray) obj;
         for (int i = 0; i < maps.size(); i++) {
             JSONObject map = (JSONObject) maps.get(i);

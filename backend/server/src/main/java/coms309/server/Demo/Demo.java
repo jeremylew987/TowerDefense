@@ -17,10 +17,12 @@ public class Demo {
             Thread t = new Thread(c);
             t.start();
 
+            c.write("a5cc9232-b2e8-4851-a508-62b681a807c4", "AUTH");
+
             Scanner sc = new Scanner(System.in);
             while (true) {
                 String input = sc.nextLine();
-                c.write(input);
+                c.write(input, "CHAT");
             }
         } catch (IOException e) {
             e.printStackTrace();

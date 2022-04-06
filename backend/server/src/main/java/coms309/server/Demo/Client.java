@@ -35,24 +35,18 @@ public class Client implements Runnable {
         }
     }
 
-    public void write(String data) throws IOException {
+    public void write(String data, String code) throws IOException {
         Message m = new Message(
                 "ben",
-                "CHAT",
+                code,
                 data
         );
         m.serialize().writeDelimitedTo(dataOut);
         dataOut.flush();
     }
 
-    public void authenticate() throws IOException {
-        dataOut.writeChars("e31499d5-85bb-4520-bfc2-81b239c3f2f1\n");
-        dataOut.flush();
-    }
-
     public void run() {
         try {
-            authenticate();
             while(true) {
                 read();
             }

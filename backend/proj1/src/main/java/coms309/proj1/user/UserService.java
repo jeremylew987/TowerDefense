@@ -127,6 +127,7 @@ public class UserService {
     public User verifyUserByToken(String token) throws RuntimeException {
         logger.info("Entered into Service Layer");
         Optional<ConfirmationToken> c = confirmationTokenService.getToken(token);
+        logger.info("Found " + c.orElse(null).getUser().getUsername());
         return c.orElseThrow(RuntimeException::new).getUser();
     }
 
