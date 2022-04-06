@@ -5,6 +5,7 @@ import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
 import coms309.server.Schema.MessageSchema;
 import coms309.server.Server;
+import org.json.simple.JSONObject;
 import org.junit.runner.Request;
 
 import javax.json.Json;
@@ -29,10 +30,7 @@ public class Connection implements Runnable {
     private String address;
 
     private final String authServerLocation = "http://localhost:8080"; //"http://coms-309-027.class.las.iastate.edu:8080";
-
-    // user credentials
-    private int playerId;
-    private JsonObject userObject;
+    private Player player;
 
     public Connection(Socket socket, int id, Server server) {
         this.socket = socket;
@@ -40,7 +38,7 @@ public class Connection implements Runnable {
         this.server = server;
         this.address = socket.getRemoteSocketAddress().toString();
 
-        this.playerId = id;
+        this.player = new Player(this, id);
         this.isAlive = true;
         this.validated = false;
 
@@ -56,16 +54,11 @@ public class Connection implements Runnable {
     public Server getServer() {
         return server;
     }
-    public void setServer(Server server) {
-        this.server = server;
+    public Socket getSocket() {
+        return this.socket;
     }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
-    public void setThread(Thread thread) { this.thread = thread; }
     public Thread getThread() { return this.thread; }
+    public void setThread(Thread thread) { this.thread = thread; }
 
     public DataInputStream getDataIn() {
         return dataIn;
@@ -74,46 +67,38 @@ public class Connection implements Runnable {
         return dataOut;
     }
 
+    public void setAddress() { this.address = this.socket.getRemoteSocketAddress().toString(); }
     public String getAddress() {return address;}
+
     public boolean isValidated() {
         return validated;
     }
-    public boolean isAlive() {
-        return isAlive;
-    }
-    public int getPlayerId() {
-        return playerId;
-    }
-    public JsonObject getUserObject() {
-        return userObject;
-    }
-    public Socket getSocket() {
-        return this.socket;
-    }
-
     public boolean validateUser() {
         try {
-            // Authenticate user with Auth server
+            // 1. Read Authentication Token from Client
             BufferedReader clientReader = new BufferedReader(
                     new InputStreamReader(dataIn));
             String authToken = clientReader.readLine();
 
-            // Form HTTP Request
+            // 2. Form HTTP Request to Authentication Server
             String url = authServerLocation + "/user/verifyUser";
             String charset = "UTF-8";
             String query = String.format("token=%s",
                     URLEncoder.encode(authToken, charset));
 
+            // 3. Send HTTP Request to Authentication Server
             URLConnection connection = new URL(url + "?" + query).openConnection();
             connection.setRequestProperty("Accept-Charset", charset);
 
-            // Get response and parse to json object
+            // 4. Read and parse HTTP Response
             String response = convertStreamToString(connection.getInputStream());
             JsonReader reader = Json.createReader(new StringReader(response));
-
-            // Save user object
-            userObject = reader.readObject();
+            JsonObject userObject = reader.readObject();
             reader.close();
+
+            // 5. Deserialize UserObject to class
+            this.player.setUsername(userObject.getString("username"));
+            this.player.setUserId(userObject.getInt("userId"));
             this.validated = true;
         } catch (IOException ex) {
             this.validated = false;
@@ -142,6 +127,9 @@ public class Connection implements Runnable {
         return sb.toString();
     }
 
+    public Player getPlayer() { return this.player; }
+    public void setPlayer(Player player) { this.player = player; }
+
     @Override
     public void run() {
         // authenticate user
@@ -154,7 +142,7 @@ public class Connection implements Runnable {
             write(m.serialize());
             server.logger.log(
                     Level.INFO,
-                    userObject.getString("username") + "(" + address + ") has connected."
+                    player.getUsername() + "(" + address + ") has connected."
             );
             server.getConnectionHandler().announcePlayers();
         } else { kill("AUTH_FAILED"); }
@@ -175,7 +163,6 @@ public class Connection implements Runnable {
             kill("LOST_CONNECTION");
         }
     }
-
     public void read() throws IOException {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
@@ -198,9 +185,9 @@ public class Connection implements Runnable {
                 break;
             case MESSAGE:
                 Message m = new Message(data.getMessage());
-                if (!userObject.getString("username").equals(m.author)) {
+                if (player.getUsername().equals(m.author)) {
                     server.logger.log(Level.WARNING, "Message author and client details do not match!");
-                    m.author = userObject.getString("username");
+                    m.author = player.getUsername();
                 }
                 server.getConnectionHandler().writeToAll(data); // relay chat to users
                 server.logger.log(Level.INFO, m.toString());
@@ -208,6 +195,9 @@ public class Connection implements Runnable {
         }
     }
 
+    public boolean isAlive() {
+        return isAlive;
+    }
     public void kill(String reason) {
         this.isAlive = false;
         try {

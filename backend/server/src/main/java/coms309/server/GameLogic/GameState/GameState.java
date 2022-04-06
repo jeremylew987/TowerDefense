@@ -13,12 +13,18 @@ public class GameState {
     private int status, round, difficulty;
     private Map map;
 
+    // CONSTRUCTOR
+
     public GameState(Server s) {
         server = s;
         status = 0;
         difficulty = 1;
         round = 1;
-        this.map = new Map(1);
+        try {
+            this.map = new Map(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // GETTERS
@@ -50,7 +56,7 @@ public class GameState {
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Difficulty has been set to " + difficulty);
     }
-    public void setMap(int map) {
+    public void setMap(int map) throws Exception {
         this.map.loadMap(map);
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
@@ -86,6 +92,9 @@ public class GameState {
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
+
+    // SERIALIZE
+
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()

@@ -86,7 +86,7 @@ public class ConnectionHandler {
                 gs.addPlayers(
                         GamestateSchema.Player.newBuilder()
                                 .setPid(i)
-                                .setId(clients[i].getUserObject().getInt("userId")));
+                                .setId(clients[i].getPlayer().getUserId()));
             }
         }
         DataObjectSchema d =
