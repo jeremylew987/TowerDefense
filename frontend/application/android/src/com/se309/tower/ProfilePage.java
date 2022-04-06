@@ -13,7 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +28,7 @@ public class ProfilePage extends AppCompatActivity {
 
 
         TextView Details = findViewById(R.id.ProfileDetails);
-        Details.setText(GetProfileDetails());
+        GetProfileDetails(Details);
 
         Button back = findViewById(R.id.ProfileBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +41,7 @@ public class ProfilePage extends AppCompatActivity {
 
     }
 
-    String GetProfileDetails(){
+    String GetProfileDetails(final TextView tV){
         final RequestQueue queue = Volley.newRequestQueue(ProfilePage.this);
         final String[] result = {""};
         String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user";
@@ -48,9 +50,12 @@ public class ProfilePage extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Log.i("Response: " , response.toString());
                 try {
-                    result[0] +="Username: " + response.getString("username") + "\n";
-                    result[0] +="Email: " + response.getString("email") + "\n";
-                    result[0] +="Role: " + response.getString("role") + "\n";
+                    JSONObject data = response.getJSONObject("data");
+
+                    result[0] +="Username: " + data.getString("username") + "\n";
+                    result[0] +="Email: " + data.getString("email") + "\n";
+                    //result[0] +="Role: " + data.getString("role") + "\n";
+                    tV.setText(result[0]);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -67,6 +72,7 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
         queue.add(FriendList);
+        Log.i("Response: " , result[0]);
         return result[0];
     }
 

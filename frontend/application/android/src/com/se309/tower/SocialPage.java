@@ -60,7 +60,7 @@ public class SocialPage extends AppCompatActivity {
             public void onClick(View view) {
                 String friendUsername = addFriendText.getText().toString();
                 String usernameSave = mPrefs.getString("username","none");
-                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/add" + usernameSave;
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/add/" + friendUsername;
                 //call add friend command
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
                     @Override
