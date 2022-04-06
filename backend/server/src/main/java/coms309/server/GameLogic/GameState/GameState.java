@@ -1,6 +1,7 @@
 package coms309.server.GameLogic.GameState;
 
 import coms309.server.GameLogic.Map.Map;
+import coms309.server.Network.Message;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Server;
 import coms309.server.Schema.GamestateSchema;
@@ -66,6 +67,11 @@ public class GameState {
                                         .build()
                         ).build();
         server.getConnectionHandler().writeToAll(d);
+        server.getConnectionHandler().writeToAll(new Message(
+                "Server",
+                "CHAT",
+                "Map has been set to " + map
+        ).serialize());
         server.logger.log(Level.INFO, "Map has been set to " + map);
     }
     public void setStatus(int status) {

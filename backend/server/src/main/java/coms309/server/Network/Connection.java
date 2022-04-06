@@ -138,12 +138,18 @@ public class Connection implements Runnable {
     public void run() {
         // authenticate user
         if (validateUser()) {
-            Message m = new Message(
+            write(new Message(
                     "Server",
-                    "SUCCESS",
-                    "AUTH_SUCCESS"
-            );
-            write(m.serialize());
+                    "AUTH",
+                    "SUCCESS"
+            ).serialize());
+
+            server.getConnectionHandler().writeToAll(new Message(
+                    "Server",
+                    "CHAT",
+                    player.getUsername() + " has joined the server!"
+            ).serialize());
+
             server.logger.log(
                     Level.INFO,
                     player.getUsername() + "(" + address + ") has connected."
@@ -176,6 +182,7 @@ public class Connection implements Runnable {
                 // Receive commands for entities
                 break;
             case GAMESTATE:
+
                 GamestateSchema g = data.getGamestate();
                 if (g.hasMap()) {
                     try {
@@ -193,12 +200,12 @@ public class Connection implements Runnable {
                 break;
             case MESSAGE:
                 Message m = new Message(data.getMessage());
-                if (player.getUsername().equals(m.author)) {
+                if (!player.getUsername().equals(m.author)) {
                     server.logger.log(Level.WARNING, "Message author and client details do not match!");
                     m.author = player.getUsername();
                 }
-                if (m.code == "CHAT") {
-                    server.getConnectionHandler().writeToAll(data); // relay chat to users
+                if (m.code.equals("CHAT")) {
+                    server.getConnectionHandler().writeToAll(m.serialize()); // relay chat to users
                 }
                 server.logger.log(Level.INFO, m.toString());
                 break;

@@ -2,6 +2,7 @@ package coms309.server.Demo;
 
 import coms309.server.Network.Message;
 import coms309.server.Schema.DataObjectSchema;
+import coms309.server.Schema.GamestateSchema;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,14 +29,16 @@ public class Client implements Runnable {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
         try {
-            Message r = new Message(data.getMessage());
-            System.out.println(r);
+            if (data.hasMessage()) {
+                Message r = new Message(data.getMessage());
+                System.out.println(r);
+            }
         } catch (NullPointerException ex) {
             System.out.println("Authentication Failed.");
         }
     }
 
-    public void write(String data, String code) throws IOException {
+    public void writeMessage(String data, String code) throws IOException {
         Message m = new Message(
                 "ben",
                 code,
@@ -43,6 +46,17 @@ public class Client implements Runnable {
         );
         m.serialize().writeDelimitedTo(dataOut);
         dataOut.flush();
+    }
+
+    public void writeNewMap(int newMap) throws IOException {
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setMap(newMap)
+                                        .build()
+                        ).build();
+        d.writeDelimitedTo(dataOut);
     }
 
     public void run() {
