@@ -38,7 +38,7 @@ android-build: # new might not work
    - android_tag
   script:
     - cd frontend/application
-    - ./gradlew build
+    - ./gradlew build --warning-mode=all
   artifacts:
     paths:
     - Android_test/app/build/outputs/
