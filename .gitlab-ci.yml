@@ -46,6 +46,8 @@ maven-deploy:
 
 gameserver-build:       # This job runs in the build stage, which runs first.
   stage: gameserver-build
+  tags:
+    - springboot_tag
   script:
     - echo "Compiling Game Server..."
     - cd backend/server
@@ -54,6 +56,8 @@ gameserver-build:       # This job runs in the build stage, which runs first.
 
 gameserver-test:   # This job runs in the test stage.
   stage: gameserver-test    # It only starts when the job in the build stage completes successfully.
+  tags:
+    - springboot_tag
   script:
     - echo "Running Game Server unit tests..."
     - cd backend/server
@@ -66,6 +70,8 @@ gameserver-test:   # This job runs in the test stage.
 
 gameserver-deploy:
   stage: gameserver-deploy
+  tags:
+    - springboot_tag
   script:       # Builds then copies the jar to the /target folder then restarts service
     - echo "Deploying proj1..."
     - cd backend/server
