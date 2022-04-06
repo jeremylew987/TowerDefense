@@ -3,6 +3,7 @@ package coms309.proj1.security.config;
 import coms309.proj1.user.UserDetailsServiceImpl;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,4 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public ModelMapper modelMapper() { return new ModelMapper(); }
 }

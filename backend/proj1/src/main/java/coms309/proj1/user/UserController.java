@@ -2,6 +2,7 @@ package coms309.proj1.user;
 
 import coms309.proj1.friend.FriendRelationship;
 import coms309.proj1.exception.GeneralResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 @RestController // Tells Spring Boot that HTTP requests are handled here
@@ -80,12 +80,7 @@ public class UserController
 	@GetMapping(value={"/user/verifyUser"})
 	public UserDTO verifyToken(@RequestParam("token") String token) {
 		logger.info("Entered into User Controller Layer");
-		return convertToDto(userService.verifyUserByToken(token));
-	}
-
-	private UserDTO convertToDto(User user) {
-		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-		return userDTO;
+		return modelMapper.map(userService.verifyUserByToken(token), UserDTO.class);
 	}
 
 }
