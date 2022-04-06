@@ -45,7 +45,7 @@ maven-deploy:
     - main
 
 gameserver-build:       # This job runs in the build stage, which runs first.
-  stage: gameserver-deploy
+  stage: gameserver-build
   script:
     - echo "Compiling Game Server..."
     - cd backend/server
