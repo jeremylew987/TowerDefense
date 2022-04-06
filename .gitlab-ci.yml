@@ -33,11 +33,11 @@ android-build: # new might not work
   stage: androidbuild
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Frontend/gradlew
+    - chmod +x ./frontend/application/gradlew
   tags:
    - android_tag
   script:
-    - cd Frontend
+    - cd frontend/application
     - ./gradlew build
   artifacts:
     paths:
@@ -48,11 +48,11 @@ android-test: # new
   stage: androidtest
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Frontend/gradlew
+    - chmod +x ./frontend/application/gradlew
   tags:
    - android_tag
   script:
-    - cd Frontend
+    - cd frontend/application
     - ./gradlew test
 
 
