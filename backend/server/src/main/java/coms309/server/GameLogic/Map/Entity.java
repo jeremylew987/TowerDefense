@@ -44,7 +44,7 @@ public class Entity {
                 this.damage = (int) object.get("damage");
                 return;
             }
-            throw new ClassNotFoundException();
+            throw new RuntimeException();
         }
         reader.close();
     }

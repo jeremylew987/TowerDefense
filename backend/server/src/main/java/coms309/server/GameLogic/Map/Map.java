@@ -4,8 +4,10 @@ import coms309.server.GameLogic.Exceptions.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 
 import static coms309.server.GameLogic.Map.Tile.TileType.*;
 
@@ -24,10 +26,11 @@ public class Map {
      * @param mapId
      * @throws Exception
      */
-    public void loadMap(int mapId) throws Exception {
+    public void loadMap(int mapId) throws IOException, ParseException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("maps.json");
         JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader(getClass().getClassLoader().getResource("maps.json").getFile());
-        Object obj = jsonParser.parse(reader);
+        Object obj = jsonParser.parse(
+                new InputStreamReader(inputStream, "UTF-8"));
         JSONArray maps = (JSONArray) obj;
         for (int i = 0; i < maps.size(); i++) {
             JSONObject map = (JSONObject) maps.get(i);
@@ -37,7 +40,6 @@ public class Map {
                 break;
             }
         }
-        reader.close();
     }
 
     /**
