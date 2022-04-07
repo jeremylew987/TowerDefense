@@ -17,7 +17,7 @@ public class Demo {
             Thread t = new Thread(c);
             t.start();
 
-            c.writeMessage("a5cc9232-b2e8-4851-a508-62b681a807c4", "AUTH");
+            c.writeMessage("1cb8af81-92d6-4abc-baf6-8348529577ca", "AUTH");
 
             Scanner sc = new Scanner(System.in);
             while (true) {

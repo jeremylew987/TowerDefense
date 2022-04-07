@@ -28,19 +28,16 @@ public class Client implements Runnable {
     public void read() throws IOException {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
-        try {
-            if (data.hasMessage()) {
-                Message r = new Message(data.getMessage());
-                System.out.println(r);
-            }
-        } catch (NullPointerException ex) {
-            System.out.println("Authentication Failed.");
+
+        if (data.hasMessage()) {
+            Message r = new Message(data.getMessage());
+            System.out.println(r);
         }
     }
 
     public void writeMessage(String data, String code) throws IOException {
         Message m = new Message(
-                "ben",
+                "benTest1",
                 code,
                 data
         );
@@ -64,7 +61,7 @@ public class Client implements Runnable {
             while(true) {
                 read();
             }
-        } catch (IOException ex){
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }

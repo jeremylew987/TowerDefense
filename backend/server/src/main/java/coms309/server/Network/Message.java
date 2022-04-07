@@ -20,7 +20,7 @@ public class Message{
     // Read from serialized object
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
-        code = m.getCode();
+        code = m.getCode().toUpperCase();
         message = m.getMessage();
     }
 
