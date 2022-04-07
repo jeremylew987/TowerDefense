@@ -1,0 +1,1 @@
+DELETE FROM 2_do_7.user WHERE user_id = 999;
