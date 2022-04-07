@@ -105,6 +105,10 @@ public class Connection implements Runnable {
             this.player.setUserId(userObject.getInt("userId"));
             this.validated = true;
         } catch (IOException ex) {
+            server.logger.log(Level.INFO, address + " disconnected without authorizing.");
+            this.validated = false;
+        } catch (NullPointerException ex ) {
+            server.logger.log(Level.INFO, address + " disconnected without authorizing.");
             this.validated = false;
         }
         return validated;
@@ -200,10 +204,13 @@ public class Connection implements Runnable {
                 break;
             case MESSAGE:
                 Message m = new Message(data.getMessage());
+
+                // Check if message username matches auth username
                 if (!player.getUsername().equals(m.author)) {
                     server.logger.log(Level.WARNING, "Message author and client details do not match!");
                     m.author = player.getUsername();
                 }
+
                 if (m.code.equals("CHAT")) {
                     server.getConnectionHandler().writeToAll(m.serialize()); // relay chat to users
                 }

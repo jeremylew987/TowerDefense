@@ -10,7 +10,7 @@ public class Demo {
     public static void main(String[] args) {
         try {
             Socket s = new Socket();
-            SocketAddress socketAddress = new InetSocketAddress("10.30.35.71", 25565);
+            SocketAddress socketAddress = new InetSocketAddress("localhost", 25565);
             s.connect(socketAddress);
 
             Client c = new Client(s);
