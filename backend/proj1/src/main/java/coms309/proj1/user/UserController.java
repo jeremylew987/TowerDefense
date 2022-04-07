@@ -81,15 +81,8 @@ public class UserController
 	@GetMapping(value = {"/user/friends/remove"})
 	public ResponseEntity<GeneralResponse> removeFriend(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
-		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
-		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Sent friend request", friendRequest), HttpStatus.ACCEPTED);
-	}
-
-	@GetMapping(value = {"/user/friends/decline"})
-	public ResponseEntity<GeneralResponse> declineFriendRequest(Authentication authentication, @RequestParam String user) {
-		logger.info("Entered into User Controller Layer");
-		FriendRequest friendRequest = userService.declineFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
-		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Decline friend request", friendRequest), HttpStatus.ACCEPTED);
+		Friendship friendRequest = userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Remove friend", friendRequest), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping(value = {"/user/friends/accept"})
@@ -97,6 +90,13 @@ public class UserController
 		logger.info("Entered into User Controller Layer");
 		Friendship friendship = userService.acceptFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Accept friend request", friendship), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value = {"/user/friends/decline"})
+	public ResponseEntity<GeneralResponse> declineFriendRequest(Authentication authentication, @RequestParam String user) {
+		logger.info("Entered into User Controller Layer");
+		FriendRequest friendRequest = userService.declineFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Decline friend request", friendRequest), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping(value={"/user/friends/sent"})
