@@ -31,40 +31,8 @@ public class TowerDefense extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		TextureElement text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.TopLeft);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.TopMiddle);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.TopRight);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.MiddleRight);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.BottomRight);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.BottomMiddle);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.BottomLeft);
-		renderer.addElement(text);
-
-		text = new TextureElement(img, 0, 0);
-		text.setOrientation(Orientation.MiddleLeft);
-		renderer.addElement(text);
-
-		TextElement textElement = new TextElement("Hello, world!", 0, 0);
-		textElement.setOrientation(Orientation.Middle);
+		TextElement textElement = new TextElement("Frontend/Backend Communication Test", 0, 0);
+		textElement.setOrientation(Orientation.TopLeft);
 		renderer.addElement(textElement);
 
 	}
