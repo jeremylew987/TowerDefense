@@ -2,6 +2,7 @@ package coms309.proj1.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
 import lombok.NoArgsConstructor;
 
@@ -58,6 +59,14 @@ public class User{
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("friends")
 	private List<Friendship> friends = new ArrayList<Friendship>();
+
+	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY,  orphanRemoval = true)
+	@JsonIgnoreProperties("receivedFriendRequests")
+	private List<FriendRequest> receivedFriendRequests = new ArrayList<FriendRequest>();
+
+	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY,  orphanRemoval = true)
+	@JsonIgnoreProperties("sentFriendRequests")
+	private List<FriendRequest> sentFriendRequests = new ArrayList<FriendRequest>();
 
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
