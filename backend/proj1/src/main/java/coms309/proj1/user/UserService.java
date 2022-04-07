@@ -1,8 +1,8 @@
 package coms309.proj1.user;
 
 import coms309.proj1.exception.*;
-import coms309.proj1.friend.FriendRelationship;
-import coms309.proj1.friend.FriendRelationshipRepository;
+import coms309.proj1.friend.Friendship;
+import coms309.proj1.friend.FriendshipRepository;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final FriendRelationshipRepository friendRelationshipRepository;
+    private final FriendshipRepository friendRelationshipRepository;
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
@@ -147,26 +147,26 @@ public class UserService {
 //        return user;
 //    }
 
-    public FriendRelationship addFriend(String owner_name, String friend_name) {
+    public Friendship addFriend(String owner_name, String friend_name) {
         logger.info("Entered into Service Layer\n");
         Optional<User> owner_opt = userRepository.findByUsername(owner_name);
         Optional <User> friend_opt = userRepository.findByUsername(friend_name);
         if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
             return null;
         }
-        FriendRelationship friendRelationship = new FriendRelationship(owner_opt.get(), friend_opt.get());
-        owner_opt.get().addFriendRelationship(friendRelationship);
-        friendRelationshipRepository.save(friendRelationship);
+        Friendship friendship = new Friendship(owner_opt.get(), friend_opt.get());
+        owner_opt.get().addFriendship(friendship);
+        friendRelationshipRepository.save(friendship);
         userRepository.save(owner_opt.get());
         logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
-        return friendRelationship;
+        return friendship;
 
     }
 
     /**
      * @return FriendRelationship of owner and friend if it exists. Null otherwise
      */
-    public FriendRelationship removeFriend(String owner_name, String friend_name) {
+    public Friendship removeFriend(String owner_name, String friend_name) {
         logger.info("Entered into Service Layer\n");
         Optional<User> owner_opt = userRepository.findByUsername(owner_name);
         Optional <User> friend_opt = userRepository.findByUsername(friend_name);
@@ -174,13 +174,13 @@ public class UserService {
             logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
             return null;
         }
-        for (FriendRelationship friendRelationship : owner_opt.get().getFriendRelationships()) {
-            if (friendRelationship.getFriend() == friend_opt.get()) {
+        for (Friendship friendship : owner_opt.get().getFriendships()) {
+            if (friendship.getFriend() == friend_opt.get()) {
                 logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
-                owner_opt.get().removeFriendRelationship(friendRelationship);
-                friendRelationshipRepository.delete(friendRelationship);
+                owner_opt.get().removeFriendship(friendship);
+                friendRelationshipRepository.delete(friendship);
                 userRepository.save(owner_opt.get());
-                return friendRelationship;
+                return friendship;
             }
         }
         logger.info(friend_name + "is not in " + owner_name + "'s friend list\n");

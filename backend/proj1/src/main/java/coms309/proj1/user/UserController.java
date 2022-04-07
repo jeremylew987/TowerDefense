@@ -1,6 +1,6 @@
 package coms309.proj1.user;
 
-import coms309.proj1.friend.FriendRelationship;
+import coms309.proj1.friend.Friendship;
 import coms309.proj1.exception.GeneralResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.*;
@@ -59,14 +59,14 @@ public class UserController
 	@GetMapping(value={"/user/friends/add/{friend}"})
 	public ResponseEntity<GeneralResponse> addFriend(Authentication authentication, @PathVariable String friend) {
 		logger.info("Entered into User Controller Layer");
-		FriendRelationship relationship =  userService.addFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+		Friendship relationship =  userService.addFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Added friend", relationship), HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping(value={"/user/friends/remove/{friend}"})
 	public ResponseEntity<GeneralResponse> deleteFriend(Authentication authentication, @PathVariable String friend) {
 		logger.info("Entered into User Controller Layer");
-		FriendRelationship relationship =  userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+		Friendship relationship =  userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Deleted friend", relationship), HttpStatus.ACCEPTED);
 	}
 

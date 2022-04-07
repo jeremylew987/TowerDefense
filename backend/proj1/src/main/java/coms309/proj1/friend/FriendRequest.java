@@ -1,21 +1,19 @@
 package coms309.proj1.friend;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coms309.proj1.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "friendrelationship")
-public class FriendRelationship
+@Table(name = "friendrequest")
+public class FriendRequest
 {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "relationship_id")
+	@Column(name = "request_id")
 	private Integer relationshipId;
 
 	@Column(name = "created_date")
@@ -32,14 +30,14 @@ public class FriendRelationship
 	//@JsonIgnoreProperties("friends")
 	//@JsonBackReference
 	@JsonIgnore
-	private User owner;
+	private User sender;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "friend_id", referencedColumnName="user_id")
 	//@JsonIgnoreProperties("friends")
 	//@JsonBackReference
 	@JsonIgnore
-	private User friend;
+	private User receiver;
 
 
 	// =============================== Constructors ================================== //

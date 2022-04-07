@@ -2,19 +2,11 @@ package coms309.proj1.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import coms309.proj1.friend.FriendRelationship;
-import lombok.Getter;
+import coms309.proj1.friend.Friendship;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor
@@ -65,7 +57,7 @@ public class User{
 	 */
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("friends")
-	private List<FriendRelationship> friends = new ArrayList<FriendRelationship>();
+	private List<Friendship> friends = new ArrayList<Friendship>();
 
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
@@ -110,14 +102,14 @@ public class User{
 	/**
 	 * @return true
 	 */
-	public boolean addFriendRelationship(FriendRelationship r) {
+	public boolean addFriendship(Friendship r) {
 		return this.friends.add(r);
 	}
 
 	/**
 	 * @return true if entity was contained in the list
 	 */
-	public boolean removeFriendRelationship(FriendRelationship r) {
+	public boolean removeFriendship(Friendship r) {
 		return this.friends.remove(r);
 	}
 
@@ -125,7 +117,7 @@ public class User{
 	 * @return list of friend relationships the owner has
 	 */
 	@JsonIgnore
-	public List<FriendRelationship> getFriendRelationships() {
+	public List<Friendship> getFriendships() {
 		return this.friends;
 	}
 
@@ -134,7 +126,7 @@ public class User{
 	 */
 	public List<User> getFriends() {
 		List<User> list = new ArrayList<User>();
-		for (FriendRelationship friend : this.friends) {
+		for (Friendship friend : this.friends) {
 			list.add(friend.getFriend());
 		}
 		return list;
