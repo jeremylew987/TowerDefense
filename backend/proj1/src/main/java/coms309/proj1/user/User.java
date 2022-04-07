@@ -159,4 +159,12 @@ public class User{
 		return this.receivedFriendRequests;
 	}
 
+	public boolean removeSentFriendRequest(FriendRequest fr) {
+		return this.sentFriendRequests.remove(fr);
+	}
+
+	public boolean removeReceivedFriendRequest(FriendRequest fr) {
+		return this.receivedFriendRequests.remove(fr);
+	}
+
 }
