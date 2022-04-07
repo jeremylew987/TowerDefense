@@ -69,9 +69,9 @@ public class UserController
 	}
 
 	@GetMapping(value = {"/user/friend/add"})
-	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String friend) {
+	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
-		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Sent friend request", friendRequest), HttpStatus.ACCEPTED);
 	}
 
