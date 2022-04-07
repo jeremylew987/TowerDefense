@@ -1,100 +1,79 @@
 package coms309.server;
 
+
+import coms309.server.GameLogic.GameState.GameState;
+import coms309.server.Network.ConnectionHandler;
+
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server {
 
-    private ServerSocket socket;
+    // Server Properties
+    private int port;
     private int maxPlayers;
-    private int numPlayers;
-    private HttpURLConnection authServer;
-    private Connection[] clients;
+    private ArrayList<Integer> moderators = new ArrayList<>();
 
-    public Server(int port, int maxPlayers) {
+    // Server Objects
+    private ServerSocket socket;
+    private GameState gamestate;
+    private ConnectionHandler connectionHandler;
+    public final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-        this.maxPlayers = maxPlayers;
-        this.numPlayers = 0;
-        this.clients = new Connection[maxPlayers];
+    public Server() {
+        // 1. Setup Logging
+        System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");
+
+        // 2. Load server settings from "server.properties"
+        Properties prop = new Properties();
+        try {
+            InputStream f = getClass().getClassLoader().getResourceAsStream("server.properties");
+            prop.load(f);
+            this.maxPlayers = Integer.parseInt(prop.getProperty("server.maxPlayers"));
+            this.port = Integer.parseInt(prop.getProperty("server.port"));
+            f.close();
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Could not load server properties from file!");
+            ex.printStackTrace();
+            System.exit(1);
+        }
+
+        // 3. Establish Network Socket
         try {
             socket = new ServerSocket(port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Server started on port: " + port);
+        } catch (IOException e) { e.printStackTrace(); }
+        this.connectionHandler = new ConnectionHandler(this);
+        logger.log(Level.INFO, "Server started on port: " + port);
+
+        // 4. Create Gamestate Logic
+        this.gamestate = new GameState(this);
     }
 
-    public void writeToAll(String s) {
-        for (int i = 1; i <= numPlayers; i++) {
-            try {
-                clients[i].writeTo(s);
-            } catch (NullPointerException ex) {
-                System.out.println("Player with ID: " + numPlayers + " is no longer connected.");
-            }
-        }
+    public ServerSocket getSocket() {
+        return socket;
     }
 
-    public void checkClientConnections() {
-        // check if any connections have disconnected
-        for (int i = 1; i <= numPlayers; i++) {
-            if (!clients[i].isAlive) {
-                this.writeToAll("Player #" + numPlayers + " has disconnected.\n");
-                clients[i] = null;
-            }
-        }
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 
-    public void waitForPlayers() {
-        try {
-            // wait until max players have connected
-            while (numPlayers < maxPlayers) {
-                // check if array item is already claimed
-                if (clients[numPlayers] != null) {
-                    numPlayers++;
-                    continue;
-                }
-
-                // accept new connection
-                Socket s = socket.accept();
-                checkClientConnections();
-                numPlayers++;
-                System.out.println("Player with ID: " + numPlayers + " has connected.");
-                Connection c = new Connection(s, numPlayers);
-                clients[numPlayers] = c;
-
-                // validate new connection
-                if (c.validateUser()) {
-                    // start new thread
-                    Thread t = new Thread(c);
-                    t.start();
-
-                    // update player data to users
-                    this.writeToAll("Player #" + numPlayers + " has connected.\n");
-                } else {
-                    numPlayers--;
-                    c.writeTo("Failed to authenticate user.");
-                    c.close();
-                }
-
-                // make sure all users are connected before starting, otherwise restart
-                if (numPlayers == maxPlayers) {
-                    checkClientConnections(); // update status
-                    for (int i = 1; i < maxPlayers; i++) {
-                        if (clients[i] == null) { // if array item is null
-                            numPlayers = i; // set iterator to null object id to fill array fully
-                        }
-                    }
-                }
-            }
-            System.out.println("All players have connected, starting game.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public GameState getGamestate() {
+        return gamestate;
+    }
+    public ConnectionHandler getConnectionHandler() {
+        return connectionHandler;
     }
 
     public static void main(String[] args) {
-        Server s = new Server(25565, 4);
-        s.waitForPlayers();
+        Server server = new Server();
+        server.connectionHandler.awaitNewConnections();
     }
 
 }

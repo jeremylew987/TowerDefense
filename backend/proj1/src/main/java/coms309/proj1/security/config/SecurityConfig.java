@@ -1,8 +1,10 @@
 package coms309.proj1.security.config;
 
+import coms309.proj1.login.LoginSuccessHandler;
 import coms309.proj1.user.UserDetailsServiceImpl;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -23,11 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setAuthenticationManager(authenticationManager());
+
         http.httpBasic()
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/registration**", "/registration/**").permitAll()
+                    .antMatchers("/", "/registration**", "/registration/**", "/user/verifyUser").permitAll()
                     .antMatchers("/anonymous").anonymous()
                     .antMatchers("/admin*").hasAuthority("ADMIN")
                     .antMatchers("/home", "/user*", "/user/friends/**").hasAnyAuthority("ADMIN", "USER")
@@ -35,17 +43,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .httpBasic()
                     .and()
-                .formLogin()
+                .formLogin() // Goes to /login/success when successful
                     .loginPage("/login") // Get request of the login page
                     .loginProcessingUrl("/login") // URL to post request the login parameters
-                    .defaultSuccessUrl("/login/success", true) // Go here when when success always
+                    //.defaultSuccessUrl("/login/success", true) // Go here when when success always
+                    .successHandler(loginSuccessHandler())
                     .permitAll()
                     .and()
                 .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
+                    .logoutUrl("/logout") // Successful logout goes to 204 no content
                     .deleteCookies("JSESSIONID")
-                    .permitAll();
+                    .permitAll()
+                    .and()
+                .addFilterAt(
+                        loginFilter,
+                        UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -67,5 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public ModelMapper modelMapper() { return new ModelMapper(); }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
     }
 }

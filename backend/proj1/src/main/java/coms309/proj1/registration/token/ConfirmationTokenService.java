@@ -1,6 +1,10 @@
 package coms309.proj1.registration.token;
 
+import coms309.proj1.exception.InvalidTokenException;
+import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -29,15 +29,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     private final FriendRelationshipRepository friendRelationshipRepository;
-
     private UserDetailsServiceImpl userDetailsService;
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private ConfirmationTokenService confirmationTokenService;
-
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<User> loadUsers() {
@@ -53,7 +48,7 @@ public class UserService {
         return userDetailsService.loadUserByEmail(email);
     }
 
-    public ConfirmationToken registerUser(User user) {
+    public ConfirmationToken  registerUser(User user) {
         logger.info("Entered into Service Layer");
 
         // continues if loadUser by Email & Username return not found.
@@ -67,7 +62,7 @@ public class UserService {
         }
         try {
             UserDetails taken = userDetailsService.loadUserByUsername(user.getUsername());
-            logger.warn("Username is already taken by " + user.toString());
+            logger.warn("Username is already taken by " + taken.toString());
             throw new UsernameTakenException(user.getUsername() + " is already taken");
         } catch(UsernameNotFoundException ignored) {
             logger.info("Username is not taken");
@@ -128,6 +123,13 @@ public class UserService {
 //        logger.info("User with email [" + email + "] matches password");
 //        return true;
 //    }
+
+    public User verifyUserByToken(String token) throws RuntimeException {
+        logger.info("Entered into Service Layer");
+        Optional<ConfirmationToken> c = confirmationTokenService.getToken(token);
+        logger.info("Found " + c.orElse(null).getUser().getUsername());
+        return c.orElseThrow(RuntimeException::new).getUser();
+    }
 
     public int enableUser(String email) {
         logger.info("Entered into Service Layer");
