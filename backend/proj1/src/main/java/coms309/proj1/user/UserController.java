@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
 import coms309.proj1.exception.GeneralResponse;
 import org.modelmapper.ModelMapper;
@@ -23,7 +24,7 @@ public class UserController
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-
+	// =============================== BASIC USER API ================================== //
 	@GetMapping(path = "/admin")
 	public ResponseEntity<GeneralResponse> getAdminDetails(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
@@ -44,18 +45,8 @@ public class UserController
 		logger.info("Records Fetched:" + results.size());
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all users", results), HttpStatus.ACCEPTED);
 	}
-//	@GetMapping(value={"/user/verifyLoginByUsername/{username}/{password}"})
-//	public boolean verifyUsername(@PathVariable String username, @PathVariable String password) {
-//		logger.info("Entered into User Controller Layer");
-//		return userService.verifyUserByUsername(username, password);
-//	}
 
-//	@GetMapping(value={"/user/verifyLoginByEmail/{email}/{password}"})
-//	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
-//		logger.info("Entered into User Controller Layer");
-//		return userService.verifyUserByEmail(email, password);
-//	}
-
+	// =============================== FRIEND API ================================== //
 	@GetMapping(value={"/user/friends/add/{friend}"})
 	public ResponseEntity<GeneralResponse> addFriend(Authentication authentication, @PathVariable String friend) {
 		logger.info("Entered into User Controller Layer");
@@ -77,6 +68,14 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all friends", friends), HttpStatus.ACCEPTED);
 	}
 
+	@GetMapping(value = {"/user/friend/add"})
+	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String friend) {
+		logger.info("Entered into User Controller Layer");
+		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Sent friend request", friendRequest), HttpStatus.ACCEPTED);
+	}
+
+	// =============================== SERVER API ================================== //
 	@GetMapping(value={"/user/verifyUser"})
 	public UserDTO verifyToken(@RequestParam("token") String token) {
 		logger.info("Entered into User Controller Layer");
