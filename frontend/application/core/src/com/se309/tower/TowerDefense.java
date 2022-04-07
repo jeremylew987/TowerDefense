@@ -1,6 +1,8 @@
 package com.se309.tower;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -35,6 +37,12 @@ public class TowerDefense extends ApplicationAdapter {
 		textElement.setOrientation(Orientation.TopLeft);
 		renderer.addElement(textElement);
 
+		TextElement inputElement = new TextElement(">", 0, 70);
+		inputElement.setOrientation(Orientation.TopLeft);
+		renderer.addElement(inputElement);
+
+		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement));
+
 	}
 
 	@Override
@@ -45,6 +53,10 @@ public class TowerDefense extends ApplicationAdapter {
 		renderer.render(batch);
 
 		batch.end();
+
+		if (Gdx.input.justTouched()) {
+			Gdx.input.setOnscreenKeyboardVisible(true);
+		}
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.se309.config.NetworkConfig;
+import com.se309.net.NetworkHandle;
 import com.se309.net.NetworkManager;
 import com.se309.test.UserDummy;
 
@@ -42,6 +43,22 @@ public class JTest {
 
         // Ensure that the two deserialized classes are the same
         assertEquals(dummyExpected, dummyDeserialized);
+    }
+
+    @Test
+    public void network_testHandleSpawn() {
+        NetworkHandle testHandle = networkManager.spawnHandler("endpoint");
+
+        // Ensure that the manager does not spit out a null handler
+        assertNotNull(testHandle);
+    }
+
+    @Test
+    public void network_testHandleEndpoint() {
+        NetworkHandle testHandle = networkManager.spawnHandler("endpoint");
+
+        // Ensure that the manager does not spit out a null handler
+        assertEquals(testHandle.getDefaultEndpoint(), "endpoint");
     }
 
     @Test
