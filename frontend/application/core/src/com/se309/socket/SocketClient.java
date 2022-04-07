@@ -1,5 +1,8 @@
 package com.se309.socket;
 
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -11,7 +14,10 @@ import java.net.Socket;
 
 public class SocketClient {
 
-    Socket socket;
+    private Socket socket;
+
+    private DataOutputStream dataOut;
+    private DataInputStream dataIn;
 
     public SocketClient(String address, int port) {
 
@@ -19,7 +25,17 @@ public class SocketClient {
 
             socket = new Socket(address, port);
 
+            System.out.println("Connected");
+
+            dataIn = new DataInputStream(socket.getInputStream());
+            dataOut = new DataOutputStream(socket.getOutputStream());
+
         } catch (IOException e) {
+
+            System.out.println("Unable to connect");
+
+            dataIn = null;
+            dataOut = null;
 
             socket = null;
 
@@ -33,5 +49,21 @@ public class SocketClient {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+    }
+
+    public DataOutputStream getDataOut() {
+        return dataOut;
+    }
+
+    public void setDataOut(DataOutputStream dataOut) {
+        this.dataOut = dataOut;
+    }
+
+    public DataInputStream getDataIn() {
+        return dataIn;
+    }
+
+    public void setDataIn(DataInputStream dataIn) {
+        this.dataIn = dataIn;
     }
 }

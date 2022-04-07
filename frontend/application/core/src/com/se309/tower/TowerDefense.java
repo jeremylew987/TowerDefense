@@ -1,6 +1,8 @@
 package com.se309.tower;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -8,6 +10,7 @@ import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
+import com.se309.socket.SocketClient;
 
 /**
  * TowerDefense.java
@@ -35,6 +38,21 @@ public class TowerDefense extends ApplicationAdapter {
 		textElement.setOrientation(Orientation.TopLeft);
 		renderer.addElement(textElement);
 
+		TextElement inputElement = new TextElement(">", 0, 70);
+		inputElement.setOrientation(Orientation.TopLeft);
+		renderer.addElement(inputElement);
+
+		TextElement outputElement = new TextElement("Chat:\n", 1000, 70);
+		outputElement.setOrientation(Orientation.TopLeft);
+		renderer.addElement(outputElement);
+
+		SocketClient client = new SocketClient("10.30.35.71", 25565);
+
+		MessageReader reader = new MessageReader(client, outputElement);
+		reader.start();
+
+		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement, client));
+
 	}
 
 	@Override
@@ -45,6 +63,10 @@ public class TowerDefense extends ApplicationAdapter {
 		renderer.render(batch);
 
 		batch.end();
+
+		if (Gdx.input.justTouched()) {
+			Gdx.input.setOnscreenKeyboardVisible(true);
+		}
 	}
 	
 	@Override

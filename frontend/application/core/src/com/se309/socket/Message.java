@@ -1,8 +1,8 @@
-package coms309.server.Network;
+package com.se309.socket;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import coms309.server.Schema.DataObjectSchema;
-import coms309.server.Schema.MessageSchema;
+import com.se309.schema.DataObjectSchema;
+import com.se309.schema.MessageSchema;
 
 public class Message{
 
@@ -20,7 +20,7 @@ public class Message{
     // Read from serialized object
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
-        code = m.getCode().toUpperCase();
+        code = m.getCode();
         message = m.getMessage();
     }
 

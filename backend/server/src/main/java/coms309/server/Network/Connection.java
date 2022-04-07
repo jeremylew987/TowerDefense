@@ -29,7 +29,7 @@ public class Connection implements Runnable {
     private boolean isAlive;
     private String address;
 
-    private final String authServerLocation = "http://localhost:8080";//"http://coms-309-027.class.las.iastate.edu:8080";
+    private final String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private Player player;
 
     public Connection(Socket socket, int id, Server server) {
@@ -88,8 +88,6 @@ public class Connection implements Runnable {
             String query = String.format("token=%s",
                     URLEncoder.encode(authToken, charset));
 
-            server.logger.log(Level.INFO, "Authentication query for token=" + query);
-
             // 3. Send HTTP Request to Authentication Server
             URLConnection connection = new URL(url + "?" + query).openConnection();
             connection.setRequestProperty("Accept-Charset", charset);
@@ -105,6 +103,7 @@ public class Connection implements Runnable {
             this.player.setUserId(userObject.getInt("userId"));
             this.validated = true;
         } catch (IOException ex) {
+            server.logger.log(Level.INFO, address + " auth failed.");
             this.validated = false;
         }
         return validated;
@@ -150,10 +149,7 @@ public class Connection implements Runnable {
                     player.getUsername() + " has joined the server!"
             ).serialize());
 
-            server.logger.log(
-                    Level.INFO,
-                    player.getUsername() + "(" + address + ") has connected."
-            );
+            server.logger.info(player.getUsername() + "(" + address + ") has connected.");
             server.getConnectionHandler().announcePlayers();
         } else { kill("AUTH_FAILED"); }
 
@@ -200,10 +196,13 @@ public class Connection implements Runnable {
                 break;
             case MESSAGE:
                 Message m = new Message(data.getMessage());
+
+                // Check if message username matches auth username
                 if (!player.getUsername().equals(m.author)) {
-                    server.logger.log(Level.WARNING, "Message author and client details do not match!");
+                    server.logger.info("Message author and client details do not match!");
                     m.author = player.getUsername();
                 }
+
                 if (m.code.equals("CHAT")) {
                     server.getConnectionHandler().writeToAll(m.serialize()); // relay chat to users
                 }
