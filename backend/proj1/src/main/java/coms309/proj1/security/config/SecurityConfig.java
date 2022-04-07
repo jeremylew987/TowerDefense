@@ -1,5 +1,6 @@
 package coms309.proj1.security.config;
 
+import coms309.proj1.login.LoginSuccessHandler;
 import coms309.proj1.user.UserDetailsServiceImpl;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -41,15 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .httpBasic()
                     .and()
-                .formLogin()
+                .formLogin() // Goes to /login/success when successful
                     .loginPage("/login") // Get request of the login page
                     .loginProcessingUrl("/login") // URL to post request the login parameters
-                    .defaultSuccessUrl("/login/success", true) // Go here when when success always
+                    //.defaultSuccessUrl("/login/success", true) // Go here when when success always
+                    .successHandler(loginSuccessHandler())
                     .permitAll()
                     .and()
                 .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
+                    .logoutUrl("/logout") // Successful logout goes to 204 no content
                     .deleteCookies("JSESSIONID")
                     .permitAll()
                     .and()
@@ -80,4 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public ModelMapper modelMapper() { return new ModelMapper(); }
+
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
+    }
 }
