@@ -1,5 +1,7 @@
 package com.se309.net;
 
+import android.content.Context;
+
 import java.lang.reflect.Type;
 
 /**
@@ -28,24 +30,10 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
-    public Object get(Type ty) throws RequestException {
-        synchronized(this) {
-            try {
-                parentManager.SendStringGET(this, defaultEndpoint);
+    public void get(Type ty, NetworkResponse response) {
 
-                this.wait();
-            } catch (InterruptedException e) {
-                throw new RequestException(e.getMessage());
-            }
+        parentManager.SendStringGET(ty, defaultEndpoint, response);
 
-            // If there is an error, throw it
-            if (response.isError()) throw new RequestException(response.getBody(), response.getError());
-
-            // Otherwise, extract body and deserialize
-            String body = response.getBody();
-
-            return parentManager.deserialize(body, ty);
-        }
     }
 
 

@@ -1,6 +1,8 @@
 stages:          # List of stages for jobs, and their order of execution
   - mavenbuild
   - maventest
+  - androidbuild
+  - androidtest
   - mavendeploy
 
 maven-build:       # This job runs in the build stage, which runs first.
@@ -26,6 +28,33 @@ maven-test:   # This job runs in the test stage.
     paths:
       - backend/proj1/target/*.jar
 
+android-build: # new might not work
+  image: javiersantos/android-ci:latest
+  stage: androidbuild
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./frontend/application/gradlew
+  tags:
+   - android_tag
+  script:
+    - cd frontend/application
+    - ./gradlew build --warning-mode=all
+  artifacts:
+    paths:
+    - Android_test/app/build/outputs/
+
+android-test: # new
+  image: javiersantos/android-ci:latest
+  stage: androidtest
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./frontend/application/gradlew
+  tags:
+   - android_tag
+  script:
+    - cd frontend/application
+    - ./gradlew test
+
 
 maven-deploy:
   stage: mavendeploy
@@ -39,5 +68,6 @@ maven-deploy:
     - sudo systemctl stop service-coms309-proj1.service
     - sudo systemctl start service-coms309-proj1.service
     - echo "Proj1 successfully deployed."
+
 
 

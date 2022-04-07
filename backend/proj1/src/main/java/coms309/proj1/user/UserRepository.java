@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import coms309.proj1.friend.FriendRelationship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,10 +14,20 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     //Optional<User> findAll(String userId);
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUserId(Long userId);
+
     Optional<User> findByUsername(String username);
 
+    Optional<User> findByEmail(String email);
+
+    Optional<User> deleteByUserId(Long userId);
+
+    /*
+     * Use returned entity for future operations as it could have been changed completely by save
+     * Will never return null.
+     */
     User save(User user);
+
 
     @Transactional
     @Modifying
