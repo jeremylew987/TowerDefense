@@ -22,6 +22,23 @@ public class UserDummy {
     }
 
     /**
+     * Equality override
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof UserDummy) {
+
+            UserDummy other = (UserDummy) o;
+
+            if (other.username.equals(username) && other.password.equals(password)) return true;
+
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Getters and setters, you already know what these do
      */
 
