@@ -1,22 +1,20 @@
 package coms309.proj1.friend;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coms309.proj1.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "friendrelationship")
-public class FriendRelationship
+@Table(name = "friendship")
+public class Friendship
 {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "relationship_id")
-	private Integer relationshipId;
+	@Column(name = "friendship_id")
+	private Integer friendshipId;
 
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
@@ -45,13 +43,13 @@ public class FriendRelationship
 	// =============================== Constructors ================================== //
 
 
-	public FriendRelationship() {
+	public Friendship() {
 		this.createdDate = LocalDateTime.now();
 		this.friend = null;
 		this.owner = null;
 
 	}
-	public FriendRelationship(User owner, User friend) {
+	public Friendship(User owner, User friend) {
 		this.createdDate = LocalDateTime.now();
 		this.friend = friend;
 		this.owner = owner;
@@ -60,11 +58,11 @@ public class FriendRelationship
 	// =============================== Getters & Setters ================================== //
 
 	public Integer getId() {
-		return relationshipId;
+		return friendshipId;
 	}
 
 	public void setId(Integer id) {
-		this.relationshipId = id;
+		this.friendshipId = id;
 	}
 
 	public LocalDateTime getCreatedDate() {

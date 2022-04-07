@@ -13,13 +13,21 @@
         android:theme="@style/GdxTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".LeaderboardsPage"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ProfilePage"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".SocialPage"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".LobbyPage"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".HomePage"
             android:exported="true"

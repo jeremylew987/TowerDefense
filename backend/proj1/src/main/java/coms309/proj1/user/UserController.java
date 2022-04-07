@@ -1,6 +1,7 @@
 package coms309.proj1.user;
 
-import coms309.proj1.friend.FriendRelationship;
+import coms309.proj1.friend.FriendRequest;
+import coms309.proj1.friend.Friendship;
 import coms309.proj1.exception.GeneralResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.*;
@@ -23,7 +24,7 @@ public class UserController
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-
+	// =============================== BASIC USER API ================================== //
 	@GetMapping(path = "/admin")
 	public ResponseEntity<GeneralResponse> getAdminDetails(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
@@ -44,31 +45,21 @@ public class UserController
 		logger.info("Records Fetched:" + results.size());
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all users", results), HttpStatus.ACCEPTED);
 	}
-//	@GetMapping(value={"/user/verifyLoginByUsername/{username}/{password}"})
-//	public boolean verifyUsername(@PathVariable String username, @PathVariable String password) {
+
+	// =============================== FRIEND API ================================== //
+//	@GetMapping(value={"/user/friends/add/{friend}"})
+//	public ResponseEntity<GeneralResponse> addFriend(Authentication authentication, @PathVariable String friend) {
 //		logger.info("Entered into User Controller Layer");
-//		return userService.verifyUserByUsername(username, password);
+//		Friendship relationship =  userService.addFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+//		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Added friend", relationship), HttpStatus.ACCEPTED);
 //	}
-
-//	@GetMapping(value={"/user/verifyLoginByEmail/{email}/{password}"})
-//	public boolean verifyEmail(@PathVariable String email, @PathVariable String password) {
+//
+//	@GetMapping(value={"/user/friends/remove/{friend}"})
+//	public ResponseEntity<GeneralResponse> deleteFriend(Authentication authentication, @PathVariable String friend) {
 //		logger.info("Entered into User Controller Layer");
-//		return userService.verifyUserByEmail(email, password);
+//		Friendship relationship =  userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
+//		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Deleted friend", relationship), HttpStatus.ACCEPTED);
 //	}
-
-	@GetMapping(value={"/user/friends/add/{friend}"})
-	public ResponseEntity<GeneralResponse> addFriend(Authentication authentication, @PathVariable String friend) {
-		logger.info("Entered into User Controller Layer");
-		FriendRelationship relationship =  userService.addFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
-		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Added friend", relationship), HttpStatus.ACCEPTED);
-	}
-
-	@GetMapping(value={"/user/friends/remove/{friend}"})
-	public ResponseEntity<GeneralResponse> deleteFriend(Authentication authentication, @PathVariable String friend) {
-		logger.info("Entered into User Controller Layer");
-		FriendRelationship relationship =  userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
-		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Deleted friend", relationship), HttpStatus.ACCEPTED);
-	}
 
 	@GetMapping(value={"/user/friends"})
 	public ResponseEntity<GeneralResponse> getFriends(Authentication authentication) {
@@ -77,6 +68,52 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all friends", friends), HttpStatus.ACCEPTED);
 	}
 
+
+	// =============================== FRIEND REQUEST API ================================== //
+
+	@GetMapping(value = {"/user/friends/add"})
+	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String user) {
+		logger.info("Entered into User Controller Layer");
+		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Sent friend request", friendRequest), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value = {"/user/friends/remove"})
+	public ResponseEntity<GeneralResponse> removeFriend(Authentication authentication, @RequestParam String user) {
+		logger.info("Entered into User Controller Layer");
+		Friendship friendRequest = userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Remove friend", friendRequest), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value = {"/user/friends/accept"})
+	public ResponseEntity<GeneralResponse> acceptFriendRequest(Authentication authentication, @RequestParam String user) {
+		logger.info("Entered into User Controller Layer");
+		Friendship friendship = userService.acceptFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Accept friend request", friendship), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value = {"/user/friends/decline"})
+	public ResponseEntity<GeneralResponse> declineFriendRequest(Authentication authentication, @RequestParam String user) {
+		logger.info("Entered into User Controller Layer");
+		FriendRequest friendRequest = userService.declineFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Decline friend request", friendRequest), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value={"/user/friends/sent"})
+	public ResponseEntity<GeneralResponse> getSentFriendRequests(Authentication authentication) {
+		logger.info("Entered into User Controller Layer");
+		List<FriendRequest> sentFriendRequests =  userService.getSentFriendRequests(((UserDetailsImpl)authentication.getPrincipal()).getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all sent friend requests", sentFriendRequests), HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value={"/user/friends/received"})
+	public ResponseEntity<GeneralResponse> getReceivedFriendRequests(Authentication authentication) {
+		logger.info("Entered into User Controller Layer");
+		List<FriendRequest> receivedFriendRequests =  userService.getReceivedFriendRequests(((UserDetailsImpl)authentication.getPrincipal()).getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all received friend requests", receivedFriendRequests), HttpStatus.ACCEPTED);
+	}
+
+	// =============================== SERVER API ================================== //
 	@GetMapping(value={"/user/verifyUser"})
 	public UserDTO verifyToken(@RequestParam("token") String token) {
 		logger.info("Entered into User Controller Layer");

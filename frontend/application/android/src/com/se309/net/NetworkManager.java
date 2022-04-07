@@ -57,20 +57,22 @@ public class NetworkManager {
         this.context = context;
         this.host = host;
 
-        // Set up RequestQueue
-        cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024);
+        // Only do setup of context != null
+        if (context != null) {
+            // Set up RequestQueue
+            cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024);
 
-        network = new BasicNetwork(new HurlStack());
+            network = new BasicNetwork(new HurlStack());
 
-        requestQueue = new RequestQueue(cache, network);
+            requestQueue = new RequestQueue(cache, network);
+            // Start it up
+            requestQueue.start();
+        }
 
         // Quickly set up Gson stuff
         builder = new GsonBuilder();
 
         builder.setPrettyPrinting();
-
-        // Start it up
-        requestQueue.start();
 
         //requestQueue = Volley.newRequestQueue(context);
 

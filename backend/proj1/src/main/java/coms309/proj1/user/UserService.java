@@ -1,8 +1,10 @@
 package coms309.proj1.user;
 
 import coms309.proj1.exception.*;
-import coms309.proj1.friend.FriendRelationship;
-import coms309.proj1.friend.FriendRelationshipRepository;
+import coms309.proj1.friend.FriendRequest;
+import coms309.proj1.friend.FriendRequestRepository;
+import coms309.proj1.friend.Friendship;
+import coms309.proj1.friend.FriendshipRepository;
 import coms309.proj1.registration.token.ConfirmationToken;
 import coms309.proj1.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -29,7 +31,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final FriendRelationshipRepository friendRelationshipRepository;
+    private final FriendshipRepository friendshipRepository;
+    private final FriendRequestRepository friendRequestRepository;
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
@@ -137,55 +140,25 @@ public class UserService {
     }
 
 
-//    @Override
-//    public UserDetails updatePassword(UserDetails user, String newPassword)
-//    {
+// =============================== FRIEND API ================================== //
+
+//    public Friendship addFriend(String owner_name, String friend_name) {
 //        logger.info("Entered into Service Layer\n");
-//        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
-//        ((User)user).setPassword(encodedPassword);
-//        logger.info ("Password set for " + ((User)user).toString());
-//        return user;
+//        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
+//        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
+//        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+//            logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
+//            return null;
+//        }
+//        Friendship friendship = new Friendship(owner_opt.get(), friend_opt.get());
+//        owner_opt.get().addFriendship(friendship);
+//        friendshipRepository.save(friendship);
+//        userRepository.save(owner_opt.get());
+//        logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
+//        return friendship;
+//
 //    }
 
-    public FriendRelationship addFriend(String owner_name, String friend_name) {
-        logger.info("Entered into Service Layer\n");
-        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
-        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
-        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
-            return null;
-        }
-        FriendRelationship friendRelationship = new FriendRelationship(owner_opt.get(), friend_opt.get());
-        owner_opt.get().addFriendRelationship(friendRelationship);
-        friendRelationshipRepository.save(friendRelationship);
-        userRepository.save(owner_opt.get());
-        logger.info("Adding " + friend_name + " to " + owner_name + "'s friends list\n");
-        return friendRelationship;
-
-    }
-
-    /**
-     * @return FriendRelationship of owner and friend if it exists. Null otherwise
-     */
-    public FriendRelationship removeFriend(String owner_name, String friend_name) {
-        logger.info("Entered into Service Layer\n");
-        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
-        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
-        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
-            logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
-            return null;
-        }
-        for (FriendRelationship friendRelationship : owner_opt.get().getFriendRelationships()) {
-            if (friendRelationship.getFriend() == friend_opt.get()) {
-                logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
-                owner_opt.get().removeFriendRelationship(friendRelationship);
-                friendRelationshipRepository.delete(friendRelationship);
-                userRepository.save(owner_opt.get());
-                return friendRelationship;
-            }
-        }
-        logger.info(friend_name + "is not in " + owner_name + "'s friend list\n");
-        return null;
-    }
 
     public List<User> getFriends(String owner_name) {
         logger.info("Entered into Service Layer\n");
@@ -197,6 +170,120 @@ public class UserService {
         List<User> friends = owner_opt.get().getFriends();
         logger.info("Retrieved " + friends.size() + " friend records\n");
         return owner_opt.get().getFriends();
+    }
+
+
+    public FriendRequest sendFriendRequest(String sender_username, String receiver_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> sender_opt = userRepository.findByUsername(sender_username);
+        Optional <User> receiver_opt = userRepository.findByUsername(receiver_username);
+        if (receiver_opt.isEmpty()) {
+            logger.info("User" + receiver_username + " is not found\n");
+            return null;
+        }
+        FriendRequest friendRequest = new FriendRequest(sender_opt.get(), receiver_opt.get());
+
+        // Check that friend request doesn't already exist between these users
+        List<FriendRequest> receiver_frs = friendRequestRepository.findByReceiver(receiver_opt.get());
+        for (FriendRequest fr : receiver_frs) {
+            if (fr.getSender().getUsername().equals(sender_username)) {
+                logger.info("Friend request from " + sender_username + " to " + receiver_username + " already exists\n");
+                return null;
+            }
+        }
+        sender_opt.get().addSentFriendRequest(friendRequest);
+        receiver_opt.get().addReceivedFriendRequest(friendRequest);
+        friendRequestRepository.save(friendRequest);
+        logger.info("Sent friend request from " +  sender_username + " to " + receiver_username + "\n");
+        return friendRequest;
+    }
+
+    /**
+     * @return Friendship of owner and friend if it exists. Null otherwise
+     */
+    public Friendship removeFriend(String owner_name, String friend_name) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> owner_opt = userRepository.findByUsername(owner_name);
+        Optional <User> friend_opt = userRepository.findByUsername(friend_name);
+        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+            logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
+            return null;
+        }
+
+        Friendship owner_fs = friendshipRepository.findFirstByOwnerAndFriend(owner_opt.get(), friend_opt.get());
+        Friendship friend_fs = friendshipRepository.findFirstByOwnerAndFriend(friend_opt.get(), owner_opt.get());
+        if (owner_fs == null || friend_fs == null) {
+            logger.info(friend_name + "is not in " + owner_name + "'s friend list\n");
+            return null;
+        }
+        logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
+        owner_opt.get().removeFriendship(owner_fs);
+        friend_opt.get().removeFriendship(friend_fs);
+        userRepository.save(owner_opt.get());
+        userRepository.save(friend_opt.get());
+        friendshipRepository.delete(owner_fs);
+        friendshipRepository.delete(friend_fs);
+        return owner_fs;
+    }
+
+    public Friendship acceptFriendRequest(String sender_username, String receiver_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> sender_opt = userRepository.findByUsername(sender_username);
+        Optional <User> receiver_opt = userRepository.findByUsername(receiver_username);
+        if (sender_opt.isEmpty() || receiver_opt.isEmpty()) {
+            logger.info("User" + sender_opt + " or " + receiver_opt + " is not found\n");
+            return null;
+        }
+        Friendship sender_fr = new Friendship(sender_opt.get(), receiver_opt.get());
+        Friendship receiver_fr = new Friendship(receiver_opt.get(), sender_opt.get());
+        friendshipRepository.save(sender_fr);
+        friendshipRepository.save(receiver_fr);
+        sender_opt.get().addFriendship(sender_fr);
+        receiver_opt.get().addFriendship(receiver_fr);
+        userRepository.save(sender_opt.get());
+        userRepository.save(receiver_opt.get());
+
+        // Delete friend request from database
+        friendRequestRepository.delete(friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get()));
+        logger.info(sender_username + " and " + receiver_username + " are now friends\n");
+        return receiver_fr;
+    }
+
+    public FriendRequest declineFriendRequest(String sender_username, String receiver_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> sender_opt = userRepository.findByUsername(sender_username);
+        Optional <User> receiver_opt = userRepository.findByUsername(receiver_username);
+        if (receiver_opt.isEmpty()) {
+            logger.info("User" + receiver_username + " is not found\n");
+            return null;
+        }
+        FriendRequest fr = friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get());
+        sender_opt.get().removeSentFriendRequest(fr);
+        receiver_opt.get().removeReceivedFriendRequest(fr);
+        userRepository.save(sender_opt.get());
+        userRepository.save(receiver_opt.get());
+        friendRequestRepository.delete(fr);
+        return fr;
+    }
+
+    public List<FriendRequest> getSentFriendRequests(String sender_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> sender_opt = userRepository.findByUsername(sender_username);
+        if (sender_opt.isEmpty()) {
+            logger.info("User" + sender_username + " is not found\n");
+            return null;
+        }
+        return sender_opt.get().getSentFriendRequests();
+    }
+
+    public List<FriendRequest> getReceivedFriendRequests(String sender_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> sender_opt = userRepository.findByUsername(sender_username);
+        if (sender_opt.isEmpty()) {
+            logger.info("User" + sender_username + " is not found\n");
+            return null;
+        }
+        return sender_opt.get().getReceivedFriendRequests();
     }
 
 }

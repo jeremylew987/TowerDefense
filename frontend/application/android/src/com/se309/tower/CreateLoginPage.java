@@ -2,7 +2,7 @@ package com.se309.tower;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -66,17 +66,17 @@ public class CreateLoginPage extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 String res = "";
                 try {
-                    res = response.getString("response");
+                    res = response.getString("message");
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setTitle("");
                     alertDialogBuilder.setMessage(res);
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
                 } catch (JSONException e) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("Success");
-                    alertDialogBuilder.setMessage("Check your email");
+                    alertDialogBuilder.setTitle("error");
+                    alertDialogBuilder.setMessage("Issue completing the request");
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
@@ -90,7 +90,7 @@ public class CreateLoginPage extends AppCompatActivity {
                 error.printStackTrace();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                 alertDialogBuilder.setTitle("Error");
-                alertDialogBuilder.setMessage(error.getMessage());
+                alertDialogBuilder.setMessage("Issue completing the request \nusername or email may be already be in use");
                 alertDialogBuilder.setPositiveButton("Ok", null);
                 alertDialogBuilder.setNegativeButton("", null);
                 alertDialogBuilder.create().show();

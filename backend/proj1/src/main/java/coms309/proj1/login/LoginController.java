@@ -9,20 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/login")
+@RequestMapping
 @AllArgsConstructor
 public class LoginController {
 
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @GetMapping
+
+
+    @GetMapping(path = "/login")
     public ResponseEntity<GeneralResponse> loginPage() {
         logger.info("Entered into Login Controller Layer");
         return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Screen"), HttpStatus.ACCEPTED);
     }
-    @GetMapping(path = "/success")
+    @GetMapping(path = "/login/success")
     public ResponseEntity<GeneralResponse> loginResponse() {
         logger.info("Entered into Login Controller Layer");
         return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success"), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(path = "/logout/success")
+    public ResponseEntity<GeneralResponse> logoutResponse() {
+        logger.info("Entered into Login Controller Layer");
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Logout Success"), HttpStatus.ACCEPTED);
     }
 }

@@ -3,7 +3,7 @@ package com.se309.tower;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +25,9 @@ import com.se309.test.NetworkManagerTestBench;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
 public class LoginPage extends AppCompatActivity {
 
     @Override
@@ -36,6 +39,9 @@ public class LoginPage extends AppCompatActivity {
         final TextView username1 = findViewById(R.id.textView);
         final TextView password1 = findViewById(R.id.textView2);
         Button submit = findViewById(R.id.button);
+
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
 
         // Set up initial network manager
         final NetworkManager networkManager = new NetworkManager(this, NetworkConfig.BACKEND_URL);
@@ -83,11 +89,11 @@ public class LoginPage extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     String res = "";
                     try {
-                        res = response.getString("response");
+                        res = response.getString("message");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(res.equals("true")) {
+                    if(res.equals("Login Success")) {
                         password1.setText(res);
                         startActivity(new Intent(LoginPage.this, HomePage.class));
                     }
@@ -131,7 +137,7 @@ public class LoginPage extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(LoginPage.this);
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("email",name);
+                    data.put("username",name);
                     data.put("password",pass);
 
                 } catch (JSONException e) {
@@ -156,12 +162,12 @@ public class LoginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("Success")) {
+                        if(res.equals("Login Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
                             password1.setText(res);
-                            username1.setText(mPrefs.getString("email","none"));
+                            username1.setText(mPrefs.getString("username","none"));
                             password1.setText(mPrefs.getString("password","none"));
                             password1.setText(res);
                             startActivity(new Intent(LoginPage.this, HomePage.class));
