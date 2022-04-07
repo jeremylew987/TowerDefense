@@ -10,6 +10,7 @@ import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
+import com.se309.socket.SocketClient;
 
 /**
  * TowerDefense.java
@@ -41,7 +42,16 @@ public class TowerDefense extends ApplicationAdapter {
 		inputElement.setOrientation(Orientation.TopLeft);
 		renderer.addElement(inputElement);
 
-		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement));
+		TextElement outputElement = new TextElement("Chat:\n", 1000, 70);
+		outputElement.setOrientation(Orientation.TopLeft);
+		renderer.addElement(outputElement);
+
+		SocketClient client = new SocketClient("10.30.35.71", 25565);
+
+		MessageReader reader = new MessageReader(client, outputElement);
+		reader.start();
+
+		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement, client));
 
 	}
 

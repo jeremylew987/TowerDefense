@@ -47,6 +47,8 @@ public class ElementRenderer {
                 layout.setText(es.getFont(), es.getText());
                 es.setWidth((int) layout.width);
                 es.setHeight((int) layout.height);
+
+                es.setHeight((int) 44);
             }
 
 
