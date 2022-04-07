@@ -90,7 +90,7 @@ public class CreateLoginPage extends AppCompatActivity {
                 error.printStackTrace();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                 alertDialogBuilder.setTitle("Error");
-                alertDialogBuilder.setMessage(error.getMessage());
+                alertDialogBuilder.setMessage("Issue completing the request \nusername or email may be already be in use");
                 alertDialogBuilder.setPositiveButton("Ok", null);
                 alertDialogBuilder.setNegativeButton("", null);
                 alertDialogBuilder.create().show();
