@@ -1,6 +1,7 @@
 package coms309.proj1.user;
 
 import coms309.proj1.exception.*;
+import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
 import coms309.proj1.friend.FriendshipRepository;
 import coms309.proj1.registration.token.ConfirmationToken;
@@ -137,21 +138,14 @@ public class UserService {
     }
 
 
-//    @Override
-//    public UserDetails updatePassword(UserDetails user, String newPassword)
-//    {
-//        logger.info("Entered into Service Layer\n");
-//        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
-//        ((User)user).setPassword(encodedPassword);
-//        logger.info ("Password set for " + ((User)user).toString());
-//        return user;
-//    }
+// =============================== FRIEND API ================================== //
 
     public Friendship addFriend(String owner_name, String friend_name) {
         logger.info("Entered into Service Layer\n");
         Optional<User> owner_opt = userRepository.findByUsername(owner_name);
         Optional <User> friend_opt = userRepository.findByUsername(friend_name);
         if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+            logger.info("User" + owner_name + " or " + friend_name + " is not found\n");
             return null;
         }
         Friendship friendship = new Friendship(owner_opt.get(), friend_opt.get());
@@ -197,6 +191,17 @@ public class UserService {
         List<User> friends = owner_opt.get().getFriends();
         logger.info("Retrieved " + friends.size() + " friend records\n");
         return owner_opt.get().getFriends();
+    }
+
+
+    public FriendRequest sendFriendRequest(String sender_username, String receiver_username) {
+        logger.info("Entered into Service Layer\n");
+        Optional<User> owner_opt = userRepository.findByUsername(sender_username);
+        Optional <User> friend_opt = userRepository.findByUsername(receiver_username);
+        if (owner_opt.isEmpty() || friend_opt.isEmpty()) {
+            logger.info("User" + sender_username + " or " + receiver_username + " is not found\n");
+            return null;
+        }
     }
 
 }
