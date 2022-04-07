@@ -60,7 +60,60 @@ public class SocialPage extends AppCompatActivity {
             public void onClick(View view) {
                 String friendUsername = addFriendText.getText().toString();
                 String usernameSave = mPrefs.getString("username","none");
-                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/add/" + friendUsername;
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/add?user=" + friendUsername;
+                //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject res = null;
+                        try {
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                            alertDialogBuilder.setTitle("sentRequest");
+                            alertDialogBuilder.setMessage("");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
+            }});
+
+        Button RequestAccept = findViewById(R.id.friendAccept);
+        Button RequestDecline = findViewById(R.id.friendDecline);
+        final EditText RequestText = findViewById(R.id.RequestHandle);
+
+        RequestAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String friendUsername = RequestText.getText().toString();
+
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/accept?user=" + friendUsername;
                 //call add friend command
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -104,7 +157,54 @@ public class SocialPage extends AppCompatActivity {
                 queue.add(request);
             }});
 
-        //call for friends TODO loop through using friend function
+        RequestDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String friendUsername = RequestText.getText().toString();
+
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/decline?user=" + friendUsername;
+                //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject res = null;
+                        try {
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                            alertDialogBuilder.setTitle("Declined Request");
+                            alertDialogBuilder.setMessage("");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
+            }});
 
 
 
@@ -139,6 +239,34 @@ public class SocialPage extends AppCompatActivity {
         //same for freiendRquests
 
 
+        String friendRequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/received";
+        JsonObjectRequest RequestList = new JsonObjectRequest(Request.Method.GET, friendRequestaddress, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("Response: " , response.toString());
+                JSONArray res = null;
+                try {
+                    res = response.getJSONArray("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        friendRequest(res.getJSONObject(i));
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(RequestList);
 
     }
 
@@ -166,7 +294,8 @@ public class SocialPage extends AppCompatActivity {
         TextView cur = new TextView(this);
         cur.setLayoutParams(lparams);
         try {
-            cur.setText(friend.getString("username"));
+            JSONObject temp = friend.getJSONObject("sender");
+            cur.setText(temp.getString("username"));
         } catch (Exception e){
             e.printStackTrace();
         }

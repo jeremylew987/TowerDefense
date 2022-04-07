@@ -83,6 +83,34 @@
                 android:layout_height="wrap_content"
                 android:text="Add" />
 
+            <EditText
+                android:id="@+id/RequestHandle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Friend Name" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/friendAccept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Accept" />
+
+                <Button
+                    android:id="@+id/friendDecline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Decline" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
