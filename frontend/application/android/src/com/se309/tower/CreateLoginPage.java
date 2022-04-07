@@ -18,6 +18,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class CreateLoginPage extends AppCompatActivity {
 
     @Override
@@ -43,7 +45,22 @@ public class CreateLoginPage extends AppCompatActivity {
             public void onClick(View view) {
                 final String name = username.getText().toString();
                 final String pass = password.getText().toString();
+
+
                 String emailS = email.getText().toString();
+
+                if(isValidEmail(emailS)) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
+                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setMessage("Invalid Email");
+                    alertDialogBuilder.setPositiveButton("Ok", null);
+                    alertDialogBuilder.setNegativeButton("", null);
+                    alertDialogBuilder.create().show();
+                    return;
+                }
+
+
+
 
 
         //String address = "https://56be132c-7751-4deb-99d0-e96db2690a7c.mock.pstmn.io/createlogin";
@@ -104,4 +121,10 @@ public class CreateLoginPage extends AppCompatActivity {
         });
 
     }
+
+    public static boolean isValidEmail(String email){
+
+        return Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches();
+    }
+
 }
