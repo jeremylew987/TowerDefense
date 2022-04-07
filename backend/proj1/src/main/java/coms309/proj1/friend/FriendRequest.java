@@ -1,6 +1,8 @@
 package coms309.proj1.friend;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coms309.proj1.user.User;
 
 import javax.persistence.*;
@@ -24,12 +26,16 @@ public class FriendRequest
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sender_id", referencedColumnName="user_id")
-	@JsonIgnore
+	@JsonIgnoreProperties("friends")
+//	@JsonIgnore
+//	@JsonBackReference
 	private User sender;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "receiver_id", referencedColumnName="user_id")
-	@JsonIgnore
+	@JsonIgnoreProperties("friends")
+//	@JsonIgnore
+//	@JsonBackReference
 	private User receiver;
 
 
@@ -66,19 +72,19 @@ public class FriendRequest
 		this.createdDate = createdDate;
 	}
 
-	public User getOwner() {
+	public User getReceiver() {
 		return receiver;
 	}
 
-	public void setOwner(User user) {
+	public void setReceiver(User user) {
 		this.receiver = user;
 	}
 
-	public User getFriend() {
+	public User getSender() {
 		return sender;
 	}
 
-	public void setFriend(User user) {
+	public void setSender(User user) {
 		this.sender = user;
 	}
 }
