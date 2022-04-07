@@ -2,6 +2,7 @@ package coms309.proj1.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import coms309.proj1.login.LoginController;
+import coms309.proj1.login.LoginSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -39,9 +40,11 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 			throw new AuthenticationServiceException(e.getMessage(), e);
 		}
 
+		super.setAuthenticationSuccessHandler(new LoginSuccessHandler());
+
 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
 				username, password);
-		
+
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
 

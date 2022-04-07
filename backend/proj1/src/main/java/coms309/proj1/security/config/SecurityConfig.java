@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .httpBasic()
                     .and()
-                .formLogin()
+                .formLogin() // Goes to /login/success when successful
                     .loginPage("/login") // Get request of the login page
                     .loginProcessingUrl("/login") // URL to post request the login parameters
                     //.defaultSuccessUrl("/login/success", true) // Go here when when success always
@@ -51,8 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .logout()
-                    .logoutUrl("/logout")
-                    //.logoutSuccessUrl("/logout/success")
+                    .logoutUrl("/logout") // Successful logout goes to 204 no content
                     .deleteCookies("JSESSIONID")
                     .permitAll()
                     .and()

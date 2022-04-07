@@ -29,7 +29,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 	throws IOException {
 		logger.info("Entered LoginSuccessHandler");
-		//String targetUrl = determineUrl(authentication);
+
 		String targetUrl = "/login/success";
 
 		if (response.isCommitted()) {
@@ -45,21 +45,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler
 			return;
 		}
 		session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-	}
-
-	protected String determineUrl(final Authentication authentication) {
-		Map<String, String> roleTargetUrlMap = new HashMap<>();
-		roleTargetUrlMap.put("USER", "/login/success");
-		roleTargetUrlMap.put("ADMIN", "/login/success");
-
-		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		for (final GrantedAuthority grantedAuthority : authorities) {
-			String authorityName = grantedAuthority.getAuthority();
-			if(roleTargetUrlMap.containsKey(authorityName)) {
-				return roleTargetUrlMap.get(authorityName);
-			}
-		}
-		throw new IllegalStateException();
 	}
 
 }
