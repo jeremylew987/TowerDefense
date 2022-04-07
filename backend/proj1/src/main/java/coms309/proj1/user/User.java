@@ -141,4 +141,22 @@ public class User{
 		return list;
 	}
 
+	public boolean addSentFriendRequest(FriendRequest fr) {
+		return this.sentFriendRequests.add(fr);
+	}
+
+	public boolean addReceivedFriendRequest(FriendRequest fr) {
+		return this.sentFriendRequests.add(fr);
+	}
+
+	@JsonIgnore
+	public List<FriendRequest> getSentFriendRequests() {
+		return this.sentFriendRequests;
+	}
+
+	@JsonIgnore
+	public List<FriendRequest> getReceivedFriendRequests() {
+		return this.receivedFriendRequests;
+	}
+
 }
