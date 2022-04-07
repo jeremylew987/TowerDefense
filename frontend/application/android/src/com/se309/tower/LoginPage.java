@@ -93,7 +93,7 @@ public class LoginPage extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(res.equals("Root Screen")) {
+                    if(res.equals("Login Success")) {
                         password1.setText(res);
                         startActivity(new Intent(LoginPage.this, HomePage.class));
                     }
@@ -162,7 +162,7 @@ public class LoginPage extends AppCompatActivity {
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
                         }
-                        if(res.equals("Root Screen")) {
+                        if(res.equals("Login Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
                             mEditor.putString("password", pass).commit();
