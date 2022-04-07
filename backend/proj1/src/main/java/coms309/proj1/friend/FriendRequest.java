@@ -14,28 +14,21 @@ public class FriendRequest
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "request_id")
-	private Integer relationshipId;
+	private Integer requestId;
 
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 
 	/*
-	 * @ManyToOne  -> Several friend relationship rows can map to one user
-	 * @JoinColumn -> specified ownership of the key i.e. FriendRelationship table will contain
-	 * 			      a foreign key form the User table and the column name will be owner_id
-	 * @JsonIgnore -> Avoids infinite loops when returning user/friend relationship object (FR -> user ->[phones->...)
+	 * @ManyToOne  -> Several friend request rows can map to one user
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "owner_id", referencedColumnName="user_id")
-	//@JsonIgnoreProperties("friends")
-	//@JsonBackReference
+	@JoinColumn(name = "sender_id", referencedColumnName="user_id")
 	@JsonIgnore
 	private User sender;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "friend_id", referencedColumnName="user_id")
-	//@JsonIgnoreProperties("friends")
-	//@JsonBackReference
+	@JoinColumn(name = "receiver_id", referencedColumnName="user_id")
 	@JsonIgnore
 	private User receiver;
 
@@ -43,26 +36,26 @@ public class FriendRequest
 	// =============================== Constructors ================================== //
 
 
-	public FriendRelationship() {
+	public FriendRequest() {
 		this.createdDate = LocalDateTime.now();
-		this.friend = null;
-		this.owner = null;
+		this.receiver = null;
+		this.sender = null;
 
 	}
-	public FriendRelationship(User owner, User friend) {
+	public FriendRequest(User sender, User receiver) {
 		this.createdDate = LocalDateTime.now();
-		this.friend = friend;
-		this.owner = owner;
+		this.receiver = receiver;
+		this.sender = sender;
 	}
 
 	// =============================== Getters & Setters ================================== //
 
 	public Integer getId() {
-		return relationshipId;
+		return requestId;
 	}
 
 	public void setId(Integer id) {
-		this.relationshipId = id;
+		this.requestId = id;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -74,18 +67,18 @@ public class FriendRequest
 	}
 
 	public User getOwner() {
-		return owner;
+		return receiver;
 	}
 
 	public void setOwner(User user) {
-		this.owner = user;
+		this.receiver = user;
 	}
 
 	public User getFriend() {
-		return friend;
+		return sender;
 	}
 
 	public void setFriend(User user) {
-		this.friend = user;
+		this.sender = user;
 	}
 }
