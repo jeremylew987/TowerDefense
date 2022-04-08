@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Integer>
@@ -15,6 +16,6 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Integer>
 	boolean existsByOwnerAndFriend(User owner, User friend);
 	List<Friendship> findByOwner(User user);
 	List<Friendship> findByFriend(User user);
-	Friendship findFirstByOwnerAndFriend(User owner, User friend);
+	Optional<Friendship> findFirstByOwnerAndFriend(User owner, User friend);
 
 }

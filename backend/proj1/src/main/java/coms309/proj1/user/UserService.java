@@ -181,20 +181,32 @@ public class UserService {
             logger.info("User" + receiver_username + " is not found\n");
             return null;
         }
-        FriendRequest friendRequest = new FriendRequest(sender_opt.get(), receiver_opt.get());
 
         // Check that friend request doesn't already exist between these users
-        List<FriendRequest> receiver_frs = friendRequestRepository.findByReceiver(receiver_opt.get());
-        for (FriendRequest fr : receiver_frs) {
-            if (fr.getSender().getUsername().equals(sender_username)) {
-                logger.info("Friend request from " + sender_username + " to " + receiver_username + " already exists\n");
-                return null;
-            }
+        if (friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get()).isEmpty()) {
+            logger.info("Friend request from " + sender_username + " to " + receiver_username + " already exists\n");
+            return null;
         }
+
+        // Check that the user isn't already friends
+        if (friendshipRepository.findFirstByOwnerAndFriend(sender_opt.get(), receiver_opt.get()).isEmpty()) {
+            logger.info(sender_username + " is already friends with " + receiver_username + "\n");
+            return null;
+        }
+
+        // Check that the receiver hasn't already sent a friend request. If so, automatically make them friends.
+        if (friendRequestRepository.findFirstBySenderAndReceiver(receiver_opt.get(), sender_opt.get()).isPresent()) {
+            logger.info(receiver_username + " has already sent a friend request to " + receiver_username + ". Making them friends.\n");
+            acceptFriendRequest(receiver_username, sender_username);
+            return null;
+        }
+
+        FriendRequest friendRequest = new FriendRequest(sender_opt.get(), receiver_opt.get());
         sender_opt.get().addSentFriendRequest(friendRequest);
         receiver_opt.get().addReceivedFriendRequest(friendRequest);
         friendRequestRepository.save(friendRequest);
         logger.info("Sent friend request from " +  sender_username + " to " + receiver_username + "\n");
+
         return friendRequest;
     }
 
@@ -210,20 +222,20 @@ public class UserService {
             return null;
         }
 
-        Friendship owner_fs = friendshipRepository.findFirstByOwnerAndFriend(owner_opt.get(), friend_opt.get());
-        Friendship friend_fs = friendshipRepository.findFirstByOwnerAndFriend(friend_opt.get(), owner_opt.get());
-        if (owner_fs == null || friend_fs == null) {
+        Optional<Friendship> owner_fs = friendshipRepository.findFirstByOwnerAndFriend(owner_opt.get(), friend_opt.get());
+        Optional<Friendship> friend_fs = friendshipRepository.findFirstByOwnerAndFriend(friend_opt.get(), owner_opt.get());
+        if (owner_fs.isEmpty() || friend_fs.isEmpty()) {
             logger.info(friend_name + "is not in " + owner_name + "'s friend list\n");
             return null;
         }
         logger.info("Removing " + friend_name + " from " + owner_name + "'s friends list\n");
-        owner_opt.get().removeFriendship(owner_fs);
-        friend_opt.get().removeFriendship(friend_fs);
+        owner_opt.get().removeFriendship(owner_fs.get());
+        friend_opt.get().removeFriendship(friend_fs.get());
         userRepository.save(owner_opt.get());
         userRepository.save(friend_opt.get());
-        friendshipRepository.delete(owner_fs);
-        friendshipRepository.delete(friend_fs);
-        return owner_fs;
+        friendshipRepository.delete(owner_fs.get());
+        friendshipRepository.delete(friend_fs.get());
+        return owner_fs.get();
     }
 
     public Friendship acceptFriendRequest(String sender_username, String receiver_username) {
@@ -234,19 +246,24 @@ public class UserService {
             logger.info("User" + sender_opt + " or " + receiver_opt + " is not found\n");
             return null;
         }
-        Friendship sender_fr = new Friendship(sender_opt.get(), receiver_opt.get());
-        Friendship receiver_fr = new Friendship(receiver_opt.get(), sender_opt.get());
-        friendshipRepository.save(sender_fr);
-        friendshipRepository.save(receiver_fr);
-        sender_opt.get().addFriendship(sender_fr);
-        receiver_opt.get().addFriendship(receiver_fr);
+        Optional<FriendRequest> friendRequest = friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get());
+        if (friendRequest.isEmpty()) {
+            logger.info("User" + sender_opt + " has not sent a friend request to " + receiver_opt + "\n");
+            return null;
+        }
+        Friendship sender_fs = new Friendship(sender_opt.get(), receiver_opt.get());
+        Friendship receiver_fs = new Friendship(receiver_opt.get(), sender_opt.get());
+        friendshipRepository.save(sender_fs);
+        friendshipRepository.save(receiver_fs);
+        sender_opt.get().addFriendship(sender_fs);
+        receiver_opt.get().addFriendship(receiver_fs);
         userRepository.save(sender_opt.get());
         userRepository.save(receiver_opt.get());
 
         // Delete friend request from database
-        friendRequestRepository.delete(friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get()));
+        friendRequestRepository.delete(friendRequest.get());
         logger.info(sender_username + " and " + receiver_username + " are now friends\n");
-        return receiver_fr;
+        return receiver_fs;
     }
 
     public FriendRequest declineFriendRequest(String sender_username, String receiver_username) {
@@ -257,13 +274,20 @@ public class UserService {
             logger.info("User" + receiver_username + " is not found\n");
             return null;
         }
-        FriendRequest fr = friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get());
-        sender_opt.get().removeSentFriendRequest(fr);
-        receiver_opt.get().removeReceivedFriendRequest(fr);
+        if (sender_opt.isEmpty()) {
+            logger.info("User" + sender_username + " is not found\n");
+            return null;
+        }
+        Optional<FriendRequest> friendRequest_opt = friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get());
+        if (friendRequest_opt.isEmpty()) {
+            return null;
+        }
+        sender_opt.get().removeSentFriendRequest(friendRequest_opt.get());
+        receiver_opt.get().removeReceivedFriendRequest(friendRequest_opt.get());
         userRepository.save(sender_opt.get());
         userRepository.save(receiver_opt.get());
-        friendRequestRepository.delete(fr);
-        return fr;
+        friendRequestRepository.delete(friendRequest_opt.get());
+        return friendRequest_opt.get();
     }
 
     public List<FriendRequest> getSentFriendRequests(String sender_username) {
