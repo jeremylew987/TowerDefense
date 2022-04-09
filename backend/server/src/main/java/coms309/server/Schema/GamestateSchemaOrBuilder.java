@@ -42,28 +42,4 @@ public interface GamestateSchemaOrBuilder extends
    * <code>optional uint32 round = 4;</code>
    */
   int getRound();
-
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  java.util.List<coms309.server.Schema.GamestateSchema.Player> 
-      getPlayersList();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  coms309.server.Schema.GamestateSchema.Player getPlayers(int index);
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  int getPlayersCount();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  java.util.List<? extends coms309.server.Schema.GamestateSchema.PlayerOrBuilder> 
-      getPlayersOrBuilderList();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  coms309.server.Schema.GamestateSchema.PlayerOrBuilder getPlayersOrBuilder(
-      int index);
 }

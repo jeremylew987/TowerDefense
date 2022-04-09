@@ -74,17 +74,45 @@ public  final class DataObjectSchema extends
             break;
           }
           case 26: {
-            coms309.server.Schema.EntitySchema.Builder subBuilder = null;
+            coms309.server.Schema.TowerSchema.Builder subBuilder = null;
             if (dataCase_ == 3) {
-              subBuilder = ((coms309.server.Schema.EntitySchema) data_).toBuilder();
+              subBuilder = ((coms309.server.Schema.TowerSchema) data_).toBuilder();
             }
             data_ =
-                input.readMessage(coms309.server.Schema.EntitySchema.PARSER, extensionRegistry);
+                input.readMessage(coms309.server.Schema.TowerSchema.PARSER, extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((coms309.server.Schema.EntitySchema) data_);
+              subBuilder.mergeFrom((coms309.server.Schema.TowerSchema) data_);
               data_ = subBuilder.buildPartial();
             }
             dataCase_ = 3;
+            break;
+          }
+          case 34: {
+            coms309.server.Schema.ConnectedClients.Builder subBuilder = null;
+            if (dataCase_ == 4) {
+              subBuilder = ((coms309.server.Schema.ConnectedClients) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(coms309.server.Schema.ConnectedClients.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((coms309.server.Schema.ConnectedClients) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 4;
+            break;
+          }
+          case 42: {
+            coms309.server.Schema.CollisionEvent.Builder subBuilder = null;
+            if (dataCase_ == 5) {
+              subBuilder = ((coms309.server.Schema.CollisionEvent) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(coms309.server.Schema.CollisionEvent.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((coms309.server.Schema.CollisionEvent) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 5;
             break;
           }
         }
@@ -118,7 +146,9 @@ public  final class DataObjectSchema extends
       implements com.google.protobuf.Internal.EnumLite {
     GAMESTATE(1),
     MESSAGE(2),
-    ENTITY(3),
+    TOWER(3),
+    CLIENTS(4),
+    COLLISION(5),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -136,7 +166,9 @@ public  final class DataObjectSchema extends
       switch (value) {
         case 1: return GAMESTATE;
         case 2: return MESSAGE;
-        case 3: return ENTITY;
+        case 3: return TOWER;
+        case 4: return CLIENTS;
+        case 5: return COLLISION;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -204,30 +236,82 @@ public  final class DataObjectSchema extends
     return coms309.server.Schema.MessageSchema.getDefaultInstance();
   }
 
-  public static final int ENTITY_FIELD_NUMBER = 3;
+  public static final int TOWER_FIELD_NUMBER = 3;
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public boolean hasEntity() {
+  public boolean hasTower() {
     return dataCase_ == 3;
   }
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public coms309.server.Schema.EntitySchema getEntity() {
+  public coms309.server.Schema.TowerSchema getTower() {
     if (dataCase_ == 3) {
-       return (coms309.server.Schema.EntitySchema) data_;
+       return (coms309.server.Schema.TowerSchema) data_;
     }
-    return coms309.server.Schema.EntitySchema.getDefaultInstance();
+    return coms309.server.Schema.TowerSchema.getDefaultInstance();
   }
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder() {
+  public coms309.server.Schema.TowerSchemaOrBuilder getTowerOrBuilder() {
     if (dataCase_ == 3) {
-       return (coms309.server.Schema.EntitySchema) data_;
+       return (coms309.server.Schema.TowerSchema) data_;
     }
-    return coms309.server.Schema.EntitySchema.getDefaultInstance();
+    return coms309.server.Schema.TowerSchema.getDefaultInstance();
+  }
+
+  public static final int CLIENTS_FIELD_NUMBER = 4;
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public boolean hasClients() {
+    return dataCase_ == 4;
+  }
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public coms309.server.Schema.ConnectedClients getClients() {
+    if (dataCase_ == 4) {
+       return (coms309.server.Schema.ConnectedClients) data_;
+    }
+    return coms309.server.Schema.ConnectedClients.getDefaultInstance();
+  }
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public coms309.server.Schema.ConnectedClientsOrBuilder getClientsOrBuilder() {
+    if (dataCase_ == 4) {
+       return (coms309.server.Schema.ConnectedClients) data_;
+    }
+    return coms309.server.Schema.ConnectedClients.getDefaultInstance();
+  }
+
+  public static final int COLLISION_FIELD_NUMBER = 5;
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  public boolean hasCollision() {
+    return dataCase_ == 5;
+  }
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  public coms309.server.Schema.CollisionEvent getCollision() {
+    if (dataCase_ == 5) {
+       return (coms309.server.Schema.CollisionEvent) data_;
+    }
+    return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+  }
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  public coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder() {
+    if (dataCase_ == 5) {
+       return (coms309.server.Schema.CollisionEvent) data_;
+    }
+    return coms309.server.Schema.CollisionEvent.getDefaultInstance();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -242,8 +326,14 @@ public  final class DataObjectSchema extends
         return false;
       }
     }
-    if (hasEntity()) {
-      if (!getEntity().isInitialized()) {
+    if (hasTower()) {
+      if (!getTower().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+    }
+    if (hasCollision()) {
+      if (!getCollision().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -261,7 +351,13 @@ public  final class DataObjectSchema extends
       output.writeMessage(2, (coms309.server.Schema.MessageSchema) data_);
     }
     if (dataCase_ == 3) {
-      output.writeMessage(3, (coms309.server.Schema.EntitySchema) data_);
+      output.writeMessage(3, (coms309.server.Schema.TowerSchema) data_);
+    }
+    if (dataCase_ == 4) {
+      output.writeMessage(4, (coms309.server.Schema.ConnectedClients) data_);
+    }
+    if (dataCase_ == 5) {
+      output.writeMessage(5, (coms309.server.Schema.CollisionEvent) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -281,7 +377,15 @@ public  final class DataObjectSchema extends
     }
     if (dataCase_ == 3) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, (coms309.server.Schema.EntitySchema) data_);
+        .computeMessageSize(3, (coms309.server.Schema.TowerSchema) data_);
+    }
+    if (dataCase_ == 4) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, (coms309.server.Schema.ConnectedClients) data_);
+    }
+    if (dataCase_ == 5) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, (coms309.server.Schema.CollisionEvent) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -313,8 +417,16 @@ public  final class DataObjectSchema extends
             .equals(other.getMessage());
         break;
       case 3:
-        result = result && getEntity()
-            .equals(other.getEntity());
+        result = result && getTower()
+            .equals(other.getTower());
+        break;
+      case 4:
+        result = result && getClients()
+            .equals(other.getClients());
+        break;
+      case 5:
+        result = result && getCollision()
+            .equals(other.getCollision());
         break;
       case 0:
       default:
@@ -340,8 +452,16 @@ public  final class DataObjectSchema extends
         hash = (53 * hash) + getMessage().hashCode();
         break;
       case 3:
-        hash = (37 * hash) + ENTITY_FIELD_NUMBER;
-        hash = (53 * hash) + getEntity().hashCode();
+        hash = (37 * hash) + TOWER_FIELD_NUMBER;
+        hash = (53 * hash) + getTower().hashCode();
+        break;
+      case 4:
+        hash = (37 * hash) + CLIENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getClients().hashCode();
+        break;
+      case 5:
+        hash = (37 * hash) + COLLISION_FIELD_NUMBER;
+        hash = (53 * hash) + getCollision().hashCode();
         break;
       case 0:
       default:
@@ -505,10 +625,24 @@ public  final class DataObjectSchema extends
         }
       }
       if (dataCase_ == 3) {
-        if (entityBuilder_ == null) {
+        if (towerBuilder_ == null) {
           result.data_ = data_;
         } else {
-          result.data_ = entityBuilder_.build();
+          result.data_ = towerBuilder_.build();
+        }
+      }
+      if (dataCase_ == 4) {
+        if (clientsBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = clientsBuilder_.build();
+        }
+      }
+      if (dataCase_ == 5) {
+        if (collisionBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = collisionBuilder_.build();
         }
       }
       result.bitField0_ = to_bitField0_;
@@ -563,8 +697,16 @@ public  final class DataObjectSchema extends
           mergeMessage(other.getMessage());
           break;
         }
-        case ENTITY: {
-          mergeEntity(other.getEntity());
+        case TOWER: {
+          mergeTower(other.getTower());
+          break;
+        }
+        case CLIENTS: {
+          mergeClients(other.getClients());
+          break;
+        }
+        case COLLISION: {
+          mergeCollision(other.getCollision());
           break;
         }
         case DATA_NOT_SET: {
@@ -582,8 +724,13 @@ public  final class DataObjectSchema extends
           return false;
         }
       }
-      if (hasEntity()) {
-        if (!getEntity().isInitialized()) {
+      if (hasTower()) {
+        if (!getTower().isInitialized()) {
+          return false;
+        }
+      }
+      if (hasCollision()) {
+        if (!getCollision().isInitialized()) {
           return false;
         }
       }
@@ -897,67 +1044,67 @@ public  final class DataObjectSchema extends
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        coms309.server.Schema.EntitySchema, coms309.server.Schema.EntitySchema.Builder, coms309.server.Schema.EntitySchemaOrBuilder> entityBuilder_;
+        coms309.server.Schema.TowerSchema, coms309.server.Schema.TowerSchema.Builder, coms309.server.Schema.TowerSchemaOrBuilder> towerBuilder_;
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public boolean hasEntity() {
+    public boolean hasTower() {
       return dataCase_ == 3;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public coms309.server.Schema.EntitySchema getEntity() {
-      if (entityBuilder_ == null) {
+    public coms309.server.Schema.TowerSchema getTower() {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3) {
-          return (coms309.server.Schema.EntitySchema) data_;
+          return (coms309.server.Schema.TowerSchema) data_;
         }
-        return coms309.server.Schema.EntitySchema.getDefaultInstance();
+        return coms309.server.Schema.TowerSchema.getDefaultInstance();
       } else {
         if (dataCase_ == 3) {
-          return entityBuilder_.getMessage();
+          return towerBuilder_.getMessage();
         }
-        return coms309.server.Schema.EntitySchema.getDefaultInstance();
+        return coms309.server.Schema.TowerSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder setEntity(coms309.server.Schema.EntitySchema value) {
-      if (entityBuilder_ == null) {
+    public Builder setTower(coms309.server.Schema.TowerSchema value) {
+      if (towerBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         data_ = value;
         onChanged();
       } else {
-        entityBuilder_.setMessage(value);
+        towerBuilder_.setMessage(value);
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder setEntity(
-        coms309.server.Schema.EntitySchema.Builder builderForValue) {
-      if (entityBuilder_ == null) {
+    public Builder setTower(
+        coms309.server.Schema.TowerSchema.Builder builderForValue) {
+      if (towerBuilder_ == null) {
         data_ = builderForValue.build();
         onChanged();
       } else {
-        entityBuilder_.setMessage(builderForValue.build());
+        towerBuilder_.setMessage(builderForValue.build());
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder mergeEntity(coms309.server.Schema.EntitySchema value) {
-      if (entityBuilder_ == null) {
+    public Builder mergeTower(coms309.server.Schema.TowerSchema value) {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3 &&
-            data_ != coms309.server.Schema.EntitySchema.getDefaultInstance()) {
-          data_ = coms309.server.Schema.EntitySchema.newBuilder((coms309.server.Schema.EntitySchema) data_)
+            data_ != coms309.server.Schema.TowerSchema.getDefaultInstance()) {
+          data_ = coms309.server.Schema.TowerSchema.newBuilder((coms309.server.Schema.TowerSchema) data_)
               .mergeFrom(value).buildPartial();
         } else {
           data_ = value;
@@ -965,18 +1112,18 @@ public  final class DataObjectSchema extends
         onChanged();
       } else {
         if (dataCase_ == 3) {
-          entityBuilder_.mergeFrom(value);
+          towerBuilder_.mergeFrom(value);
         }
-        entityBuilder_.setMessage(value);
+        towerBuilder_.setMessage(value);
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder clearEntity() {
-      if (entityBuilder_ == null) {
+    public Builder clearTower() {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3) {
           dataCase_ = 0;
           data_ = null;
@@ -987,49 +1134,321 @@ public  final class DataObjectSchema extends
           dataCase_ = 0;
           data_ = null;
         }
-        entityBuilder_.clear();
+        towerBuilder_.clear();
       }
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public coms309.server.Schema.EntitySchema.Builder getEntityBuilder() {
-      return getEntityFieldBuilder().getBuilder();
+    public coms309.server.Schema.TowerSchema.Builder getTowerBuilder() {
+      return getTowerFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder() {
-      if ((dataCase_ == 3) && (entityBuilder_ != null)) {
-        return entityBuilder_.getMessageOrBuilder();
+    public coms309.server.Schema.TowerSchemaOrBuilder getTowerOrBuilder() {
+      if ((dataCase_ == 3) && (towerBuilder_ != null)) {
+        return towerBuilder_.getMessageOrBuilder();
       } else {
         if (dataCase_ == 3) {
-          return (coms309.server.Schema.EntitySchema) data_;
+          return (coms309.server.Schema.TowerSchema) data_;
         }
-        return coms309.server.Schema.EntitySchema.getDefaultInstance();
+        return coms309.server.Schema.TowerSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        coms309.server.Schema.EntitySchema, coms309.server.Schema.EntitySchema.Builder, coms309.server.Schema.EntitySchemaOrBuilder> 
-        getEntityFieldBuilder() {
-      if (entityBuilder_ == null) {
+        coms309.server.Schema.TowerSchema, coms309.server.Schema.TowerSchema.Builder, coms309.server.Schema.TowerSchemaOrBuilder> 
+        getTowerFieldBuilder() {
+      if (towerBuilder_ == null) {
         if (!(dataCase_ == 3)) {
-          data_ = coms309.server.Schema.EntitySchema.getDefaultInstance();
+          data_ = coms309.server.Schema.TowerSchema.getDefaultInstance();
         }
-        entityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            coms309.server.Schema.EntitySchema, coms309.server.Schema.EntitySchema.Builder, coms309.server.Schema.EntitySchemaOrBuilder>(
-                (coms309.server.Schema.EntitySchema) data_,
+        towerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            coms309.server.Schema.TowerSchema, coms309.server.Schema.TowerSchema.Builder, coms309.server.Schema.TowerSchemaOrBuilder>(
+                (coms309.server.Schema.TowerSchema) data_,
                 getParentForChildren(),
                 isClean());
         data_ = null;
       }
       dataCase_ = 3;
       onChanged();;
-      return entityBuilder_;
+      return towerBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        coms309.server.Schema.ConnectedClients, coms309.server.Schema.ConnectedClients.Builder, coms309.server.Schema.ConnectedClientsOrBuilder> clientsBuilder_;
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public boolean hasClients() {
+      return dataCase_ == 4;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public coms309.server.Schema.ConnectedClients getClients() {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4) {
+          return (coms309.server.Schema.ConnectedClients) data_;
+        }
+        return coms309.server.Schema.ConnectedClients.getDefaultInstance();
+      } else {
+        if (dataCase_ == 4) {
+          return clientsBuilder_.getMessage();
+        }
+        return coms309.server.Schema.ConnectedClients.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder setClients(coms309.server.Schema.ConnectedClients value) {
+      if (clientsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        clientsBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder setClients(
+        coms309.server.Schema.ConnectedClients.Builder builderForValue) {
+      if (clientsBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        clientsBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder mergeClients(coms309.server.Schema.ConnectedClients value) {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4 &&
+            data_ != coms309.server.Schema.ConnectedClients.getDefaultInstance()) {
+          data_ = coms309.server.Schema.ConnectedClients.newBuilder((coms309.server.Schema.ConnectedClients) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 4) {
+          clientsBuilder_.mergeFrom(value);
+        }
+        clientsBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder clearClients() {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        clientsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public coms309.server.Schema.ConnectedClients.Builder getClientsBuilder() {
+      return getClientsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public coms309.server.Schema.ConnectedClientsOrBuilder getClientsOrBuilder() {
+      if ((dataCase_ == 4) && (clientsBuilder_ != null)) {
+        return clientsBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 4) {
+          return (coms309.server.Schema.ConnectedClients) data_;
+        }
+        return coms309.server.Schema.ConnectedClients.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        coms309.server.Schema.ConnectedClients, coms309.server.Schema.ConnectedClients.Builder, coms309.server.Schema.ConnectedClientsOrBuilder> 
+        getClientsFieldBuilder() {
+      if (clientsBuilder_ == null) {
+        if (!(dataCase_ == 4)) {
+          data_ = coms309.server.Schema.ConnectedClients.getDefaultInstance();
+        }
+        clientsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            coms309.server.Schema.ConnectedClients, coms309.server.Schema.ConnectedClients.Builder, coms309.server.Schema.ConnectedClientsOrBuilder>(
+                (coms309.server.Schema.ConnectedClients) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 4;
+      onChanged();;
+      return clientsBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder> collisionBuilder_;
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public boolean hasCollision() {
+      return dataCase_ == 5;
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public coms309.server.Schema.CollisionEvent getCollision() {
+      if (collisionBuilder_ == null) {
+        if (dataCase_ == 5) {
+          return (coms309.server.Schema.CollisionEvent) data_;
+        }
+        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+      } else {
+        if (dataCase_ == 5) {
+          return collisionBuilder_.getMessage();
+        }
+        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public Builder setCollision(coms309.server.Schema.CollisionEvent value) {
+      if (collisionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        collisionBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public Builder setCollision(
+        coms309.server.Schema.CollisionEvent.Builder builderForValue) {
+      if (collisionBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        collisionBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public Builder mergeCollision(coms309.server.Schema.CollisionEvent value) {
+      if (collisionBuilder_ == null) {
+        if (dataCase_ == 5 &&
+            data_ != coms309.server.Schema.CollisionEvent.getDefaultInstance()) {
+          data_ = coms309.server.Schema.CollisionEvent.newBuilder((coms309.server.Schema.CollisionEvent) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 5) {
+          collisionBuilder_.mergeFrom(value);
+        }
+        collisionBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public Builder clearCollision() {
+      if (collisionBuilder_ == null) {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        collisionBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public coms309.server.Schema.CollisionEvent.Builder getCollisionBuilder() {
+      return getCollisionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    public coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder() {
+      if ((dataCase_ == 5) && (collisionBuilder_ != null)) {
+        return collisionBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 5) {
+          return (coms309.server.Schema.CollisionEvent) data_;
+        }
+        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder> 
+        getCollisionFieldBuilder() {
+      if (collisionBuilder_ == null) {
+        if (!(dataCase_ == 5)) {
+          data_ = coms309.server.Schema.CollisionEvent.getDefaultInstance();
+        }
+        collisionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder>(
+                (coms309.server.Schema.CollisionEvent) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 5;
+      onChanged();;
+      return collisionBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

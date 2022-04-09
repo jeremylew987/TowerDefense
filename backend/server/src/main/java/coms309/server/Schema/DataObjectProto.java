@@ -25,20 +25,30 @@ public final class DataObjectProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_coms309_server_GamestateSchema_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_coms309_server_GamestateSchema_Player_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_coms309_server_GamestateSchema_Player_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_coms309_server_MessageSchema_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_coms309_server_MessageSchema_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_coms309_server_EntitySchema_descriptor;
+    internal_static_coms309_server_TowerSchema_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_coms309_server_EntitySchema_fieldAccessorTable;
+      internal_static_coms309_server_TowerSchema_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_coms309_server_ConnectedClients_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_coms309_server_ConnectedClients_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_coms309_server_ConnectedClients_Client_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_coms309_server_ConnectedClients_Client_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_coms309_server_CollisionEvent_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_coms309_server_CollisionEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -48,21 +58,25 @@ public final class DataObjectProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020DataObject.proto\022\016coms309.server\"\262\001\n\020D" +
+      "\n\020DataObject.proto\022\016coms309.server\"\232\002\n\020D" +
       "ataObjectSchema\0224\n\tgamestate\030\001 \001(\0132\037.com" +
       "s309.server.GamestateSchemaH\000\0220\n\007message" +
       "\030\002 \001(\0132\035.coms309.server.MessageSchemaH\000\022" +
-      ".\n\006entity\030\003 \001(\0132\034.coms309.server.EntityS" +
-      "chemaH\000B\006\n\004data\"\255\001\n\017GamestateSchema\022\022\n\nd" +
-      "ifficulty\030\001 \001(\r\022\016\n\006status\030\002 \001(\r\022\013\n\003map\030\003" +
-      " \001(\r\022\r\n\005round\030\004 \001(\r\0227\n\007players\030\005 \003(\0132&.c" +
-      "oms309.server.GamestateSchema.Player\032!\n\006" +
-      "Player\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\">\n\rMessa",
-      "geSchema\022\016\n\006author\030\001 \001(\t\022\014\n\004code\030\002 \002(\t\022\017" +
-      "\n\007message\030\003 \002(\t\"G\n\014EntitySchema\022\t\n\001x\030\001 \002" +
-      "(\r\022\t\n\001y\030\002 \002(\r\022\020\n\010objectId\030\003 \002(\r\022\017\n\007owner" +
-      "Id\030\004 \002(\rB*\n\025coms309.server.SchemaB\017DataO" +
-      "bjectProtoP\001"
+      ",\n\005tower\030\003 \001(\0132\033.coms309.server.TowerSch" +
+      "emaH\000\0223\n\007clients\030\004 \001(\0132 .coms309.server." +
+      "ConnectedClientsH\000\0223\n\tcollision\030\005 \001(\0132\036." +
+      "coms309.server.CollisionEventH\000B\006\n\004data\"" +
+      "Q\n\017GamestateSchema\022\022\n\ndifficulty\030\001 \001(\r\022\016" +
+      "\n\006status\030\002 \001(\r\022\013\n\003map\030\003 \001(\r\022\r\n\005round\030\004 \001",
+      "(\r\">\n\rMessageSchema\022\016\n\006author\030\001 \001(\t\022\014\n\004c" +
+      "ode\030\002 \002(\t\022\017\n\007message\030\003 \002(\t\"D\n\013TowerSchem" +
+      "a\022\t\n\001x\030\001 \002(\r\022\t\n\001y\030\002 \002(\r\022\016\n\006typeId\030\003 \002(\r\022" +
+      "\017\n\007ownerId\030\004 \001(\r\"o\n\020ConnectedClients\0228\n\007" +
+      "clients\030\001 \003(\0132\'.coms309.server.Connected" +
+      "Clients.Client\032!\n\006Client\022\013\n\003pid\030\001 \001(\r\022\n\n" +
+      "\002id\030\002 \001(\004\"2\n\016CollisionEvent\022\017\n\007towerId\030\001" +
+      " \002(\r\022\017\n\007enemyId\030\002 \002(\rB*\n\025coms309.server." +
+      "SchemaB\017DataObjectProtoP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81,31 +95,43 @@ public final class DataObjectProto {
     internal_static_coms309_server_DataObjectSchema_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_DataObjectSchema_descriptor,
-        new java.lang.String[] { "Gamestate", "Message", "Entity", "Data", });
+        new java.lang.String[] { "Gamestate", "Message", "Tower", "Clients", "Collision", "Data", });
     internal_static_coms309_server_GamestateSchema_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_coms309_server_GamestateSchema_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_GamestateSchema_descriptor,
-        new java.lang.String[] { "Difficulty", "Status", "Map", "Round", "Players", });
-    internal_static_coms309_server_GamestateSchema_Player_descriptor =
-      internal_static_coms309_server_GamestateSchema_descriptor.getNestedTypes().get(0);
-    internal_static_coms309_server_GamestateSchema_Player_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_coms309_server_GamestateSchema_Player_descriptor,
-        new java.lang.String[] { "Pid", "Id", });
+        new java.lang.String[] { "Difficulty", "Status", "Map", "Round", });
     internal_static_coms309_server_MessageSchema_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_coms309_server_MessageSchema_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_MessageSchema_descriptor,
         new java.lang.String[] { "Author", "Code", "Message", });
-    internal_static_coms309_server_EntitySchema_descriptor =
+    internal_static_coms309_server_TowerSchema_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_coms309_server_EntitySchema_fieldAccessorTable = new
+    internal_static_coms309_server_TowerSchema_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_coms309_server_EntitySchema_descriptor,
-        new java.lang.String[] { "X", "Y", "ObjectId", "OwnerId", });
+        internal_static_coms309_server_TowerSchema_descriptor,
+        new java.lang.String[] { "X", "Y", "TypeId", "OwnerId", });
+    internal_static_coms309_server_ConnectedClients_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_coms309_server_ConnectedClients_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_coms309_server_ConnectedClients_descriptor,
+        new java.lang.String[] { "Clients", });
+    internal_static_coms309_server_ConnectedClients_Client_descriptor =
+      internal_static_coms309_server_ConnectedClients_descriptor.getNestedTypes().get(0);
+    internal_static_coms309_server_ConnectedClients_Client_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_coms309_server_ConnectedClients_Client_descriptor,
+        new java.lang.String[] { "Pid", "Id", });
+    internal_static_coms309_server_CollisionEvent_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_coms309_server_CollisionEvent_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_coms309_server_CollisionEvent_descriptor,
+        new java.lang.String[] { "TowerId", "EnemyId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
