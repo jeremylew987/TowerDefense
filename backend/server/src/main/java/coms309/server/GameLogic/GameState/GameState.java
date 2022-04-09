@@ -8,14 +8,32 @@ import coms309.server.Schema.GamestateSchema;
 
 import java.util.logging.Level;
 
-public class GameState {
+public class GameState implements Runnable {
 
     private Server server;
-    private int status, round, difficulty;
+
+    /**
+     * status of the game
+     * 0 = init
+     * 1 = waiting
+     * 2 = in round
+     * 3 = pause
+     * 4 = end game
+     */
+    private int status;
+
+    /**
+     * difficulty of the game
+     * 0 = easy
+     * 1 = normal
+     * 2 = hard
+     */
+    private int difficulty;
+
+    private int round;
     private Map map;
 
     // CONSTRUCTOR
-
     public GameState(Server s) {
         server = s;
         status = 0;
@@ -29,7 +47,6 @@ public class GameState {
     }
 
     // GETTERS
-
     public int getDifficulty() {
         return difficulty;
     }
@@ -44,7 +61,6 @@ public class GameState {
     }
 
     // SETTERS
-
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
         DataObjectSchema d =
@@ -99,8 +115,19 @@ public class GameState {
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
 
-    // SERIALIZE
+    // RUN
+    public void run() {
+        this.setStatus(1); // set to waiting
+        while (true) {
+            while (status == 1) {} // wait until round is started
 
+            // start round logic
+
+            round++;
+        }
+    }
+
+    // SERIALIZE
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()

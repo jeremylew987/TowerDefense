@@ -10,14 +10,23 @@ public class Message{
     public String message;
     public String code;
 
-    // Create from args
+    /**
+     * Create message from args
+     * @param author
+     * @param code
+     * @param message
+     */
     public Message(String author, String code, String message) {
         this.author = author;
         this.code = code;
         this.message = message;
     }
 
-    // Read from serialized object
+    /**
+     * Create message from protobuf object
+     * @param m protobuf
+     * @throws InvalidProtocolBufferException
+     */
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
         code = m.getCode().toUpperCase();

@@ -1,5 +1,6 @@
 package coms309.server.Network;
 
+import coms309.server.Schema.ConnectedClients;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
 import coms309.server.Server;
@@ -21,6 +22,10 @@ public class ConnectionHandler {
         }
     }
 
+    /**
+     * Write buffer to all connected and validated clients
+     * @param data Wrapper Object to hold date
+     */
     public void writeToAll(DataObjectSchema data) {
         for (int i = 0; i < server.getMaxPlayers(); i++) {
             if (clients[i] == null || !clients[i].isValidated() || !clients[i].isAlive()) {
@@ -30,6 +35,30 @@ public class ConnectionHandler {
         }
     }
 
+    /**
+     * Get IDs of all connected clients and write buffer to all
+     */
+    public void announcePlayers() {
+        ConnectedClients.Builder conn = ConnectedClients.newBuilder();
+        for (int i = 0; i < server.getMaxPlayers(); i++) {
+            if (clients[i] != null && clients[i].isValidated() && clients[i].isAlive()) {
+                conn.addClients(
+                        ConnectedClients.Client.newBuilder()
+                                .setPid(i)
+                                .setId(clients[i].getPlayer().getUserId()));
+            }
+        }
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setClients(conn.build())
+                        .build();
+        writeToAll(d);
+    }
+
+    /**
+     * Update status of all connected clients.
+     * Works by writing a null byte to every client socket
+     */
     public void updateConnectionStatus() {
         boolean playerChanged = false;
         GamestateSchema.Builder gs = GamestateSchema.newBuilder();
@@ -41,6 +70,19 @@ public class ConnectionHandler {
         }
     }
 
+    /**
+     * Get player details object by lobby PlayerId
+     * @param pid
+     * @return
+     */
+    public Player getPlayerById(int pid) {
+        return clients[pid].getPlayer();
+    }
+
+    /**
+     * Wait for new connections
+     * validate each connection to an User on the authentication server
+     */
     public void awaitNewConnections() {
         playerIterator = 0;
         try {
@@ -69,7 +111,7 @@ public class ConnectionHandler {
                 Socket s = server.getSocket().accept();
                 Connection c = new Connection(s, playerIterator, server);
                 clients[playerIterator] = c;
-                server.logger.log(Level.INFO, c.getAddress() + " is attempting to connect.");
+                Server.logger.log(Level.INFO, c.getAddress() + " is attempting to connect.");
                 c.setThread(new Thread(c));
                 c.getThread().start();
             }
@@ -79,20 +121,4 @@ public class ConnectionHandler {
         }
     }
 
-    public void announcePlayers() {
-        GamestateSchema.Builder gs = GamestateSchema.newBuilder();
-        for (int i = 0; i < server.getMaxPlayers(); i++) {
-            if (clients[i] != null && clients[i].isValidated() && clients[i].isAlive()) {
-                gs.addPlayers(
-                        GamestateSchema.Player.newBuilder()
-                                .setPid(i)
-                                .setId(clients[i].getPlayer().getUserId()));
-            }
-        }
-        DataObjectSchema d =
-                DataObjectSchema.newBuilder()
-                        .setGamestate(gs.build())
-                        .build();
-        writeToAll(d);
-    }
 }

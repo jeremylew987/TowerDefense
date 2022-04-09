@@ -22,7 +22,7 @@ public class Server {
     private GameState gamestate;
     private ConnectionHandler connectionHandler;
     private Properties properties;
-    public final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    public static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public Server() {
         try {
@@ -36,7 +36,7 @@ public class Server {
             // 3. Establish Network Socket
             socket = new ServerSocket(Integer.parseInt(properties.getProperty("server.port")));
             this.connectionHandler = new ConnectionHandler(this);
-            logger.log(Level.INFO, "Server started on: " + socket.getLocalSocketAddress());
+            Server.logger.log(Level.INFO, "Server started on: " + socket.getLocalSocketAddress());
 
             // 4. Create Gamestate Logic
             this.gamestate = new GameState(this);
@@ -47,16 +47,20 @@ public class Server {
         }
     }
 
+    /**
+     * Load server.properties file to load server settings
+     * @throws IOException
+     */
     private void loadPropertiesFile() throws IOException{
         // find root directory of jar file
         File jar = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         File f = new File(jar.getParent() + "\\server.properties");
         if (f.createNewFile()) {
-            logger.info("Created new default config: " + f.getName());
+            Server.logger.info("Created new default config: " + f.getName());
             FileWriter fw = new FileWriter(f);
             fw.write("server.port=25565\nserver.maxPlayers=4");
             fw.close();
-        } else { logger.info("Loading properties from: " + f.getAbsolutePath()); }
+        } else { Server.logger.info("Loading properties from: " + f.getAbsolutePath()); }
 
         // load properties
         this.properties = new Properties();
@@ -68,14 +72,12 @@ public class Server {
     public ServerSocket getSocket() {
         return socket;
     }
-
     public int getMaxPlayers() {
         return maxPlayers;
     }
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
     }
-
     public GameState getGamestate() {
         return gamestate;
     }

@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
 import coms309.server.Schema.MessageSchema;
+import coms309.server.Schema.TowerSchema;
 import coms309.server.Server;
 import org.json.simple.JSONObject;
 import org.junit.runner.Request;
@@ -11,6 +12,7 @@ import org.junit.runner.Request;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -18,16 +20,16 @@ import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Connection implements Runnable {
-
     private Server server;
     private Socket socket;
+    private String address;
     private Thread thread;
 
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
+
     private boolean validated;
     private boolean isAlive;
-    private String address;
 
     private final String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private Player player;
@@ -70,6 +72,11 @@ public class Connection implements Runnable {
     public void setAddress() { this.address = this.socket.getRemoteSocketAddress().toString(); }
     public String getAddress() {return address;}
 
+    /**
+     * Validates the provided token with the authentication server.
+     * Initializes the Player object with JSON response.
+     * @return validation status
+     */
     public boolean isValidated() {
         return validated;
     }
@@ -108,6 +115,12 @@ public class Connection implements Runnable {
         }
         return validated;
     }
+
+    /**
+     * Convert HTTP Response to String
+     * @param is InputStream
+     * @return
+     */
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -174,8 +187,16 @@ public class Connection implements Runnable {
                 DataObjectSchema.parseDelimitedFrom(dataIn);
 
         switch (data.getDataCase()) {
-            case ENTITY:
-                // Receive commands for entities
+            case TOWER:
+                TowerSchema tower = data.getTower();
+                server.getGamestate().getMap().spawnEntity(
+                        tower.getTypeId(),
+                        new Point(
+                                tower.getX(),
+                                tower.getY()
+                        ),
+                        tower.getOwnerId()
+                );
                 break;
             case GAMESTATE:
 
