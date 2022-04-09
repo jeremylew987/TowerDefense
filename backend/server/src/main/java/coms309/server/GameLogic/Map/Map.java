@@ -18,7 +18,8 @@ public class Map {
     private String name;
     public int mapId;
 
-    private int width, height;
+    private final int width = 800;
+    private final int height = 600;
 
     /**
      * LinkedList to store path data for enemy
@@ -30,7 +31,7 @@ public class Map {
      */
     private ArrayList<Tower> towerArray;
 
-    public Map(int mapId) throws Exception {
+    public Map(int mapId) throws IOException, ParseException {
         loadMap(mapId);
     }
 

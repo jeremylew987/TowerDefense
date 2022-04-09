@@ -1,5 +1,6 @@
-package coms309.server.Network;
+package coms309.server.GameLogic;
 
+import coms309.server.Network.Connection;
 import coms309.server.Schema.DataObjectSchema;
 import org.json.simple.JSONObject;
 

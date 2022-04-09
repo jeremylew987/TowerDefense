@@ -1,13 +1,10 @@
 package coms309.server.Network;
 
-import com.google.protobuf.ByteString;
+import coms309.server.GameLogic.Player;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
-import coms309.server.Schema.MessageSchema;
 import coms309.server.Schema.TowerSchema;
 import coms309.server.Server;
-import org.json.simple.JSONObject;
-import org.junit.runner.Request;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -15,8 +12,6 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Connection implements Runnable {
@@ -187,7 +182,7 @@ public class Connection implements Runnable {
                 DataObjectSchema.parseDelimitedFrom(dataIn);
 
         switch (data.getDataCase()) {
-            case TOWER:
+            case TOWER: {
                 TowerSchema tower = data.getTower();
                 server.getGamestate().getMap().spawnEntity(
                         tower.getTypeId(),
@@ -198,14 +193,19 @@ public class Connection implements Runnable {
                         tower.getOwnerId()
                 );
                 break;
-            case GAMESTATE:
-
+            }
+            case GAMESTATE: {
                 GamestateSchema g = data.getGamestate();
                 if (g.hasMap()) {
                     try {
                         server.getGamestate().setMap(g.getMap());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Server.logger.warning("Failed to load new map: " + e.getMessage());
+                        write(new Message(
+                                "Server",
+                                "ERR",
+                                "Failed to load map"
+                        ).serialize());
                     }
                 }
                 if (g.hasDifficulty()) {
@@ -215,7 +215,8 @@ public class Connection implements Runnable {
                     server.getGamestate().setStatus(g.getStatus());
                 }
                 break;
-            case MESSAGE:
+            }
+            case MESSAGE: {
                 Message m = new Message(data.getMessage());
 
                 // Check if message username matches auth username
@@ -224,11 +225,14 @@ public class Connection implements Runnable {
                     m.author = player.getUsername();
                 }
 
+                // Relay if chat message
                 if (m.code.equals("CHAT")) {
-                    server.getConnectionHandler().writeToAll(m.serialize()); // relay chat to users
+                    server.getConnectionHandler().writeToAll(m.serialize());
                 }
+
                 server.logger.log(Level.INFO, m.toString());
                 break;
+            }
         }
     }
 

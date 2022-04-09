@@ -1,7 +1,7 @@
 package coms309.server;
 
 
-import coms309.server.GameLogic.GameState.GameState;
+import coms309.server.GameLogic.GameState;
 import coms309.server.Network.ConnectionHandler;
 
 import java.io.*;
@@ -20,6 +20,7 @@ public class Server {
     // Server Objects
     private ServerSocket socket;
     private GameState gamestate;
+    private Thread gameThread;
     private ConnectionHandler connectionHandler;
     private Properties properties;
     public static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -40,6 +41,7 @@ public class Server {
 
             // 4. Create Gamestate Logic
             this.gamestate = new GameState(this);
+            this.gameThread = new Thread(this.gamestate);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,25 +71,28 @@ public class Server {
         i.close();
     }
 
-    public ServerSocket getSocket() {
-        return socket;
-    }
     public int getMaxPlayers() {
         return maxPlayers;
     }
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
     }
+
     public GameState getGamestate() {
         return gamestate;
     }
+    public Thread getGameThread() { return gameThread; }
+
     public ConnectionHandler getConnectionHandler() {
         return connectionHandler;
+    }
+    public ServerSocket getSocket() {
+        return socket;
     }
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.connectionHandler.awaitNewConnections();
+        server.getGameThread().start();
     }
 
 }

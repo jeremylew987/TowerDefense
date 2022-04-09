@@ -4,6 +4,10 @@
 package coms309.server.Schema;
 
 /**
+ * <pre>
+ * WRAPPER
+ * </pre>
+ *
  * Protobuf type {@code coms309.server.DataObjectSchema}
  */
 public  final class DataObjectSchema extends
@@ -549,6 +553,10 @@ public  final class DataObjectSchema extends
     return builder;
   }
   /**
+   * <pre>
+   * WRAPPER
+   * </pre>
+   *
    * Protobuf type {@code coms309.server.DataObjectSchema}
    */
   public static final class Builder extends

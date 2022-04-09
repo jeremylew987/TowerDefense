@@ -1,5 +1,6 @@
 package coms309.server.Network;
 
+import coms309.server.GameLogic.Player;
 import coms309.server.Schema.ConnectedClients;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
@@ -115,7 +116,7 @@ public class ConnectionHandler {
                 c.setThread(new Thread(c));
                 c.getThread().start();
             }
-            server.getGamestate().setStatus(1);
+            Server.logger.info("All clients connected, waiting for start signal.");
         } catch (IOException e) {
             e.printStackTrace();
         }

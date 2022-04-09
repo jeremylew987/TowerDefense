@@ -1,4 +1,4 @@
-package coms309.server.GameLogic.GameState;
+package coms309.server.GameLogic;
 
 import coms309.server.GameLogic.Map.Map;
 import coms309.server.Network.Message;
@@ -15,10 +15,11 @@ public class GameState implements Runnable {
     /**
      * status of the game
      * 0 = init
-     * 1 = waiting
-     * 2 = in round
-     * 3 = pause
-     * 4 = end game
+     * 1 = starting
+     * 2 = waiting
+     * 3 = in-round
+     * 4 = paused
+     * 5 = game-over
      */
     private int status;
 
@@ -117,7 +118,8 @@ public class GameState implements Runnable {
 
     // RUN
     public void run() {
-        this.setStatus(1); // set to waiting
+        this.server.getConnectionHandler().awaitNewConnections();
+        this.setStatus(2); // set to waiting
         while (true) {
             while (status == 1) {} // wait until round is started
 
