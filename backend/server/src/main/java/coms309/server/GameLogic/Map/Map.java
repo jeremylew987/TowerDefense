@@ -91,6 +91,12 @@ public class Map {
         return newTower;
     }
 
+    public void waveUpdate() {
+        for (Tower t: towerArray) {
+            calculateCollision(new Point(), t);
+        }
+    }
+
     /**
      * Calculate if Point is in the range of Tower
      * @param point

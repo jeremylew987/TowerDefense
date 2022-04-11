@@ -29,7 +29,7 @@ public class Connection implements Runnable {
     private final String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private Player player;
 
-    public Connection(Socket socket, int id, Server server) {
+    public Connection(Socket socket, int id, Server server) throws IOException {
         this.socket = socket;
         this.thread = thread;
         this.server = server;
@@ -39,13 +39,9 @@ public class Connection implements Runnable {
         this.isAlive = true;
         this.validated = false;
 
-        try {
-            // Establish data in & out connection
-            dataIn = new DataInputStream(socket.getInputStream());
-            dataOut = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Establish data in & out connection
+        dataIn = new DataInputStream(socket.getInputStream());
+        dataOut = new DataOutputStream(socket.getOutputStream());
     }
 
     public Server getServer() {
@@ -166,6 +162,7 @@ public class Connection implements Runnable {
                 read();
             } catch (Exception ex) {
                 kill("LOST_CONNECTION");
+                break;
             }
         }
     }

@@ -118,14 +118,35 @@ public class GameState implements Runnable {
 
     // RUN
     public void run() {
-        this.server.getConnectionHandler().awaitNewConnections();
+        server.getConnectionHandler().awaitNewConnections();
+        Server.logger.info("All clients connected, waiting for start signal.");
         this.setStatus(2); // set to waiting
+
+        double t = 0.0;
+        final double dt = 1000;
+
+        double currentTime = System.currentTimeMillis();
+        double accumulator = 0.0;
+
         while (true) {
-            while (status == 1) {} // wait until round is started
+            double newTime = System.currentTimeMillis();
+            double frameTime = newTime - currentTime;
+            if ( frameTime > 0.25 )
+                frameTime = 0.25;
+            currentTime = newTime;
 
-            // start round logic
+            accumulator += frameTime;
 
-            round++;
+            while ( accumulator >= dt )
+            {
+                // do math based on t, dt
+                accumulator -= dt;
+                t += dt;
+            }
+
+            // non-tick based
+            if (server.getConnectionHandler().updateConnectionStatus())
+                server.getConnectionHandler().announcePlayers();
         }
     }
 
