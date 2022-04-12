@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 
+/**
+ * End points for accessing and modifying user details, friends, and friend requests
+ */
 @RestController // Tells Spring Boot that HTTP requests are handled here
 public class UserController
 {
@@ -25,12 +28,23 @@ public class UserController
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// =============================== BASIC USER API ================================== //
+
+	/**
+	 * Gets the authenticated user's details
+	 * @param authentication Requires authentication and role of ADMIN
+	 * @return current user details wrapped by a general http response
+	 */
 	@GetMapping(path = "/admin")
 	public ResponseEntity<GeneralResponse> getAdminDetails(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve current user details", authentication.getPrincipal()), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Gets the authenticated user's details
+	 * @param authentication current user's authentication. requires authentication
+	 * @return current user details wrapped by a general http response
+	 */
 	@GetMapping(path = "/user")
 	public ResponseEntity<GeneralResponse> getCurrentUser(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
@@ -38,6 +52,10 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve current user details", authentication.getPrincipal()), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Get all users
+	 * @return JSON list of all users and their details wrapped by a general http response
+	 */
 	@GetMapping(value={"/users"})
 	public ResponseEntity<GeneralResponse> getAllUsers() {
 		logger.info("Entered into User Controller Layer");
@@ -47,20 +65,11 @@ public class UserController
 	}
 
 	// =============================== FRIEND API ================================== //
-//	@GetMapping(value={"/user/friends/add/{friend}"})
-//	public ResponseEntity<GeneralResponse> addFriend(Authentication authentication, @PathVariable String friend) {
-//		logger.info("Entered into User Controller Layer");
-//		Friendship relationship =  userService.addFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
-//		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Added friend", relationship), HttpStatus.ACCEPTED);
-//	}
-//
-//	@GetMapping(value={"/user/friends/remove/{friend}"})
-//	public ResponseEntity<GeneralResponse> deleteFriend(Authentication authentication, @PathVariable String friend) {
-//		logger.info("Entered into User Controller Layer");
-//		Friendship relationship =  userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), friend);
-//		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Deleted friend", relationship), HttpStatus.ACCEPTED);
-//	}
 
+	/**
+	 * Get all the current user's friends
+	 * @return JSON list of all the user's friends wrapped in general http response
+	 */
 	@GetMapping(value={"/user/friends"})
 	public ResponseEntity<GeneralResponse> getFriends(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
@@ -71,6 +80,12 @@ public class UserController
 
 	// =============================== FRIEND REQUEST API ================================== //
 
+	/**
+	 * Send a friend request to another user, or make them friends if there is a matching incoming friend request
+	 * @param authentication current user's authentication
+	 * @param user user to send friend request to
+	 * @return optional friend request object created
+	 */
 	@GetMapping(value = {"/user/friends/add"})
 	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
@@ -78,6 +93,12 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Sent friend request", friendRequest), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Remove a user from the current user's friends list
+	 * @param authentication current user's authentication
+	 * @param user user to remove from friends list
+	 * @return optional friendship object removed
+	 */
 	@GetMapping(value = {"/user/friends/remove"})
 	public ResponseEntity<GeneralResponse> removeFriend(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
@@ -85,6 +106,12 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Remove friend", friendRequest), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Accept an incoming friend request from another user
+	 * @param authentication current user's authentication
+	 * @param user user to accept friend request from
+	 * @return optional created friendship object
+	 */
 	@GetMapping(value = {"/user/friends/accept"})
 	public ResponseEntity<GeneralResponse> acceptFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
@@ -92,6 +119,12 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Accept friend request", friendship), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Decline a friend request sent by another user
+	 * @param authentication current user's authentication
+	 * @param user user to decline friend request from
+	 * @return optional deleted friend request object
+	 */
 	@GetMapping(value = {"/user/friends/decline"})
 	public ResponseEntity<GeneralResponse> declineFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
@@ -99,6 +132,11 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Decline friend request", friendRequest), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Get all friend requests the authenticated user has sent to to other users.
+	 * @param authentication current user's authentication
+	 * @return JSON list of friend request objects
+	 */
 	@GetMapping(value={"/user/friends/sent"})
 	public ResponseEntity<GeneralResponse> getSentFriendRequests(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
@@ -106,6 +144,11 @@ public class UserController
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve all sent friend requests", sentFriendRequests), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * Get all friend requests the authenticated user has received from other users.
+	 * @param authentication current user's authentication
+	 * @return JSON list of friend request objects
+	 */
 	@GetMapping(value={"/user/friends/received"})
 	public ResponseEntity<GeneralResponse> getReceivedFriendRequests(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
