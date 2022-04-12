@@ -101,6 +101,12 @@ public class User{
     public void  setEmail(String email) {
         this.email  = email;
     }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
 	@Override
 	public String toString() {
