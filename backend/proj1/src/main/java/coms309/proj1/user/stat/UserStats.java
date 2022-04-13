@@ -1,12 +1,16 @@
-package coms309.proj1.stat;
+package coms309.proj1.user.stat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import coms309.proj1.Views;
 import coms309.proj1.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+
+@JsonView({Views.DetailedALL.class, Views.SummaryWithStats.class})
 @Entity
 @Table(name = "user_stats")
 @Getter
