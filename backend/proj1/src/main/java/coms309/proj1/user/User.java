@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
+import coms309.proj1.stat.UserStats;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -28,6 +29,10 @@ public class User{
 			generator = "user_seq")
 	@Column(name = "user_id")
 	private Long userId;
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private UserStats stats;
 
 	/**
 	 * User chosen username to log in with
@@ -68,6 +73,7 @@ public class User{
 	@JsonIgnoreProperties("sentFriendRequests")
 	private List<FriendRequest> sentFriendRequests = new ArrayList<FriendRequest>();
 
+
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
 		this.email = email;
@@ -75,6 +81,7 @@ public class User{
 		this.role = role;
 		this.locked = false;
 		this.enabled = false;
+		this.stats = new UserStats(this);
 	}
 
 
@@ -91,8 +98,11 @@ public class User{
         return this.email;
     }
     public UserRole getRole() { return this.role; }
+	public UserStats getStats() {
+		return stats;
+	}
 
-    public void setPassword(String password) {
+	public void setPassword(String password) {
         this.password = password;
     }
     public void  setUsername(String username) {
@@ -101,6 +111,9 @@ public class User{
     public void  setEmail(String email) {
         this.email  = email;
     }
+	public void setStats(UserStats stats) {
+		this.stats = stats;
+	}
 
 	@Override
 	public String toString() {
