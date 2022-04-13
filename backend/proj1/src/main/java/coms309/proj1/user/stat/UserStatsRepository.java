@@ -1,4 +1,4 @@
-package coms309.proj1.stat;
+package coms309.proj1.user.stat;
 
 import coms309.proj1.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface UserStatsRepository extends JpaRepository<UserStats, Long>
 {
 	Optional<UserStats> findFirstByLevel(int level);
+
+	Optional<UserStats> findById(Long id);
+
 }
