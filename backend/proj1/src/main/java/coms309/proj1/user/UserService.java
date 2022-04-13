@@ -43,6 +43,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User loadUserById(Long id) {
+        return userRepository.findByUserId(id);
+    }
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDetailsService.loadUserByUsername(username);
     }
