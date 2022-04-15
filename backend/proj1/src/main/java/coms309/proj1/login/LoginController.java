@@ -16,18 +16,31 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 
-
+    /**
+     * Login page returned by a get request to /login.
+     * Note: To actually login, send post request to /login with username and password
+     * @return "Login Screen"
+     */
     @GetMapping(path = "/login")
     public ResponseEntity<GeneralResponse> loginPage() {
         logger.info("Entered into Login Controller Layer");
         return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Screen"), HttpStatus.ACCEPTED);
     }
+
+    /**
+     * Redirected here when a successful login is performed by /login post request
+     * @return "Login Success"
+     */
     @GetMapping(path = "/login/success")
     public ResponseEntity<GeneralResponse> loginResponse() {
         logger.info("Entered into Login Controller Layer");
         return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success"), HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Redirected here when a successful logout is performed by /logout get request
+     * @return "Logout Success"
+     */
     @GetMapping(path = "/logout/success")
     public ResponseEntity<GeneralResponse> logoutResponse() {
         logger.info("Entered into Login Controller Layer");
