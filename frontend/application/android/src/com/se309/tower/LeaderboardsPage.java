@@ -40,7 +40,7 @@ public class LeaderboardsPage extends AppCompatActivity {
             }});
 
         Button Level = findViewById(R.id.LeaderboardLevel);
-        Button Round = findViewById(R.id.LeaderboardRound);
+        Button Round = findViewById(R.id.LeaderboardKills);
         Level.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
