@@ -79,7 +79,7 @@ public class LeaderboardsPage extends AppCompatActivity {
                 setupLeaderList("wins",FriendOnly[0]);
 
             }});
-        Kills.setOnClickListener(new View.OnClickListener() {
+        Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -91,6 +91,7 @@ public class LeaderboardsPage extends AppCompatActivity {
     }
 
     void setupLeaderList(String mode, boolean friend){
+        clearLayouts();
         final RequestQueue queue = Volley.newRequestQueue(LeaderboardsPage.this);
         String friendAdd = "";
         if(friend){
@@ -150,6 +151,7 @@ public class LeaderboardsPage extends AppCompatActivity {
 
         layout = (ViewGroup) findViewById(R.id.leaderboardLevelList);
         cur = new TextView(this);
+        cur.setLayoutParams(lparams);
         try {
             cur.setText(friend.getString("level"));
         } catch (Exception e){
@@ -159,6 +161,7 @@ public class LeaderboardsPage extends AppCompatActivity {
 
         layout = (ViewGroup) findViewById(R.id.leaderboardKillsList);
         cur = new TextView(this);
+        cur.setLayoutParams(lparams);
         try {
             cur.setText(friend.getString("kills"));
         } catch (Exception e){
@@ -168,6 +171,7 @@ public class LeaderboardsPage extends AppCompatActivity {
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsWinsList);
         cur = new TextView(this);
+        cur.setLayoutParams(lparams);
         try {
             cur.setText(friend.getString("wins"));
         } catch (Exception e){
@@ -177,6 +181,7 @@ public class LeaderboardsPage extends AppCompatActivity {
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsLossList);
         cur = new TextView(this);
+        cur.setLayoutParams(lparams);
         try {
             cur.setText(friend.getString("losses"));
         } catch (Exception e){
@@ -193,11 +198,30 @@ public class LeaderboardsPage extends AppCompatActivity {
         title.setText("Username");
         layout.addView(title);
 
-         layout = (ViewGroup) findViewById(R.id.LeaderboardUsernameList);
+         layout = (ViewGroup) findViewById(R.id.leaderboardLevelList);
         layout.removeAllViews();
          title = new TextView(this);
-        title.setText("Username");
+        title.setText("Level");
         layout.addView(title);
+
+        layout = (ViewGroup) findViewById(R.id.leaderboardKillsList);
+        layout.removeAllViews();
+        title = new TextView(this);
+        title.setText("Kills");
+        layout.addView(title);
+
+        layout = (ViewGroup) findViewById(R.id.leaderboardsWinsList);
+        layout.removeAllViews();
+        title = new TextView(this);
+        title.setText("Wins");
+        layout.addView(title);
+
+        layout = (ViewGroup) findViewById(R.id.leaderboardsLossList);
+        layout.removeAllViews();
+        title = new TextView(this);
+        title.setText("Losses");
+        layout.addView(title);
+
     }
 
 }
