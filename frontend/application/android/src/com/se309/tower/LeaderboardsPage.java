@@ -28,8 +28,9 @@ public class LeaderboardsPage extends AppCompatActivity {
         setContentView(R.layout.activity_leaderboards_page);
 
         final Boolean[] FriendOnly = {false};
-
+        final String[] mode = {"level"};
         Button back = findViewById(R.id.LeaderboardBack);
+        setupLeaderList(mode[0],FriendOnly[0]);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +52,7 @@ public class LeaderboardsPage extends AppCompatActivity {
                 Friend.setText("Friends only: ON");
             }
 
-
+                setupLeaderList(mode[0],FriendOnly[0]);
             }});
 
         Button Level = findViewById(R.id.LeaderboardLevel);
@@ -61,28 +62,28 @@ public class LeaderboardsPage extends AppCompatActivity {
         Level.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+            mode[0] = "level";
         setupLeaderList("level",FriendOnly[0]);
 
             }});
         Kills.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mode[0] = "kills";
                 setupLeaderList("kills",FriendOnly[0]);
 
             }});
         Wins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mode[0] = "wins";
                 setupLeaderList("wins",FriendOnly[0]);
 
             }});
         Username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mode[0] = "username";
                 setupLeaderList("username",FriendOnly[0]);
 
             }});
