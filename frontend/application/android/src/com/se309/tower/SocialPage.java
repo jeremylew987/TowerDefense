@@ -219,7 +219,7 @@ public class SocialPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                for (int i = 0; i < response.length(); i++) {
+                for (int i = 0; i < res.length(); i++) {
                     try {
                         friend(res.getJSONObject(i));
                     } catch (Exception e){
@@ -250,7 +250,7 @@ public class SocialPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                for (int i = 0; i < response.length(); i++) {
+                for (int i = 0; i < res.length(); i++) {
                     try {
                         friendRequest(res.getJSONObject(i));
                     } catch (Exception e){

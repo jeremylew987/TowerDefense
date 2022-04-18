@@ -24,10 +24,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/LeaderboardRound"
+        android:id="@+id/LeaderboardKills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Round"
+        android:text="Kills"
         app:layout_constraintStart_toEndOf="@+id/LeaderboardLevel"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,19 +36,113 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Friends only: OFF"
-        app:layout_constraintStart_toEndOf="@+id/LeaderboardRound"
+        app:layout_constraintStart_toEndOf="@+id/leaderboardUsername"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/LeaderboardList"
-        android:layout_width="729dp"
-        android:layout_height="361dp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="1dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LeaderboardBack" />
+        app:layout_constraintTop_toBottomOf="@+id/LeaderboardBack">
+
+        <LinearLayout
+            android:id="@+id/LeaderboardUsernameList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Username" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leaderboardLevelList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Level" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leaderboardKillsList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kills" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leaderboardsWinsList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Wins" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leaderboardsLossList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Losses" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/leaderboardsWins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wins"
+        app:layout_constraintStart_toEndOf="@+id/LeaderboardKills"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/leaderboardUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        app:layout_constraintStart_toEndOf="@+id/leaderboardsWins"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

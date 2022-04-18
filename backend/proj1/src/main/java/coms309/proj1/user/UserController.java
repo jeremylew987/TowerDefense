@@ -1,5 +1,7 @@
 package coms309.proj1.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import coms309.proj1.Views;
 import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
 import coms309.proj1.exception.GeneralResponse;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +38,7 @@ public class UserController
 	 * @return current user details wrapped by a general http response
 	 */
 	@GetMapping(path = "/admin")
+	@JsonView(Views.Detailed.class)
 	public ResponseEntity<GeneralResponse> getAdminDetails(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
 		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve current user details", authentication.getPrincipal()), HttpStatus.ACCEPTED);
@@ -45,11 +49,14 @@ public class UserController
 	 * @param authentication current user's authentication. requires authentication
 	 * @return current user details wrapped by a general http response
 	 */
+	@JsonView(Views.Detailed.class)
 	@GetMapping(path = "/user")
 	public ResponseEntity<GeneralResponse> getCurrentUser(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
-		logger.info(authentication.toString());
-		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve current user details", authentication.getPrincipal()), HttpStatus.ACCEPTED);
+		// Hack to get around lazy loading causing issues. Don't want to use eager for blanket performance hit
+		UserDetails userDetailsPrincipal = (UserDetails) authentication.getPrincipal();
+		UserDetails userDetails = userService.loadUserByUsername(userDetailsPrincipal.getUsername());
+		return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Retrieve current user details", userDetails), HttpStatus.ACCEPTED);
 	}
 
 	/**
@@ -57,6 +64,7 @@ public class UserController
 	 * @return JSON list of all users and their details wrapped by a general http response
 	 */
 	@GetMapping(value={"/users"})
+	@JsonView(Views.Summary.class)
 	public ResponseEntity<GeneralResponse> getAllUsers() {
 		logger.info("Entered into User Controller Layer");
 		List<User> results = userService.loadUsers();
@@ -71,6 +79,7 @@ public class UserController
 	 * @return JSON list of all the user's friends wrapped in general http response
 	 */
 	@GetMapping(value={"/user/friends"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> getFriends(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
 		List<User> friends =  userService.getFriends(((UserDetailsImpl)authentication.getPrincipal()).getUsername());
@@ -87,6 +96,7 @@ public class UserController
 	 * @return optional friend request object created
 	 */
 	@GetMapping(value = {"/user/friends/add"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
 		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
@@ -100,6 +110,7 @@ public class UserController
 	 * @return optional friendship object removed
 	 */
 	@GetMapping(value = {"/user/friends/remove"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> removeFriend(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
 		Friendship friendRequest = userService.removeFriend(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);
@@ -113,6 +124,7 @@ public class UserController
 	 * @return optional created friendship object
 	 */
 	@GetMapping(value = {"/user/friends/accept"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> acceptFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
 		Friendship friendship = userService.acceptFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
@@ -126,6 +138,7 @@ public class UserController
 	 * @return optional deleted friend request object
 	 */
 	@GetMapping(value = {"/user/friends/decline"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> declineFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
 		FriendRequest friendRequest = userService.declineFriendRequest(user, ((UserDetailsImpl)authentication.getPrincipal()).getUsername());
@@ -138,6 +151,7 @@ public class UserController
 	 * @return JSON list of friend request objects
 	 */
 	@GetMapping(value={"/user/friends/sent"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> getSentFriendRequests(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
 		List<FriendRequest> sentFriendRequests =  userService.getSentFriendRequests(((UserDetailsImpl)authentication.getPrincipal()).getUsername());
@@ -150,6 +164,7 @@ public class UserController
 	 * @return JSON list of friend request objects
 	 */
 	@GetMapping(value={"/user/friends/received"})
+	@JsonView(Views.SummaryWithFriends.class)
 	public ResponseEntity<GeneralResponse> getReceivedFriendRequests(Authentication authentication) {
 		logger.info("Entered into User Controller Layer");
 		List<FriendRequest> receivedFriendRequests =  userService.getReceivedFriendRequests(((UserDetailsImpl)authentication.getPrincipal()).getUsername());

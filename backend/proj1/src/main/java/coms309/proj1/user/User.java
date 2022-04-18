@@ -2,14 +2,18 @@ package coms309.proj1.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+import coms309.proj1.Views;
 import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
+import coms309.proj1.user.stat.UserStats;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonView(Views.Summary.class)
 @NoArgsConstructor
 @Entity
 public class User{
@@ -27,6 +31,7 @@ public class User{
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_seq")
 	@Column(name = "user_id")
+	@JsonView(Views.Summary.class)
 	private Long userId;
 
 	/**
@@ -34,6 +39,7 @@ public class User{
 	 */
 	private String username;
 
+	@JsonView(Views.Detailed.class)
 	private String email;
 
 	/**
@@ -43,10 +49,13 @@ public class User{
 	private String password;
 
 	@Enumerated(EnumType.STRING)
+	@JsonView(Views.Detailed.class)
     private UserRole role;
 
+	@JsonView(Views.DetailedALL.class)
 	Boolean locked;
 
+	@JsonView(Views.DetailedALL.class)
 	Boolean enabled;
 
 	/**
@@ -56,17 +65,25 @@ public class User{
 	 * orphanRemoval means removing from collection friends will remove the row from
 	 * 				 the friend relationship table.
 	 */
-	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  orphanRemoval = true)
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER,  orphanRemoval = true)
 	@JsonIgnoreProperties("friends")
+	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
 	private List<Friendship> friends = new ArrayList<Friendship>();
 
 	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("receivedFriendRequests")
+	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
 	private List<FriendRequest> receivedFriendRequests = new ArrayList<FriendRequest>();
 
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("sentFriendRequests")
+	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
 	private List<FriendRequest> sentFriendRequests = new ArrayList<FriendRequest>();
+
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	@JsonView({Views.DetailedALL.class, Views.SummaryWithStats.class})
+	private UserStats stats;
 
 	public User(String username, String email, String password, UserRole role) {
 		this.username = username;
@@ -75,10 +92,10 @@ public class User{
 		this.role = role;
 		this.locked = false;
 		this.enabled = false;
+		this.stats = new UserStats(this);
 	}
 
-
-    public Long getId() {
+    public Long getUserId() {
         return this.userId;
     }
     public String getPassword() {
@@ -91,8 +108,11 @@ public class User{
         return this.email;
     }
     public UserRole getRole() { return this.role; }
+	public UserStats getStats() {
+		return stats;
+	}
 
-    public void setPassword(String password) {
+	public void setPassword(String password) {
         this.password = password;
     }
     public void  setUsername(String username) {
@@ -101,11 +121,16 @@ public class User{
     public void  setEmail(String email) {
         this.email  = email;
     }
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 	public void setLocked(boolean locked) {
-		this.locked = locked;
+		this.locked = locked;}
+
+	public void setStats(UserStats stats) {
+		this.stats = stats;
+
 	}
 
 	@Override
@@ -131,7 +156,7 @@ public class User{
 	/**
 	 * @return list of friend relationships the owner has
 	 */
-	@JsonIgnore
+	@JsonView(Views.SummaryWithFriendsALL.class)
 	public List<Friendship> getFriendships() {
 		return this.friends;
 	}
@@ -155,12 +180,10 @@ public class User{
 		return this.sentFriendRequests.add(fr);
 	}
 
-	@JsonIgnore
 	public List<FriendRequest> getSentFriendRequests() {
 		return this.sentFriendRequests;
 	}
 
-	@JsonIgnore
 	public List<FriendRequest> getReceivedFriendRequests() {
 		return this.receivedFriendRequests;
 	}

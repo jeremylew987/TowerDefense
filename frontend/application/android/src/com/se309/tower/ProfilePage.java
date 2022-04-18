@@ -54,7 +54,7 @@ public class ProfilePage extends AppCompatActivity {
 
                     result[0] +="Username: " + data.getString("username") + "\n";
                     result[0] +="Email: " + data.getString("email") + "\n";
-                    //result[0] +="Role: " + data.getString("role") + "\n";
+                    result[0] +="Role: " + data.getString("role") + "\n";
                     tV.setText(result[0]);
 
                 } catch (JSONException e) {
