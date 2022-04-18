@@ -82,8 +82,7 @@ public class LoginPage extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String address =  "http://10.49.40.243:8080/login";
-            //String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
+            String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -143,8 +142,7 @@ public class LoginPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
-                String address =  "http://10.49.40.243:8080/login";
+                String address =  "http://coms-309-027.class.las.iastate.edu:8080/login";
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, address, data, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
