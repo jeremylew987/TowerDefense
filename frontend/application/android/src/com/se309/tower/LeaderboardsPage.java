@@ -99,7 +99,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         }
         else friendAdd = "false";
 
-        String address = "http://coms-309-027.class.las.iastate.edu:8080/user/leaderboard?friendsOnly="+friendAdd+"&sortBy="+mode+"&order=descending";
+        //        String address = "http://coms-309-027.class.las.iastate.edu:8080/user/leaderboard?friendsOnly="+friendAdd+"&sortBy="+mode+"&order=descending";
+        String address = "http://10.49.40.243:8080/user/leaderboard?friendsOnly="+friendAdd+"&sortBy="+mode+"&order=descending";
         JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, address, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -110,7 +111,7 @@ public class LeaderboardsPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                for (int i = 0; i < response.length(); i++) {
+                for (int i = 0; i < res.length(); i++) {
                     try {
                         Leaderboard(res.getJSONObject(i));
                     } catch (Exception e){
