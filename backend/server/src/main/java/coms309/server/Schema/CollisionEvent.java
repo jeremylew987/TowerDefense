@@ -5,24 +5,23 @@ package coms309.server.Schema;
 
 /**
  * <pre>
- *Buffer to hold lobby data
+ *Buffer to hold collision event between
+ *tower and enemy.
  * </pre>
  *
- * Protobuf type {@code coms309.server.GamestateSchema}
+ * Protobuf type {@code coms309.server.CollisionEvent}
  */
-public  final class GamestateSchema extends
+public  final class CollisionEvent extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:coms309.server.GamestateSchema)
-    GamestateSchemaOrBuilder {
-  // Use GamestateSchema.newBuilder() to construct.
-  private GamestateSchema(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:coms309.server.CollisionEvent)
+    CollisionEventOrBuilder {
+  // Use CollisionEvent.newBuilder() to construct.
+  private CollisionEvent(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private GamestateSchema() {
-    difficulty_ = 0;
-    status_ = 0;
-    map_ = 0;
-    round_ = 0;
+  private CollisionEvent() {
+    towerId_ = 0;
+    enemyId_ = 0;
   }
 
   @java.lang.Override
@@ -30,7 +29,7 @@ public  final class GamestateSchema extends
   getUnknownFields() {
     return this.unknownFields;
   }
-  private GamestateSchema(
+  private CollisionEvent(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -55,22 +54,12 @@ public  final class GamestateSchema extends
           }
           case 8: {
             bitField0_ |= 0x00000001;
-            difficulty_ = input.readUInt32();
+            towerId_ = input.readUInt32();
             break;
           }
           case 16: {
             bitField0_ |= 0x00000002;
-            status_ = input.readUInt32();
-            break;
-          }
-          case 24: {
-            bitField0_ |= 0x00000004;
-            map_ = input.readUInt32();
-            break;
-          }
-          case 32: {
-            bitField0_ |= 0x00000008;
-            round_ = input.readUInt32();
+            enemyId_ = input.readUInt32();
             break;
           }
         }
@@ -87,75 +76,45 @@ public  final class GamestateSchema extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_descriptor;
+    return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_CollisionEvent_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_fieldAccessorTable
+    return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_CollisionEvent_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            coms309.server.Schema.GamestateSchema.class, coms309.server.Schema.GamestateSchema.Builder.class);
+            coms309.server.Schema.CollisionEvent.class, coms309.server.Schema.CollisionEvent.Builder.class);
   }
 
   private int bitField0_;
-  public static final int DIFFICULTY_FIELD_NUMBER = 1;
-  private int difficulty_;
+  public static final int TOWERID_FIELD_NUMBER = 1;
+  private int towerId_;
   /**
-   * <code>optional uint32 difficulty = 1;</code>
+   * <code>required uint32 towerId = 1;</code>
    */
-  public boolean hasDifficulty() {
+  public boolean hasTowerId() {
     return ((bitField0_ & 0x00000001) == 0x00000001);
   }
   /**
-   * <code>optional uint32 difficulty = 1;</code>
+   * <code>required uint32 towerId = 1;</code>
    */
-  public int getDifficulty() {
-    return difficulty_;
+  public int getTowerId() {
+    return towerId_;
   }
 
-  public static final int STATUS_FIELD_NUMBER = 2;
-  private int status_;
+  public static final int ENEMYID_FIELD_NUMBER = 2;
+  private int enemyId_;
   /**
-   * <code>optional uint32 status = 2;</code>
+   * <code>required uint32 enemyId = 2;</code>
    */
-  public boolean hasStatus() {
+  public boolean hasEnemyId() {
     return ((bitField0_ & 0x00000002) == 0x00000002);
   }
   /**
-   * <code>optional uint32 status = 2;</code>
+   * <code>required uint32 enemyId = 2;</code>
    */
-  public int getStatus() {
-    return status_;
-  }
-
-  public static final int MAP_FIELD_NUMBER = 3;
-  private int map_;
-  /**
-   * <code>optional uint32 map = 3;</code>
-   */
-  public boolean hasMap() {
-    return ((bitField0_ & 0x00000004) == 0x00000004);
-  }
-  /**
-   * <code>optional uint32 map = 3;</code>
-   */
-  public int getMap() {
-    return map_;
-  }
-
-  public static final int ROUND_FIELD_NUMBER = 4;
-  private int round_;
-  /**
-   * <code>optional uint32 round = 4;</code>
-   */
-  public boolean hasRound() {
-    return ((bitField0_ & 0x00000008) == 0x00000008);
-  }
-  /**
-   * <code>optional uint32 round = 4;</code>
-   */
-  public int getRound() {
-    return round_;
+  public int getEnemyId() {
+    return enemyId_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -164,6 +123,14 @@ public  final class GamestateSchema extends
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
+    if (!hasTowerId()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
+    if (!hasEnemyId()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
     memoizedIsInitialized = 1;
     return true;
   }
@@ -171,16 +138,10 @@ public  final class GamestateSchema extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
-      output.writeUInt32(1, difficulty_);
+      output.writeUInt32(1, towerId_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
-      output.writeUInt32(2, status_);
-    }
-    if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      output.writeUInt32(3, map_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      output.writeUInt32(4, round_);
+      output.writeUInt32(2, enemyId_);
     }
     unknownFields.writeTo(output);
   }
@@ -192,19 +153,11 @@ public  final class GamestateSchema extends
     size = 0;
     if (((bitField0_ & 0x00000001) == 0x00000001)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(1, difficulty_);
+        .computeUInt32Size(1, towerId_);
     }
     if (((bitField0_ & 0x00000002) == 0x00000002)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(2, status_);
-    }
-    if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(3, map_);
-    }
-    if (((bitField0_ & 0x00000008) == 0x00000008)) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(4, round_);
+        .computeUInt32Size(2, enemyId_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -217,31 +170,21 @@ public  final class GamestateSchema extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof coms309.server.Schema.GamestateSchema)) {
+    if (!(obj instanceof coms309.server.Schema.CollisionEvent)) {
       return super.equals(obj);
     }
-    coms309.server.Schema.GamestateSchema other = (coms309.server.Schema.GamestateSchema) obj;
+    coms309.server.Schema.CollisionEvent other = (coms309.server.Schema.CollisionEvent) obj;
 
     boolean result = true;
-    result = result && (hasDifficulty() == other.hasDifficulty());
-    if (hasDifficulty()) {
-      result = result && (getDifficulty()
-          == other.getDifficulty());
+    result = result && (hasTowerId() == other.hasTowerId());
+    if (hasTowerId()) {
+      result = result && (getTowerId()
+          == other.getTowerId());
     }
-    result = result && (hasStatus() == other.hasStatus());
-    if (hasStatus()) {
-      result = result && (getStatus()
-          == other.getStatus());
-    }
-    result = result && (hasMap() == other.hasMap());
-    if (hasMap()) {
-      result = result && (getMap()
-          == other.getMap());
-    }
-    result = result && (hasRound() == other.hasRound());
-    if (hasRound()) {
-      result = result && (getRound()
-          == other.getRound());
+    result = result && (hasEnemyId() == other.hasEnemyId());
+    if (hasEnemyId()) {
+      result = result && (getEnemyId()
+          == other.getEnemyId());
     }
     result = result && unknownFields.equals(other.unknownFields);
     return result;
@@ -254,79 +197,71 @@ public  final class GamestateSchema extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    if (hasDifficulty()) {
-      hash = (37 * hash) + DIFFICULTY_FIELD_NUMBER;
-      hash = (53 * hash) + getDifficulty();
+    if (hasTowerId()) {
+      hash = (37 * hash) + TOWERID_FIELD_NUMBER;
+      hash = (53 * hash) + getTowerId();
     }
-    if (hasStatus()) {
-      hash = (37 * hash) + STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + getStatus();
-    }
-    if (hasMap()) {
-      hash = (37 * hash) + MAP_FIELD_NUMBER;
-      hash = (53 * hash) + getMap();
-    }
-    if (hasRound()) {
-      hash = (37 * hash) + ROUND_FIELD_NUMBER;
-      hash = (53 * hash) + getRound();
+    if (hasEnemyId()) {
+      hash = (37 * hash) + ENEMYID_FIELD_NUMBER;
+      hash = (53 * hash) + getEnemyId();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(byte[] data)
+  public static coms309.server.Schema.CollisionEvent parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(java.io.InputStream input)
+  public static coms309.server.Schema.CollisionEvent parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static coms309.server.Schema.GamestateSchema parseDelimitedFrom(java.io.InputStream input)
+  public static coms309.server.Schema.CollisionEvent parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static coms309.server.Schema.GamestateSchema parseDelimitedFrom(
+  public static coms309.server.Schema.CollisionEvent parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static coms309.server.Schema.GamestateSchema parseFrom(
+  public static coms309.server.Schema.CollisionEvent parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -338,7 +273,7 @@ public  final class GamestateSchema extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(coms309.server.Schema.GamestateSchema prototype) {
+  public static Builder newBuilder(coms309.server.Schema.CollisionEvent prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -354,28 +289,29 @@ public  final class GamestateSchema extends
   }
   /**
    * <pre>
-   *Buffer to hold lobby data
+   *Buffer to hold collision event between
+   *tower and enemy.
    * </pre>
    *
-   * Protobuf type {@code coms309.server.GamestateSchema}
+   * Protobuf type {@code coms309.server.CollisionEvent}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:coms309.server.GamestateSchema)
-      coms309.server.Schema.GamestateSchemaOrBuilder {
+      // @@protoc_insertion_point(builder_implements:coms309.server.CollisionEvent)
+      coms309.server.Schema.CollisionEventOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_descriptor;
+      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_CollisionEvent_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_fieldAccessorTable
+      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_CollisionEvent_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              coms309.server.Schema.GamestateSchema.class, coms309.server.Schema.GamestateSchema.Builder.class);
+              coms309.server.Schema.CollisionEvent.class, coms309.server.Schema.CollisionEvent.Builder.class);
     }
 
-    // Construct using coms309.server.Schema.GamestateSchema.newBuilder()
+    // Construct using coms309.server.Schema.CollisionEvent.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -392,54 +328,42 @@ public  final class GamestateSchema extends
     }
     public Builder clear() {
       super.clear();
-      difficulty_ = 0;
+      towerId_ = 0;
       bitField0_ = (bitField0_ & ~0x00000001);
-      status_ = 0;
+      enemyId_ = 0;
       bitField0_ = (bitField0_ & ~0x00000002);
-      map_ = 0;
-      bitField0_ = (bitField0_ & ~0x00000004);
-      round_ = 0;
-      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_descriptor;
+      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_CollisionEvent_descriptor;
     }
 
-    public coms309.server.Schema.GamestateSchema getDefaultInstanceForType() {
-      return coms309.server.Schema.GamestateSchema.getDefaultInstance();
+    public coms309.server.Schema.CollisionEvent getDefaultInstanceForType() {
+      return coms309.server.Schema.CollisionEvent.getDefaultInstance();
     }
 
-    public coms309.server.Schema.GamestateSchema build() {
-      coms309.server.Schema.GamestateSchema result = buildPartial();
+    public coms309.server.Schema.CollisionEvent build() {
+      coms309.server.Schema.CollisionEvent result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public coms309.server.Schema.GamestateSchema buildPartial() {
-      coms309.server.Schema.GamestateSchema result = new coms309.server.Schema.GamestateSchema(this);
+    public coms309.server.Schema.CollisionEvent buildPartial() {
+      coms309.server.Schema.CollisionEvent result = new coms309.server.Schema.CollisionEvent(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
         to_bitField0_ |= 0x00000001;
       }
-      result.difficulty_ = difficulty_;
+      result.towerId_ = towerId_;
       if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
         to_bitField0_ |= 0x00000002;
       }
-      result.status_ = status_;
-      if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-        to_bitField0_ |= 0x00000004;
-      }
-      result.map_ = map_;
-      if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-        to_bitField0_ |= 0x00000008;
-      }
-      result.round_ = round_;
+      result.enemyId_ = enemyId_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -472,27 +396,21 @@ public  final class GamestateSchema extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof coms309.server.Schema.GamestateSchema) {
-        return mergeFrom((coms309.server.Schema.GamestateSchema)other);
+      if (other instanceof coms309.server.Schema.CollisionEvent) {
+        return mergeFrom((coms309.server.Schema.CollisionEvent)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(coms309.server.Schema.GamestateSchema other) {
-      if (other == coms309.server.Schema.GamestateSchema.getDefaultInstance()) return this;
-      if (other.hasDifficulty()) {
-        setDifficulty(other.getDifficulty());
+    public Builder mergeFrom(coms309.server.Schema.CollisionEvent other) {
+      if (other == coms309.server.Schema.CollisionEvent.getDefaultInstance()) return this;
+      if (other.hasTowerId()) {
+        setTowerId(other.getTowerId());
       }
-      if (other.hasStatus()) {
-        setStatus(other.getStatus());
-      }
-      if (other.hasMap()) {
-        setMap(other.getMap());
-      }
-      if (other.hasRound()) {
-        setRound(other.getRound());
+      if (other.hasEnemyId()) {
+        setEnemyId(other.getEnemyId());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -500,6 +418,12 @@ public  final class GamestateSchema extends
     }
 
     public final boolean isInitialized() {
+      if (!hasTowerId()) {
+        return false;
+      }
+      if (!hasEnemyId()) {
+        return false;
+      }
       return true;
     }
 
@@ -507,11 +431,11 @@ public  final class GamestateSchema extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      coms309.server.Schema.GamestateSchema parsedMessage = null;
+      coms309.server.Schema.CollisionEvent parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (coms309.server.Schema.GamestateSchema) e.getUnfinishedMessage();
+        parsedMessage = (coms309.server.Schema.CollisionEvent) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -522,130 +446,66 @@ public  final class GamestateSchema extends
     }
     private int bitField0_;
 
-    private int difficulty_ ;
+    private int towerId_ ;
     /**
-     * <code>optional uint32 difficulty = 1;</code>
+     * <code>required uint32 towerId = 1;</code>
      */
-    public boolean hasDifficulty() {
+    public boolean hasTowerId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 difficulty = 1;</code>
+     * <code>required uint32 towerId = 1;</code>
      */
-    public int getDifficulty() {
-      return difficulty_;
+    public int getTowerId() {
+      return towerId_;
     }
     /**
-     * <code>optional uint32 difficulty = 1;</code>
+     * <code>required uint32 towerId = 1;</code>
      */
-    public Builder setDifficulty(int value) {
+    public Builder setTowerId(int value) {
       bitField0_ |= 0x00000001;
-      difficulty_ = value;
+      towerId_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional uint32 difficulty = 1;</code>
+     * <code>required uint32 towerId = 1;</code>
      */
-    public Builder clearDifficulty() {
+    public Builder clearTowerId() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      difficulty_ = 0;
+      towerId_ = 0;
       onChanged();
       return this;
     }
 
-    private int status_ ;
+    private int enemyId_ ;
     /**
-     * <code>optional uint32 status = 2;</code>
+     * <code>required uint32 enemyId = 2;</code>
      */
-    public boolean hasStatus() {
+    public boolean hasEnemyId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional uint32 status = 2;</code>
+     * <code>required uint32 enemyId = 2;</code>
      */
-    public int getStatus() {
-      return status_;
+    public int getEnemyId() {
+      return enemyId_;
     }
     /**
-     * <code>optional uint32 status = 2;</code>
+     * <code>required uint32 enemyId = 2;</code>
      */
-    public Builder setStatus(int value) {
+    public Builder setEnemyId(int value) {
       bitField0_ |= 0x00000002;
-      status_ = value;
+      enemyId_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional uint32 status = 2;</code>
+     * <code>required uint32 enemyId = 2;</code>
      */
-    public Builder clearStatus() {
+    public Builder clearEnemyId() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      status_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int map_ ;
-    /**
-     * <code>optional uint32 map = 3;</code>
-     */
-    public boolean hasMap() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional uint32 map = 3;</code>
-     */
-    public int getMap() {
-      return map_;
-    }
-    /**
-     * <code>optional uint32 map = 3;</code>
-     */
-    public Builder setMap(int value) {
-      bitField0_ |= 0x00000004;
-      map_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional uint32 map = 3;</code>
-     */
-    public Builder clearMap() {
-      bitField0_ = (bitField0_ & ~0x00000004);
-      map_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private int round_ ;
-    /**
-     * <code>optional uint32 round = 4;</code>
-     */
-    public boolean hasRound() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional uint32 round = 4;</code>
-     */
-    public int getRound() {
-      return round_;
-    }
-    /**
-     * <code>optional uint32 round = 4;</code>
-     */
-    public Builder setRound(int value) {
-      bitField0_ |= 0x00000008;
-      round_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>optional uint32 round = 4;</code>
-     */
-    public Builder clearRound() {
-      bitField0_ = (bitField0_ & ~0x00000008);
-      round_ = 0;
+      enemyId_ = 0;
       onChanged();
       return this;
     }
@@ -660,39 +520,39 @@ public  final class GamestateSchema extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:coms309.server.GamestateSchema)
+    // @@protoc_insertion_point(builder_scope:coms309.server.CollisionEvent)
   }
 
-  // @@protoc_insertion_point(class_scope:coms309.server.GamestateSchema)
-  private static final coms309.server.Schema.GamestateSchema DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:coms309.server.CollisionEvent)
+  private static final coms309.server.Schema.CollisionEvent DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new coms309.server.Schema.GamestateSchema();
+    DEFAULT_INSTANCE = new coms309.server.Schema.CollisionEvent();
   }
 
-  public static coms309.server.Schema.GamestateSchema getDefaultInstance() {
+  public static coms309.server.Schema.CollisionEvent getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  @java.lang.Deprecated public static final com.google.protobuf.Parser<GamestateSchema>
-      PARSER = new com.google.protobuf.AbstractParser<GamestateSchema>() {
-    public GamestateSchema parsePartialFrom(
+  @java.lang.Deprecated public static final com.google.protobuf.Parser<CollisionEvent>
+      PARSER = new com.google.protobuf.AbstractParser<CollisionEvent>() {
+    public CollisionEvent parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GamestateSchema(input, extensionRegistry);
+        return new CollisionEvent(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<GamestateSchema> parser() {
+  public static com.google.protobuf.Parser<CollisionEvent> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GamestateSchema> getParserForType() {
+  public com.google.protobuf.Parser<CollisionEvent> getParserForType() {
     return PARSER;
   }
 
-  public coms309.server.Schema.GamestateSchema getDefaultInstanceForType() {
+  public coms309.server.Schema.CollisionEvent getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

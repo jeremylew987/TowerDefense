@@ -19,13 +19,13 @@ protobuf {
 }
 
 dependencies {
-    implementation 'com.google.protobuf:protobuf-java:3.19.4'
+    implementation 'com.google.protobuf:protobuf-java:3.20.0'
     implementation 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
-    implementation 'javax.json:javax.json-api:1.1'
-    implementation 'org.glassfish:javax.json:1.1'
+    implementation 'javax.json:javax.json-api:1.1.4'
+    implementation 'org.glassfish:javax.json:1.1.4'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 shadowJar {
@@ -34,6 +34,10 @@ shadowJar {
                 'Main-Class': 'coms309.server.Server',
                 "Class-Path": '/libs/json-simple.1.1.1.jar')
     }
+}
+
+javadoc {
+    exclude "coms309/server/Schema/**"
 }
 
 test {

@@ -1,5 +1,6 @@
-package coms309.server.Network;
+package coms309.server.GameLogic;
 
+import coms309.server.Network.Connection;
 import coms309.server.Schema.DataObjectSchema;
 import org.json.simple.JSONObject;
 
@@ -10,18 +11,12 @@ public class Player {
     private int level, money;
     private Connection connection;
 
-    public Player(Connection connection,
-                  int playerId)
-    {
+    public Player(Connection connection, int playerId) {
         this.connection = connection;
         this.playerId = playerId;
     }
 
-    public Player(Connection connection,
-                  String username,
-                  int userId,
-                  int playerId
-    ) {
+    public Player(Connection connection, String username, int userId, int playerId) {
         this.connection = connection;
         this.username = username;
         this.userId = userId;

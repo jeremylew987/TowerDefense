@@ -1,4 +1,4 @@
-package coms309.server.GameLogic.GameState;
+package coms309.server.GameLogic;
 
 import coms309.server.GameLogic.Map.Map;
 import coms309.server.Network.Message;
@@ -8,14 +8,33 @@ import coms309.server.Schema.GamestateSchema;
 
 import java.util.logging.Level;
 
-public class GameState {
+public class GameState implements Runnable {
 
     private Server server;
-    private int status, round, difficulty;
+
+    /**
+     * status of the game
+     * 0 = init
+     * 1 = starting
+     * 2 = waiting
+     * 3 = in-round
+     * 4 = paused
+     * 5 = game-over
+     */
+    private int status;
+
+    /**
+     * difficulty of the game
+     * 0 = easy
+     * 1 = normal
+     * 2 = hard
+     */
+    private int difficulty;
+
+    private int round;
     private Map map;
 
     // CONSTRUCTOR
-
     public GameState(Server s) {
         server = s;
         status = 0;
@@ -29,7 +48,6 @@ public class GameState {
     }
 
     // GETTERS
-
     public int getDifficulty() {
         return difficulty;
     }
@@ -44,7 +62,6 @@ public class GameState {
     }
 
     // SETTERS
-
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
         DataObjectSchema d =
@@ -99,8 +116,44 @@ public class GameState {
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
 
-    // SERIALIZE
+    // RUN
+    public void run() {
+        server.getConnectionHandler().awaitNewConnections();
+        Server.logger.info("All clients connected, waiting for start signal.");
+        this.setStatus(2); // set to waiting
 
+        double t = 0.0;
+        final double dt = 1000;
+
+        double currentTime = System.currentTimeMillis();
+        double accumulator = 0.0;
+
+        while (true) {
+            double newTime = System.currentTimeMillis();
+            double frameTime = newTime - currentTime;
+            if ( frameTime > 0.25 )
+                frameTime = 0.25;
+            currentTime = newTime;
+
+            accumulator += frameTime;
+
+            while ( accumulator >= dt )
+            {
+                // do math based on t, dt
+                accumulator -= dt;
+                t += dt;
+            }
+
+            // non-tick based
+            if (server.getConnectionHandler().updateConnectionStatus())
+                server.getConnectionHandler().announcePlayers();
+        }
+    }
+
+    /**
+     * Return protobuf wrapped gamestate object
+     * @return protobuf wrapper
+     */
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
