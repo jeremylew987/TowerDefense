@@ -12,9 +12,9 @@ public class Message{
 
     /**
      * Create message from args
-     * @param author
-     * @param code
-     * @param message
+     * @param author author of message
+     * @param code code of message
+     * @param message message string
      */
     public Message(String author, String code, String message) {
         this.author = author;
@@ -33,9 +33,12 @@ public class Message{
         message = m.getMessage();
     }
 
+    /**
+     * Serialize Message object to Protobuf object
+     * @return data object
+     */
     public DataObjectSchema serialize() {
-        DataObjectSchema d =
-                DataObjectSchema.newBuilder()
+        return  DataObjectSchema.newBuilder()
                         .setMessage(
                                 MessageSchema.newBuilder()
                                         .setAuthor(this.author)
@@ -43,7 +46,6 @@ public class Message{
                                         .setMessage(this.message)
                                         .build()
                         ).build();
-        return d;
     }
 
     @Override

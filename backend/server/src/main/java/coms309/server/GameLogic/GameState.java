@@ -150,7 +150,10 @@ public class GameState implements Runnable {
         }
     }
 
-    // SERIALIZE
+    /**
+     * Return protobuf wrapped gamestate object
+     * @return protobuf wrapper
+     */
     public DataObjectSchema serialize() {
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()

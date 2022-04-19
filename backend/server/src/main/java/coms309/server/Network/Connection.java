@@ -18,7 +18,6 @@ public class Connection implements Runnable {
     private Server server;
     private Socket socket;
     private String address;
-    private Thread thread;
 
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
@@ -31,7 +30,6 @@ public class Connection implements Runnable {
 
     public Connection(Socket socket, int id, Server server) throws IOException {
         this.socket = socket;
-        this.thread = thread;
         this.server = server;
         this.address = socket.getRemoteSocketAddress().toString();
 
@@ -50,8 +48,6 @@ public class Connection implements Runnable {
     public Socket getSocket() {
         return this.socket;
     }
-    public Thread getThread() { return this.thread; }
-    public void setThread(Thread thread) { this.thread = thread; }
 
     public DataInputStream getDataIn() {
         return dataIn;
@@ -63,14 +59,16 @@ public class Connection implements Runnable {
     public void setAddress() { this.address = this.socket.getRemoteSocketAddress().toString(); }
     public String getAddress() {return address;}
 
+
+    public boolean isValidated() {
+        return validated;
+    }
+
     /**
      * Validates the provided token with the authentication server.
      * Initializes the Player object with JSON response.
      * @return validation status
      */
-    public boolean isValidated() {
-        return validated;
-    }
     public boolean validateUser() {
         try {
             // 1. Read Authentication Token from Client
@@ -110,14 +108,14 @@ public class Connection implements Runnable {
     /**
      * Convert HTTP Response to String
      * @param is InputStream
-     * @return
+     * @return string output
      */
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
@@ -167,6 +165,10 @@ public class Connection implements Runnable {
         }
     }
 
+    /**
+     * Attempt to write Protobuf Object to data stream
+     * @param data protobuf data
+     */
     public void write(DataObjectSchema data) {
         try {
             data.writeDelimitedTo(dataOut);
@@ -174,6 +176,11 @@ public class Connection implements Runnable {
             kill("LOST_CONNECTION");
         }
     }
+
+    /**
+     * Read protobuf object from data stream and attempt to parse object
+     * @throws IOException failed to read
+     */
     public void read() throws IOException {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
@@ -236,6 +243,11 @@ public class Connection implements Runnable {
     public boolean isAlive() {
         return isAlive;
     }
+
+    /**
+     * Disconnect client and announce to lobby
+     * @param reason for disconnect
+     */
     public void kill(String reason) {
         this.isAlive = false;
         try {

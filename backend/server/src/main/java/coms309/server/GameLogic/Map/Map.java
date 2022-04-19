@@ -37,8 +37,9 @@ public class Map {
 
     /**
      * Load map data from JSON File (maps.json)
-     * @param mapId
-     * @throws Exception
+     * @param mapId map ID to load
+     * @throws IOException if file is not found
+     * @throws ParseException json parse error
      */
     public void loadMap(int mapId) throws IOException, ParseException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("maps.json");
@@ -115,6 +116,10 @@ public class Map {
         return (Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2)) < tower.getRange();
     }
 
+    /**
+     * Return all towers placed on map
+     * @return
+     */
     public ArrayList<Tower> getTowerArray() {
         return towerArray;
     }
