@@ -67,6 +67,9 @@ public class CreateLoginPage extends AppCompatActivity {
         // registration http://localhost:8080/registration
                 //String address = "http://10.48.40.205:8080/registration/";
                 String address =  "http://coms-309-027.class.las.iastate.edu:8080/registration/";
+                /**
+                 * if submit pressed it goes through the login process of submiting it to the backend with androidvolley
+                 */
         RequestQueue queue = Volley.newRequestQueue(CreateLoginPage.this);
                 JSONObject data = new JSONObject();
                 try {
@@ -122,6 +125,11 @@ public class CreateLoginPage extends AppCompatActivity {
 
     }
 
+    /**
+     * Validates that it is in email format
+     * @param email
+     * @return if it fits the format
+     */
     public static boolean isValidEmail(String email){
 
         return Pattern.compile("^(.+)@(\\S+)$").matcher(email).matches();

@@ -270,7 +270,10 @@ public class SocialPage extends AppCompatActivity {
 
     }
 
-
+    /**
+     * takes the json info and addes it to friendList layout
+     * @param friend
+     */
     public void friend(JSONObject friend){
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendList);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
@@ -287,6 +290,10 @@ public class SocialPage extends AppCompatActivity {
 
     }
 
+    /**
+     * takes the json info and addes it to friendRequest layout
+     * @param friend
+     */
     private void friendRequest(JSONObject friend){
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendRequest);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);

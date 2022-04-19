@@ -69,7 +69,9 @@ public class LoginPage extends AppCompatActivity {
         final SharedPreferences mPrefs = getSharedPreferences("test",MODE_PRIVATE);
         String usernameSave = mPrefs.getString("username","none");
         String passwordSave = mPrefs.getString("password","none");
-
+        /**
+         * checks if stored user, if so tries to log in, if failed returns reason
+         */
         if(!(usernameSave.equals("none") || passwordSave.equals("none"))) {
             username1.setText(usernameSave);
             password1.setText(passwordSave);
@@ -118,12 +120,17 @@ public class LoginPage extends AppCompatActivity {
 
 
         Button page = findViewById(R.id.button2);
+        /**
+         * goes to create login page if button is pressed
+         */
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginPage.this, CreateLoginPage.class));
             }});
-
+        /**
+         * if submit pressed it goes through the login process of submiting it to the backend with androidvolley
+         */
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -91,6 +91,11 @@ public class LeaderboardsPage extends AppCompatActivity {
 
     }
 
+    /**
+     * calls the backend through android volley
+     * @param mode what the list is sorted by
+     * @param friend if friend only is one or not
+     */
     void setupLeaderList(String mode, boolean friend){
         clearLayouts();
         final RequestQueue queue = Volley.newRequestQueue(LeaderboardsPage.this);
@@ -130,6 +135,11 @@ public class LeaderboardsPage extends AppCompatActivity {
         queue.add(FriendList);
 
     }
+
+    /**
+     * takes the data from friend and updates the layouts to include the info in text views
+     * @param friend
+     */
     private void Leaderboard(JSONObject friend){
         ViewGroup layout = (ViewGroup) findViewById(R.id.LeaderboardUsernameList);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
@@ -192,6 +202,10 @@ public class LeaderboardsPage extends AppCompatActivity {
 
 
     }
+
+    /**
+     * clears all the layout and adds back the titles of them
+     */
     void clearLayouts(){
         ViewGroup layout = (ViewGroup) findViewById(R.id.LeaderboardUsernameList);
         layout.removeAllViews();

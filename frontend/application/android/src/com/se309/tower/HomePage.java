@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class HomePage extends AppCompatActivity {
-
+    /**
+     * just has basic onclick funcitons to get to other pages
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

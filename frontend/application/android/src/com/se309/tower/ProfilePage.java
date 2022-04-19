@@ -41,6 +41,11 @@ public class ProfilePage extends AppCompatActivity {
 
     }
 
+    /**
+     * Calls the backend to print all of the user data onto the text view provided
+     * @param tV is the text view that will be updated
+     * @return
+     */
     String GetProfileDetails(final TextView tV){
         final RequestQueue queue = Volley.newRequestQueue(ProfilePage.this);
         final String[] result = {""};
