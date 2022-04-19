@@ -38,10 +38,10 @@ public class Tower {
 
     /**
      * Loads tower data from JSON File (towers.json)
-     * @param typeId
-     * @throws IOException
-     * @throws ParseException
-     * @throws ClassNotFoundException
+     * @param typeId type of tower
+     * @throws IOException Failed to open file
+     * @throws ParseException Failed to parse file
+     * @throws ClassNotFoundException File not found
      */
     public void loadType(int typeId) throws Exception {
         JSONParser jsonParser = new JSONParser();

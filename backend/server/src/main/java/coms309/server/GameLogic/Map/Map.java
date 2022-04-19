@@ -64,9 +64,10 @@ public class Map {
     /**
      * Create new Tower at Point of typeId.
      * Fails if tower already exists at point or is out of bounds.
-     * @param typeId
-     * @param point
-     * @return
+     * @param typeId type of new Tower
+     * @param point coordinate of new Tower
+     * @param ownerId ID of owner for tower
+     * @return new Tower
      */
     public Tower spawnEntity(int typeId, Point point, int ownerId) {
 
@@ -100,9 +101,9 @@ public class Map {
 
     /**
      * Calculate if Point is in the range of Tower
-     * @param point
-     * @param tower
-     * @return
+     * @param point Point of target
+     * @param tower Point of tower
+     * @return whether there is a collision
      */
     public boolean calculateCollision(Point point, Tower tower) {
         // Get tower x,y
@@ -117,8 +118,7 @@ public class Map {
     }
 
     /**
-     * Return all towers placed on map
-     * @return
+     * @return all towers on map
      */
     public ArrayList<Tower> getTowerArray() {
         return towerArray;

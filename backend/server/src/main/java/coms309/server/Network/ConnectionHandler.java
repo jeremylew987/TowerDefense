@@ -60,6 +60,7 @@ public class ConnectionHandler {
     /**
      * Update status of all connected clients.
      * Works by writing a null byte to every client socket
+     * @return whether a connection has been changed
      */
     public boolean updateConnectionStatus() {
         boolean updated = false;
@@ -75,16 +76,15 @@ public class ConnectionHandler {
 
     /**
      * Get player details object by lobby PlayerId
-     * @param pid
-     * @return
+     * @param pid lobby ID of player
+     * @return player object
      */
     public Player getPlayerById(int pid) {
         return clients[pid].getPlayer();
     }
 
     /**
-     * Wait for new connections
-     * validate each connection to an User on the authentication server
+     * Wait for new socket connections and validate each connection to an User on the authentication server
      */
     public void awaitNewConnections() {
         playerIterator = 0;

@@ -25,7 +25,7 @@ public class Message{
     /**
      * Create message from protobuf object
      * @param m protobuf
-     * @throws InvalidProtocolBufferException
+     * @throws InvalidProtocolBufferException invalid object
      */
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
