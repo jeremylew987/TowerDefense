@@ -1,6 +1,11 @@
 package com.se309.socket;
 
-public class MessageEvent extends EventBase {
+/**
+ * Event object for a message received from the backend
+ *
+ * @author Gavin Tersteeg
+ */
+public class MessageEvent extends NetworkEvent {
 
     private Message message;
 

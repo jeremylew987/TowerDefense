@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
-import com.se309.socket.MessageReader;
+import com.se309.socket.NetworkDataHandler;
 import com.se309.socket.SocketClient;
 
 /**
@@ -47,7 +47,7 @@ public class TowerDefense extends ApplicationAdapter {
 
 		SocketClient client = new SocketClient("10.26.50.9", 25565);
 
-		MessageReader reader = new MessageReader(client, outputElement);
+		NetworkDataHandler reader = new NetworkDataHandler(client, outputElement);
 		reader.start();
 
 		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement, client));

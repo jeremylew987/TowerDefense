@@ -7,11 +7,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * SocketClient.java
- *
  * Connect to the backend game instance, and parses information going to and from.
+ *
+ * @author Gavin Tersteeg
  */
-
 public class SocketClient {
 
     private Socket socket;
@@ -19,6 +18,11 @@ public class SocketClient {
     private DataOutputStream dataOut;
     private DataInputStream dataIn;
 
+    /**
+     * Creates a new socket client, and connects it to an address and a port.
+     * @param address
+     * @param port
+     */
     public SocketClient(String address, int port) {
 
         try {
@@ -43,27 +47,36 @@ public class SocketClient {
     }
 
 
+    /**
+     * Returns the currently connected socket
+     * @return Connected socket
+     */
     public Socket getSocket() {
         return socket;
     }
 
+    /**
+     * Sets the socket, currently not very useful
+     * @param socket New socket
+     */
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
 
+    /**
+     * Gets the data output stream for the current socket.
+     * @return Data output stream
+     */
     public DataOutputStream getDataOut() {
         return dataOut;
     }
 
-    public void setDataOut(DataOutputStream dataOut) {
-        this.dataOut = dataOut;
-    }
-
+    /**
+     * Gets the data input stream for the current socket.
+     * @return
+     */
     public DataInputStream getDataIn() {
         return dataIn;
     }
 
-    public void setDataIn(DataInputStream dataIn) {
-        this.dataIn = dataIn;
-    }
 }

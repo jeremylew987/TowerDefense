@@ -6,16 +6,30 @@ import com.se309.socket.SocketClient;
 
 import java.io.IOException;
 
-public class MessageReader extends Thread {
+/**
+ * Connects to the socket to the backend, and continually polls for data.
+ * When data is found, it is parsed using ProtoBUF, and is sent to it's respective NetworkEventListener
+ *
+ * @author Gavin Tersteeg
+ */
+public class NetworkDataHandler extends Thread {
 
     private TextElement output;
     private SocketClient client;
 
-    public MessageReader(SocketClient client, TextElement output) {
+    /**
+     * Creates a new NetworkDataHandler class
+     * @param client The socket client to receive data from
+     * @param output Testing debug object
+     */
+    public NetworkDataHandler(SocketClient client, TextElement output) {
         this.output = output;
         this.client = client;
     }
 
+    /**
+     * Thread startup point for NetworkDataHandler
+     */
     public void run() {
         while (true) {
 

@@ -1,9 +1,8 @@
 package com.se309.render;
 
 /**
- * Orientation.java
- *
  * Orientations for different elements
+ * @author Gavin Terseeg
  */
 
 public enum Orientation {
