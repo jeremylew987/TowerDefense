@@ -6,36 +6,69 @@ option java_multiple_files = true;
 option java_package = "coms309.server.Schema";
 option java_outer_classname = "DataObjectProto";
 
+// WRAPPER
 message DataObjectSchema {
   oneof data {
     GamestateSchema gamestate = 1;
     MessageSchema message = 2;
-    EntitySchema entity = 3;
+    TowerSchema tower = 3;
+    ConnectedClients clients = 4;
+    CollisionEvent collision = 5;
   }
 }
+
+// CLIENT<->SERVER
+
+/*
+Buffer to hold lobby data
+ */
 message GamestateSchema {
   optional uint32 difficulty = 1;
   optional uint32 status = 2;
   optional uint32 map = 3;
   optional uint32 round = 4;
-
-  message Player {
-    optional uint32 pid = 1;
-    optional uint64 id = 2;
-  }
-
-  repeated Player players = 5;
 }
 
+/*
+Buffer to hold message data
+ */
 message MessageSchema {
   optional string author = 1;
   required string code = 2;
   required string message = 3;
 }
 
-message EntitySchema {
+// CLIENT->SERVER BUFFERS
+
+/*
+Buffer to hold tower creation data
+ */
+message TowerSchema {
   required uint32 x = 1;
   required uint32 y = 2;
-  required uint32 objectId = 3;
-  required uint32 ownerId = 4;
+  required uint32 typeId = 3;
+  optional uint32 ownerId = 4;
+}
+
+// SERVER->CLIENT BUFFERS
+
+/*
+Buffer to hold all connected and
+validated client IDs
+ */
+message ConnectedClients {
+  repeated Client clients = 1;
+  message Client {
+    optional uint32 pid = 1;
+    optional uint64 id = 2;
+  }
+}
+
+/*
+Buffer to hold collision event between
+tower and enemy.
+ */
+message CollisionEvent {
+  required uint32 towerId = 1;
+  required uint32 enemyId = 2;
 }

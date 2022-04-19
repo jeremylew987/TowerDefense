@@ -1,34 +1,49 @@
 package coms309.server.GameLogic.Map;
 
+import coms309.server.Server;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
+import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Entity {
+public class Tower {
 
-    private Tile tile;
-    private int objectId;
+    // CONSTRUCTOR
+    private Point point;
+    private int typeId;
+    private int ownerId;
+
+    // FROM FILE
     private String name;
     private int range, damage, cooldown;
 
-    public Entity(Tile tile, int objectId) throws Exception {
-        this.tile = tile;
-        loadObject(objectId);
+    public Tower(Point point, int typeId, int ownerId) {
+        this.point.setLocation(point);
+        this.ownerId = ownerId;
+        try {
+            this.loadType(typeId);
+        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
+            Server.logger.warning("Could not find typeId in towers.json!");
+        } catch (Exception ex) {
+            Server.logger.warning("Failed to parse towers.json!");
+        } finally {
+            Server.logger.warning("Failed to initialize new tower!");
+        }
     }
 
     /**
-     * Loads object data from JSON File (objects.json)
-     * @param objectId
-     * @throws IOException
-     * @throws ParseException
-     * @throws ClassNotFoundException
+     * Loads tower data from JSON File (towers.json)
+     * @param typeId type of tower
+     * @throws IOException Failed to open file
+     * @throws ParseException Failed to parse file
+     * @throws ClassNotFoundException File not found
      */
-    public void loadObject(int objectId) throws Exception {
+    public void loadType(int typeId) throws Exception {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader(getClass().getClassLoader().getResource("objects.json").getFile());
         Object obj = jsonParser.parse(reader);
@@ -36,8 +51,8 @@ public class Entity {
         boolean found = false;
         for (int i = 0; i < objects.size(); i++) {
             JSONObject object = (JSONObject) objects.get(i);
-            if ( (int) object.get("id") == objectId ) {
-                this.objectId = objectId;
+            if ( (int) object.get("id") == typeId ) {
+                this.typeId = typeId;
                 this.name = (String) object.get("name");
                 this.range = (int) object.get("range");
                 this.cooldown = (int) object.get("cooldown");
@@ -48,16 +63,15 @@ public class Entity {
         }
         reader.close();
     }
-
-    public Tile getTile() {
-        return this.tile;
-    }
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public int getObjectId() {
-        return objectId;
+    public Point getPoint() {
+        return this.point;
+    }
+    public void setPoint(Point point) {
+        this.point = point;
     }
 
     public String getName() {
@@ -87,4 +101,7 @@ public class Entity {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
+
+    public int getOwnerId() { return ownerId; }
+    public void setOwnerId(int ownerId) { this.ownerId = ownerId; }
 }

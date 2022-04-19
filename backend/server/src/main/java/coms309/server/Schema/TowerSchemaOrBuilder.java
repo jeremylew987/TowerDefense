@@ -3,8 +3,8 @@
 
 package coms309.server.Schema;
 
-public interface EntitySchemaOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:coms309.server.EntitySchema)
+public interface TowerSchemaOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:coms309.server.TowerSchema)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -26,20 +26,20 @@ public interface EntitySchemaOrBuilder extends
   int getY();
 
   /**
-   * <code>required uint32 objectId = 3;</code>
+   * <code>required uint32 typeId = 3;</code>
    */
-  boolean hasObjectId();
+  boolean hasTypeId();
   /**
-   * <code>required uint32 objectId = 3;</code>
+   * <code>required uint32 typeId = 3;</code>
    */
-  int getObjectId();
+  int getTypeId();
 
   /**
-   * <code>required uint32 ownerId = 4;</code>
+   * <code>optional uint32 ownerId = 4;</code>
    */
   boolean hasOwnerId();
   /**
-   * <code>required uint32 ownerId = 4;</code>
+   * <code>optional uint32 ownerId = 4;</code>
    */
   int getOwnerId();
 }

@@ -1,40 +1,36 @@
 package coms309.server.Network;
 
-import com.google.protobuf.ByteString;
+import coms309.server.GameLogic.Player;
 import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
-import coms309.server.Schema.MessageSchema;
+import coms309.server.Schema.TowerSchema;
 import coms309.server.Server;
-import org.json.simple.JSONObject;
-import org.junit.runner.Request;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.awt.*;
 import java.io.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Connection implements Runnable {
-
     private Server server;
     private Socket socket;
+    private String address;
     private Thread thread;
 
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
+
     private boolean validated;
     private boolean isAlive;
-    private String address;
 
     private final String authServerLocation = "http://coms-309-027.class.las.iastate.edu:8080";
     private Player player;
 
-    public Connection(Socket socket, int id, Server server) {
+    public Connection(Socket socket, int id, Server server) throws IOException {
         this.socket = socket;
-        this.thread = thread;
         this.server = server;
         this.address = socket.getRemoteSocketAddress().toString();
 
@@ -42,13 +38,9 @@ public class Connection implements Runnable {
         this.isAlive = true;
         this.validated = false;
 
-        try {
-            // Establish data in & out connection
-            dataIn = new DataInputStream(socket.getInputStream());
-            dataOut = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Establish data in & out connection
+        dataIn = new DataInputStream(socket.getInputStream());
+        dataOut = new DataOutputStream(socket.getOutputStream());
     }
 
     public Server getServer() {
@@ -57,8 +49,6 @@ public class Connection implements Runnable {
     public Socket getSocket() {
         return this.socket;
     }
-    public Thread getThread() { return this.thread; }
-    public void setThread(Thread thread) { this.thread = thread; }
 
     public DataInputStream getDataIn() {
         return dataIn;
@@ -70,9 +60,21 @@ public class Connection implements Runnable {
     public void setAddress() { this.address = this.socket.getRemoteSocketAddress().toString(); }
     public String getAddress() {return address;}
 
+    public Thread getThread() {
+        return thread;
+    }
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
     public boolean isValidated() {
         return validated;
     }
+
+    /**
+     * Validates the provided token with the authentication server.
+     * Initializes the Player object with JSON response.
+     * @return validation status
+     */
     public boolean validateUser() {
         try {
             // 1. Read Authentication Token from Client
@@ -108,12 +110,18 @@ public class Connection implements Runnable {
         }
         return validated;
     }
+
+    /**
+     * Convert HTTP Response to String
+     * @param is InputStream
+     * @return string output
+     */
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
@@ -158,10 +166,15 @@ public class Connection implements Runnable {
                 read();
             } catch (Exception ex) {
                 kill("LOST_CONNECTION");
+                break;
             }
         }
     }
 
+    /**
+     * Attempt to write Protobuf Object to data stream
+     * @param data protobuf data
+     */
     public void write(DataObjectSchema data) {
         try {
             data.writeDelimitedTo(dataOut);
@@ -169,22 +182,40 @@ public class Connection implements Runnable {
             kill("LOST_CONNECTION");
         }
     }
+
+    /**
+     * Read protobuf object from data stream and attempt to parse object
+     * @throws IOException failed to read
+     */
     public void read() throws IOException {
         DataObjectSchema data =
                 DataObjectSchema.parseDelimitedFrom(dataIn);
 
         switch (data.getDataCase()) {
-            case ENTITY:
-                // Receive commands for entities
+            case TOWER: {
+                TowerSchema tower = data.getTower();
+                server.getGamestate().getMap().spawnEntity(
+                        tower.getTypeId(),
+                        new Point(
+                                tower.getX(),
+                                tower.getY()
+                        ),
+                        tower.getOwnerId()
+                );
                 break;
-            case GAMESTATE:
-
+            }
+            case GAMESTATE: {
                 GamestateSchema g = data.getGamestate();
                 if (g.hasMap()) {
                     try {
                         server.getGamestate().setMap(g.getMap());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Server.logger.warning("Failed to load new map: " + e.getMessage());
+                        write(new Message(
+                                "Server",
+                                "ERR",
+                                "Failed to load map"
+                        ).serialize());
                     }
                 }
                 if (g.hasDifficulty()) {
@@ -194,7 +225,8 @@ public class Connection implements Runnable {
                     server.getGamestate().setStatus(g.getStatus());
                 }
                 break;
-            case MESSAGE:
+            }
+            case MESSAGE: {
                 Message m = new Message(data.getMessage());
 
                 // Check if message username matches auth username
@@ -203,17 +235,25 @@ public class Connection implements Runnable {
                     m.author = player.getUsername();
                 }
 
+                // Relay if chat message
                 if (m.code.equals("CHAT")) {
-                    server.getConnectionHandler().writeToAll(m.serialize()); // relay chat to users
+                    server.getConnectionHandler().writeToAll(m.serialize());
                 }
+
                 server.logger.log(Level.INFO, m.toString());
                 break;
+            }
         }
     }
 
     public boolean isAlive() {
         return isAlive;
     }
+
+    /**
+     * Disconnect client and announce to lobby
+     * @param reason for disconnect
+     */
     public void kill(String reason) {
         this.isAlive = false;
         try {

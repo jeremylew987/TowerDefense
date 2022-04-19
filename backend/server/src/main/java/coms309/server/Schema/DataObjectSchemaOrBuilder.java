@@ -34,17 +34,43 @@ public interface DataObjectSchemaOrBuilder extends
   coms309.server.Schema.MessageSchemaOrBuilder getMessageOrBuilder();
 
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  boolean hasEntity();
+  boolean hasTower();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  coms309.server.Schema.EntitySchema getEntity();
+  coms309.server.Schema.TowerSchema getTower();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  coms309.server.Schema.EntitySchemaOrBuilder getEntityOrBuilder();
+  coms309.server.Schema.TowerSchemaOrBuilder getTowerOrBuilder();
+
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  boolean hasClients();
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  coms309.server.Schema.ConnectedClients getClients();
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  coms309.server.Schema.ConnectedClientsOrBuilder getClientsOrBuilder();
+
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  boolean hasCollision();
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  coms309.server.Schema.CollisionEvent getCollision();
+  /**
+   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   */
+  coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder();
 
   public coms309.server.Schema.DataObjectSchema.DataCase getDataCase();
 }
