@@ -12,17 +12,20 @@ import com.se309.socket.NetworkDataHandler;
 import com.se309.socket.SocketClient;
 
 /**
- * TowerDefense.java
- *
  * Main entry point to LibGDX project
+ *
+ * @author Gavin Tersteeg
  */
-
 public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
 	ElementRenderer renderer;
 
+	/**
+	 * Default constructor for TowerDefense activity
+	 * @param config Game configuration object
+	 */
 	public TowerDefense(GameConfiguration config) {
 		// Create Element Renderer
 		 renderer = new ElementRenderer();

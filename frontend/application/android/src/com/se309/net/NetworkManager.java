@@ -23,11 +23,11 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 /**
- * NetworkManager.java
- *
  * Does what it says on the tin. This class is responsible for maintaining the RequestQueue.
  * In addition, handles can be created (NetworkHandle.java) that allow for organized communication with RequestQueue.
  * These handles can be passed around and independently configured for their respective purpose. These are also thread safe.
+ *
+ * @author Gavin Tersteeg
  */
 
 public class NetworkManager {
@@ -89,6 +89,12 @@ public class NetworkManager {
         return handle;
     }
 
+    /**
+     * Will perform a POST from a resource, send that response to the caller, and then wake up the caller
+     * @param post Post object
+     * @param endpoint Endpoint
+     * @param responseHandle Response handle
+     */
     public void SendStringPOST(Object post, final String endpoint, final NetworkResponse responseHandle) {
 
         final String requestBody = serialize(post);
@@ -139,6 +145,9 @@ public class NetworkManager {
 
     /**
      * Will perform a GET from a resource, send that response to the caller, and then wake up the caller
+     * @param ty Class type
+     * @param endpoint Endpoint
+     * @param responseHandle Response handle
      */
     public void SendStringGET(final Type ty, final String endpoint, final NetworkResponse responseHandle) {
 
@@ -170,12 +179,23 @@ public class NetworkManager {
 
     }
 
+    /**
+     * Serializes an object
+     * @param src Input object
+     * @return Serialized object
+     */
     public String serialize(Object src) {
         Gson gson = builder.create();
 
         return gson.toJson(src);
     }
 
+    /**
+     * Deserializes an object
+     * @param src Serialized object
+     * @param ty Class type
+     * @return Output object
+     */
     public Object deserialize(String src, Type ty) {
         Gson gson = builder.create();
 
@@ -187,27 +207,21 @@ public class NetworkManager {
      * Getter-ville
      */
 
+    /**
+     * Returns the context of the object
+     * @return Object context
+     */
     public Context getContext() {
         return context;
     }
 
-    public String getHost() {
-        return host;
-    }
-
+    /**
+     * Sets the host of the NetworkManager
+     * @param host New host
+     */
     public void setHost(String host) {
         this.host = host;
     }
 
-    public Cache getCache() {
-        return cache;
-    }
 
-    public RequestQueue getRequestQueue() {
-        return requestQueue;
-    }
-
-    public Network getNetwork() {
-        return network;
-    }
 }

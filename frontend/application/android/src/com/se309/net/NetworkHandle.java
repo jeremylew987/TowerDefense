@@ -5,11 +5,10 @@ import android.content.Context;
 import java.lang.reflect.Type;
 
 /**
- * NetworkHandle.java
- *
  * This object provides an abstracted interface in which different program resources can interact with the backend/frontend network line.
+ *
+ * @author Gavin Tersteeg
  */
-
 public class NetworkHandle {
 
     // Incoming objects
@@ -30,6 +29,11 @@ public class NetworkHandle {
         this.parentManager = parentManager;
     }
 
+    /**
+     * Performs a GET request to the endpoint
+     * @param ty Class type
+     * @param response Response object
+     */
     public void get(Type ty, NetworkResponse response) {
 
         parentManager.SendStringGET(ty, defaultEndpoint, response);
@@ -41,19 +45,19 @@ public class NetworkHandle {
      * Getter-ville
      */
 
+    /**
+     * Returns the default endpoint
+     * @return Default endpoint
+     */
     public String getDefaultEndpoint() {
         return defaultEndpoint;
     }
 
+    /**
+     * Changes the default endpoint
+     * @param defaultEndpoint New default endpoint
+     */
     public void setDefaultEndpoint(String defaultEndpoint) {
         this.defaultEndpoint = defaultEndpoint;
-    }
-
-    public NetworkManager getParentManager() {
-        return parentManager;
-    }
-
-    public void setParentManager(NetworkManager parentManager) {
-        this.parentManager = parentManager;
     }
 }
