@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class GameState implements Runnable {
 
-    private Server server;
+    private final Server server;
 
     /**
      * status of the game
@@ -129,24 +129,26 @@ public class GameState implements Runnable {
         double accumulator = 0.0;
 
         while (true) {
-            double newTime = System.currentTimeMillis();
-            double frameTime = newTime - currentTime;
-            if ( frameTime > 0.25 )
-                frameTime = 0.25;
-            currentTime = newTime;
+            while (status == 3) {
+                double newTime = System.currentTimeMillis();
+                double frameTime = newTime - currentTime;
+                if (frameTime > 0.25)
+                    frameTime = 0.25;
+                currentTime = newTime;
 
-            accumulator += frameTime;
+                accumulator += frameTime;
 
-            while ( accumulator >= dt )
-            {
-                // do math based on t, dt
-                accumulator -= dt;
-                t += dt;
+                while (accumulator >= dt) {
+                    // do math based on t, dt
+                    map.update(t, dt);
+                    accumulator -= dt;
+                    t += dt;
+                }
+
+                // non-tick based
+                if (server.getConnectionHandler().updateConnectionStatus())
+                    server.getConnectionHandler().announcePlayers();
             }
-
-            // non-tick based
-            if (server.getConnectionHandler().updateConnectionStatus())
-                server.getConnectionHandler().announcePlayers();
         }
     }
 

@@ -1,6 +1,6 @@
 package coms309.server.GameLogic.Map;
 
-import coms309.server.GameLogic.Exceptions.*;
+import coms309.server.Schema.gameTick;
 import coms309.server.Server;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,7 +9,6 @@ import org.json.simple.parser.ParseException;
 
 import java.awt.*;
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -30,6 +29,11 @@ public class Map {
      * ArrayList to store Tower information
      */
     private ArrayList<Tower> towerArray;
+
+    /**
+     * ArrayList to store enemy information
+     */
+    private ArrayList<Enemy> enemyArray;
 
     public Map(int mapId) throws IOException, ParseException {
         loadMap(mapId);
@@ -64,9 +68,9 @@ public class Map {
     /**
      * Create new Tower at Point of typeId.
      * Fails if tower already exists at point or is out of bounds.
-     * @param typeId
-     * @param point
-     * @return
+     * @param typeId type of new entity
+     * @param point location of new entity
+     * @return new entity created
      */
     public Tower spawnEntity(int typeId, Point point, int ownerId) {
 
@@ -92,10 +96,45 @@ public class Map {
         return newTower;
     }
 
-    public void waveUpdate() {
-        for (Tower t: towerArray) {
-            calculateCollision(new Point(), t);
+    /**
+     * Calculate the result of the game tick
+     * @param t time
+     * @param dt delta_time
+     * @return gameTick protobuf object
+     */
+    public gameTick update(double t, double dt) {
+        gameTick.Builder tickBuilder = gameTick.newBuilder();
+        for (int i = 0; i < enemyArray.size(); i++) {
+            Enemy e = enemyArray.get(i);
+            // 1. Update enemy positions
+            e.setPoint(enemyPath.get(e.getIterator() + e.getSpeed()));
+
+            int damageTaken = 0;
+            for (Tower tower: towerArray) {
+                // 2. Calculate collisions
+                if (calculateCollision(e.getPoint(), tower)) {
+                    e.decreaseHealth(tower.getDamage());
+                    damageTaken += tower.getDamage();
+                }
+                // 3. calculate if dead
+                if (e.getHealth() <= 0) {
+                    enemyArray.remove(i);
+                    i--;
+                    break;
+                }
+            }
+
+            // create protobuf array if enemy not dead
+            if (e.getHealth() > 0 && damageTaken > 0) {
+                tickBuilder.addEnemyUpdate(
+                        gameTick.EnemyUpdate.newBuilder()
+                                .setEnemyId(e.getId())
+                                .setHealth(e.getHealth())
+                                .build()
+                );
+            }
         }
+        return tickBuilder.build();
     }
 
     /**

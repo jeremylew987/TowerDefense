@@ -60,17 +60,17 @@ public interface DataObjectSchemaOrBuilder extends
   coms309.server.Schema.ConnectedClientsOrBuilder getClientsOrBuilder();
 
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  boolean hasCollision();
+  boolean hasTick();
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  coms309.server.Schema.CollisionEvent getCollision();
+  coms309.server.Schema.gameTick getTick();
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder();
+  coms309.server.Schema.gameTickOrBuilder getTickOrBuilder();
 
   public coms309.server.Schema.DataObjectSchema.DataCase getDataCase();
 }

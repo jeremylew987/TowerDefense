@@ -106,14 +106,14 @@ public  final class DataObjectSchema extends
             break;
           }
           case 42: {
-            coms309.server.Schema.CollisionEvent.Builder subBuilder = null;
+            coms309.server.Schema.gameTick.Builder subBuilder = null;
             if (dataCase_ == 5) {
-              subBuilder = ((coms309.server.Schema.CollisionEvent) data_).toBuilder();
+              subBuilder = ((coms309.server.Schema.gameTick) data_).toBuilder();
             }
             data_ =
-                input.readMessage(coms309.server.Schema.CollisionEvent.PARSER, extensionRegistry);
+                input.readMessage(coms309.server.Schema.gameTick.PARSER, extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((coms309.server.Schema.CollisionEvent) data_);
+              subBuilder.mergeFrom((coms309.server.Schema.gameTick) data_);
               data_ = subBuilder.buildPartial();
             }
             dataCase_ = 5;
@@ -152,7 +152,7 @@ public  final class DataObjectSchema extends
     MESSAGE(2),
     TOWER(3),
     CLIENTS(4),
-    COLLISION(5),
+    TICK(5),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -172,7 +172,7 @@ public  final class DataObjectSchema extends
         case 2: return MESSAGE;
         case 3: return TOWER;
         case 4: return CLIENTS;
-        case 5: return COLLISION;
+        case 5: return TICK;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -292,30 +292,30 @@ public  final class DataObjectSchema extends
     return coms309.server.Schema.ConnectedClients.getDefaultInstance();
   }
 
-  public static final int COLLISION_FIELD_NUMBER = 5;
+  public static final int TICK_FIELD_NUMBER = 5;
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  public boolean hasCollision() {
+  public boolean hasTick() {
     return dataCase_ == 5;
   }
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  public coms309.server.Schema.CollisionEvent getCollision() {
+  public coms309.server.Schema.gameTick getTick() {
     if (dataCase_ == 5) {
-       return (coms309.server.Schema.CollisionEvent) data_;
+       return (coms309.server.Schema.gameTick) data_;
     }
-    return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+    return coms309.server.Schema.gameTick.getDefaultInstance();
   }
   /**
-   * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
    */
-  public coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder() {
+  public coms309.server.Schema.gameTickOrBuilder getTickOrBuilder() {
     if (dataCase_ == 5) {
-       return (coms309.server.Schema.CollisionEvent) data_;
+       return (coms309.server.Schema.gameTick) data_;
     }
-    return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+    return coms309.server.Schema.gameTick.getDefaultInstance();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -336,8 +336,8 @@ public  final class DataObjectSchema extends
         return false;
       }
     }
-    if (hasCollision()) {
-      if (!getCollision().isInitialized()) {
+    if (hasTick()) {
+      if (!getTick().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -361,7 +361,7 @@ public  final class DataObjectSchema extends
       output.writeMessage(4, (coms309.server.Schema.ConnectedClients) data_);
     }
     if (dataCase_ == 5) {
-      output.writeMessage(5, (coms309.server.Schema.CollisionEvent) data_);
+      output.writeMessage(5, (coms309.server.Schema.gameTick) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -389,7 +389,7 @@ public  final class DataObjectSchema extends
     }
     if (dataCase_ == 5) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(5, (coms309.server.Schema.CollisionEvent) data_);
+        .computeMessageSize(5, (coms309.server.Schema.gameTick) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -429,8 +429,8 @@ public  final class DataObjectSchema extends
             .equals(other.getClients());
         break;
       case 5:
-        result = result && getCollision()
-            .equals(other.getCollision());
+        result = result && getTick()
+            .equals(other.getTick());
         break;
       case 0:
       default:
@@ -464,8 +464,8 @@ public  final class DataObjectSchema extends
         hash = (53 * hash) + getClients().hashCode();
         break;
       case 5:
-        hash = (37 * hash) + COLLISION_FIELD_NUMBER;
-        hash = (53 * hash) + getCollision().hashCode();
+        hash = (37 * hash) + TICK_FIELD_NUMBER;
+        hash = (53 * hash) + getTick().hashCode();
         break;
       case 0:
       default:
@@ -647,10 +647,10 @@ public  final class DataObjectSchema extends
         }
       }
       if (dataCase_ == 5) {
-        if (collisionBuilder_ == null) {
+        if (tickBuilder_ == null) {
           result.data_ = data_;
         } else {
-          result.data_ = collisionBuilder_.build();
+          result.data_ = tickBuilder_.build();
         }
       }
       result.bitField0_ = to_bitField0_;
@@ -713,8 +713,8 @@ public  final class DataObjectSchema extends
           mergeClients(other.getClients());
           break;
         }
-        case COLLISION: {
-          mergeCollision(other.getCollision());
+        case TICK: {
+          mergeTick(other.getTick());
           break;
         }
         case DATA_NOT_SET: {
@@ -737,8 +737,8 @@ public  final class DataObjectSchema extends
           return false;
         }
       }
-      if (hasCollision()) {
-        if (!getCollision().isInitialized()) {
+      if (hasTick()) {
+        if (!getTick().isInitialized()) {
           return false;
         }
       }
@@ -1324,67 +1324,67 @@ public  final class DataObjectSchema extends
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder> collisionBuilder_;
+        coms309.server.Schema.gameTick, coms309.server.Schema.gameTick.Builder, coms309.server.Schema.gameTickOrBuilder> tickBuilder_;
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public boolean hasCollision() {
+    public boolean hasTick() {
       return dataCase_ == 5;
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public coms309.server.Schema.CollisionEvent getCollision() {
-      if (collisionBuilder_ == null) {
+    public coms309.server.Schema.gameTick getTick() {
+      if (tickBuilder_ == null) {
         if (dataCase_ == 5) {
-          return (coms309.server.Schema.CollisionEvent) data_;
+          return (coms309.server.Schema.gameTick) data_;
         }
-        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+        return coms309.server.Schema.gameTick.getDefaultInstance();
       } else {
         if (dataCase_ == 5) {
-          return collisionBuilder_.getMessage();
+          return tickBuilder_.getMessage();
         }
-        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+        return coms309.server.Schema.gameTick.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public Builder setCollision(coms309.server.Schema.CollisionEvent value) {
-      if (collisionBuilder_ == null) {
+    public Builder setTick(coms309.server.Schema.gameTick value) {
+      if (tickBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         data_ = value;
         onChanged();
       } else {
-        collisionBuilder_.setMessage(value);
+        tickBuilder_.setMessage(value);
       }
       dataCase_ = 5;
       return this;
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public Builder setCollision(
-        coms309.server.Schema.CollisionEvent.Builder builderForValue) {
-      if (collisionBuilder_ == null) {
+    public Builder setTick(
+        coms309.server.Schema.gameTick.Builder builderForValue) {
+      if (tickBuilder_ == null) {
         data_ = builderForValue.build();
         onChanged();
       } else {
-        collisionBuilder_.setMessage(builderForValue.build());
+        tickBuilder_.setMessage(builderForValue.build());
       }
       dataCase_ = 5;
       return this;
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public Builder mergeCollision(coms309.server.Schema.CollisionEvent value) {
-      if (collisionBuilder_ == null) {
+    public Builder mergeTick(coms309.server.Schema.gameTick value) {
+      if (tickBuilder_ == null) {
         if (dataCase_ == 5 &&
-            data_ != coms309.server.Schema.CollisionEvent.getDefaultInstance()) {
-          data_ = coms309.server.Schema.CollisionEvent.newBuilder((coms309.server.Schema.CollisionEvent) data_)
+            data_ != coms309.server.Schema.gameTick.getDefaultInstance()) {
+          data_ = coms309.server.Schema.gameTick.newBuilder((coms309.server.Schema.gameTick) data_)
               .mergeFrom(value).buildPartial();
         } else {
           data_ = value;
@@ -1392,18 +1392,18 @@ public  final class DataObjectSchema extends
         onChanged();
       } else {
         if (dataCase_ == 5) {
-          collisionBuilder_.mergeFrom(value);
+          tickBuilder_.mergeFrom(value);
         }
-        collisionBuilder_.setMessage(value);
+        tickBuilder_.setMessage(value);
       }
       dataCase_ = 5;
       return this;
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public Builder clearCollision() {
-      if (collisionBuilder_ == null) {
+    public Builder clearTick() {
+      if (tickBuilder_ == null) {
         if (dataCase_ == 5) {
           dataCase_ = 0;
           data_ = null;
@@ -1414,49 +1414,49 @@ public  final class DataObjectSchema extends
           dataCase_ = 0;
           data_ = null;
         }
-        collisionBuilder_.clear();
+        tickBuilder_.clear();
       }
       return this;
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public coms309.server.Schema.CollisionEvent.Builder getCollisionBuilder() {
-      return getCollisionFieldBuilder().getBuilder();
+    public coms309.server.Schema.gameTick.Builder getTickBuilder() {
+      return getTickFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
-    public coms309.server.Schema.CollisionEventOrBuilder getCollisionOrBuilder() {
-      if ((dataCase_ == 5) && (collisionBuilder_ != null)) {
-        return collisionBuilder_.getMessageOrBuilder();
+    public coms309.server.Schema.gameTickOrBuilder getTickOrBuilder() {
+      if ((dataCase_ == 5) && (tickBuilder_ != null)) {
+        return tickBuilder_.getMessageOrBuilder();
       } else {
         if (dataCase_ == 5) {
-          return (coms309.server.Schema.CollisionEvent) data_;
+          return (coms309.server.Schema.gameTick) data_;
         }
-        return coms309.server.Schema.CollisionEvent.getDefaultInstance();
+        return coms309.server.Schema.gameTick.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.CollisionEvent collision = 5;</code>
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder> 
-        getCollisionFieldBuilder() {
-      if (collisionBuilder_ == null) {
+        coms309.server.Schema.gameTick, coms309.server.Schema.gameTick.Builder, coms309.server.Schema.gameTickOrBuilder> 
+        getTickFieldBuilder() {
+      if (tickBuilder_ == null) {
         if (!(dataCase_ == 5)) {
-          data_ = coms309.server.Schema.CollisionEvent.getDefaultInstance();
+          data_ = coms309.server.Schema.gameTick.getDefaultInstance();
         }
-        collisionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            coms309.server.Schema.CollisionEvent, coms309.server.Schema.CollisionEvent.Builder, coms309.server.Schema.CollisionEventOrBuilder>(
-                (coms309.server.Schema.CollisionEvent) data_,
+        tickBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            coms309.server.Schema.gameTick, coms309.server.Schema.gameTick.Builder, coms309.server.Schema.gameTickOrBuilder>(
+                (coms309.server.Schema.gameTick) data_,
                 getParentForChildren(),
                 isClean());
         data_ = null;
       }
       dataCase_ = 5;
       onChanged();;
-      return collisionBuilder_;
+      return tickBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
