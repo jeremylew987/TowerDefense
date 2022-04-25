@@ -19,6 +19,11 @@ public class Map {
 
     private final int width = 800;
     private final int height = 600;
+    /**
+     * Path radius each point on the path
+     * Used to calculate collision with path
+     */
+    private final int pathRadius = 1;
 
     /**
      * LinkedList to store path data for enemy
