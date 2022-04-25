@@ -161,6 +161,25 @@ public class Map {
     }
 
     /**
+     * Checks if a tower can be placed at a point
+     *
+     * @param tower tower to be placed
+     * @return true if valid location
+     */
+    public boolean isValidTowerLocation(Tower tower, Point location) {
+
+        // Check bounds
+
+
+        // Check collisions against all other towers
+
+
+        // Check collisions again all path points
+
+        return false;
+    }
+
+    /**
      * Calculate collision between two towers when placing
      *
      * @param t1 tower 1
