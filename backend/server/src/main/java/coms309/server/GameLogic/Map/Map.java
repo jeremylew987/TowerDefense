@@ -75,27 +75,14 @@ public class Map {
      * Fails if tower already exists at point or is out of bounds.
      * @param typeId type of new entity
      * @param point location of new entity
-     * @return new entity created
+     * @param ownerId Id of user who placed tower
+     * @return Tower object if successful, null otherwise
      */
-    public Tower spawnEntity(int typeId, Point point, int ownerId) {
+    public Tower placeTower(int typeId, Point point, int ownerId) {
 
-        // Look for existing tower at given point
-        for ( Tower t: towerArray ) {
-            if (t.getPoint().equals(point)) {
-                Server.logger.warning("Could not create tower: Tower already exists at this point!");
-                return null;
-            }
-        }
-
-        double pX = point.getX();
-        double pY = point.getY();
-
-        // Check bounds of map
-        if ( (pX >= 0) && (pX <= width) && (pY >= 0) && (pY <= height) ) {
-            Server.logger.warning("Could not create tower: Out of bounds position!");
+        if (!isValidTowerLocation(point)) {
             return null;
         }
-
         Tower newTower = new Tower(point, typeId, ownerId);
         towerArray.add(newTower);
         return newTower;
@@ -172,17 +159,20 @@ public class Map {
 
         // Check bounds
         if (isOutOfBounds(location)) {
+            Server.logger.info("Invalid Tower Location: Out of bounds");
             return false;
         }
         // Check collisions against all other towers
         for (Tower t : this.towerArray) {
             if (isTowerCollision(location, t.getPoint())) {
+                Server.logger.info("Invalid Tower Location: Collision with tower");
                 return false;
             }
         }
         // Check collisions again all path points
         for (Point p : this.enemyPath) {
             if (isPathCollision(location, p)) {
+                Server.logger.info("Invalid Tower Location: Collision with path");
                 return false;
             }
         }
