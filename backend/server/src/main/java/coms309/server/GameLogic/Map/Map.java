@@ -170,16 +170,23 @@ public class Map {
     public boolean isValidTowerLocation(Point location) {
         // Uses static size of Tower class for calculation
 
-
         // Check bounds
-
-
+        if (isOutOfBounds(location)) {
+            return false;
+        }
         // Check collisions against all other towers
-
-
+        for (Tower t : this.towerArray) {
+            if (isTowerCollision(location, t.getPoint())) {
+                return false;
+            }
+        }
         // Check collisions again all path points
-
-        return false;
+        for (Point p : this.enemyPath) {
+            if (isPathCollision(location, p)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -202,14 +209,14 @@ public class Map {
     /**
      * Calculate collision between tower and a path when placing
      *
-     * @param tower tower attempting to be placed
-     * @param path path point
+     * @param p1 tower pos
+     * @param p2 path pos
      * @return true if collision
      */
-    public boolean isPathCollision(Point towerPos, Point pathPos) {
+    public boolean isPathCollision(Point p1, Point p2) {
         // Find distance between tower origin and path origin
-        double distX = towerPos.x - pathPos.x;
-        double distY = towerPos.y - pathPos.y;
+        double distX = p1.x - p2.x;
+        double distY = p1.y - p2.y;
         double distZ = Math.sqrt((distX * distX) + (distY * distY));
 
         // check if its less than the sum of radiuses
@@ -218,7 +225,7 @@ public class Map {
 
     /**
      * Calculate if point is out of bounds
-     * @param point
+     * @param point point to check
      * @return true if out of bounds
      */
     public boolean isOutOfBounds(Point point) {
