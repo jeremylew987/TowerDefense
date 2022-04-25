@@ -19,7 +19,17 @@ public class Tower {
 
     // FROM FILE
     private String name;
-    private int range, damage, cooldown;
+    private int damage, cooldown;
+    
+    /**
+     * Radius around the tower's origin that defines the attack range
+     */
+    private int range;
+
+    /**
+     * Radius around the tower's origin that defines the physical size of the tower
+     */
+    private int size;
 
     public Tower(Point point, int typeId, int ownerId) {
         this.point.setLocation(point);
@@ -54,6 +64,7 @@ public class Tower {
             if ( (int) object.get("id") == typeId ) {
                 this.typeId = typeId;
                 this.name = (String) object.get("name");
+                this.size = (int) object.get("size");
                 this.range = (int) object.get("range");
                 this.cooldown = (int) object.get("cooldown");
                 this.damage = (int) object.get("damage");
@@ -79,6 +90,13 @@ public class Tower {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getSize() {
+        return size;
+    }
+    public void getSize(int size) {
+        this.range = size;
     }
 
     public int getRange() {
