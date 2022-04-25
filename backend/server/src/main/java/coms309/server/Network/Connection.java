@@ -18,6 +18,7 @@ public class Connection implements Runnable {
     private Server server;
     private Socket socket;
     private String address;
+    private Thread thread;
 
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
@@ -59,7 +60,12 @@ public class Connection implements Runnable {
     public void setAddress() { this.address = this.socket.getRemoteSocketAddress().toString(); }
     public String getAddress() {return address;}
 
-
+    public Thread getThread() {
+        return thread;
+    }
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
     public boolean isValidated() {
         return validated;
     }

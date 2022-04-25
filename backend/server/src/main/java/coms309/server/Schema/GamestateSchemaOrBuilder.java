@@ -3,8 +3,11 @@
 
 package coms309.server.Schema;
 
+import coms309.server.GameLogic.Difficulty;
+import coms309.server.GameLogic.GameStatus;
+
 public interface GamestateSchemaOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:coms309.server.GamestateSchema)
+										  // @@protoc_insertion_point(interface_extends:coms309.server.GamestateSchema)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -13,8 +16,9 @@ public interface GamestateSchemaOrBuilder extends
   boolean hasDifficulty();
   /**
    * <code>optional uint32 difficulty = 1;</code>
+   * @return
    */
-  int getDifficulty();
+  Difficulty getDifficulty();
 
   /**
    * <code>optional uint32 status = 2;</code>
@@ -22,8 +26,9 @@ public interface GamestateSchemaOrBuilder extends
   boolean hasStatus();
   /**
    * <code>optional uint32 status = 2;</code>
+   * @return
    */
-  int getStatus();
+  GameStatus getStatus();
 
   /**
    * <code>optional uint32 map = 3;</code>
