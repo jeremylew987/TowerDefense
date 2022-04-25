@@ -16,10 +16,11 @@ public class Tower {
     private Point point;
     private int typeId;
     private int ownerId;
+    private int cooldown;
 
     // FROM FILE
     private String name;
-    private int damage, cooldown;
+    private int damage, speed;
 
     /**
      * Radius around the tower's origin that defines the attack range
@@ -67,7 +68,7 @@ public class Tower {
                 this.name = (String) object.get("name");
                 this.size = (int) object.get("size");
                 this.range = (int) object.get("range");
-                this.cooldown = (int) object.get("cooldown");
+                this.speed = (int) object.get("speed");
                 this.damage = (int) object.get("damage");
                 return;
             }
@@ -105,6 +106,13 @@ public class Tower {
     }
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public int getCooldown() {
