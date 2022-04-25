@@ -168,7 +168,13 @@ public class Map {
      * @return true if collision
      */
     public boolean isCollision(Tower t1, Tower t2) {
-        return false;
+        // Find distance between two points
+        double distX = t1.getPoint().x - t2.getPoint().x;
+        double distY = t1.getPoint().y - t2.getPoint().y;
+        double distZ = Math.sqrt((distX * distX) + (distY * distY));
+
+        // check if its less than the sum of radiuses
+        return distZ < (t1.getSize() + t2.getSize());
     }
 
     /**
