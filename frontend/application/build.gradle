@@ -14,6 +14,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.4'
 
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.30"
     }
 }
 
@@ -43,8 +46,13 @@ allprojects {
 
 project(":android") {
     apply plugin: "com.android.application"
+    //apply plugin: "org.jetbrains.dokka"
 
     configurations { natives }
+
+    /*tasks.dokkaHtml.configure {
+        outputDirectory.set(file("../documents"))
+    }*/
 
     dependencies {
         implementation project(":core")
