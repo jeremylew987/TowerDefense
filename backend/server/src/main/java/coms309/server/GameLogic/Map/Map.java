@@ -117,7 +117,7 @@ public class Map {
             int damageTaken = 0;
             for (Tower tower: towerArray) {
                 // 2. Calculate collisions
-                if (isPathCollision(e.getPoint(), tower)) {
+                if (calculateCollision(e.getPoint(), tower)) {
                     e.decreaseHealth(tower.getDamage());
                     damageTaken += tower.getDamage();
                 }
@@ -148,7 +148,7 @@ public class Map {
      * @param tower
      * @return
      */
-    public boolean isPathCollision(Point point, Tower tower) {
+    public boolean calculateCollision(Point point, Tower tower) {
         // Get tower x,y
         double tX = tower.getPoint().getX();
         double tY = tower.getPoint().getY();
