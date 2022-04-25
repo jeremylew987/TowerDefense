@@ -162,11 +162,14 @@ public class Map {
 
     /**
      * Checks if a tower can be placed at a point
+     * Assumes tower is not already in the tower array
      *
-     * @param tower tower to be placed
+     * @param location location to place tower
      * @return true if valid location
      */
-    public boolean isValidTowerLocation(Tower tower, Point location) {
+    public boolean isValidTowerLocation(Point location) {
+        // Uses static size of Tower class for calculation
+
 
         // Check bounds
 
@@ -182,18 +185,18 @@ public class Map {
     /**
      * Calculate collision between two towers when placing
      *
-     * @param t1 tower 1
-     * @param t2 tower 2
+     * @param p1 tower 1 position
+     * @param p2 tower 2 position
      * @return true if collision
      */
-    public boolean isTowerCollision(Tower t1, Tower t2) {
+    public boolean isTowerCollision(Point p1, Point p2) {
         // Find distance between tower origins
-        double distX = t1.getPoint().x - t2.getPoint().x;
-        double distY = t1.getPoint().y - t2.getPoint().y;
+        double distX = p1.x - p2.x;
+        double distY = p1.y - p2.y;
         double distZ = Math.sqrt((distX * distX) + (distY * distY));
 
         // check if its less than the sum of radiuses
-        return distZ < (t1.getSize() + t2.getSize());
+        return distZ < (Tower.size + Tower.size);
     }
 
     /**
@@ -203,14 +206,14 @@ public class Map {
      * @param path path point
      * @return true if collision
      */
-    public boolean isPathCollision(Tower tower, Point path) {
+    public boolean isPathCollision(Point towerPos, Point pathPos) {
         // Find distance between tower origin and path origin
-        double distX = tower.getPoint().x - path.x;
-        double distY = tower.getPoint().y - path.y;
+        double distX = towerPos.x - pathPos.x;
+        double distY = towerPos.y - pathPos.y;
         double distZ = Math.sqrt((distX * distX) + (distY * distY));
 
         // check if its less than the sum of radiuses
-        return distZ < (tower.getSize() + pathRadius);
+        return distZ < (Tower.size + pathRadius);
     }
 
     /**
