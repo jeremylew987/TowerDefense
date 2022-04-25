@@ -168,7 +168,7 @@ public class Map {
      * @return true if collision
      */
     public boolean isTowerCollision(Tower t1, Tower t2) {
-        // Find distance between two points
+        // Find distance between tower origins
         double distX = t1.getPoint().x - t2.getPoint().x;
         double distY = t1.getPoint().y - t2.getPoint().y;
         double distZ = Math.sqrt((distX * distX) + (distY * distY));
@@ -185,7 +185,13 @@ public class Map {
      * @return
      */
     public boolean isPathCollision(Tower tower, Point path) {
-        return false;
+        // Find distance between tower origin and path origin
+        double distX = tower.getPoint().x - path.x;
+        double distY = tower.getPoint().y - path.y;
+        double distZ = Math.sqrt((distX * distX) + (distY * distY));
+
+        // check if its less than the sum of radiuses
+        return distZ < (tower.getSize() + pathRadius);
     }
 
     /**
