@@ -96,38 +96,57 @@ public class Map {
      */
     public gameTick update(double t, double dt) {
         gameTick.Builder tickBuilder = gameTick.newBuilder();
-        for (int i = 0; i < enemyArray.size(); i++) {
-            Enemy e = enemyArray.get(i);
-            // 1. Update enemy positions
-            e.setPoint(enemyPath.get(e.getIterator() + e.getSpeed()));
 
-            int damageTaken = 0;
-            for (Tower tower: towerArray) {
-                // 2. Calculate collisions
-                if (calculateCollision(e.getPoint(), tower)) {
+        updateEnemyPositions(t, dt);
+
+        Enemy e;
+        for (Tower tower : towerArray) {
+            for (int i = 0; i < enemyArray.size(); i++) {
+                e = enemyArray.get(i);
+
+                // Decrement cooldown
+                if (tower.getCooldown() > 0) {
+                    tower.setCooldown(tower.getCooldown() - 1);
+                }
+
+                // Check if tower can attack this balloon
+                if (tower.getCooldown() <= 0 && isAttackCollision(e.getPoint(), tower)) {
+                    tower.setCooldown(tower.getSpeed());
+
                     e.decreaseHealth(tower.getDamage());
-                    damageTaken += tower.getDamage();
-                }
-                // 3. calculate if dead
-                if (e.getHealth() <= 0) {
-                    enemyArray.remove(i);
-                    i--;
-                    break;
-                }
-            }
 
-            // create protobuf array if enemy not dead
-            if (e.getHealth() > 0 && damageTaken > 0) {
-                tickBuilder.addEnemyUpdate(
-                        gameTick.EnemyUpdate.newBuilder()
-                                .setEnemyId(e.getId())
-                                .setHealth(e.getHealth())
-                                .build()
-                );
+                    // If dead, remove
+                    if (e.getHealth() <= 0) {
+                        enemyArray.remove(i);
+                        i--;
+                    }
+                    else {
+                        // create protobuf array for alive but damaged enemies
+                        tickBuilder.addEnemyUpdate(
+                                gameTick.EnemyUpdate.newBuilder()
+                                        .setEnemyId(e.getId())
+                                        .setHealth(e.getHealth())
+                                        .build()
+                        );
+                    }
+                    break; // Because one tower can only attack one enemy at a time
+                }
             }
         }
         return tickBuilder.build();
     }
+
+    /**
+     * Update enemy positions. Params are placeholder or unneeded? IDK, todo
+     * @param t
+     * @param dt
+     */
+    public void updateEnemyPositions(double t, double dt) {
+        for (Enemy e : enemyArray) {
+            e.setPoint(enemyPath.get(e.getIterator() + e.getSpeed()));
+        }
+    }
+
 
     /**
      * Calculate if Point is in the range of Tower
@@ -135,7 +154,7 @@ public class Map {
      * @param tower
      * @return
      */
-    public boolean calculateCollision(Point point, Tower tower) {
+    public boolean isAttackCollision(Point point, Tower tower) {
         // Get tower x,y
         double tX = tower.getPoint().getX();
         double tY = tower.getPoint().getY();
