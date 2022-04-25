@@ -2,28 +2,30 @@ package com.se309.tower;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
-import com.se309.render.TextureElement;
+import com.se309.socket.NetworkDataHandler;
 import com.se309.socket.SocketClient;
 
 /**
- * TowerDefense.java
- *
  * Main entry point to LibGDX project
+ *
+ * @author Gavin Tersteeg
  */
-
 public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
 	ElementRenderer renderer;
 
+	/**
+	 * Default constructor for TowerDefense activity
+	 * @param config Game configuration object
+	 */
 	public TowerDefense(GameConfiguration config) {
 		// Create Element Renderer
 		 renderer = new ElementRenderer();
@@ -46,9 +48,9 @@ public class TowerDefense extends ApplicationAdapter {
 		outputElement.setOrientation(Orientation.TopLeft);
 		renderer.addElement(outputElement);
 
-		SocketClient client = new SocketClient("10.30.35.71", 25565);
+		SocketClient client = new SocketClient("10.26.50.9", 25565);
 
-		MessageReader reader = new MessageReader(client, outputElement);
+		NetworkDataHandler reader = new NetworkDataHandler(client, outputElement);
 		reader.start();
 
 		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement, client));

@@ -7,11 +7,21 @@ import com.se309.socket.SocketClient;
 
 import java.io.IOException;
 
+/**
+ * Keyboard input processor for data entry in LibGDX.
+ *
+ * @author Gavin Tersteeg
+ */
 public class KeyboardInputProcessor implements InputProcessor {
 
     private TextElement textbox;
     private SocketClient client;
 
+    /**
+     * Default constructor for keyboard input processor
+     * @param element Debug text element
+     * @param client Socket client
+     */
     public KeyboardInputProcessor(TextElement element, SocketClient client) {
         this.textbox = element;
         this.client = client;

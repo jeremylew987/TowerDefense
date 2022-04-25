@@ -10,23 +10,35 @@ public class Message{
     public String message;
     public String code;
 
-    // Create from args
+    /**
+     * Create message from args
+     * @param author author of message
+     * @param code code of message
+     * @param message message string
+     */
     public Message(String author, String code, String message) {
         this.author = author;
         this.code = code;
         this.message = message;
     }
 
-    // Read from serialized object
+    /**
+     * Create message from protobuf object
+     * @param m protobuf
+     * @throws InvalidProtocolBufferException invalid object
+     */
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
         code = m.getCode().toUpperCase();
         message = m.getMessage();
     }
 
+    /**
+     * Serialize Message object to Protobuf object
+     * @return data object
+     */
     public DataObjectSchema serialize() {
-        DataObjectSchema d =
-                DataObjectSchema.newBuilder()
+        return  DataObjectSchema.newBuilder()
                         .setMessage(
                                 MessageSchema.newBuilder()
                                         .setAuthor(this.author)
@@ -34,7 +46,6 @@ public class Message{
                                         .setMessage(this.message)
                                         .build()
                         ).build();
-        return d;
     }
 
     @Override

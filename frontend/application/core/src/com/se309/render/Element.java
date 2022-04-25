@@ -1,9 +1,9 @@
 package com.se309.render;
 
 /**
- * Element.java
- *
  * This class is the top-level class for use in making render-able object
+ *
+ * @author Gavin Tersteeg
  */
 
 public class Element {
@@ -16,6 +16,11 @@ public class Element {
 
     private Orientation orientation;
 
+    /**
+     * Default constructor for an element
+     * @param x X position
+     * @param y Y position
+     */
     public Element(int x, int y) {
         this.x = x;
         this.y = y;
@@ -25,6 +30,13 @@ public class Element {
         height = 100;
     }
 
+    /**
+     * More complicated constructor for an element
+     * @param x X position
+     * @param y Y position
+     * @param width Element width
+     * @param height Element height
+     */
     public Element(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -34,42 +46,82 @@ public class Element {
         orientation = Orientation.TopLeft;
     }
 
+    /**
+     * Returns element X position
+     * @return X position
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets element X position
+     * @param x New X position
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Returns element Y position
+     * @return Y position
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets element Y position
+     * @param y New Y position
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Returns element width
+     * @return Width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Sets the element width
+     * @param width New width
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Returns element height
+     * @return Height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Sets the element height
+     * @param height New height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Returns the element orientation
+     * @return Orientation
+     */
     public Orientation getOrientation() {
         return orientation;
     }
 
+    /**
+     * sets the element orientation
+     * @param orientation New orientation
+     */
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
     }

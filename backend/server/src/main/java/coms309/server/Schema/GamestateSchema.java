@@ -4,6 +4,10 @@
 package coms309.server.Schema;
 
 /**
+ * <pre>
+ *Buffer to hold lobby data
+ * </pre>
+ *
  * Protobuf type {@code coms309.server.GamestateSchema}
  */
 public  final class GamestateSchema extends
@@ -19,7 +23,6 @@ public  final class GamestateSchema extends
     status_ = 0;
     map_ = 0;
     round_ = 0;
-    players_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -70,15 +73,6 @@ public  final class GamestateSchema extends
             round_ = input.readUInt32();
             break;
           }
-          case 42: {
-            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-              players_ = new java.util.ArrayList<coms309.server.Schema.GamestateSchema.Player>();
-              mutable_bitField0_ |= 0x00000010;
-            }
-            players_.add(
-                input.readMessage(coms309.server.Schema.GamestateSchema.Player.PARSER, extensionRegistry));
-            break;
-          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -87,9 +81,6 @@ public  final class GamestateSchema extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-        players_ = java.util.Collections.unmodifiableList(players_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -104,560 +95,6 @@ public  final class GamestateSchema extends
     return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             coms309.server.Schema.GamestateSchema.class, coms309.server.Schema.GamestateSchema.Builder.class);
-  }
-
-  public interface PlayerOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:coms309.server.GamestateSchema.Player)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>optional uint32 pid = 1;</code>
-     */
-    boolean hasPid();
-    /**
-     * <code>optional uint32 pid = 1;</code>
-     */
-    int getPid();
-
-    /**
-     * <code>optional uint64 id = 2;</code>
-     */
-    boolean hasId();
-    /**
-     * <code>optional uint64 id = 2;</code>
-     */
-    long getId();
-  }
-  /**
-   * Protobuf type {@code coms309.server.GamestateSchema.Player}
-   */
-  public  static final class Player extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:coms309.server.GamestateSchema.Player)
-      PlayerOrBuilder {
-    // Use Player.newBuilder() to construct.
-    private Player(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Player() {
-      pid_ = 0;
-      id_ = 0L;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Player(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              pid_ = input.readUInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              id_ = input.readUInt64();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_Player_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_Player_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              coms309.server.Schema.GamestateSchema.Player.class, coms309.server.Schema.GamestateSchema.Player.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int PID_FIELD_NUMBER = 1;
-    private int pid_;
-    /**
-     * <code>optional uint32 pid = 1;</code>
-     */
-    public boolean hasPid() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional uint32 pid = 1;</code>
-     */
-    public int getPid() {
-      return pid_;
-    }
-
-    public static final int ID_FIELD_NUMBER = 2;
-    private long id_;
-    /**
-     * <code>optional uint64 id = 2;</code>
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional uint64 id = 2;</code>
-     */
-    public long getId() {
-      return id_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, pid_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt64(2, id_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, pid_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, id_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof coms309.server.Schema.GamestateSchema.Player)) {
-        return super.equals(obj);
-      }
-      coms309.server.Schema.GamestateSchema.Player other = (coms309.server.Schema.GamestateSchema.Player) obj;
-
-      boolean result = true;
-      result = result && (hasPid() == other.hasPid());
-      if (hasPid()) {
-        result = result && (getPid()
-            == other.getPid());
-      }
-      result = result && (hasId() == other.hasId());
-      if (hasId()) {
-        result = result && (getId()
-            == other.getId());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasPid()) {
-        hash = (37 * hash) + PID_FIELD_NUMBER;
-        hash = (53 * hash) + getPid();
-      }
-      if (hasId()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getId());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static coms309.server.Schema.GamestateSchema.Player parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(coms309.server.Schema.GamestateSchema.Player prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code coms309.server.GamestateSchema.Player}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:coms309.server.GamestateSchema.Player)
-        coms309.server.Schema.GamestateSchema.PlayerOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_Player_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_Player_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                coms309.server.Schema.GamestateSchema.Player.class, coms309.server.Schema.GamestateSchema.Player.Builder.class);
-      }
-
-      // Construct using coms309.server.Schema.GamestateSchema.Player.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        pid_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return coms309.server.Schema.DataObjectProto.internal_static_coms309_server_GamestateSchema_Player_descriptor;
-      }
-
-      public coms309.server.Schema.GamestateSchema.Player getDefaultInstanceForType() {
-        return coms309.server.Schema.GamestateSchema.Player.getDefaultInstance();
-      }
-
-      public coms309.server.Schema.GamestateSchema.Player build() {
-        coms309.server.Schema.GamestateSchema.Player result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public coms309.server.Schema.GamestateSchema.Player buildPartial() {
-        coms309.server.Schema.GamestateSchema.Player result = new coms309.server.Schema.GamestateSchema.Player(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.pid_ = pid_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.id_ = id_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof coms309.server.Schema.GamestateSchema.Player) {
-          return mergeFrom((coms309.server.Schema.GamestateSchema.Player)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(coms309.server.Schema.GamestateSchema.Player other) {
-        if (other == coms309.server.Schema.GamestateSchema.Player.getDefaultInstance()) return this;
-        if (other.hasPid()) {
-          setPid(other.getPid());
-        }
-        if (other.hasId()) {
-          setId(other.getId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        coms309.server.Schema.GamestateSchema.Player parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (coms309.server.Schema.GamestateSchema.Player) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private int pid_ ;
-      /**
-       * <code>optional uint32 pid = 1;</code>
-       */
-      public boolean hasPid() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional uint32 pid = 1;</code>
-       */
-      public int getPid() {
-        return pid_;
-      }
-      /**
-       * <code>optional uint32 pid = 1;</code>
-       */
-      public Builder setPid(int value) {
-        bitField0_ |= 0x00000001;
-        pid_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 pid = 1;</code>
-       */
-      public Builder clearPid() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        pid_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long id_ ;
-      /**
-       * <code>optional uint64 id = 2;</code>
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional uint64 id = 2;</code>
-       */
-      public long getId() {
-        return id_;
-      }
-      /**
-       * <code>optional uint64 id = 2;</code>
-       */
-      public Builder setId(long value) {
-        bitField0_ |= 0x00000002;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint64 id = 2;</code>
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = 0L;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:coms309.server.GamestateSchema.Player)
-    }
-
-    // @@protoc_insertion_point(class_scope:coms309.server.GamestateSchema.Player)
-    private static final coms309.server.Schema.GamestateSchema.Player DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new coms309.server.Schema.GamestateSchema.Player();
-    }
-
-    public static coms309.server.Schema.GamestateSchema.Player getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<Player>
-        PARSER = new com.google.protobuf.AbstractParser<Player>() {
-      public Player parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Player(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Player> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Player> getParserForType() {
-      return PARSER;
-    }
-
-    public coms309.server.Schema.GamestateSchema.Player getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
   }
 
   private int bitField0_;
@@ -721,41 +158,6 @@ public  final class GamestateSchema extends
     return round_;
   }
 
-  public static final int PLAYERS_FIELD_NUMBER = 5;
-  private java.util.List<coms309.server.Schema.GamestateSchema.Player> players_;
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  public java.util.List<coms309.server.Schema.GamestateSchema.Player> getPlayersList() {
-    return players_;
-  }
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  public java.util.List<? extends coms309.server.Schema.GamestateSchema.PlayerOrBuilder> 
-      getPlayersOrBuilderList() {
-    return players_;
-  }
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  public int getPlayersCount() {
-    return players_.size();
-  }
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  public coms309.server.Schema.GamestateSchema.Player getPlayers(int index) {
-    return players_.get(index);
-  }
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  public coms309.server.Schema.GamestateSchema.PlayerOrBuilder getPlayersOrBuilder(
-      int index) {
-    return players_.get(index);
-  }
-
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -780,9 +182,6 @@ public  final class GamestateSchema extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeUInt32(4, round_);
     }
-    for (int i = 0; i < players_.size(); i++) {
-      output.writeMessage(5, players_.get(i));
-    }
     unknownFields.writeTo(output);
   }
 
@@ -806,10 +205,6 @@ public  final class GamestateSchema extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeUInt32Size(4, round_);
-    }
-    for (int i = 0; i < players_.size(); i++) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(5, players_.get(i));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -848,8 +243,6 @@ public  final class GamestateSchema extends
       result = result && (getRound()
           == other.getRound());
     }
-    result = result && getPlayersList()
-        .equals(other.getPlayersList());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -876,10 +269,6 @@ public  final class GamestateSchema extends
     if (hasRound()) {
       hash = (37 * hash) + ROUND_FIELD_NUMBER;
       hash = (53 * hash) + getRound();
-    }
-    if (getPlayersCount() > 0) {
-      hash = (37 * hash) + PLAYERS_FIELD_NUMBER;
-      hash = (53 * hash) + getPlayersList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -964,6 +353,10 @@ public  final class GamestateSchema extends
     return builder;
   }
   /**
+   * <pre>
+   *Buffer to hold lobby data
+   * </pre>
+   *
    * Protobuf type {@code coms309.server.GamestateSchema}
    */
   public static final class Builder extends
@@ -995,7 +388,6 @@ public  final class GamestateSchema extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getPlayersFieldBuilder();
       }
     }
     public Builder clear() {
@@ -1008,12 +400,6 @@ public  final class GamestateSchema extends
       bitField0_ = (bitField0_ & ~0x00000004);
       round_ = 0;
       bitField0_ = (bitField0_ & ~0x00000008);
-      if (playersBuilder_ == null) {
-        players_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000010);
-      } else {
-        playersBuilder_.clear();
-      }
       return this;
     }
 
@@ -1054,15 +440,6 @@ public  final class GamestateSchema extends
         to_bitField0_ |= 0x00000008;
       }
       result.round_ = round_;
-      if (playersBuilder_ == null) {
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          players_ = java.util.Collections.unmodifiableList(players_);
-          bitField0_ = (bitField0_ & ~0x00000010);
-        }
-        result.players_ = players_;
-      } else {
-        result.players_ = playersBuilder_.build();
-      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1116,32 +493,6 @@ public  final class GamestateSchema extends
       }
       if (other.hasRound()) {
         setRound(other.getRound());
-      }
-      if (playersBuilder_ == null) {
-        if (!other.players_.isEmpty()) {
-          if (players_.isEmpty()) {
-            players_ = other.players_;
-            bitField0_ = (bitField0_ & ~0x00000010);
-          } else {
-            ensurePlayersIsMutable();
-            players_.addAll(other.players_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.players_.isEmpty()) {
-          if (playersBuilder_.isEmpty()) {
-            playersBuilder_.dispose();
-            playersBuilder_ = null;
-            players_ = other.players_;
-            bitField0_ = (bitField0_ & ~0x00000010);
-            playersBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getPlayersFieldBuilder() : null;
-          } else {
-            playersBuilder_.addAllMessages(other.players_);
-          }
-        }
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -1297,246 +648,6 @@ public  final class GamestateSchema extends
       round_ = 0;
       onChanged();
       return this;
-    }
-
-    private java.util.List<coms309.server.Schema.GamestateSchema.Player> players_ =
-      java.util.Collections.emptyList();
-    private void ensurePlayersIsMutable() {
-      if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-        players_ = new java.util.ArrayList<coms309.server.Schema.GamestateSchema.Player>(players_);
-        bitField0_ |= 0x00000010;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        coms309.server.Schema.GamestateSchema.Player, coms309.server.Schema.GamestateSchema.Player.Builder, coms309.server.Schema.GamestateSchema.PlayerOrBuilder> playersBuilder_;
-
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public java.util.List<coms309.server.Schema.GamestateSchema.Player> getPlayersList() {
-      if (playersBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(players_);
-      } else {
-        return playersBuilder_.getMessageList();
-      }
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public int getPlayersCount() {
-      if (playersBuilder_ == null) {
-        return players_.size();
-      } else {
-        return playersBuilder_.getCount();
-      }
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public coms309.server.Schema.GamestateSchema.Player getPlayers(int index) {
-      if (playersBuilder_ == null) {
-        return players_.get(index);
-      } else {
-        return playersBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder setPlayers(
-        int index, coms309.server.Schema.GamestateSchema.Player value) {
-      if (playersBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePlayersIsMutable();
-        players_.set(index, value);
-        onChanged();
-      } else {
-        playersBuilder_.setMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder setPlayers(
-        int index, coms309.server.Schema.GamestateSchema.Player.Builder builderForValue) {
-      if (playersBuilder_ == null) {
-        ensurePlayersIsMutable();
-        players_.set(index, builderForValue.build());
-        onChanged();
-      } else {
-        playersBuilder_.setMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder addPlayers(coms309.server.Schema.GamestateSchema.Player value) {
-      if (playersBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePlayersIsMutable();
-        players_.add(value);
-        onChanged();
-      } else {
-        playersBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder addPlayers(
-        int index, coms309.server.Schema.GamestateSchema.Player value) {
-      if (playersBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePlayersIsMutable();
-        players_.add(index, value);
-        onChanged();
-      } else {
-        playersBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder addPlayers(
-        coms309.server.Schema.GamestateSchema.Player.Builder builderForValue) {
-      if (playersBuilder_ == null) {
-        ensurePlayersIsMutable();
-        players_.add(builderForValue.build());
-        onChanged();
-      } else {
-        playersBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder addPlayers(
-        int index, coms309.server.Schema.GamestateSchema.Player.Builder builderForValue) {
-      if (playersBuilder_ == null) {
-        ensurePlayersIsMutable();
-        players_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        playersBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder addAllPlayers(
-        java.lang.Iterable<? extends coms309.server.Schema.GamestateSchema.Player> values) {
-      if (playersBuilder_ == null) {
-        ensurePlayersIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, players_);
-        onChanged();
-      } else {
-        playersBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder clearPlayers() {
-      if (playersBuilder_ == null) {
-        players_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000010);
-        onChanged();
-      } else {
-        playersBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public Builder removePlayers(int index) {
-      if (playersBuilder_ == null) {
-        ensurePlayersIsMutable();
-        players_.remove(index);
-        onChanged();
-      } else {
-        playersBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public coms309.server.Schema.GamestateSchema.Player.Builder getPlayersBuilder(
-        int index) {
-      return getPlayersFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public coms309.server.Schema.GamestateSchema.PlayerOrBuilder getPlayersOrBuilder(
-        int index) {
-      if (playersBuilder_ == null) {
-        return players_.get(index);  } else {
-        return playersBuilder_.getMessageOrBuilder(index);
-      }
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public java.util.List<? extends coms309.server.Schema.GamestateSchema.PlayerOrBuilder> 
-         getPlayersOrBuilderList() {
-      if (playersBuilder_ != null) {
-        return playersBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(players_);
-      }
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public coms309.server.Schema.GamestateSchema.Player.Builder addPlayersBuilder() {
-      return getPlayersFieldBuilder().addBuilder(
-          coms309.server.Schema.GamestateSchema.Player.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public coms309.server.Schema.GamestateSchema.Player.Builder addPlayersBuilder(
-        int index) {
-      return getPlayersFieldBuilder().addBuilder(
-          index, coms309.server.Schema.GamestateSchema.Player.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-     */
-    public java.util.List<coms309.server.Schema.GamestateSchema.Player.Builder> 
-         getPlayersBuilderList() {
-      return getPlayersFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        coms309.server.Schema.GamestateSchema.Player, coms309.server.Schema.GamestateSchema.Player.Builder, coms309.server.Schema.GamestateSchema.PlayerOrBuilder> 
-        getPlayersFieldBuilder() {
-      if (playersBuilder_ == null) {
-        playersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            coms309.server.Schema.GamestateSchema.Player, coms309.server.Schema.GamestateSchema.Player.Builder, coms309.server.Schema.GamestateSchema.PlayerOrBuilder>(
-                players_,
-                ((bitField0_ & 0x00000010) == 0x00000010),
-                getParentForChildren(),
-                isClean());
-        players_ = null;
-      }
-      return playersBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

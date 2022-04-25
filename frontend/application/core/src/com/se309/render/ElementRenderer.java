@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 /**
- * ElementRenderer.java
- *
  * This class stores displayed elements, and renders them as needed
+ *
+ * @author Gavin Tersteeg
  */
 
 public class ElementRenderer {
@@ -18,6 +18,9 @@ public class ElementRenderer {
 
     private GlyphLayout layout;
 
+    /**
+     * Default constructor for ElementRenderer
+     */
     public ElementRenderer() {
         elements = new ArrayList<>();
 
@@ -27,7 +30,7 @@ public class ElementRenderer {
 
     /**
      * Renders all of the stored elements into a batch
-     * @param batch
+     * @param batch SpriteBatch for incoming sprites
      */
     public void render(SpriteBatch batch) {
 
@@ -44,11 +47,11 @@ public class ElementRenderer {
                 // TextElement width / height preset
                 TextElement es = (TextElement) e;
 
-                layout.setText(es.getFont(), es.getText());
+                layout.setText(es.getFont(), "A");
                 es.setWidth((int) layout.width);
                 es.setHeight((int) layout.height);
 
-                es.setHeight((int) 44);
+
             }
 
 
@@ -87,19 +90,27 @@ public class ElementRenderer {
 
     }
 
+    /**
+     * Adds an element to be rendered
+     * @param e Element to add
+     */
     public void addElement(Element e) {
         elements.add(e);
     }
 
+    /**
+     * Removes an element from the render queue
+     * @param e Element to remove
+     */
     public void removeElement(Element e) {
         elements.remove(e);
     }
 
+    /**
+     * Returns a list of all the elements in the render queue
+     * @return List of elements
+     */
     public ArrayList<Element> getElements() {
         return elements;
-    }
-
-    public void setElements(ArrayList<Element> elements) {
-        this.elements = elements;
     }
 }
