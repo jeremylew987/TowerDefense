@@ -161,7 +161,7 @@ public class Map {
     }
 
     /**
-     * Calculate collision between two towers
+     * Calculate collision between two towers when placing
      *
      * @param t1 tower 1
      * @param t2 tower 2
@@ -175,6 +175,17 @@ public class Map {
 
         // check if its less than the sum of radiuses
         return distZ < (t1.getSize() + t2.getSize());
+    }
+
+    /**
+     * Calculate collision between tower and a path when placing
+     *
+     * @param tower tower attempting to be placed
+     * @param path path point
+     * @return
+     */
+    public boolean isPathCollision(Tower tower, Point path) {
+        return false;
     }
 
     /**
