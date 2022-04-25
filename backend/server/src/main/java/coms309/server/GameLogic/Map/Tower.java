@@ -20,7 +20,7 @@ public class Tower {
     // FROM FILE
     private String name;
     private int damage, cooldown;
-    
+
     /**
      * Radius around the tower's origin that defines the attack range
      */
@@ -28,8 +28,9 @@ public class Tower {
 
     /**
      * Radius around the tower's origin that defines the physical size of the tower
+     * Static so it can be accessed without instantiation, but towers now can't be different sizes
      */
-    private int size;
+    public static int size = 1;
 
     public Tower(Point point, int typeId, int ownerId) {
         this.point.setLocation(point);
@@ -90,13 +91,6 @@ public class Tower {
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSize() {
-        return size;
-    }
-    public void getSize(int size) {
-        this.range = size;
     }
 
     public int getRange() {

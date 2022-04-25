@@ -2,7 +2,6 @@
   {
     "id":0,
     "name": "Melee",
-    "size": 1,
     "range": 3,
     "damage": 1,
     "cooldown": 20
@@ -10,7 +9,6 @@
   {
     "id":1,
     "name": "Ranged",
-    "size": 1,
     "range": 6,
     "damage": 1,
     "cooldown": 40
