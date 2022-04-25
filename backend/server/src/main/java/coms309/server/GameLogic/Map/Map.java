@@ -182,7 +182,7 @@ public class Map {
      *
      * @param tower tower attempting to be placed
      * @param path path point
-     * @return
+     * @return true if collision
      */
     public boolean isPathCollision(Tower tower, Point path) {
         // Find distance between tower origin and path origin
@@ -192,6 +192,21 @@ public class Map {
 
         // check if its less than the sum of radiuses
         return distZ < (tower.getSize() + pathRadius);
+    }
+
+    /**
+     * Calculate if point is out of bounds
+     * @param point
+     * @return true if out of bounds
+     */
+    public boolean isOutOfBounds(Point point) {
+        if (point.x < 0 || point.x > width) {
+            return true;
+        }
+        if (point.y < 0 || point.y > height) {
+            return true;
+        }
+        return false;
     }
 
     /**
