@@ -161,6 +161,17 @@ public class Map {
     }
 
     /**
+     * Calculate collision between two towers
+     *
+     * @param t1 tower 1
+     * @param t2 tower 2
+     * @return true if collision
+     */
+    public boolean isCollision(Tower t1, Tower t2) {
+        return false;
+    }
+
+    /**
      * Return all towers placed on map
      * @return
      */
