@@ -23,7 +23,6 @@ import jdk.internal.loader.Resource;
  */
 public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
 
 	ResourceContext context;
 
@@ -52,7 +51,6 @@ public class TowerDefense extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 
 		// Register all scenes
 		context.getSceneManager().register("LOBBY", new LobbyScene());
@@ -81,6 +79,7 @@ public class TowerDefense extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+
+		context.getSceneManager().dispose();
 	}
 }

@@ -63,4 +63,11 @@ public class SceneManager {
         }
     }
 
+    public void dispose() {
+        // Dispose all scenes
+        for (Scene s : scenes.values()) {
+            s.dispose();
+        }
+    }
+
 }

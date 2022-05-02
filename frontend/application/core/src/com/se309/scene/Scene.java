@@ -4,5 +4,6 @@ public interface Scene {
 
     void initialize();
     void display(SceneContext scene);
+    void dispose();
 
 }
