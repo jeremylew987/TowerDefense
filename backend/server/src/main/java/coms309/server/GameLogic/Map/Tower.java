@@ -9,6 +9,8 @@ import org.json.simple.parser.ParseException;
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Tower {
 
@@ -22,16 +24,13 @@ public class Tower {
     private int range, damage, cooldown;
 
     public Tower(Point point, int typeId, int ownerId) {
-        this.point.setLocation(point);
+        this.point = point;
         this.ownerId = ownerId;
         try {
             this.loadType(typeId);
         } catch (IOException ex) {
-        } catch (ClassNotFoundException ex) {
-            Server.logger.warning("Could not find typeId in towers.json!");
-        } catch (Exception ex) {
-            Server.logger.warning("Failed to parse towers.json!");
-        } finally {
+        } catch (ParseException ex) {
+            Server.logger.warning("Failed to parse objects.json!");
             Server.logger.warning("Failed to initialize new tower!");
         }
     }
@@ -41,27 +40,26 @@ public class Tower {
      * @param typeId type of tower
      * @throws IOException Failed to open file
      * @throws ParseException Failed to parse file
-     * @throws ClassNotFoundException File not found
      */
-    public void loadType(int typeId) throws Exception {
+    public void loadType(int typeId) throws IOException, ParseException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("objects.json");
         JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader(getClass().getClassLoader().getResource("objects.json").getFile());
-        Object obj = jsonParser.parse(reader);
+        Object obj = jsonParser.parse(
+                new InputStreamReader(inputStream, "UTF-8"));
+        inputStream.close();
         JSONArray objects = (JSONArray) obj;
         boolean found = false;
         for (int i = 0; i < objects.size(); i++) {
             JSONObject object = (JSONObject) objects.get(i);
-            if ( (int) object.get("id") == typeId ) {
+            if ( (long) object.get("id") == (long) typeId ) {
                 this.typeId = typeId;
                 this.name = (String) object.get("name");
-                this.range = (int) object.get("range");
-                this.cooldown = (int) object.get("cooldown");
-                this.damage = (int) object.get("damage");
-                return;
+                this.range = ((Long) object.get("range")).intValue();
+                this.cooldown = ((Long) object.get("cooldown")).intValue();
+                this.damage = ((Long) object.get("damage")).intValue();
+                break;
             }
-            throw new RuntimeException();
         }
-        reader.close();
     }
     public int getTypeId() {
         return typeId;

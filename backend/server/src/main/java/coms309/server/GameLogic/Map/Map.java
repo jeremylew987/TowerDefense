@@ -1,6 +1,7 @@
 package coms309.server.GameLogic.Map;
 
 import coms309.server.GameLogic.Exceptions.*;
+import coms309.server.Schema.gameTick;
 import coms309.server.Server;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

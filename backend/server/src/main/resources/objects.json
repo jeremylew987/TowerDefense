@@ -2,14 +2,14 @@
   {
     "id":0,
     "name": "Melee",
-    "range": 1,
+    "range": 20,
     "damage": 1,
     "cooldown": 20
   },
   {
     "id":1,
     "name": "Ranged",
-    "range": 6,
+    "range": 40,
     "damage": 1,
     "cooldown": 40
   }
