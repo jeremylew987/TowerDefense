@@ -37,55 +37,69 @@ public class ElementRenderer {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        for (Element e : elements) {
+        int totalElements = elements.size();
+        int renderedElements = 0;
+        int currentLayer = 0;
 
-            // Do x,y calculations
-            int x = 0, y = 0;
+        while (renderedElements < totalElements) {
 
-            // Preset width / height if relevant
-            if (e instanceof TextElement) {
-                // TextElement width / height preset
-                TextElement es = (TextElement) e;
+            for (Element e : elements) {
 
-                layout.setText(es.getFont(), "A");
-                es.setWidth((int) layout.width);
-                es.setHeight((int) layout.height);
+                // If this isn't the correct layer to render the element on, just continue
+                if (e.getLayer() != currentLayer) continue;
+                else renderedElements++;
 
+                // Do x,y calculations
+                int x = 0, y = 0;
+
+                // Preset width / height if relevant
+                if (e instanceof TextElement) {
+                    // TextElement width / height preset
+                    TextElement es = (TextElement) e;
+
+                    layout.setText(es.getFont(), ((TextElement) e).getText());
+                    es.setWidth((int) layout.width);
+                    layout.setText(es.getFont(), "A");
+                    es.setHeight((int) layout.height);
+
+
+                }
+
+
+                // Calculate X orientations
+                if (e.getOrientation() == Orientation.TopLeft || e.getOrientation() == Orientation.MiddleLeft || e.getOrientation() == Orientation.BottomLeft) {
+                    x = e.getX();
+                } else if (e.getOrientation() == Orientation.TopRight || e.getOrientation() == Orientation.MiddleRight || e.getOrientation() == Orientation.BottomRight) {
+                    x = (width - e.getWidth()) - e.getX();
+                } else {
+                    x = (width / 2 - e.getWidth() / 2) + e.getX();
+                }
+
+                // Calculate Y orientations
+                if (e.getOrientation() == Orientation.TopLeft || e.getOrientation() == Orientation.TopMiddle || e.getOrientation() == Orientation.TopRight) {
+                    y = (height - e.getHeight()) - e.getY();
+                } else if (e.getOrientation() == Orientation.BottomRight || e.getOrientation() == Orientation.BottomMiddle || e.getOrientation() == Orientation.BottomLeft) {
+                    y = e.getY();
+                } else {
+                    y = (height / 2 - e.getHeight() / 2) - e.getY();
+                }
+
+
+                if (e instanceof TextureElement) {
+                    // If it is a TextureElement...
+                    TextureElement es = (TextureElement) e;
+                    batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
+                } else if (e instanceof TextElement) {
+                    // If it is a TextElement...
+                    TextElement es = (TextElement) e;
+
+                    es.getFont().draw(batch, es.getText(), x, y);
+                }
 
             }
 
-
-            // Calculate X orientations
-            if (e.getOrientation() == Orientation.TopLeft || e.getOrientation() == Orientation.MiddleLeft || e.getOrientation() == Orientation.BottomLeft) {
-                x = e.getX();
-            } else if (e.getOrientation() == Orientation.TopRight || e.getOrientation() == Orientation.MiddleRight || e.getOrientation() == Orientation.BottomRight) {
-                x = (width - e.getWidth()) - e.getX();
-            } else {
-                x = (width / 2 - e.getWidth() / 2) + e.getX();
-            }
-
-            // Calculate Y orientations
-            if (e.getOrientation() == Orientation.TopLeft || e.getOrientation() == Orientation.TopMiddle || e.getOrientation() == Orientation.TopRight) {
-                y = (height - e.getHeight()) - e.getY();
-            } else if (e.getOrientation() == Orientation.BottomRight || e.getOrientation() == Orientation.BottomMiddle || e.getOrientation() == Orientation.BottomLeft) {
-                y = e.getY();
-            } else {
-                y = (height / 2 - e.getHeight() / 2) - e.getY();
-            }
-
-
-            if (e instanceof TextureElement) {
-                // If it is a TextureElement...
-                TextureElement es = (TextureElement) e;
-                batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
-            } else if (e instanceof  TextElement) {
-                // If it is a TextElement...
-                TextElement es = (TextElement) e;
-
-                es.getFont().draw(batch, es.getText(), x, y);
-            }
-
-
+            // Advance currently rendered layer
+            currentLayer++;
         }
 
     }

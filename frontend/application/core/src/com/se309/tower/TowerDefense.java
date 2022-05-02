@@ -7,9 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.se309.render.ElementRenderer;
 import com.se309.render.Orientation;
+import com.se309.render.RenderSettings;
 import com.se309.render.TextElement;
+import com.se309.scene.LobbyScene;
+import com.se309.scene.SceneManager;
 import com.se309.socket.NetworkDataHandler;
 import com.se309.socket.SocketClient;
+
+import jdk.internal.loader.Resource;
 
 /**
  * Main entry point to LibGDX project
@@ -20,15 +25,28 @@ public class TowerDefense extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
-	ElementRenderer renderer;
+	ResourceContext context;
+
 
 	/**
 	 * Default constructor for TowerDefense activity
 	 * @param config Game configuration object
 	 */
 	public TowerDefense(GameConfiguration config) {
-		// Create Element Renderer
-		 renderer = new ElementRenderer();
+
+		// Create Resource Context
+		context = new ResourceContext();
+
+		// Populate Resource Context
+		ElementRenderer renderer = new ElementRenderer();
+		context.setRenderer(renderer);
+
+		RenderSettings renderSettings = new RenderSettings();
+		context.setRenderSettings(renderSettings);
+
+		SceneManager sceneManager = new SceneManager(context);
+		context.setSceneManager(sceneManager);
+
 	}
 
 	@Override
@@ -36,33 +54,22 @@ public class TowerDefense extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		TextElement textElement = new TextElement("Frontend/Backend Communication Test", 0, 0);
-		textElement.setOrientation(Orientation.TopLeft);
-		renderer.addElement(textElement);
+		// Register all scenes
+		context.getSceneManager().register("LOBBY", new LobbyScene());
 
-		TextElement inputElement = new TextElement(">", 0, 70);
-		inputElement.setOrientation(Orientation.TopLeft);
-		renderer.addElement(inputElement);
+		// Display the initial scene
+		context.getSceneManager().display("LOBBY");
 
-		TextElement outputElement = new TextElement("Chat:\n", 1000, 70);
-		outputElement.setOrientation(Orientation.TopLeft);
-		renderer.addElement(outputElement);
-
-		SocketClient client = new SocketClient("10.26.50.9", 25565);
-
-		NetworkDataHandler reader = new NetworkDataHandler(client, outputElement);
-		reader.start();
-
-		Gdx.input.setInputProcessor(new KeyboardInputProcessor(inputElement, client));
+		Gdx.input.setInputProcessor(new KeyboardInputProcessor());
 
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
+		ScreenUtils.clear(context.getRenderSettings().getRed(), context.getRenderSettings().getGreen(), context.getRenderSettings().getBlue(), context.getRenderSettings().getAlpha());
 		batch.begin();
 
-		renderer.render(batch);
+		context.getRenderer().render(batch);
 
 		batch.end();
 

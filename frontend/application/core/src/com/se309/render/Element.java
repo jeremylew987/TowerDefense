@@ -14,6 +14,8 @@ public class Element {
     private int width;
     private int height;
 
+    private int layer;
+
     private Orientation orientation;
 
     /**
@@ -28,6 +30,8 @@ public class Element {
         orientation = Orientation.TopLeft;
         width = 100;
         height = 100;
+
+        layer = 0;
     }
 
     /**
@@ -44,6 +48,8 @@ public class Element {
         this.height = height;
 
         orientation = Orientation.TopLeft;
+
+        layer = 0;
     }
 
     /**
@@ -108,6 +114,22 @@ public class Element {
      */
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    /**
+     * Gets the element layer
+     * @return Layer
+     */
+    public int getLayer() {
+        return layer;
+    }
+
+    /**
+     * Sets the element layer
+     * @param layer New layer
+     */
+    public void setLayer(int layer) {
+        this.layer = layer;
     }
 
     /**

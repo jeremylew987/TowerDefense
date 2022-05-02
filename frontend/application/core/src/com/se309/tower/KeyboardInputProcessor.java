@@ -14,15 +14,11 @@ import java.io.IOException;
  */
 public class KeyboardInputProcessor implements InputProcessor {
 
-    private TextElement textbox;
-    private SocketClient client;
-
     /**
      * Default constructor for keyboard input processor
-     * @param element Debug text element
-     * @param client Socket client
      */
-    public KeyboardInputProcessor(TextElement element, SocketClient client) {
+    public KeyboardInputProcessor() {
+        /*
         this.textbox = element;
         this.client = client;
 
@@ -34,6 +30,8 @@ public class KeyboardInputProcessor implements InputProcessor {
         } catch (IOException e) {
             System.out.println("Write failed!");
         }
+        */
+
     }
 
     public boolean keyDown(int keycode) {
@@ -47,6 +45,7 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     public boolean keyTyped(char character) {
 
+        /*
         if (character == 10) {
 
             Message m = new Message("user", "chat", textbox.getText().substring(1));
@@ -67,6 +66,8 @@ public class KeyboardInputProcessor implements InputProcessor {
                 textbox.setText(textbox.getText() + character);
 
         }
+
+         */
         return false;
     }
 
