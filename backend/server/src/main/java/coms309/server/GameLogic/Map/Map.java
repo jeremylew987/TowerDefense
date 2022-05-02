@@ -36,6 +36,9 @@ public class Map {
     private ArrayList<Enemy> enemyArray;
 
     public Map(int mapId) throws IOException, ParseException {
+        towerArray = new ArrayList<>();
+        enemyArray = new ArrayList<>();
+        enemyPath = new LinkedList<>();
         loadMap(mapId);
     }
 
@@ -86,7 +89,7 @@ public class Map {
         double pY = point.getY();
 
         // Check bounds of map
-        if ( (pX >= 0) && (pX <= width) && (pY >= 0) && (pY <= height) ) {
+        if ( (pX < 0) || (pX > width) || (pY < 0) || (pY > height) ) {
             Server.logger.warning("Could not create tower: Out of bounds position!");
             return null;
         }

@@ -18,6 +18,7 @@ public class Connection implements Runnable {
     private Server server;
     private Socket socket;
     private String address;
+    private Thread thread;
 
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
@@ -258,4 +259,9 @@ public class Connection implements Runnable {
         server.logger.log(Level.INFO, address + " lost connection: DISCONNECT." + reason);
         server.getConnectionHandler().announcePlayers();
     }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
+    public Thread getThread() { return this.thread; }
 }

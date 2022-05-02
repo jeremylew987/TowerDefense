@@ -16,6 +16,14 @@ public class ConnectionHandler {
     private Connection[] clients;
     private int playerIterator;
 
+    public Connection[] getClients() {
+        return clients;
+    }
+
+    public void setClients(Connection[] clients) {
+        this.clients = clients;
+    }
+
     public ConnectionHandler(Server server) {
         this.server = server;
         this.clients = new Connection[server.getMaxPlayers()];
@@ -84,7 +92,7 @@ public class ConnectionHandler {
 
     /**
      * Wait for new connections
-     * validate each connection to an User on the authentication server
+     * validate each connection to a User on the authentication server
      */
     public void awaitNewConnections() {
         playerIterator = 0;
