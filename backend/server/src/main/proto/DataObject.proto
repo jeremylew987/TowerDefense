@@ -13,7 +13,7 @@ message DataObjectSchema {
     MessageSchema message = 2;
     TowerSchema tower = 3;
     ConnectedClients clients = 4;
-    CollisionEvent collision = 5;
+    gameTick tick = 5;
   }
 }
 
@@ -65,10 +65,12 @@ message ConnectedClients {
 }
 
 /*
-Buffer to hold collision event between
-tower and enemy.
+Buffer to hold game tick events
  */
-message CollisionEvent {
-  required uint32 towerId = 1;
-  required uint32 enemyId = 2;
+message gameTick {
+  repeated EnemyUpdate enemyUpdate = 1;
+  message EnemyUpdate {
+    required uint32 enemyId = 1;
+    required uint32 health = 2;
+  }
 }

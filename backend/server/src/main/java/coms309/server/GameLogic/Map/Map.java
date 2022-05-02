@@ -31,7 +31,15 @@ public class Map {
      */
     private ArrayList<Tower> towerArray;
 
+    /**
+     * ArrayList to store enemy information
+     */
+    private ArrayList<Enemy> enemyArray;
+
     public Map(int mapId) throws IOException, ParseException {
+        towerArray = new ArrayList<>();
+        enemyArray = new ArrayList<>();
+        enemyPath = new LinkedList<>();
         loadMap(mapId);
     }
 
@@ -64,10 +72,9 @@ public class Map {
     /**
      * Create new Tower at Point of typeId.
      * Fails if tower already exists at point or is out of bounds.
-     * @param typeId type of new Tower
-     * @param point coordinate of new Tower
-     * @param ownerId ID of owner for tower
-     * @return new Tower
+     * @param typeId type of new entity
+     * @param point location of new entity
+     * @return new entity created
      */
     public Tower spawnEntity(int typeId, Point point, int ownerId) {
 
@@ -83,7 +90,7 @@ public class Map {
         double pY = point.getY();
 
         // Check bounds of map
-        if ( (pX >= 0) && (pX <= width) && (pY >= 0) && (pY <= height) ) {
+        if ( (pX < 0) || (pX > width) || (pY < 0) || (pY > height) ) {
             Server.logger.warning("Could not create tower: Out of bounds position!");
             return null;
         }
@@ -93,10 +100,45 @@ public class Map {
         return newTower;
     }
 
-    public void waveUpdate() {
-        for (Tower t: towerArray) {
-            calculateCollision(new Point(), t);
+    /**
+     * Calculate the result of the game tick
+     * @param t time
+     * @param dt delta_time
+     * @return gameTick protobuf object
+     */
+    public gameTick update(double t, double dt) {
+        gameTick.Builder tickBuilder = gameTick.newBuilder();
+        for (int i = 0; i < enemyArray.size(); i++) {
+            Enemy e = enemyArray.get(i);
+            // 1. Update enemy positions
+            e.setPoint(enemyPath.get(e.getIterator() + e.getSpeed()));
+
+            int damageTaken = 0;
+            for (Tower tower: towerArray) {
+                // 2. Calculate collisions
+                if (calculateCollision(e.getPoint(), tower)) {
+                    e.decreaseHealth(tower.getDamage());
+                    damageTaken += tower.getDamage();
+                }
+                // 3. calculate if dead
+                if (e.getHealth() <= 0) {
+                    enemyArray.remove(i);
+                    i--;
+                    break;
+                }
+            }
+
+            // create protobuf array if enemy not dead
+            if (e.getHealth() > 0 && damageTaken > 0) {
+                tickBuilder.addEnemyUpdate(
+                        gameTick.EnemyUpdate.newBuilder()
+                                .setEnemyId(e.getId())
+                                .setHealth(e.getHealth())
+                                .build()
+                );
+            }
         }
+        return tickBuilder.build();
     }
 
     /**
@@ -118,7 +160,8 @@ public class Map {
     }
 
     /**
-     * @return all towers on map
+     * Return all towers placed on map
+     * @return
      */
     public ArrayList<Tower> getTowerArray() {
         return towerArray;
