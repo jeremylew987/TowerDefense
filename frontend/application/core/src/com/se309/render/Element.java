@@ -11,6 +11,9 @@ public class Element {
     private int x;
     private int y;
 
+    private int xActual;
+    private int yActual;
+
     private int width;
     private int height;
 
@@ -26,6 +29,9 @@ public class Element {
     public Element(int x, int y) {
         this.x = x;
         this.y = y;
+
+        xActual = 0;
+        yActual = 0;
 
         orientation = Orientation.TopLeft;
         width = 100;
@@ -44,6 +50,10 @@ public class Element {
     public Element(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
+
+        xActual = 0;
+        yActual = 0;
+
         this.width = width;
         this.height = height;
 
@@ -82,6 +92,22 @@ public class Element {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getXActual() {
+        return xActual;
+    }
+
+    public void setXActual(int xActual) {
+        this.xActual = xActual;
+    }
+
+    public int getYActual() {
+        return yActual;
+    }
+
+    public void setYActual(int yActual) {
+        this.yActual = yActual;
     }
 
     /**

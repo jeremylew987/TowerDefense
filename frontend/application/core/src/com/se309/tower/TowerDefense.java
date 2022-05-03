@@ -2,19 +2,17 @@ package com.se309.tower;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.se309.button.ButtonManager;
+import com.se309.game.GameLogicProcessor;
+import com.se309.game.GameTickHandler;
+import com.se309.input.UniversalInputProcessor;
+import com.se309.queue.GameEventQueue;
 import com.se309.render.ElementRenderer;
-import com.se309.render.Orientation;
 import com.se309.render.RenderSettings;
-import com.se309.render.TextElement;
 import com.se309.scene.LobbyScene;
 import com.se309.scene.SceneManager;
-import com.se309.socket.NetworkDataHandler;
-import com.se309.socket.SocketClient;
-
-import jdk.internal.loader.Resource;
 
 /**
  * Main entry point to LibGDX project
@@ -22,9 +20,12 @@ import jdk.internal.loader.Resource;
  * @author Gavin Tersteeg
  */
 public class TowerDefense extends ApplicationAdapter {
-	SpriteBatch batch;
 
-	ResourceContext context;
+	private SpriteBatch batch;
+
+	private ResourceContext context;
+
+	private GameTickHandler tickHandler;
 
 
 	/**
@@ -46,6 +47,18 @@ public class TowerDefense extends ApplicationAdapter {
 		SceneManager sceneManager = new SceneManager(context);
 		context.setSceneManager(sceneManager);
 
+		ButtonManager buttonManager = new ButtonManager(context);
+		context.setButtonManager(buttonManager);
+
+		GameEventQueue eventQueue = new GameEventQueue();
+		context.setEventQueue(eventQueue);
+
+		// Set Up Game Logic Stuff
+		GameLogicProcessor processor = new GameLogicProcessor(context);
+
+		tickHandler = new GameTickHandler(processor);
+
+
 	}
 
 	@Override
@@ -58,12 +71,15 @@ public class TowerDefense extends ApplicationAdapter {
 		// Display the initial scene
 		context.getSceneManager().display("LOBBY");
 
-		Gdx.input.setInputProcessor(new KeyboardInputProcessor());
+		Gdx.input.setInputProcessor(new UniversalInputProcessor(context));
 
 	}
 
 	@Override
 	public void render () {
+
+		tickHandler.onRedraw();
+
 		ScreenUtils.clear(context.getRenderSettings().getRed(), context.getRenderSettings().getGreen(), context.getRenderSettings().getBlue(), context.getRenderSettings().getAlpha());
 		batch.begin();
 
@@ -71,9 +87,9 @@ public class TowerDefense extends ApplicationAdapter {
 
 		batch.end();
 
-		if (Gdx.input.justTouched()) {
+		/*if (Gdx.input.justTouched()) {
 			Gdx.input.setOnscreenKeyboardVisible(true);
-		}
+		}*/
 	}
 	
 	@Override

@@ -89,6 +89,10 @@ public class ElementRenderer {
                     // If it is a TextureElement...
                     TextureElement es = (TextureElement) e;
                     batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
+
+                    // Set actual positions
+                    es.setXActual(x);
+                    es.setYActual((height - e.getHeight()) - y);
                 } else if (e instanceof TextElement) {
                     // If it is a TextElement...
                     TextElement es = (TextElement) e;
