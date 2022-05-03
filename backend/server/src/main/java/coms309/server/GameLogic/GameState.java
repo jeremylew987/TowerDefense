@@ -21,7 +21,7 @@ public class GameState implements Runnable {
      * 4 = paused
      * 5 = game-over
      */
-    private GameStatus status;
+    private int status;
 
     /**
      * difficulty of the game
@@ -29,7 +29,7 @@ public class GameState implements Runnable {
      * 1 = normal
      * 2 = hard
      */
-    private Difficulty difficulty;
+    private int difficulty;
 
     private int round;
     private Map map;
@@ -37,8 +37,8 @@ public class GameState implements Runnable {
     // CONSTRUCTOR
     public GameState(Server s) {
         server = s;
-        status = GameStatus.INIT;
-        difficulty = Difficulty.NORMAL;
+        status = 0;
+        difficulty = 1;
         round = 1;
         try {
             this.map = new Map(1);
@@ -48,10 +48,10 @@ public class GameState implements Runnable {
     }
 
     // GETTERS
-    public Difficulty getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
-    public GameStatus getStatus() {
+    public int getStatus() {
         return status;
     }
     public int getRound() {
@@ -62,7 +62,7 @@ public class GameState implements Runnable {
     }
 
     // SETTERS
-    public void setDifficulty(Difficulty difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
@@ -91,7 +91,7 @@ public class GameState implements Runnable {
         ).serialize());
         server.logger.log(Level.INFO, "Map has been set to " + map);
     }
-    public void setStatus(GameStatus status) {
+    public void setStatus(int status) {
         this.status = status;
         DataObjectSchema d =
                 DataObjectSchema.newBuilder()
@@ -120,7 +120,7 @@ public class GameState implements Runnable {
     public void run() {
         server.getConnectionHandler().awaitNewConnections();
         Server.logger.info("All clients connected, waiting for start signal.");
-        this.setStatus(GameStatus.WAIT); // set to waiting
+        this.setStatus(2); // set to waiting
 
         double t = 0.0;
         final double dt = 1000;
@@ -129,7 +129,7 @@ public class GameState implements Runnable {
         double accumulator = 0.0;
 
         while (true) {
-            while (status == GameStatus.PLAY) {
+            while (status == 3) { // playing
                 double newTime = System.currentTimeMillis();
                 double frameTime = newTime - currentTime;
                 if (frameTime > 0.25)
