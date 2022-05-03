@@ -11,8 +11,8 @@ import java.net.Socket;
 
 public class Client implements Runnable {
 
-    private DataOutputStream dataOut;
-    private DataInputStream dataIn;
+    public DataOutputStream dataOut;
+    public DataInputStream dataIn;
     private Socket socket;
 
     public Client(Socket socket) {

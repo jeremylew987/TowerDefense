@@ -41,7 +41,7 @@ public class Tower {
         try {
             this.loadType(typeId);
         } catch (IOException ex) {
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             Server.logger.warning("Failed to parse objects.json!");
             Server.logger.warning("Failed to initialize new tower!");
         }
@@ -50,12 +50,11 @@ public class Tower {
 
     /**
      * Loads tower data from JSON File (towers.json)
-     * @param typeId
-     * @throws IOException
-     * @throws ParseException
-     * @throws ClassNotFoundException
+     * @param typeId type of tower
+     * @throws IOException Failed to open file
+     * @throws ParseException Failed to parse file
      */
-    public void loadType(int typeId) throws Exception, ParseException {
+    public void loadType(int typeId) throws IOException, ParseException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("objects.json");
         JSONParser jsonParser = new JSONParser();
         Object obj = jsonParser.parse(

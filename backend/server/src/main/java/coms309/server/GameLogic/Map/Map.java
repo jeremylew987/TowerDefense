@@ -1,5 +1,6 @@
 package coms309.server.GameLogic.Map;
 
+import coms309.server.GameLogic.Exceptions.*;
 import coms309.server.Schema.gameTick;
 import coms309.server.Server;
 import org.json.simple.JSONArray;
@@ -9,6 +10,7 @@ import org.json.simple.parser.ParseException;
 
 import java.awt.*;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -41,6 +43,9 @@ public class Map {
     private ArrayList<Enemy> enemyArray;
 
     public Map(int mapId) throws IOException, ParseException {
+        towerArray = new ArrayList<>();
+        enemyArray = new ArrayList<>();
+        enemyPath = new LinkedList<>();
         loadMap(mapId);
     }
 
@@ -150,9 +155,9 @@ public class Map {
 
     /**
      * Calculate if Point is in the range of Tower
-     * @param point
-     * @param tower
-     * @return
+     * @param point Point of target
+     * @param tower Point of tower
+     * @return whether there is a collision
      */
     public boolean isAttackCollision(Point point, Tower tower) {
         // Get tower x,y
