@@ -1,9 +1,15 @@
 package com.se309.socket;
 
+import com.se309.queue.EnemyAttackEvent;
+import com.se309.queue.EnemySpawnEvent;
+import com.se309.queue.PlayerListUpdateEvent;
+import com.se309.queue.TowerPlaceEvent;
 import com.se309.schema.DataObjectSchema;
+import com.se309.schema.gameTick;
 import com.se309.tower.ResourceContext;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Connects to the socket to the backend, and continually polls for data.
@@ -26,6 +32,8 @@ public class NetworkDataHandler extends Thread {
         this.client = client;
     }
 
+    private int count = 1;
+
     /**
      * Thread startup point for NetworkDataHandler
      */
@@ -37,7 +45,46 @@ public class NetworkDataHandler extends Thread {
                         DataObjectSchema.parseDelimitedFrom(client.getDataIn());
 
 
-                System.out.println("Received: " + data.getDataCase());
+                if (data != null) {
+                    //if(!data.getDataCase().equals("TICK")) System.out.println("Received: " + data.getDataCase());
+                } else {
+                    System.out.println("IIIITS NULLLLLL!!!!");
+                    continue;
+                }
+
+                if (data.hasClients()) {
+                    ArrayList<String> names = new ArrayList<>();
+                    for (int i = 0; i < data.getClients().getClientsCount(); i++) {
+                        names.add("Player " + data.getClients().getClients(i).getPid());
+                    }
+
+                    context.getEventQueue().queue(new PlayerListUpdateEvent(names));
+                }
+
+                if (data.hasTick()) {
+                    for (int i = 0; i < data.getTick().getEnemyUpdateCount(); i++) {
+                        gameTick.EnemyUpdate update = data.getTick().getEnemyUpdate(i);
+
+                        System.out.println(update.getEnemyId() + ", " + update.getHealth() + ", " + update.getAttackedBy());
+
+                        if (update.getAttackedBy() == 0) {
+                            context.getEventQueue().queue(new EnemySpawnEvent(update.getEnemyId()));
+                        } else {
+                            context.getEventQueue().queue(new EnemyAttackEvent(update.getEnemyId(), update.getAttackedBy(), update.getHealth() <= 0));
+                        }
+                    }
+                }
+
+                if (data.hasTower()) {
+                    TowerPlaceEvent event = new TowerPlaceEvent(0, 0, count++);
+                    event.setX(data.getTower().getX());
+                    event.setY(data.getTower().getY());
+
+                    System.out.println("Tower: " + event.getX() + ", " + event.getY());
+
+                    context.getEventQueue().queue(event);
+                }
+
 
 
             } catch (IOException e) {
