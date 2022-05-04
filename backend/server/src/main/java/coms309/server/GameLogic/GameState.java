@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class GameState implements Runnable {
 
-    public final Server server;
+    public Server server;
 
     /**
      * status of the game
@@ -41,7 +41,7 @@ public class GameState implements Runnable {
         difficulty = 1;
         round = 1;
         try {
-            this.map = new Map(1);
+            this.map = new Map(1, s.getGamestate());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,9 +118,11 @@ public class GameState implements Runnable {
 
     // RUN
     public void run() {
+        this.setStatus(2); // set to waiting
         server.getConnectionHandler().awaitNewConnections();
         Server.logger.info("All clients connected, waiting for start signal.");
-        this.setStatus(2); // set to waiting
+
+        while (this.getStatus() != 1) {}
 
         long t = 0;
 
@@ -142,7 +144,7 @@ public class GameState implements Runnable {
             while ( timePassed >= timePerTimestep )
             {
                 // Update fixed step?????
-                map.update(0,deltaTime);
+                map.update(timePassed, deltaTime);
                 timePassed -= timePerTimestep;
 
                 // t += deltaTime; // Done outside of this while????

@@ -37,6 +37,8 @@ public class Map {
 
     private final GameState gameState;
 
+    private long enemyTickCounter = 0;
+
     /**
      * LinkedList to store path data for enemy
      */
@@ -127,20 +129,18 @@ public class Map {
 
     /**
      * Calculate the result of the game tick
-     * @param t time
-     * @param dt delta_time
+     * @param t time passed?
+     * @param dt delta_time time since last tick
      * @return gameTick protobuf object
      */
     public gameTick update(double t, double dt) {
-        // Try to load new enemy
-        if (!enemyQueue.isEmpty()) enemyArray.add(enemyQueue.remove());
-
         gameTick.Builder tickBuilder = gameTick.newBuilder();
 
         updateEnemyPositions(t, dt);
 
         Enemy e;
-        for (Tower tower : towerArray) {
+        for (int j = 0; j  < towerArray.size(); j++) {
+            Tower tower = towerArray.get(j);
             for (int i = 0; i < enemyArray.size(); i++) {
                 e = enemyArray.get(i);
 
@@ -166,6 +166,7 @@ public class Map {
                                 gameTick.EnemyUpdate.newBuilder()
                                         .setEnemyId(e.getId())
                                         .setHealth(e.getHealth())
+                                        .setAttackedBy(j)
                                         .build()
                         );
                     }
@@ -173,6 +174,22 @@ public class Map {
                 }
             }
         }
+
+        // Try to load new enemy every 50 ticks
+        enemyTickCounter++;
+        if ((!enemyQueue.isEmpty()) && enemyTickCounter >= 50 ) {
+            enemyTickCounter = 0;
+            Enemy enemy = enemyQueue.remove();
+            enemyArray.add(enemy);
+            tickBuilder.addEnemyUpdate(
+                    gameTick.EnemyUpdate.newBuilder()
+                            .setEnemyId(enemy.getId())
+                            .setHealth(enemy.getHealth())
+                            .build()
+            );
+        }
+
+
         return tickBuilder.build();
     }
 
