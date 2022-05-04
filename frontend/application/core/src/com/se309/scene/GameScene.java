@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.se309.button.Button;
 import com.se309.render.Orientation;
+import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
 
 public class GameScene implements Scene {
@@ -14,6 +16,8 @@ public class GameScene implements Scene {
     private Texture fieldTexture;
     private Texture menuTall;
     private Texture menuShort;
+
+    public Texture dotTexture;
 
     // Fonts
     public BitmapFont boldLarge;
@@ -32,6 +36,7 @@ public class GameScene implements Scene {
         fieldTexture = new Texture("textures/game_field.png");
         menuTall = new Texture("textures/game_menutall.png");
         menuShort = new Texture("textures/game_menushort.png");
+        dotTexture = new Texture("textures/dot.png");
 
         // Init fonts
         FreeTypeFontGenerator boldGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/RobotoCondensed-Bold.ttf"));
@@ -66,10 +71,16 @@ public class GameScene implements Scene {
         towerMenu.setOrientation(Orientation.TopLeft);
         scene.add(towerMenu);
 
-        // Generate tower menu
+        // Generate player menu
         TextureElement playerMenu = new TextureElement(menuShort, PLAYER_MENU_LEFT_PADDING, PLAYER_MENU_TOP_PADDING, 350, 450);
         playerMenu.setOrientation(Orientation.TopRight);
         scene.add(playerMenu);
+
+        // Generate tower menu items
+        TextElement statusLabel = new TextElement("Status", 100, 200);
+        statusLabel.setOrientation(Orientation.TopLeft);
+        statusLabel.setFont(boldLarge);
+        scene.add(statusLabel);
     }
 
     @Override
@@ -77,5 +88,6 @@ public class GameScene implements Scene {
         fieldTexture.dispose();
         menuTall.dispose();
         menuShort.dispose();
+        dotTexture.dispose();
     }
 }

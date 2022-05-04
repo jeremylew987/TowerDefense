@@ -45,6 +45,8 @@ public class LobbyLogic {
                     processor.setGameState(1);
 
                     context.getSceneManager().display("GAME");
+
+                    deconstruct = true;
                 } else
 
                 if (signal == 2 || signal == 3) {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -66,6 +67,7 @@ public class SocialPage extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject res = null;
+                        Log.i("Response: " , response.toString());
                         try {
                             res = response.getJSONObject("data");
                             if (res == null){
@@ -295,19 +297,146 @@ public class SocialPage extends AppCompatActivity {
      * @param friend
      */
     private void friendRequest(JSONObject friend){
+        final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
+
+        String username = "";
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendRequest);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout hort = new LinearLayout(this);
+        hort.setOrientation(LinearLayout.HORIZONTAL);
+
 
         TextView cur = new TextView(this);
         cur.setLayoutParams(lparams);
         try {
             JSONObject temp = friend.getJSONObject("sender");
-            cur.setText(temp.getString("username"));
+            username = temp.getString("username");
+            cur.setText(username);
+
         } catch (Exception e){
             e.printStackTrace();
         }
+        Button accept = new Button(this);
+        accept.setText("accept");
+        final String finalUsername = username;
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        layout.addView(cur);
+
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/accept?user=" + finalUsername;
+                //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject res = null;
+                        try {
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                            alertDialogBuilder.setTitle("Added User");
+                            alertDialogBuilder.setMessage("");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
+                finish();
+                startActivity(getIntent());
+            }});
+
+
+
+
+
+        Button decline = new Button(this);
+        decline.setText("decline");
+        decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/decline?user=" + finalUsername;
+                //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject res = null;
+                        try {
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                            alertDialogBuilder.setTitle("Declined User");
+                            alertDialogBuilder.setMessage("");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
+                finish();
+                startActivity(getIntent());
+            }});
+
+
+
+
+        hort.addView(cur);
+        hort.addView(accept);
+        hort.addView(decline);
+
+
+        layout.addView(hort);
 
     }
 }
