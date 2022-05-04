@@ -1,5 +1,6 @@
 package coms309.proj1.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -68,16 +69,19 @@ public class User{
 	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER,  orphanRemoval = true)
 	@JsonIgnoreProperties("friends")
 	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
+	@JsonBackReference
 	private List<Friendship> friends = new ArrayList<Friendship>();
 
 	@OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("receivedFriendRequests")
 	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
+	@JsonBackReference
 	private List<FriendRequest> receivedFriendRequests = new ArrayList<FriendRequest>();
 
 	@OneToMany(mappedBy = "sender", fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnoreProperties("sentFriendRequests")
 	@JsonView({Views.DetailedALL.class, Views.SummaryWithFriends.class})
+	@JsonBackReference
 	private List<FriendRequest> sentFriendRequests = new ArrayList<FriendRequest>();
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
