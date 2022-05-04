@@ -97,7 +97,12 @@ public class GameLogic {
                     Vector vect2 = new Vector(attackedEnemy.getX() - attackingTower.getX(), attackedEnemy.getY() - attackingTower.getY());
 
 
-                    double angle = Math.atan2(vect2.getY(), vect2.getX()) - Math.atan2(vect1.getY(), vect1.getX());
+                    double angle = Math.atan2(vect2.getX(), vect2.getY());
+
+                    angle = angle * (180 / Math.PI);
+                    angle = angle + 180;
+
+                    System.out.println("Angle: " + angle);
 
                     attackingTower.setRotation((float) angle);
                 }
