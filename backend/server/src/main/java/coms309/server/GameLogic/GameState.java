@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class GameState implements Runnable {
 
-    private final Server server;
+    public final Server server;
 
     /**
      * status of the game

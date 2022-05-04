@@ -1,6 +1,10 @@
 package coms309.server.GameLogic.Map;
 
 import coms309.server.GameLogic.Exceptions.*;
+import coms309.server.GameLogic.GameState;
+import coms309.server.Schema.DataObjectSchema;
+import coms309.server.Schema.MessageSchema;
+import coms309.server.Schema.TowerSchema;
 import coms309.server.Schema.gameTick;
 import coms309.server.Server;
 import org.json.simple.JSONArray;
@@ -31,6 +35,8 @@ public class Map {
      */
     private final int pathRadius = 1;
 
+    private final GameState gameState;
+
     /**
      * LinkedList to store path data for enemy
      */
@@ -50,7 +56,8 @@ public class Map {
      */
     private PriorityQueue<Enemy> enemyQueue;
 
-    public Map(int mapId) throws IOException, ParseException {
+    public Map(int mapId, GameState gs) throws IOException, ParseException {
+        gameState = gs;
         towerArray = new ArrayList<>();
         enemyArray = new ArrayList<>();
         enemyPath = getPath(2);
@@ -102,6 +109,19 @@ public class Map {
         }
         Tower newTower = new Tower(point, typeId, ownerId);
         towerArray.add(newTower);
+
+        gameState.server.getConnectionHandler().writeToAll(
+                DataObjectSchema.newBuilder()
+                        .setTower(
+                                TowerSchema.newBuilder()
+                                        .setX(point.x)
+                                        .setY(point.y)
+                                        .setOwnerId(ownerId)
+                                        .setTypeId(typeId)
+                                        .build()
+                        ).build()
+        );
+
         return newTower;
     }
 
