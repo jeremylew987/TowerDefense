@@ -1,7 +1,10 @@
 package com.se309.scene;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.se309.render.Orientation;
 import com.se309.render.TextureElement;
 
@@ -11,6 +14,10 @@ public class GameScene implements Scene {
     private Texture fieldTexture;
     private Texture menuTall;
     private Texture menuShort;
+
+    // Fonts
+    public BitmapFont boldLarge;
+    public BitmapFont regularLarge;
 
     // Constants
     private static final int TOWER_MENU_LEFT_PADDING = 30;
@@ -25,6 +32,23 @@ public class GameScene implements Scene {
         fieldTexture = new Texture("textures/game_field.png");
         menuTall = new Texture("textures/game_menutall.png");
         menuShort = new Texture("textures/game_menushort.png");
+
+        // Init fonts
+        FreeTypeFontGenerator boldGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/RobotoCondensed-Bold.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter boldParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        boldParameter.size = 64;
+        boldParameter.borderColor = Color.BLACK;
+        boldParameter.borderWidth = 2;
+
+        FreeTypeFontGenerator regularGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/RobotoCondensed-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter regularParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        regularParameter.size = 60;
+
+        boldLarge = boldGenerator.generateFont(boldParameter);
+        regularLarge = regularGenerator.generateFont(regularParameter);
+
+        boldGenerator.dispose();
+        regularGenerator.dispose();
     }
 
     @Override

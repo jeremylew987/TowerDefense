@@ -21,9 +21,11 @@ public class LobbyScene implements Scene{
     private Texture backTexture;
     private Texture forwardTexture;
 
+    public Texture dotTexture;
+
     // Fonts
-    private BitmapFont boldLarge;
-    private BitmapFont regularLarge;
+    public BitmapFont boldLarge;
+    public BitmapFont regularLarge;
 
     // Public objects
     public TextElement playerCountLabel;
@@ -43,6 +45,7 @@ public class LobbyScene implements Scene{
         mapIconTexture = new Texture("textures/lobby_mapicon.png");
         backTexture = new Texture("textures/lobby_backbutton.png");
         forwardTexture = new Texture("textures/lobby_forwardbutton.png");
+        dotTexture = new Texture("textures/dot.png");
 
         // Init fonts
         FreeTypeFontGenerator boldGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/RobotoCondensed-Bold.ttf"));
@@ -156,5 +159,6 @@ public class LobbyScene implements Scene{
         mapIconTexture.dispose();
         backTexture.dispose();
         forwardTexture.dispose();
+        dotTexture.dispose();
     }
 }

@@ -9,6 +9,7 @@ import com.se309.game.GameLogicProcessor;
 import com.se309.game.GameTickHandler;
 import com.se309.input.UniversalInputProcessor;
 import com.se309.queue.GameEventQueue;
+import com.se309.queue.PlayerJoinEvent;
 import com.se309.render.ElementRenderer;
 import com.se309.render.RenderSettings;
 import com.se309.scene.GameScene;
@@ -75,11 +76,16 @@ public class TowerDefense extends ApplicationAdapter {
 
 		GameScene game = new GameScene();
 		context.getSceneManager().register("GAME", game);
+		processor.setGameScene(game);
 
 		// Display the initial scene
 		context.getSceneManager().display("LOBBY");
 
 		Gdx.input.setInputProcessor(new UniversalInputProcessor(context));
+
+		// Join player
+		context.getEventQueue().queue(new PlayerJoinEvent("You"));
+		context.getEventQueue().queue(new PlayerJoinEvent("bhall1"));
 
 	}
 
