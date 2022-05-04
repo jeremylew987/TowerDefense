@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -66,6 +67,7 @@ public class SocialPage extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject res = null;
+                        Log.i("Response: " , response.toString());
                         try {
                             res = response.getJSONObject("data");
                             if (res == null){
@@ -295,19 +297,38 @@ public class SocialPage extends AppCompatActivity {
      * @param friend
      */
     private void friendRequest(JSONObject friend){
+        String username = "";
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendRequest);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout hort = new LinearLayout(this);
+        hort.setOrientation(LinearLayout.HORIZONTAL);
+
 
         TextView cur = new TextView(this);
         cur.setLayoutParams(lparams);
         try {
             JSONObject temp = friend.getJSONObject("sender");
-            cur.setText(temp.getString("username"));
+            username = temp.getString("username");
+            cur.setText(username);
+
         } catch (Exception e){
             e.printStackTrace();
         }
+        Button accept = new Button(this);
+        accept.setText("accept");
+        Button decline = new Button(this);
+        decline.setText("decline");
 
-        layout.addView(cur);
+
+
+
+        hort.addView(cur);
+        hort.addView(accept);
+        hort.addView(decline);
+
+
+        layout.addView(hort);
 
     }
 }
