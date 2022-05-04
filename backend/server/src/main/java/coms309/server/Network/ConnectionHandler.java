@@ -6,6 +6,7 @@ import coms309.server.Schema.DataObjectSchema;
 import coms309.server.Schema.GamestateSchema;
 import coms309.server.Server;
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.channels.*;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -98,13 +99,13 @@ public class ConnectionHandler {
         playerIterator = 0;
         // wait until max players have connected
         while (playerIterator < server.getMaxPlayers() && server.getGamestate().getStatus() != 1) {
-            System.out.println("bitch3");
             updateConnectionStatus();
             boolean hasEmpty = false;
             boolean hasUnverified = false;
 
             // find next empty spot
             for (int i = 0; i < server.getMaxPlayers(); i++) {
+
                 if (clients[i] == null) { // if array item is null
                     playerIterator = i; // set iterator to null object id to fill array fully
                     hasEmpty = true;
@@ -114,7 +115,6 @@ public class ConnectionHandler {
 
             // breakthrough statement (when all users are connected)
             if (!hasEmpty) {
-                if (hasUnverified) { continue; }
                 break;
             }
 
@@ -126,14 +126,13 @@ public class ConnectionHandler {
                 Server.logger.log(Level.INFO, c.getAddress() + " is attempting to connect.");
                 c.setThread(new Thread(c));
                 c.getThread().start();
-//                System.out.println("bitc6");
-                break;
+//                System.out.println("3: " + playerIterator + ", " + hasEmpty + ", " + hasUnverified + ", " + server.getGamestate().getStatus());
             } catch (IOException ex) {
-                ex.printStackTrace();
+                //ex.printStackTrace();
+                Server.logger.info("Started game before all player slots filled.");
                 continue;
             }
         }
-//        System.out.println("bitc5");
     }
 
 }
