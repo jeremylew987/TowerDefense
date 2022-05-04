@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class GameState implements Runnable {
 
-    private Server server;
+    public final Server server;
 
     /**
      * status of the game
@@ -122,31 +122,38 @@ public class GameState implements Runnable {
         Server.logger.info("All clients connected, waiting for start signal.");
         this.setStatus(2); // set to waiting
 
-        double t = 0.0;
-        final double dt = 1000;
+        long t = 0;
 
-        double currentTime = System.currentTimeMillis();
-        double accumulator = 0.0;
+
+        long deltaTime = 0;
+        long currentTime = 0;
+        long lastTime = 0;
+        long timePassed = 0;
+        long timePerTimestep = 1000 / 50;
 
         while (true) {
-            double newTime = System.currentTimeMillis();
-            double frameTime = newTime - currentTime;
-            if ( frameTime > 0.25 )
-                frameTime = 0.25;
-            currentTime = newTime;
+            currentTime = System.currentTimeMillis();
+            deltaTime = currentTime - lastTime;
+            // Update game logic based on time passed
 
-            accumulator += frameTime;
+            timePassed += deltaTime;
 
-            while ( accumulator >= dt )
+            // Update game logic once for every tick passed
+            while ( timePassed >= timePerTimestep )
             {
-                // do math based on t, dt
-                accumulator -= dt;
-                t += dt;
+                // Update fixed step?????
+                map.update(0,deltaTime);
+                timePassed -= timePerTimestep;
+
+                // t += deltaTime; // Done outside of this while????
             }
 
             // non-tick based
-            if (server.getConnectionHandler().updateConnectionStatus())
+            if (server.getConnectionHandler().updateConnectionStatus()) {
                 server.getConnectionHandler().announcePlayers();
+            }
+
+            lastTime = System.currentTimeMillis();
         }
     }
 
