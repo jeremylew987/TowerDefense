@@ -15,7 +15,7 @@ import com.se309.config.NetworkConfig;
 import com.se309.net.NetworkHandle;
 import com.se309.net.NetworkManager;
 import com.se309.test.UserDummy;
-import com.se309.tower.R;
+import com.se309.tower.*;
 
 public class JTest {
 
