@@ -71,20 +71,40 @@ public class GameLogic {
             } else if (e instanceof EnemyAttackEvent) {
                 EnemyAttackEvent eae = (EnemyAttackEvent) e;
 
-                Enemy killedEnemy = null;
+                Enemy attackedEnemy = null;
+                Tower attackingTower = null;
 
                 for (Element enemy : entityBag) {
 
                     if (enemy instanceof Enemy) {
                         Enemy en = (Enemy) enemy;
 
-                        if (eae.isKill() && en.getId() == eae.getEnemyId()) killedEnemy = en;
+                        if (en.getId() == eae.getEnemyId()) attackedEnemy = en;
                     }
                 }
 
-                if (killedEnemy != null) {
-                    context.getRenderer().removeElement(killedEnemy);
-                    entityBag.remove(killedEnemy);
+                for (Element tower : entityBag) {
+
+                    if (tower instanceof Tower) {
+                        Tower tw = (Tower) tower;
+
+                        if (tw.getId() == eae.getTowerId()) attackingTower = tw;
+
+                    }                }
+
+                if (attackingTower != null && attackedEnemy != null) {
+                    Vector vect1 = new Vector(0, 1);
+                    Vector vect2 = new Vector(attackedEnemy.getX() - attackingTower.getX(), attackedEnemy.getY() - attackingTower.getY());
+
+
+                    double angle = Math.atan2(vect2.getY(), vect2.getX()) - Math.atan2(vect1.getY(), vect1.getX());
+
+                    attackingTower.setRotation((float) angle);
+                }
+
+                if (eae.isKill() && attackedEnemy != null) {
+                    context.getRenderer().removeElement(attackedEnemy);
+                    entityBag.remove(attackedEnemy);
                 }
 
             }else if (e instanceof ButtonDownEvent) {
