@@ -3,6 +3,7 @@ package com.se309.game;
 import com.badlogic.gdx.Gdx;
 import com.se309.queue.ButtonDownEvent;
 import com.se309.queue.ButtonEvent;
+import com.se309.queue.EnemyAttackEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
 import com.se309.queue.PlayerListUpdateEvent;
@@ -67,7 +68,26 @@ public class GameLogic {
                 // BUTTON EVENT HANDLER
                 ButtonEvent be = (ButtonEvent) e;
                 int signal = be.getSignal();
-            } else if (e instanceof ButtonDownEvent) {
+            } else if (e instanceof EnemyAttackEvent) {
+                EnemyAttackEvent eae = (EnemyAttackEvent) e;
+
+                Enemy killedEnemy = null;
+
+                for (Element enemy : entityBag) {
+
+                    if (enemy instanceof Enemy) {
+                        Enemy en = (Enemy) enemy;
+
+                        if (eae.isKill() && en.getId() == eae.getEnemyId()) killedEnemy = en;
+                    }
+                }
+
+                if (killedEnemy != null) {
+                    context.getRenderer().removeElement(killedEnemy);
+                    entityBag.remove(killedEnemy);
+                }
+
+            }else if (e instanceof ButtonDownEvent) {
                 ButtonDownEvent bde = (ButtonDownEvent) e;
 
                 if (!pointerDown && ((ButtonDownEvent) e).getSignal() == 10) {
