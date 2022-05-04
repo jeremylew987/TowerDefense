@@ -14,16 +14,20 @@ import com.se309.render.TextureElement;
 public class LobbyScene implements Scene{
 
     // Textures
-    Texture menuTexture;
-    Texture startButtonTexture;
-    Texture startSkirtTexture;
-    Texture mapIconTexture;
-    Texture backTexture;
-    Texture forwardTexture;
+    private Texture menuTexture;
+    private Texture startButtonTexture;
+    private Texture startSkirtTexture;
+    private Texture mapIconTexture;
+    private Texture backTexture;
+    private Texture forwardTexture;
 
     // Fonts
-    BitmapFont boldLarge;
-    BitmapFont regularLarge;
+    private BitmapFont boldLarge;
+    private BitmapFont regularLarge;
+
+    // Public objects
+    public TextElement playerCountLabel;
+    public TextElement difficultyLabel;
 
 
     // Constants
@@ -107,7 +111,7 @@ public class LobbyScene implements Scene{
 
         // Misc lobby settings
 
-        TextElement playerCountLabel = new TextElement("Max Players: 4", settingsOffset, 490);
+        playerCountLabel = new TextElement("Max Players: 4", settingsOffset, 490);
         playerCountLabel.setOrientation(Orientation.TopMiddle);
         playerCountLabel.setFont(regularLarge);
         scene.add(playerCountLabel);
@@ -120,7 +124,7 @@ public class LobbyScene implements Scene{
         countForwardButton.setOrientation(Orientation.TopMiddle);
         scene.add(countForwardButton);
 
-        TextElement difficultyLabel = new TextElement("Normal", settingsOffset, 620);
+        difficultyLabel = new TextElement("Normal", settingsOffset, 620);
         difficultyLabel.setOrientation(Orientation.TopMiddle);
         difficultyLabel.setFont(regularLarge);
         scene.add(difficultyLabel);
@@ -150,5 +154,7 @@ public class LobbyScene implements Scene{
         startSkirtTexture.dispose();
         startButtonTexture.dispose();
         mapIconTexture.dispose();
+        backTexture.dispose();
+        forwardTexture.dispose();
     }
 }

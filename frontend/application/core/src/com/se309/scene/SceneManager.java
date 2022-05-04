@@ -37,6 +37,11 @@ public class SceneManager {
         scenes.remove(name);
     }
 
+    public void addToScene(Element e) {
+        currentScene.add(e);
+        context.getRenderer().addElement(e);
+    }
+
     public void display(String name) {
         // Remove all current scene elements
         for (Element e : currentScene.getElements()) {

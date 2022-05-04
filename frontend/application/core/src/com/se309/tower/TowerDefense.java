@@ -11,6 +11,7 @@ import com.se309.input.UniversalInputProcessor;
 import com.se309.queue.GameEventQueue;
 import com.se309.render.ElementRenderer;
 import com.se309.render.RenderSettings;
+import com.se309.scene.GameScene;
 import com.se309.scene.LobbyScene;
 import com.se309.scene.SceneManager;
 
@@ -26,6 +27,8 @@ public class TowerDefense extends ApplicationAdapter {
 	private ResourceContext context;
 
 	private GameTickHandler tickHandler;
+
+	private GameLogicProcessor processor;
 
 
 	/**
@@ -54,7 +57,7 @@ public class TowerDefense extends ApplicationAdapter {
 		context.setEventQueue(eventQueue);
 
 		// Set Up Game Logic Stuff
-		GameLogicProcessor processor = new GameLogicProcessor(context);
+		processor = new GameLogicProcessor(context);
 
 		tickHandler = new GameTickHandler(processor);
 
@@ -62,11 +65,16 @@ public class TowerDefense extends ApplicationAdapter {
 	}
 
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 
 		// Register all scenes
-		context.getSceneManager().register("LOBBY", new LobbyScene());
+		LobbyScene lobby = new LobbyScene();
+		context.getSceneManager().register("LOBBY", lobby);
+		processor.setLobbyScene(lobby);
+
+		GameScene game = new GameScene();
+		context.getSceneManager().register("GAME", game);
 
 		// Display the initial scene
 		context.getSceneManager().display("LOBBY");
@@ -76,7 +84,7 @@ public class TowerDefense extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 
 		tickHandler.onRedraw();
 
@@ -93,7 +101,7 @@ public class TowerDefense extends ApplicationAdapter {
 	}
 	
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
 
 		context.getSceneManager().dispose();
