@@ -13,6 +13,8 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Map {
 
@@ -33,15 +35,23 @@ public class Map {
     private ArrayList<Tower> towerArray;
 
     /**
-     * ArrayList to store enemy information
+     * ArrayList to active store enemy information
      */
     private ArrayList<Enemy> enemyArray;
+    /**
+     * Queue to store waiting enemies
+     */
+    private PriorityQueue<Enemy> enemyQueue;
 
     public Map(int mapId) throws IOException, ParseException {
         towerArray = new ArrayList<>();
         enemyArray = new ArrayList<>();
         enemyPath = new LinkedList<>();
+        enemyQueue = new PriorityQueue<Enemy>();
         loadMap(mapId);
+        for (int i = 0; i < 30; i++) {
+            enemyQueue.add(new Enemy(1, enemyPath.get(0), 1, 1));
+        }
     }
 
     /**
@@ -108,6 +118,9 @@ public class Map {
      * @return gameTick protobuf object
      */
     public gameTick update(double t, double dt) {
+        // Try to load new enemy
+        if (!enemyQueue.isEmpty()) enemyArray.add(enemyQueue.remove());
+
         gameTick.Builder tickBuilder = gameTick.newBuilder();
         for (int i = 0; i < enemyArray.size(); i++) {
             Enemy e = enemyArray.get(i);
