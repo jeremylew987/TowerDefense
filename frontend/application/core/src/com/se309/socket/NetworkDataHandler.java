@@ -2,6 +2,7 @@ package com.se309.socket;
 
 import com.se309.queue.EnemyAttackEvent;
 import com.se309.queue.EnemySpawnEvent;
+import com.se309.queue.GameStartEvent;
 import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.TowerPlaceEvent;
 import com.se309.schema.DataObjectSchema;
@@ -72,6 +73,12 @@ public class NetworkDataHandler extends Thread {
                         } else {
                             context.getEventQueue().queue(new EnemyAttackEvent(update.getEnemyId(), update.getAttackedBy(), update.getHealth() <= 0));
                         }
+                    }
+                }
+
+                if (data.hasGamestate()) {
+                    if (data.getGamestate().getStatus() == 1) {
+                        context.getEventQueue().queue(new GameStartEvent());
                     }
                 }
 
