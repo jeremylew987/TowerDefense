@@ -97,7 +97,8 @@ public class ConnectionHandler {
     public void awaitNewConnections() {
         playerIterator = 0;
         // wait until max players have connected
-        while (playerIterator < server.getMaxPlayers()) {
+        while (playerIterator < server.getMaxPlayers() && server.getGamestate().getStatus() != 1) {
+            System.out.println("bitch3");
             updateConnectionStatus();
             boolean hasEmpty = false;
             boolean hasUnverified = false;
@@ -125,12 +126,14 @@ public class ConnectionHandler {
                 Server.logger.log(Level.INFO, c.getAddress() + " is attempting to connect.");
                 c.setThread(new Thread(c));
                 c.getThread().start();
+//                System.out.println("bitc6");
                 break;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 continue;
             }
         }
+//        System.out.println("bitc5");
     }
 
 }

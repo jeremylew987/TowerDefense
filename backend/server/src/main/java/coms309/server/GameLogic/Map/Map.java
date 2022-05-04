@@ -27,15 +27,15 @@ public class Map {
     private String name;
     public int mapId;
 
-    private final int width = 800;
-    private final int height = 600;
+    private final int width = 2200;
+    private final int height = 1080;
     /**
      * Path radius each point on the path
      * Used to calculate collision with path
      */
     private final int pathRadius = 1;
 
-    private final GameState gameState;
+    private GameState gameState;
 
     private long enemyTickCounter = 0;
 
@@ -66,7 +66,7 @@ public class Map {
         enemyQueue = new PriorityQueue<Enemy>();
         loadMap(mapId);
         for (int i = 0; i < 30; i++) {
-            enemyQueue.add(new Enemy(1, enemyPath.get(0), 1, 1));
+            enemyQueue.add(new Enemy(i, enemyPath.get(0), 1, 1));
         }
     }
 
@@ -105,25 +105,29 @@ public class Map {
      * @return Tower object if successful, null otherwise
      */
     public Tower placeTower(int typeId, Point point, int ownerId) {
-
+        Server.logger.info("Attempting to create tower at " + point.x + ", " + point.y);
         if (!isValidTowerLocation(point)) {
+            Server.logger.info("can't place tower at " + point.x + ", " + point.y );
             return null;
         }
         Tower newTower = new Tower(point, typeId, ownerId);
         towerArray.add(newTower);
-
-        gameState.server.getConnectionHandler().writeToAll(
-                DataObjectSchema.newBuilder()
-                        .setTower(
-                                TowerSchema.newBuilder()
-                                        .setX(point.x)
-                                        .setY(point.y)
-                                        .setOwnerId(ownerId)
-                                        .setTypeId(typeId)
-                                        .build()
-                        ).build()
-        );
-
+        try {
+            gameState.server.getConnectionHandler().writeToAll(
+                    DataObjectSchema.newBuilder()
+                            .setTower(
+                                    TowerSchema.newBuilder()
+                                            .setX(point.x)
+                                            .setY(point.y)
+                                            .setOwnerId(ownerId)
+                                            .setTypeId(typeId)
+                                            .build()
+                            ).build()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Server.logger.info("Successfuly placed tower " + point.x + ", " + point.y );
         return newTower;
     }
 
@@ -133,10 +137,14 @@ public class Map {
      * @param dt delta_time time since last tick
      * @return gameTick protobuf object
      */
-    public gameTick update(double t, double dt) {
+    public DataObjectSchema update(double t, double dt) {
         gameTick.Builder tickBuilder = gameTick.newBuilder();
 
-        updateEnemyPositions(t, dt);
+        // updateEnemyPositions(t, dt);
+        for (Enemy e : enemyArray) {
+            e.setIterator(e.getIterator()+e.getSpeed());
+
+        }
 
         Enemy e;
         for (int j = 0; j  < towerArray.size(); j++) {
@@ -150,7 +158,7 @@ public class Map {
                 }
 
                 // Check if tower can attack this balloon
-                if (tower.getCooldown() <= 0 && isAttackCollision(e.getPoint(), tower)) {
+                if (tower.getCooldown() <= 0 && isAttackCollision(enemyPath.get(e.getIterator()), tower)) {
                     tower.setCooldown(tower.getSpeed());
 
                     e.decreaseHealth(tower.getDamage());
@@ -159,17 +167,16 @@ public class Map {
                     if (e.getHealth() <= 0) {
                         enemyArray.remove(i);
                         i--;
+                        Server.logger.info("Killed enemy" + e.getId());
                     }
-                    else {
                         // create protobuf array for alive but damaged enemies
                         tickBuilder.addEnemyUpdate(
                                 gameTick.EnemyUpdate.newBuilder()
                                         .setEnemyId(e.getId())
                                         .setHealth(e.getHealth())
-                                        .setAttackedBy(j)
+                                        .setAttackedBy(j+1) // TODO: hack. pls make tower store uid
                                         .build()
                         );
-                    }
                     break; // Because one tower can only attack one enemy at a time
                 }
             }
@@ -178,6 +185,7 @@ public class Map {
         // Try to load new enemy every 50 ticks
         enemyTickCounter++;
         if ((!enemyQueue.isEmpty()) && enemyTickCounter >= 50 ) {
+            Server.logger.info("Spawned enemy");
             enemyTickCounter = 0;
             Enemy enemy = enemyQueue.remove();
             enemyArray.add(enemy);
@@ -190,7 +198,7 @@ public class Map {
         }
 
 
-        return tickBuilder.build();
+        return DataObjectSchema.newBuilder().setTick(tickBuilder.build()).build();
     }
 
     /**
@@ -220,7 +228,10 @@ public class Map {
         double pX = point.getX();
         double pY = point.getY();
 
-        return (Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2)) < tower.getRange();
+        boolean retur = Math.sqrt((Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2))) < tower.getRange();
+
+        if (retur) {Server.logger.info("Attack collision: " + retur);}
+        return retur;
     }
 
     /**

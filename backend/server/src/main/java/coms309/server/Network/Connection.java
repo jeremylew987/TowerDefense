@@ -200,7 +200,7 @@ public class Connection implements Runnable {
                                 tower.getX(),
                                 tower.getY()
                         ),
-                        tower.getOwnerId()
+                        this.player.getPlayerId()
                 );
                 break;
             }

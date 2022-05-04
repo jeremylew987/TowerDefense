@@ -41,7 +41,7 @@ public class GameState implements Runnable {
         difficulty = 1;
         round = 1;
         try {
-            this.map = new Map(1, s.getGamestate());
+            this.map = new Map(1, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,17 +122,21 @@ public class GameState implements Runnable {
         server.getConnectionHandler().awaitNewConnections();
         Server.logger.info("All clients connected, waiting for start signal.");
 
-        while (this.getStatus() != 1) {}
+        while (this.getStatus() != 1) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         long t = 0;
 
-
         long deltaTime = 0;
-        long currentTime = 0;
-        long lastTime = 0;
+        long currentTime = System.currentTimeMillis();
+        long lastTime = System.currentTimeMillis();
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
-
         while (true) {
             currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;
@@ -144,7 +148,7 @@ public class GameState implements Runnable {
             while ( timePassed >= timePerTimestep )
             {
                 // Update fixed step?????
-                map.update(timePassed, deltaTime);
+                server.getConnectionHandler().writeToAll(map.update(timePassed, deltaTime));
                 timePassed -= timePerTimestep;
 
                 // t += deltaTime; // Done outside of this while????
@@ -155,7 +159,7 @@ public class GameState implements Runnable {
                 server.getConnectionHandler().announcePlayers();
             }
 
-            lastTime = System.currentTimeMillis();
+            lastTime = currentTime;
         }
     }
 

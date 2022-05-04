@@ -38,13 +38,20 @@ public class Tower {
     public Tower(Point point, int typeId, int ownerId) {
         this.point = point;
         this.ownerId = ownerId;
-        try {
-            this.loadType(typeId);
-        } catch (IOException ex) {
-        } catch (ParseException ex) {
-            Server.logger.warning("Failed to parse objects.json!");
-            Server.logger.warning("Failed to initialize new tower!");
-        }
+//        try {
+//            this.loadType(typeId);
+//        } catch (IOException ex) {
+//        } catch (ParseException ex) {
+//            Server.logger.warning("Failed to parse objects.json!");
+//            Server.logger.warning("Failed to initialize new tower!");
+//        }
+        this.typeId = typeId;
+        this.name = "tower";
+        this.size = 80;
+        this.range = 300;
+        this.setOwnerId(ownerId);
+        this.speed = 25;
+        this.damage = 1;
 
     }
 
