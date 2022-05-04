@@ -102,12 +102,12 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="50" />
+                android:layout_height="50dp" />
 
             <Button
                 android:id="@+id/PlayButton"
-                android:layout_width="200"
-                android:layout_height="60"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:backgroundTint="#5AA7F0"
                 android:fontFamily="@font/roboto_bold"

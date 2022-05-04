@@ -1,5 +1,6 @@
 package com.se309.tower;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
@@ -86,6 +87,37 @@ public class HomePage extends AppCompatActivity {
 
                 Intent intent = new Intent(getBaseContext(), GameLauncher.class);
                 startActivity(intent);
+
+            }
+        });
+
+
+
+        Button settings = findViewById(R.id.Settings);
+        Button store = findViewById(R.id.Store);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomePage.this);
+                alertDialogBuilder.setTitle("Feature Coming Soon!");
+                alertDialogBuilder.setMessage("");
+                alertDialogBuilder.setPositiveButton("Ok", null);
+                alertDialogBuilder.setNegativeButton("", null);
+                alertDialogBuilder.create().show();
+
+            }
+        });
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomePage.this);
+                alertDialogBuilder.setTitle("Feature Coming Soon!");
+                alertDialogBuilder.setMessage("");
+                alertDialogBuilder.setPositiveButton("Ok", null);
+                alertDialogBuilder.setNegativeButton("", null);
+                alertDialogBuilder.create().show();
 
             }
         });

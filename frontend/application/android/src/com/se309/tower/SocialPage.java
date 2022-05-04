@@ -37,6 +37,21 @@ public class SocialPage extends AppCompatActivity {
         final SharedPreferences mPrefs = getSharedPreferences("test",0);
 
 
+        Button recentPlayer = findViewById(R.id.RecentPlayers);
+        recentPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                alertDialogBuilder.setTitle("Feature Coming Soon!");
+                alertDialogBuilder.setMessage("");
+                alertDialogBuilder.setPositiveButton("Ok", null);
+                alertDialogBuilder.setNegativeButton("", null);
+                alertDialogBuilder.create().show();
+
+            }
+        });
+
         Button back = findViewById(R.id.backSocial);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

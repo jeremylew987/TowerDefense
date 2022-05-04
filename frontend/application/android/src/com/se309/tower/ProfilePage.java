@@ -78,6 +78,41 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
         queue.add(FriendList);
+        String friendaddress2 =  "http://coms-309-027.class.las.iastate.edu:8080/user/stats";
+        JsonObjectRequest FriendList2 = new JsonObjectRequest(Request.Method.GET, friendaddress2, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("Response: " , response.toString());
+                try {
+                    JSONObject data = response.getJSONObject("data");
+
+
+                    result[0] +="Level: " + data.getString("level") + "\n";
+                    result[0] +="Experience: " + data.getString("experience") + "\n";
+                    result[0] +="Kills: " + data.getString("kills") + "\n";
+                    result[0] +="Wins: " + data.getString("wins") + "\n";
+                    result[0] +="Losses: " + data.getString("losses") + "\n";
+                    tV.setText(result[0]);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(FriendList2);
+
+
+
+
         Log.i("Response: " , result[0]);
         return result[0];
     }
