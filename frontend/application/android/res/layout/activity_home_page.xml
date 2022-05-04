@@ -5,8 +5,22 @@
     android:id="@+id/jgsdgjsdkgjsdk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
+    android:background="#233C54"
     tools:context=".HomePage">
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#4077AA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -22,6 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Logout" />
 
         <Button
@@ -29,6 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Settings" />
 
         <Button
@@ -36,66 +54,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Store" />
 
         <Button
             android:id="@+id/Social"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Social" />
 
         <Button
             android:id="@+id/curUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="TextView" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="353dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <LinearLayout
-            android:layout_width="366dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/CreateGame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Create  Game" />
-
-            <EditText
-                android:id="@+id/GameCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Game Code" />
-
-            <Button
-                android:id="@+id/JoinGame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Join Game" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/FriendListHome"
+                android:id="@+id/textView18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Friends" />
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="TOWER DEFENSE"
+                android:textAlignment="center"
+                android:textSize="20sp" />
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

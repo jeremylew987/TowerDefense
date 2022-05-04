@@ -210,35 +210,7 @@ public class SocialPage extends AppCompatActivity {
 
 
 
-        String friendaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends";
-        JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("Response: " , response.toString());
-                JSONArray res = null;
-                try {
-                    res = response.getJSONArray("data");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                for (int i = 0; i < res.length(); i++) {
-                    try {
-                        friend(res.getJSONObject(i));
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        queue.add(FriendList);
-        //same for freiendRquests
+        friendlayout();
 
 
         String friendRequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/received";
@@ -367,8 +339,7 @@ public class SocialPage extends AppCompatActivity {
                     }
                 });
                 queue.add(request);
-                finish();
-                startActivity(getIntent());
+
             }});
 
 
@@ -424,8 +395,7 @@ public class SocialPage extends AppCompatActivity {
                     }
                 });
                 queue.add(request);
-                finish();
-                startActivity(getIntent());
+
             }});
 
 
@@ -438,5 +408,37 @@ public class SocialPage extends AppCompatActivity {
 
         layout.addView(hort);
 
+    }
+    void friendlayout(){
+        final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
+
+        String friendaddress = "http://coms-309-027.class.las.iastate.edu:8080/user/friends";
+        JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("Response: ", response.toString());
+                JSONArray res = null;
+                try {
+                    res = response.getJSONArray("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < res.length(); i++) {
+                    try {
+                        friend(res.getJSONObject(i));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(FriendList);
     }
 }

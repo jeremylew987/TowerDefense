@@ -26,7 +26,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Back"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,6 +50,7 @@
             android:id="@+id/Username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
             android:text="Username:" />
 
         <EditText
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/roboto_bold"
             android:hint="Username"
             android:inputType="textPersonName" />
 
@@ -62,6 +66,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
             android:text="Password:" />
 
         <EditText
@@ -69,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/roboto_bold"
             android:hint="Password"
             android:inputType="textPassword" />
 
@@ -76,6 +82,7 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
             android:text="Email" />
 
         <EditText
@@ -83,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/roboto_bold"
             android:hint="Email"
             android:inputType="textEmailAddress" />
 
@@ -91,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Create Login" />
 
     </LinearLayout>
