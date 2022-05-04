@@ -96,7 +96,7 @@ public class UserController
 	 * @return optional friend request object created
 	 */
 	@GetMapping(value = {"/user/friends/add"})
-	@JsonView(Views.SummaryWithFriends.class)
+	@JsonView(Views.Summary.class)
 	public ResponseEntity<GeneralResponse> sendFriendRequest(Authentication authentication, @RequestParam String user) {
 		logger.info("Entered into User Controller Layer");
 		FriendRequest friendRequest = userService.sendFriendRequest(((UserDetailsImpl)authentication.getPrincipal()).getUsername(), user);

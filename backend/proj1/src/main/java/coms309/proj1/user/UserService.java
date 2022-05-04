@@ -187,13 +187,13 @@ public class UserService {
         }
 
         // Check that friend request doesn't already exist between these users
-        if (friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get()).isEmpty()) {
+        if (friendRequestRepository.findFirstBySenderAndReceiver(sender_opt.get(), receiver_opt.get()).isPresent()) {
             logger.info("Friend request from " + sender_username + " to " + receiver_username + " already exists\n");
             return null;
         }
 
         // Check that the user isn't already friends
-        if (friendshipRepository.findFirstByOwnerAndFriend(sender_opt.get(), receiver_opt.get()).isEmpty()) {
+        if (friendshipRepository.findFirstByOwnerAndFriend(sender_opt.get(), receiver_opt.get()).isPresent()) {
             logger.info(sender_username + " is already friends with " + receiver_username + "\n");
             return null;
         }
