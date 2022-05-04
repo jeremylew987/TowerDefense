@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import static coms309.server.GamePath.getPath;
+
 public class Map {
 
     private String name;
@@ -32,7 +34,7 @@ public class Map {
     /**
      * LinkedList to store path data for enemy
      */
-    public LinkedList<Point> enemyPath;
+    public ArrayList<Point> enemyPath;
 
     /**
      * ArrayList to store Tower information
@@ -51,7 +53,7 @@ public class Map {
     public Map(int mapId) throws IOException, ParseException {
         towerArray = new ArrayList<>();
         enemyArray = new ArrayList<>();
-        enemyPath = new LinkedList<>();
+        enemyPath = getPath(2);
         enemyQueue = new PriorityQueue<Enemy>();
         loadMap(mapId);
         for (int i = 0; i < 30; i++) {
