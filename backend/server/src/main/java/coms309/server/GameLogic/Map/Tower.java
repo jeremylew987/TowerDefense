@@ -50,7 +50,7 @@ public class Tower {
         this.size = 80;
         this.range = 300;
         this.setOwnerId(ownerId);
-        this.speed = 25;
+        this.speed = 350;
         this.damage = 1;
 
     }
