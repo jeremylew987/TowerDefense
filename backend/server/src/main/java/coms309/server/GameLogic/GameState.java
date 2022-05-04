@@ -118,9 +118,11 @@ public class GameState implements Runnable {
 
     // RUN
     public void run() {
+        this.setStatus(2); // set to waiting
         server.getConnectionHandler().awaitNewConnections();
         Server.logger.info("All clients connected, waiting for start signal.");
-        this.setStatus(2); // set to waiting
+
+        while (this.getStatus() != 1) {}
 
         long t = 0;
 
