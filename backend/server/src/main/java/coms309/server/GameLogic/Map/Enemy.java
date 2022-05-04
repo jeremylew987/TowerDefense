@@ -56,6 +56,6 @@ public class Enemy implements Comparable{
 
     @Override
     public int compareTo(Object e) {
-        return ((Enemy)e).id - this.id;
+        return this.id - ((Enemy)e).id;
     }
 }
