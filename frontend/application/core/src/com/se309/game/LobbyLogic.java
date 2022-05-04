@@ -3,6 +3,7 @@ package com.se309.game;
 import com.se309.queue.ButtonEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
+import com.se309.queue.GameStartEvent;
 import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
 import com.se309.render.Element;
@@ -40,17 +41,25 @@ public class LobbyLogic {
         boolean deconstruct = false;
 
         while ((e = context.getEventQueue().dequeue()) != null) {
-            if (e instanceof ButtonEvent) {
+            if (e instanceof GameStartEvent) {
+                processor.setGameState(1);
+
+                context.getSceneManager().display("GAME");
+
+                deconstruct = true;
+            } else if (e instanceof ButtonEvent) {
                 // BUTTON EVENT HANDLER
                 ButtonEvent be = (ButtonEvent) e;
                 int signal = be.getSignal();
 
                 if (signal == 1) {
-                    processor.setGameState(1);
+                    DataObjectSchema d = DataObjectSchema.newBuilder().setGamestate(GamestateSchema.newBuilder().setStatus(1).build()).build();
 
-                    context.getSceneManager().display("GAME");
-
-                    deconstruct = true;
+                    try {
+                        d.writeDelimitedTo(context.getDataOut());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 } else
 
                 if (signal == 2 || signal == 3) {
@@ -84,14 +93,6 @@ public class LobbyLogic {
         if (deconstruct) {
             emptyPlayerListBag();
             context.getEventQueue().queue(new RedrawEvent());
-
-            DataObjectSchema d = DataObjectSchema.newBuilder().setGamestate(GamestateSchema.newBuilder().setStatus(1).build()).build();
-
-            try {
-                d.writeDelimitedTo(context.getDataOut());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
         }
     }
 

@@ -223,6 +223,7 @@ public class Connection implements Runnable {
                 }
                 if (g.hasStatus()) {
                     server.getGamestate().setStatus(g.getStatus());
+                    if (g.getStatus() == 1) {server.getSocket().close();}
                 }
                 break;
             }

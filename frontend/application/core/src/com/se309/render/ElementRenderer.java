@@ -96,7 +96,7 @@ public class ElementRenderer {
                     // If it is a TextureElement...
                     TextureElement es = (TextureElement) e;
                     //batch.draw(es.texture, x, y, es.getWidth(), es.getHeight());
-                    batch.draw(es.texture, x, y, x + es.getWidth() / 2, x + es.getHeight() / 2, es.getWidth(), es.getHeight(), 1F, 1F, rotation, 0, 0, es.texture.getWidth(), es.texture.getHeight(), false, false);
+                    batch.draw(es.texture, x, y, es.getWidth() / 2, es.getHeight() / 2, es.getWidth(), es.getHeight(), 1F, 1F, rotation, 0, 0, es.texture.getWidth(), es.texture.getHeight(), false, false);
 
                     // Set actual positions
                     es.setXActual(x);
