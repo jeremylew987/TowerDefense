@@ -4,6 +4,10 @@
 package com.se309.schema;
 
 /**
+ * <pre>
+ *Buffer to hold message data
+ * </pre>
+ *
  * Protobuf type {@code coms309.server.MessageSchema}
  */
 public  final class MessageSchema extends
@@ -401,6 +405,10 @@ public  final class MessageSchema extends
     return builder;
   }
   /**
+   * <pre>
+   *Buffer to hold message data
+   * </pre>
+   *
    * Protobuf type {@code coms309.server.MessageSchema}
    */
   public static final class Builder extends

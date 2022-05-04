@@ -34,17 +34,43 @@ public interface DataObjectSchemaOrBuilder extends
   com.se309.schema.MessageSchemaOrBuilder getMessageOrBuilder();
 
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  boolean hasEntity();
+  boolean hasTower();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  com.se309.schema.EntitySchema getEntity();
+  com.se309.schema.TowerSchema getTower();
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  com.se309.schema.EntitySchemaOrBuilder getEntityOrBuilder();
+  com.se309.schema.TowerSchemaOrBuilder getTowerOrBuilder();
+
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  boolean hasClients();
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  com.se309.schema.ConnectedClients getClients();
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  com.se309.schema.ConnectedClientsOrBuilder getClientsOrBuilder();
+
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  boolean hasTick();
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  com.se309.schema.gameTick getTick();
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  com.se309.schema.gameTickOrBuilder getTickOrBuilder();
 
   public com.se309.schema.DataObjectSchema.DataCase getDataCase();
 }

@@ -4,7 +4,7 @@
 package com.se309.schema;
 
 public interface GamestateSchemaOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:coms309.server.GamestateSchema)
+										  // @@protoc_insertion_point(interface_extends:coms309.server.GamestateSchema)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -13,6 +13,7 @@ public interface GamestateSchemaOrBuilder extends
   boolean hasDifficulty();
   /**
    * <code>optional uint32 difficulty = 1;</code>
+   * @return
    */
   int getDifficulty();
 
@@ -22,6 +23,7 @@ public interface GamestateSchemaOrBuilder extends
   boolean hasStatus();
   /**
    * <code>optional uint32 status = 2;</code>
+   * @return
    */
   int getStatus();
 
@@ -42,28 +44,4 @@ public interface GamestateSchemaOrBuilder extends
    * <code>optional uint32 round = 4;</code>
    */
   int getRound();
-
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  java.util.List<com.se309.schema.GamestateSchema.Player> 
-      getPlayersList();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  com.se309.schema.GamestateSchema.Player getPlayers(int index);
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  int getPlayersCount();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  java.util.List<? extends com.se309.schema.GamestateSchema.PlayerOrBuilder> 
-      getPlayersOrBuilderList();
-  /**
-   * <code>repeated .coms309.server.GamestateSchema.Player players = 5;</code>
-   */
-  com.se309.schema.GamestateSchema.PlayerOrBuilder getPlayersOrBuilder(
-          int index);
 }

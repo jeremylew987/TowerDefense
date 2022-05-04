@@ -6,6 +6,8 @@ import com.se309.render.ElementRenderer;
 import com.se309.render.RenderSettings;
 import com.se309.scene.SceneManager;
 
+import java.io.DataOutputStream;
+
 public class ResourceContext {
 
     private ElementRenderer renderer;
@@ -13,6 +15,7 @@ public class ResourceContext {
     private SceneManager sceneManager;
     private GameEventQueue eventQueue;
     private ButtonManager buttonManager;
+    private DataOutputStream dataOut;
 
     public ElementRenderer getRenderer() {
         return renderer;
@@ -52,5 +55,13 @@ public class ResourceContext {
 
     public void setButtonManager(ButtonManager buttonManager) {
         this.buttonManager = buttonManager;
+    }
+
+    public DataOutputStream getDataOut() {
+        return dataOut;
+    }
+
+    public void setDataOut(DataOutputStream dataOut) {
+        this.dataOut = dataOut;
     }
 }

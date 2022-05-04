@@ -5,7 +5,7 @@ import com.se309.queue.ButtonDownEvent;
 import com.se309.queue.ButtonEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
-import com.se309.queue.PlayerJoinEvent;
+import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
 import com.se309.queue.TouchEvent;
 import com.se309.queue.TouchUpEvent;
@@ -94,10 +94,10 @@ public class GameLogic {
                 entityBag.add(newEnemy);
                 context.getRenderer().addElement(newEnemy);
 
-            } else if (e instanceof PlayerJoinEvent) {
-                PlayerJoinEvent pje = (PlayerJoinEvent) e;
+            } else if (e instanceof PlayerListUpdateEvent) {
+                PlayerListUpdateEvent pje = (PlayerListUpdateEvent) e;
 
-                processor.getPlayers().add(pje.getName());
+                processor.setPlayers(pje.getNames());
 
                 context.getEventQueue().queue(new RedrawEvent());
 

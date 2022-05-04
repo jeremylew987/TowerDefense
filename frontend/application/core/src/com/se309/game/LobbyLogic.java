@@ -3,15 +3,18 @@ package com.se309.game;
 import com.se309.queue.ButtonEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
-import com.se309.queue.PlayerJoinEvent;
+import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
 import com.se309.render.Element;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
 import com.se309.scene.LobbyScene;
+import com.se309.schema.DataObjectSchema;
+import com.se309.schema.GamestateSchema;
 import com.se309.tower.ResourceContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LobbyLogic {
@@ -65,10 +68,10 @@ public class LobbyLogic {
                     if (difficulty == 1) lobby.difficultyLabel.setText("Normal");
                     if (difficulty == 2) lobby.difficultyLabel.setText("Hard");
                 }
-            } else if (e instanceof PlayerJoinEvent) {
-                PlayerJoinEvent pje = (PlayerJoinEvent) e;
+            } else if (e instanceof PlayerListUpdateEvent) {
+                PlayerListUpdateEvent pje = (PlayerListUpdateEvent) e;
 
-                processor.getPlayers().add(pje.getName());
+                processor.setPlayers(pje.getNames());
 
                 context.getEventQueue().queue(new RedrawEvent());
 
@@ -83,6 +86,14 @@ public class LobbyLogic {
             context.getEventQueue().queue(new RedrawEvent());
 
             context.getEventQueue().queue(new EnemySpawnEvent(1));
+
+            DataObjectSchema d = DataObjectSchema.newBuilder().setGamestate(GamestateSchema.newBuilder().setStatus(1).build()).build();
+
+            try {
+                d.writeDelimitedTo(context.getDataOut());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 

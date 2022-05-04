@@ -1,13 +1,9 @@
 package com.se309.socket;
 
-import com.se309.render.TextElement;
 import com.se309.schema.DataObjectSchema;
-import com.se309.socket.SocketClient;
 import com.se309.tower.ResourceContext;
 
 import java.io.IOException;
-
-import jdk.internal.loader.Resource;
 
 /**
  * Connects to the socket to the backend, and continually polls for data.
@@ -39,6 +35,9 @@ public class NetworkDataHandler extends Thread {
             try {
                 DataObjectSchema data =
                         DataObjectSchema.parseDelimitedFrom(client.getDataIn());
+
+
+                System.out.println("Received: " + data.getDataCase());
 
 
             } catch (IOException e) {

@@ -9,12 +9,16 @@ import com.se309.game.GameLogicProcessor;
 import com.se309.game.GameTickHandler;
 import com.se309.input.UniversalInputProcessor;
 import com.se309.queue.GameEventQueue;
-import com.se309.queue.PlayerJoinEvent;
 import com.se309.render.ElementRenderer;
 import com.se309.render.RenderSettings;
 import com.se309.scene.GameScene;
 import com.se309.scene.LobbyScene;
 import com.se309.scene.SceneManager;
+import com.se309.socket.Message;
+import com.se309.socket.NetworkDataHandler;
+import com.se309.socket.SocketClient;
+
+import java.io.IOException;
 
 /**
  * Main entry point to LibGDX project
@@ -83,9 +87,23 @@ public class TowerDefense extends ApplicationAdapter {
 
 		Gdx.input.setInputProcessor(new UniversalInputProcessor(context));
 
-		// Join player
-		context.getEventQueue().queue(new PlayerJoinEvent("You"));
-		context.getEventQueue().queue(new PlayerJoinEvent("bhall1"));
+		// Set up the client connection stuff
+		SocketClient client = new SocketClient("10.30.35.148", 25565);
+		NetworkDataHandler reader = new NetworkDataHandler(client, context);
+		reader.start();
+
+		// Ugh data output
+		context.setDataOut(client.getDataOut());
+
+		// Login to backend
+		Message m = new Message("na", "na", "1cb8af81-92d6-4abc-baf6-8348529577ca");
+
+		try {
+			m.serialize().writeDelimitedTo(client.getDataOut());
+			client.getDataOut().flush();
+		} catch (IOException e) {
+			System.out.println("Write failed!");
+		}
 
 	}
 

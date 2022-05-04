@@ -4,24 +4,17 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.se309.schema.DataObjectSchema;
 import com.se309.schema.MessageSchema;
 
-/**
- * Message data object coming from the backend
- *
- * @author Ben
- */
 public class Message{
 
     public String author;
     public String message;
     public String code;
 
-    // Create from args
-
     /**
-     * Constructor to create a new message object
-     * @param author Author of message
-     * @param code Data code
-     * @param message Message body
+     * Create message from args
+     * @param author author of message
+     * @param code code of message
+     * @param message message string
      */
     public Message(String author, String code, String message) {
         this.author = author;
@@ -29,26 +22,23 @@ public class Message{
         this.message = message;
     }
 
-    // Read from serialized object
-
     /**
-     * Create a new Message object from a message schema
-     * @param m Incoming message schema
-     * @throws InvalidProtocolBufferException
+     * Create message from protobuf object
+     * @param m protobuf
+     * @throws InvalidProtocolBufferException invalid object
      */
     public Message(MessageSchema m) throws InvalidProtocolBufferException {
         author = m.getAuthor();
-        code = m.getCode();
+        code = m.getCode().toUpperCase();
         message = m.getMessage();
     }
 
     /**
-     * Serialized object into DataObjectSchema
-     * @return Serialized message
+     * Serialize Message object to Protobuf object
+     * @return data object
      */
     public DataObjectSchema serialize() {
-        DataObjectSchema d =
-                DataObjectSchema.newBuilder()
+        return  DataObjectSchema.newBuilder()
                         .setMessage(
                                 MessageSchema.newBuilder()
                                         .setAuthor(this.author)
@@ -56,7 +46,6 @@ public class Message{
                                         .setMessage(this.message)
                                         .build()
                         ).build();
-        return d;
     }
 
     @Override

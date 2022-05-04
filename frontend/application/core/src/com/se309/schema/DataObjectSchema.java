@@ -4,6 +4,10 @@
 package com.se309.schema;
 
 /**
+ * <pre>
+ * WRAPPER
+ * </pre>
+ *
  * Protobuf type {@code coms309.server.DataObjectSchema}
  */
 public  final class DataObjectSchema extends
@@ -74,17 +78,45 @@ public  final class DataObjectSchema extends
             break;
           }
           case 26: {
-            com.se309.schema.EntitySchema.Builder subBuilder = null;
+            com.se309.schema.TowerSchema.Builder subBuilder = null;
             if (dataCase_ == 3) {
-              subBuilder = ((com.se309.schema.EntitySchema) data_).toBuilder();
+              subBuilder = ((com.se309.schema.TowerSchema) data_).toBuilder();
             }
             data_ =
-                input.readMessage(com.se309.schema.EntitySchema.PARSER, extensionRegistry);
+                input.readMessage(com.se309.schema.TowerSchema.PARSER, extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((com.se309.schema.EntitySchema) data_);
+              subBuilder.mergeFrom((com.se309.schema.TowerSchema) data_);
               data_ = subBuilder.buildPartial();
             }
             dataCase_ = 3;
+            break;
+          }
+          case 34: {
+            com.se309.schema.ConnectedClients.Builder subBuilder = null;
+            if (dataCase_ == 4) {
+              subBuilder = ((com.se309.schema.ConnectedClients) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(com.se309.schema.ConnectedClients.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.se309.schema.ConnectedClients) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 4;
+            break;
+          }
+          case 42: {
+            com.se309.schema.gameTick.Builder subBuilder = null;
+            if (dataCase_ == 5) {
+              subBuilder = ((com.se309.schema.gameTick) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(com.se309.schema.gameTick.PARSER, extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.se309.schema.gameTick) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 5;
             break;
           }
         }
@@ -118,7 +150,9 @@ public  final class DataObjectSchema extends
       implements com.google.protobuf.Internal.EnumLite {
     GAMESTATE(1),
     MESSAGE(2),
-    ENTITY(3),
+    TOWER(3),
+    CLIENTS(4),
+    TICK(5),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -136,7 +170,9 @@ public  final class DataObjectSchema extends
       switch (value) {
         case 1: return GAMESTATE;
         case 2: return MESSAGE;
-        case 3: return ENTITY;
+        case 3: return TOWER;
+        case 4: return CLIENTS;
+        case 5: return TICK;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -204,30 +240,82 @@ public  final class DataObjectSchema extends
     return com.se309.schema.MessageSchema.getDefaultInstance();
   }
 
-  public static final int ENTITY_FIELD_NUMBER = 3;
+  public static final int TOWER_FIELD_NUMBER = 3;
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public boolean hasEntity() {
+  public boolean hasTower() {
     return dataCase_ == 3;
   }
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public com.se309.schema.EntitySchema getEntity() {
+  public com.se309.schema.TowerSchema getTower() {
     if (dataCase_ == 3) {
-       return (com.se309.schema.EntitySchema) data_;
+       return (com.se309.schema.TowerSchema) data_;
     }
-    return com.se309.schema.EntitySchema.getDefaultInstance();
+    return com.se309.schema.TowerSchema.getDefaultInstance();
   }
   /**
-   * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+   * <code>optional .coms309.server.TowerSchema tower = 3;</code>
    */
-  public com.se309.schema.EntitySchemaOrBuilder getEntityOrBuilder() {
+  public com.se309.schema.TowerSchemaOrBuilder getTowerOrBuilder() {
     if (dataCase_ == 3) {
-       return (com.se309.schema.EntitySchema) data_;
+       return (com.se309.schema.TowerSchema) data_;
     }
-    return com.se309.schema.EntitySchema.getDefaultInstance();
+    return com.se309.schema.TowerSchema.getDefaultInstance();
+  }
+
+  public static final int CLIENTS_FIELD_NUMBER = 4;
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public boolean hasClients() {
+    return dataCase_ == 4;
+  }
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public com.se309.schema.ConnectedClients getClients() {
+    if (dataCase_ == 4) {
+       return (com.se309.schema.ConnectedClients) data_;
+    }
+    return com.se309.schema.ConnectedClients.getDefaultInstance();
+  }
+  /**
+   * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+   */
+  public com.se309.schema.ConnectedClientsOrBuilder getClientsOrBuilder() {
+    if (dataCase_ == 4) {
+       return (com.se309.schema.ConnectedClients) data_;
+    }
+    return com.se309.schema.ConnectedClients.getDefaultInstance();
+  }
+
+  public static final int TICK_FIELD_NUMBER = 5;
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  public boolean hasTick() {
+    return dataCase_ == 5;
+  }
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  public com.se309.schema.gameTick getTick() {
+    if (dataCase_ == 5) {
+       return (com.se309.schema.gameTick) data_;
+    }
+    return com.se309.schema.gameTick.getDefaultInstance();
+  }
+  /**
+   * <code>optional .coms309.server.gameTick tick = 5;</code>
+   */
+  public com.se309.schema.gameTickOrBuilder getTickOrBuilder() {
+    if (dataCase_ == 5) {
+       return (com.se309.schema.gameTick) data_;
+    }
+    return com.se309.schema.gameTick.getDefaultInstance();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -242,8 +330,14 @@ public  final class DataObjectSchema extends
         return false;
       }
     }
-    if (hasEntity()) {
-      if (!getEntity().isInitialized()) {
+    if (hasTower()) {
+      if (!getTower().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+    }
+    if (hasTick()) {
+      if (!getTick().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -261,7 +355,13 @@ public  final class DataObjectSchema extends
       output.writeMessage(2, (com.se309.schema.MessageSchema) data_);
     }
     if (dataCase_ == 3) {
-      output.writeMessage(3, (com.se309.schema.EntitySchema) data_);
+      output.writeMessage(3, (com.se309.schema.TowerSchema) data_);
+    }
+    if (dataCase_ == 4) {
+      output.writeMessage(4, (com.se309.schema.ConnectedClients) data_);
+    }
+    if (dataCase_ == 5) {
+      output.writeMessage(5, (com.se309.schema.gameTick) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -281,7 +381,15 @@ public  final class DataObjectSchema extends
     }
     if (dataCase_ == 3) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, (com.se309.schema.EntitySchema) data_);
+        .computeMessageSize(3, (com.se309.schema.TowerSchema) data_);
+    }
+    if (dataCase_ == 4) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, (com.se309.schema.ConnectedClients) data_);
+    }
+    if (dataCase_ == 5) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, (com.se309.schema.gameTick) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -313,8 +421,16 @@ public  final class DataObjectSchema extends
             .equals(other.getMessage());
         break;
       case 3:
-        result = result && getEntity()
-            .equals(other.getEntity());
+        result = result && getTower()
+            .equals(other.getTower());
+        break;
+      case 4:
+        result = result && getClients()
+            .equals(other.getClients());
+        break;
+      case 5:
+        result = result && getTick()
+            .equals(other.getTick());
         break;
       case 0:
       default:
@@ -340,8 +456,16 @@ public  final class DataObjectSchema extends
         hash = (53 * hash) + getMessage().hashCode();
         break;
       case 3:
-        hash = (37 * hash) + ENTITY_FIELD_NUMBER;
-        hash = (53 * hash) + getEntity().hashCode();
+        hash = (37 * hash) + TOWER_FIELD_NUMBER;
+        hash = (53 * hash) + getTower().hashCode();
+        break;
+      case 4:
+        hash = (37 * hash) + CLIENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getClients().hashCode();
+        break;
+      case 5:
+        hash = (37 * hash) + TICK_FIELD_NUMBER;
+        hash = (53 * hash) + getTick().hashCode();
         break;
       case 0:
       default:
@@ -429,6 +553,10 @@ public  final class DataObjectSchema extends
     return builder;
   }
   /**
+   * <pre>
+   * WRAPPER
+   * </pre>
+   *
    * Protobuf type {@code coms309.server.DataObjectSchema}
    */
   public static final class Builder extends
@@ -505,10 +633,24 @@ public  final class DataObjectSchema extends
         }
       }
       if (dataCase_ == 3) {
-        if (entityBuilder_ == null) {
+        if (towerBuilder_ == null) {
           result.data_ = data_;
         } else {
-          result.data_ = entityBuilder_.build();
+          result.data_ = towerBuilder_.build();
+        }
+      }
+      if (dataCase_ == 4) {
+        if (clientsBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = clientsBuilder_.build();
+        }
+      }
+      if (dataCase_ == 5) {
+        if (tickBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = tickBuilder_.build();
         }
       }
       result.bitField0_ = to_bitField0_;
@@ -563,8 +705,16 @@ public  final class DataObjectSchema extends
           mergeMessage(other.getMessage());
           break;
         }
-        case ENTITY: {
-          mergeEntity(other.getEntity());
+        case TOWER: {
+          mergeTower(other.getTower());
+          break;
+        }
+        case CLIENTS: {
+          mergeClients(other.getClients());
+          break;
+        }
+        case TICK: {
+          mergeTick(other.getTick());
           break;
         }
         case DATA_NOT_SET: {
@@ -582,8 +732,13 @@ public  final class DataObjectSchema extends
           return false;
         }
       }
-      if (hasEntity()) {
-        if (!getEntity().isInitialized()) {
+      if (hasTower()) {
+        if (!getTower().isInitialized()) {
+          return false;
+        }
+      }
+      if (hasTick()) {
+        if (!getTick().isInitialized()) {
           return false;
         }
       }
@@ -897,67 +1052,67 @@ public  final class DataObjectSchema extends
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.se309.schema.EntitySchema, com.se309.schema.EntitySchema.Builder, com.se309.schema.EntitySchemaOrBuilder> entityBuilder_;
+        com.se309.schema.TowerSchema, com.se309.schema.TowerSchema.Builder, com.se309.schema.TowerSchemaOrBuilder> towerBuilder_;
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public boolean hasEntity() {
+    public boolean hasTower() {
       return dataCase_ == 3;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public com.se309.schema.EntitySchema getEntity() {
-      if (entityBuilder_ == null) {
+    public com.se309.schema.TowerSchema getTower() {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3) {
-          return (com.se309.schema.EntitySchema) data_;
+          return (com.se309.schema.TowerSchema) data_;
         }
-        return com.se309.schema.EntitySchema.getDefaultInstance();
+        return com.se309.schema.TowerSchema.getDefaultInstance();
       } else {
         if (dataCase_ == 3) {
-          return entityBuilder_.getMessage();
+          return towerBuilder_.getMessage();
         }
-        return com.se309.schema.EntitySchema.getDefaultInstance();
+        return com.se309.schema.TowerSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder setEntity(com.se309.schema.EntitySchema value) {
-      if (entityBuilder_ == null) {
+    public Builder setTower(com.se309.schema.TowerSchema value) {
+      if (towerBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         data_ = value;
         onChanged();
       } else {
-        entityBuilder_.setMessage(value);
+        towerBuilder_.setMessage(value);
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder setEntity(
-        com.se309.schema.EntitySchema.Builder builderForValue) {
-      if (entityBuilder_ == null) {
+    public Builder setTower(
+        com.se309.schema.TowerSchema.Builder builderForValue) {
+      if (towerBuilder_ == null) {
         data_ = builderForValue.build();
         onChanged();
       } else {
-        entityBuilder_.setMessage(builderForValue.build());
+        towerBuilder_.setMessage(builderForValue.build());
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder mergeEntity(com.se309.schema.EntitySchema value) {
-      if (entityBuilder_ == null) {
+    public Builder mergeTower(com.se309.schema.TowerSchema value) {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3 &&
-            data_ != com.se309.schema.EntitySchema.getDefaultInstance()) {
-          data_ = com.se309.schema.EntitySchema.newBuilder((com.se309.schema.EntitySchema) data_)
+            data_ != com.se309.schema.TowerSchema.getDefaultInstance()) {
+          data_ = com.se309.schema.TowerSchema.newBuilder((com.se309.schema.TowerSchema) data_)
               .mergeFrom(value).buildPartial();
         } else {
           data_ = value;
@@ -965,18 +1120,18 @@ public  final class DataObjectSchema extends
         onChanged();
       } else {
         if (dataCase_ == 3) {
-          entityBuilder_.mergeFrom(value);
+          towerBuilder_.mergeFrom(value);
         }
-        entityBuilder_.setMessage(value);
+        towerBuilder_.setMessage(value);
       }
       dataCase_ = 3;
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public Builder clearEntity() {
-      if (entityBuilder_ == null) {
+    public Builder clearTower() {
+      if (towerBuilder_ == null) {
         if (dataCase_ == 3) {
           dataCase_ = 0;
           data_ = null;
@@ -987,49 +1142,321 @@ public  final class DataObjectSchema extends
           dataCase_ = 0;
           data_ = null;
         }
-        entityBuilder_.clear();
+        towerBuilder_.clear();
       }
       return this;
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public com.se309.schema.EntitySchema.Builder getEntityBuilder() {
-      return getEntityFieldBuilder().getBuilder();
+    public com.se309.schema.TowerSchema.Builder getTowerBuilder() {
+      return getTowerFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
-    public com.se309.schema.EntitySchemaOrBuilder getEntityOrBuilder() {
-      if ((dataCase_ == 3) && (entityBuilder_ != null)) {
-        return entityBuilder_.getMessageOrBuilder();
+    public com.se309.schema.TowerSchemaOrBuilder getTowerOrBuilder() {
+      if ((dataCase_ == 3) && (towerBuilder_ != null)) {
+        return towerBuilder_.getMessageOrBuilder();
       } else {
         if (dataCase_ == 3) {
-          return (com.se309.schema.EntitySchema) data_;
+          return (com.se309.schema.TowerSchema) data_;
         }
-        return com.se309.schema.EntitySchema.getDefaultInstance();
+        return com.se309.schema.TowerSchema.getDefaultInstance();
       }
     }
     /**
-     * <code>optional .coms309.server.EntitySchema entity = 3;</code>
+     * <code>optional .coms309.server.TowerSchema tower = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.se309.schema.EntitySchema, com.se309.schema.EntitySchema.Builder, com.se309.schema.EntitySchemaOrBuilder> 
-        getEntityFieldBuilder() {
-      if (entityBuilder_ == null) {
+        com.se309.schema.TowerSchema, com.se309.schema.TowerSchema.Builder, com.se309.schema.TowerSchemaOrBuilder> 
+        getTowerFieldBuilder() {
+      if (towerBuilder_ == null) {
         if (!(dataCase_ == 3)) {
-          data_ = com.se309.schema.EntitySchema.getDefaultInstance();
+          data_ = com.se309.schema.TowerSchema.getDefaultInstance();
         }
-        entityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.se309.schema.EntitySchema, com.se309.schema.EntitySchema.Builder, com.se309.schema.EntitySchemaOrBuilder>(
-                (com.se309.schema.EntitySchema) data_,
+        towerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.se309.schema.TowerSchema, com.se309.schema.TowerSchema.Builder, com.se309.schema.TowerSchemaOrBuilder>(
+                (com.se309.schema.TowerSchema) data_,
                 getParentForChildren(),
                 isClean());
         data_ = null;
       }
       dataCase_ = 3;
       onChanged();;
-      return entityBuilder_;
+      return towerBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.se309.schema.ConnectedClients, com.se309.schema.ConnectedClients.Builder, com.se309.schema.ConnectedClientsOrBuilder> clientsBuilder_;
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public boolean hasClients() {
+      return dataCase_ == 4;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public com.se309.schema.ConnectedClients getClients() {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4) {
+          return (com.se309.schema.ConnectedClients) data_;
+        }
+        return com.se309.schema.ConnectedClients.getDefaultInstance();
+      } else {
+        if (dataCase_ == 4) {
+          return clientsBuilder_.getMessage();
+        }
+        return com.se309.schema.ConnectedClients.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder setClients(com.se309.schema.ConnectedClients value) {
+      if (clientsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        clientsBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder setClients(
+        com.se309.schema.ConnectedClients.Builder builderForValue) {
+      if (clientsBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        clientsBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder mergeClients(com.se309.schema.ConnectedClients value) {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4 &&
+            data_ != com.se309.schema.ConnectedClients.getDefaultInstance()) {
+          data_ = com.se309.schema.ConnectedClients.newBuilder((com.se309.schema.ConnectedClients) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 4) {
+          clientsBuilder_.mergeFrom(value);
+        }
+        clientsBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public Builder clearClients() {
+      if (clientsBuilder_ == null) {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        clientsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public com.se309.schema.ConnectedClients.Builder getClientsBuilder() {
+      return getClientsFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    public com.se309.schema.ConnectedClientsOrBuilder getClientsOrBuilder() {
+      if ((dataCase_ == 4) && (clientsBuilder_ != null)) {
+        return clientsBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 4) {
+          return (com.se309.schema.ConnectedClients) data_;
+        }
+        return com.se309.schema.ConnectedClients.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.ConnectedClients clients = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.se309.schema.ConnectedClients, com.se309.schema.ConnectedClients.Builder, com.se309.schema.ConnectedClientsOrBuilder> 
+        getClientsFieldBuilder() {
+      if (clientsBuilder_ == null) {
+        if (!(dataCase_ == 4)) {
+          data_ = com.se309.schema.ConnectedClients.getDefaultInstance();
+        }
+        clientsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.se309.schema.ConnectedClients, com.se309.schema.ConnectedClients.Builder, com.se309.schema.ConnectedClientsOrBuilder>(
+                (com.se309.schema.ConnectedClients) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 4;
+      onChanged();;
+      return clientsBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.se309.schema.gameTick, com.se309.schema.gameTick.Builder, com.se309.schema.gameTickOrBuilder> tickBuilder_;
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public boolean hasTick() {
+      return dataCase_ == 5;
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public com.se309.schema.gameTick getTick() {
+      if (tickBuilder_ == null) {
+        if (dataCase_ == 5) {
+          return (com.se309.schema.gameTick) data_;
+        }
+        return com.se309.schema.gameTick.getDefaultInstance();
+      } else {
+        if (dataCase_ == 5) {
+          return tickBuilder_.getMessage();
+        }
+        return com.se309.schema.gameTick.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public Builder setTick(com.se309.schema.gameTick value) {
+      if (tickBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        tickBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public Builder setTick(
+        com.se309.schema.gameTick.Builder builderForValue) {
+      if (tickBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        tickBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public Builder mergeTick(com.se309.schema.gameTick value) {
+      if (tickBuilder_ == null) {
+        if (dataCase_ == 5 &&
+            data_ != com.se309.schema.gameTick.getDefaultInstance()) {
+          data_ = com.se309.schema.gameTick.newBuilder((com.se309.schema.gameTick) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 5) {
+          tickBuilder_.mergeFrom(value);
+        }
+        tickBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public Builder clearTick() {
+      if (tickBuilder_ == null) {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        tickBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public com.se309.schema.gameTick.Builder getTickBuilder() {
+      return getTickFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    public com.se309.schema.gameTickOrBuilder getTickOrBuilder() {
+      if ((dataCase_ == 5) && (tickBuilder_ != null)) {
+        return tickBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 5) {
+          return (com.se309.schema.gameTick) data_;
+        }
+        return com.se309.schema.gameTick.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>optional .coms309.server.gameTick tick = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.se309.schema.gameTick, com.se309.schema.gameTick.Builder, com.se309.schema.gameTickOrBuilder> 
+        getTickFieldBuilder() {
+      if (tickBuilder_ == null) {
+        if (!(dataCase_ == 5)) {
+          data_ = com.se309.schema.gameTick.getDefaultInstance();
+        }
+        tickBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.se309.schema.gameTick, com.se309.schema.gameTick.Builder, com.se309.schema.gameTickOrBuilder>(
+                (com.se309.schema.gameTick) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 5;
+      onChanged();;
+      return tickBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

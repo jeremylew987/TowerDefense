@@ -4,20 +4,24 @@
 package com.se309.schema;
 
 /**
- * Protobuf type {@code coms309.server.EntitySchema}
+ * <pre>
+ *Buffer to hold tower creation data
+ * </pre>
+ *
+ * Protobuf type {@code coms309.server.TowerSchema}
  */
-public  final class EntitySchema extends
+public  final class TowerSchema extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:coms309.server.EntitySchema)
-    EntitySchemaOrBuilder {
-  // Use EntitySchema.newBuilder() to construct.
-  private EntitySchema(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:coms309.server.TowerSchema)
+    TowerSchemaOrBuilder {
+  // Use TowerSchema.newBuilder() to construct.
+  private TowerSchema(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private EntitySchema() {
+  private TowerSchema() {
     x_ = 0;
     y_ = 0;
-    objectId_ = 0;
+    typeId_ = 0;
     ownerId_ = 0;
   }
 
@@ -26,7 +30,7 @@ public  final class EntitySchema extends
   getUnknownFields() {
     return this.unknownFields;
   }
-  private EntitySchema(
+  private TowerSchema(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -61,7 +65,7 @@ public  final class EntitySchema extends
           }
           case 24: {
             bitField0_ |= 0x00000004;
-            objectId_ = input.readUInt32();
+            typeId_ = input.readUInt32();
             break;
           }
           case 32: {
@@ -83,14 +87,14 @@ public  final class EntitySchema extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.se309.schema.DataObjectProto.internal_static_coms309_server_EntitySchema_descriptor;
+    return com.se309.schema.DataObjectProto.internal_static_coms309_server_TowerSchema_descriptor;
   }
 
   protected FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.se309.schema.DataObjectProto.internal_static_coms309_server_EntitySchema_fieldAccessorTable
+    return com.se309.schema.DataObjectProto.internal_static_coms309_server_TowerSchema_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.se309.schema.EntitySchema.class, com.se309.schema.EntitySchema.Builder.class);
+            com.se309.schema.TowerSchema.class, com.se309.schema.TowerSchema.Builder.class);
   }
 
   private int bitField0_;
@@ -124,31 +128,31 @@ public  final class EntitySchema extends
     return y_;
   }
 
-  public static final int OBJECTID_FIELD_NUMBER = 3;
-  private int objectId_;
+  public static final int TYPEID_FIELD_NUMBER = 3;
+  private int typeId_;
   /**
-   * <code>required uint32 objectId = 3;</code>
+   * <code>required uint32 typeId = 3;</code>
    */
-  public boolean hasObjectId() {
+  public boolean hasTypeId() {
     return ((bitField0_ & 0x00000004) == 0x00000004);
   }
   /**
-   * <code>required uint32 objectId = 3;</code>
+   * <code>required uint32 typeId = 3;</code>
    */
-  public int getObjectId() {
-    return objectId_;
+  public int getTypeId() {
+    return typeId_;
   }
 
   public static final int OWNERID_FIELD_NUMBER = 4;
   private int ownerId_;
   /**
-   * <code>required uint32 ownerId = 4;</code>
+   * <code>optional uint32 ownerId = 4;</code>
    */
   public boolean hasOwnerId() {
     return ((bitField0_ & 0x00000008) == 0x00000008);
   }
   /**
-   * <code>required uint32 ownerId = 4;</code>
+   * <code>optional uint32 ownerId = 4;</code>
    */
   public int getOwnerId() {
     return ownerId_;
@@ -168,11 +172,7 @@ public  final class EntitySchema extends
       memoizedIsInitialized = 0;
       return false;
     }
-    if (!hasObjectId()) {
-      memoizedIsInitialized = 0;
-      return false;
-    }
-    if (!hasOwnerId()) {
+    if (!hasTypeId()) {
       memoizedIsInitialized = 0;
       return false;
     }
@@ -189,7 +189,7 @@ public  final class EntitySchema extends
       output.writeUInt32(2, y_);
     }
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
-      output.writeUInt32(3, objectId_);
+      output.writeUInt32(3, typeId_);
     }
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeUInt32(4, ownerId_);
@@ -212,7 +212,7 @@ public  final class EntitySchema extends
     }
     if (((bitField0_ & 0x00000004) == 0x00000004)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt32Size(3, objectId_);
+        .computeUInt32Size(3, typeId_);
     }
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
@@ -229,10 +229,10 @@ public  final class EntitySchema extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.se309.schema.EntitySchema)) {
+    if (!(obj instanceof com.se309.schema.TowerSchema)) {
       return super.equals(obj);
     }
-    com.se309.schema.EntitySchema other = (com.se309.schema.EntitySchema) obj;
+    com.se309.schema.TowerSchema other = (com.se309.schema.TowerSchema) obj;
 
     boolean result = true;
     result = result && (hasX() == other.hasX());
@@ -245,10 +245,10 @@ public  final class EntitySchema extends
       result = result && (getY()
           == other.getY());
     }
-    result = result && (hasObjectId() == other.hasObjectId());
-    if (hasObjectId()) {
-      result = result && (getObjectId()
-          == other.getObjectId());
+    result = result && (hasTypeId() == other.hasTypeId());
+    if (hasTypeId()) {
+      result = result && (getTypeId()
+          == other.getTypeId());
     }
     result = result && (hasOwnerId() == other.hasOwnerId());
     if (hasOwnerId()) {
@@ -274,9 +274,9 @@ public  final class EntitySchema extends
       hash = (37 * hash) + Y_FIELD_NUMBER;
       hash = (53 * hash) + getY();
     }
-    if (hasObjectId()) {
-      hash = (37 * hash) + OBJECTID_FIELD_NUMBER;
-      hash = (53 * hash) + getObjectId();
+    if (hasTypeId()) {
+      hash = (37 * hash) + TYPEID_FIELD_NUMBER;
+      hash = (53 * hash) + getTypeId();
     }
     if (hasOwnerId()) {
       hash = (37 * hash) + OWNERID_FIELD_NUMBER;
@@ -287,58 +287,58 @@ public  final class EntitySchema extends
     return hash;
   }
 
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.se309.schema.EntitySchema parseFrom(byte[] data)
+  public static com.se309.schema.TowerSchema parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.se309.schema.EntitySchema parseFrom(java.io.InputStream input)
+  public static com.se309.schema.TowerSchema parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.se309.schema.EntitySchema parseDelimitedFrom(java.io.InputStream input)
+  public static com.se309.schema.TowerSchema parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.se309.schema.EntitySchema parseDelimitedFrom(
+  public static com.se309.schema.TowerSchema parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.se309.schema.EntitySchema parseFrom(
+  public static com.se309.schema.TowerSchema parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -350,7 +350,7 @@ public  final class EntitySchema extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.se309.schema.EntitySchema prototype) {
+  public static Builder newBuilder(com.se309.schema.TowerSchema prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -365,25 +365,29 @@ public  final class EntitySchema extends
     return builder;
   }
   /**
-   * Protobuf type {@code coms309.server.EntitySchema}
+   * <pre>
+   *Buffer to hold tower creation data
+   * </pre>
+   *
+   * Protobuf type {@code coms309.server.TowerSchema}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:coms309.server.EntitySchema)
-      com.se309.schema.EntitySchemaOrBuilder {
+      // @@protoc_insertion_point(builder_implements:coms309.server.TowerSchema)
+      com.se309.schema.TowerSchemaOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.se309.schema.DataObjectProto.internal_static_coms309_server_EntitySchema_descriptor;
+      return com.se309.schema.DataObjectProto.internal_static_coms309_server_TowerSchema_descriptor;
     }
 
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.se309.schema.DataObjectProto.internal_static_coms309_server_EntitySchema_fieldAccessorTable
+      return com.se309.schema.DataObjectProto.internal_static_coms309_server_TowerSchema_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.se309.schema.EntitySchema.class, com.se309.schema.EntitySchema.Builder.class);
+              com.se309.schema.TowerSchema.class, com.se309.schema.TowerSchema.Builder.class);
     }
 
-    // Construct using com.se309.schema.EntitySchema.newBuilder()
+    // Construct using com.se309.schema.TowerSchema.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -404,7 +408,7 @@ public  final class EntitySchema extends
       bitField0_ = (bitField0_ & ~0x00000001);
       y_ = 0;
       bitField0_ = (bitField0_ & ~0x00000002);
-      objectId_ = 0;
+      typeId_ = 0;
       bitField0_ = (bitField0_ & ~0x00000004);
       ownerId_ = 0;
       bitField0_ = (bitField0_ & ~0x00000008);
@@ -413,23 +417,23 @@ public  final class EntitySchema extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.se309.schema.DataObjectProto.internal_static_coms309_server_EntitySchema_descriptor;
+      return com.se309.schema.DataObjectProto.internal_static_coms309_server_TowerSchema_descriptor;
     }
 
-    public com.se309.schema.EntitySchema getDefaultInstanceForType() {
-      return com.se309.schema.EntitySchema.getDefaultInstance();
+    public com.se309.schema.TowerSchema getDefaultInstanceForType() {
+      return com.se309.schema.TowerSchema.getDefaultInstance();
     }
 
-    public com.se309.schema.EntitySchema build() {
-      com.se309.schema.EntitySchema result = buildPartial();
+    public com.se309.schema.TowerSchema build() {
+      com.se309.schema.TowerSchema result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public com.se309.schema.EntitySchema buildPartial() {
-      com.se309.schema.EntitySchema result = new com.se309.schema.EntitySchema(this);
+    public com.se309.schema.TowerSchema buildPartial() {
+      com.se309.schema.TowerSchema result = new com.se309.schema.TowerSchema(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -443,7 +447,7 @@ public  final class EntitySchema extends
       if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
         to_bitField0_ |= 0x00000004;
       }
-      result.objectId_ = objectId_;
+      result.typeId_ = typeId_;
       if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
         to_bitField0_ |= 0x00000008;
       }
@@ -480,24 +484,24 @@ public  final class EntitySchema extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.se309.schema.EntitySchema) {
-        return mergeFrom((com.se309.schema.EntitySchema)other);
+      if (other instanceof com.se309.schema.TowerSchema) {
+        return mergeFrom((com.se309.schema.TowerSchema)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.se309.schema.EntitySchema other) {
-      if (other == com.se309.schema.EntitySchema.getDefaultInstance()) return this;
+    public Builder mergeFrom(com.se309.schema.TowerSchema other) {
+      if (other == com.se309.schema.TowerSchema.getDefaultInstance()) return this;
       if (other.hasX()) {
         setX(other.getX());
       }
       if (other.hasY()) {
         setY(other.getY());
       }
-      if (other.hasObjectId()) {
-        setObjectId(other.getObjectId());
+      if (other.hasTypeId()) {
+        setTypeId(other.getTypeId());
       }
       if (other.hasOwnerId()) {
         setOwnerId(other.getOwnerId());
@@ -514,10 +518,7 @@ public  final class EntitySchema extends
       if (!hasY()) {
         return false;
       }
-      if (!hasObjectId()) {
-        return false;
-      }
-      if (!hasOwnerId()) {
+      if (!hasTypeId()) {
         return false;
       }
       return true;
@@ -527,11 +528,11 @@ public  final class EntitySchema extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.se309.schema.EntitySchema parsedMessage = null;
+      com.se309.schema.TowerSchema parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.se309.schema.EntitySchema) e.getUnfinishedMessage();
+        parsedMessage = (com.se309.schema.TowerSchema) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -606,53 +607,53 @@ public  final class EntitySchema extends
       return this;
     }
 
-    private int objectId_ ;
+    private int typeId_ ;
     /**
-     * <code>required uint32 objectId = 3;</code>
+     * <code>required uint32 typeId = 3;</code>
      */
-    public boolean hasObjectId() {
+    public boolean hasTypeId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required uint32 objectId = 3;</code>
+     * <code>required uint32 typeId = 3;</code>
      */
-    public int getObjectId() {
-      return objectId_;
+    public int getTypeId() {
+      return typeId_;
     }
     /**
-     * <code>required uint32 objectId = 3;</code>
+     * <code>required uint32 typeId = 3;</code>
      */
-    public Builder setObjectId(int value) {
+    public Builder setTypeId(int value) {
       bitField0_ |= 0x00000004;
-      objectId_ = value;
+      typeId_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>required uint32 objectId = 3;</code>
+     * <code>required uint32 typeId = 3;</code>
      */
-    public Builder clearObjectId() {
+    public Builder clearTypeId() {
       bitField0_ = (bitField0_ & ~0x00000004);
-      objectId_ = 0;
+      typeId_ = 0;
       onChanged();
       return this;
     }
 
     private int ownerId_ ;
     /**
-     * <code>required uint32 ownerId = 4;</code>
+     * <code>optional uint32 ownerId = 4;</code>
      */
     public boolean hasOwnerId() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required uint32 ownerId = 4;</code>
+     * <code>optional uint32 ownerId = 4;</code>
      */
     public int getOwnerId() {
       return ownerId_;
     }
     /**
-     * <code>required uint32 ownerId = 4;</code>
+     * <code>optional uint32 ownerId = 4;</code>
      */
     public Builder setOwnerId(int value) {
       bitField0_ |= 0x00000008;
@@ -661,7 +662,7 @@ public  final class EntitySchema extends
       return this;
     }
     /**
-     * <code>required uint32 ownerId = 4;</code>
+     * <code>optional uint32 ownerId = 4;</code>
      */
     public Builder clearOwnerId() {
       bitField0_ = (bitField0_ & ~0x00000008);
@@ -680,39 +681,39 @@ public  final class EntitySchema extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:coms309.server.EntitySchema)
+    // @@protoc_insertion_point(builder_scope:coms309.server.TowerSchema)
   }
 
-  // @@protoc_insertion_point(class_scope:coms309.server.EntitySchema)
-  private static final com.se309.schema.EntitySchema DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:coms309.server.TowerSchema)
+  private static final com.se309.schema.TowerSchema DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.se309.schema.EntitySchema();
+    DEFAULT_INSTANCE = new com.se309.schema.TowerSchema();
   }
 
-  public static com.se309.schema.EntitySchema getDefaultInstance() {
+  public static com.se309.schema.TowerSchema getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  @Deprecated public static final com.google.protobuf.Parser<EntitySchema>
-      PARSER = new com.google.protobuf.AbstractParser<EntitySchema>() {
-    public EntitySchema parsePartialFrom(
+  @Deprecated public static final com.google.protobuf.Parser<TowerSchema>
+      PARSER = new com.google.protobuf.AbstractParser<TowerSchema>() {
+    public TowerSchema parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EntitySchema(input, extensionRegistry);
+        return new TowerSchema(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<EntitySchema> parser() {
+  public static com.google.protobuf.Parser<TowerSchema> parser() {
     return PARSER;
   }
 
   @Override
-  public com.google.protobuf.Parser<EntitySchema> getParserForType() {
+  public com.google.protobuf.Parser<TowerSchema> getParserForType() {
     return PARSER;
   }
 
-  public com.se309.schema.EntitySchema getDefaultInstanceForType() {
+  public com.se309.schema.TowerSchema getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
