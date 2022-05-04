@@ -105,9 +105,8 @@ public class Map {
      * @return Tower object if successful, null otherwise
      */
     public Tower placeTower(int typeId, Point point, int ownerId) {
-        Server.logger.info("Attempting to create tower at " + point.x + ", " + point.y);
         if (!isValidTowerLocation(point)) {
-            Server.logger.info("can't place tower at " + point.x + ", " + point.y );
+            Server.logger.info("Failed to place tower [type:" + typeId + ",("  + point.x + ", " + point.y + ").");
             return null;
         }
         Tower newTower = new Tower(point, typeId, ownerId);
@@ -127,7 +126,7 @@ public class Map {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Server.logger.info("Successfuly placed tower " + point.x + ", " + point.y );
+        Server.logger.info("Successfully placed tower [type:" + typeId + ",("  + point.x + ", " + point.y + ").");
         return newTower;
     }
 
@@ -167,7 +166,7 @@ public class Map {
                     if (e.getHealth() <= 0) {
                         enemyArray.remove(i);
                         i--;
-                        Server.logger.info("Killed enemy" + e.getId());
+                        Server.logger.info("[EnemyID=" + e.getId() + "] eliminated by [TowerID=" + j + "].");
                     }
                         // create protobuf array for alive but damaged enemies
                         tickBuilder.addEnemyUpdate(
@@ -228,10 +227,10 @@ public class Map {
         double pX = point.getX();
         double pY = point.getY();
 
-        boolean retur = Math.sqrt((Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2))) < tower.getRange();
+        boolean result = Math.sqrt((Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2))) < tower.getRange();
 
-        if (retur) {Server.logger.info("Attack collision: " + retur);}
-        return retur;
+        if (result) Server.logger.info("Collision detected Tower=(" + tX +", " + tY + "), Enemy=(" + pX + ", " + pY + ").";
+        return result;
     }
 
     /**
@@ -246,20 +245,20 @@ public class Map {
 
         // Check bounds
         if (isOutOfBounds(location)) {
-            Server.logger.info("Invalid Tower Location: Out of bounds");
+            Server.logger.info("Invalid Tower Location: Out of bounds (" + location.getX() + "," + location.getY() + ").");
             return false;
         }
         // Check collisions against all other towers
         for (Tower t : this.towerArray) {
             if (isTowerCollision(location, t.getPoint())) {
-                Server.logger.info("Invalid Tower Location: Collision with tower");
+                Server.logger.info("Invalid Tower Location: Collision with Tower=(" + t.getPoint().getX() + "," + t.getPoint().getY() + ") Location=(" + location.getX() + "," + location.getY() + ").");
                 return false;
             }
         }
         // Check collisions again all path points
         for (Point p : this.enemyPath) {
             if (isPathCollision(location, p)) {
-                Server.logger.info("Invalid Tower Location: Collision with path");
+                Server.logger.info("Invalid Tower Location: Collision with path (" + location.getX() + "," + location.getY() + ").");
                 return false;
             }
         }
