@@ -65,6 +65,9 @@ public class ButtonManager {
                 unFocusButton(focusedButton);
             }
 
+            // Add to the event pipelined when done
+            context.getEventQueue().queue(t);
+
             //System.out.println("Touch: " + t.getX() + ", " + t.getY());
         }
     }
