@@ -129,7 +129,7 @@ public class GameState implements Runnable {
         double accumulator = 0.0;
 
         while (true) {
-            while (status == 3) {
+            while (status == 3) { // playing
                 double newTime = System.currentTimeMillis();
                 double frameTime = newTime - currentTime;
                 if (frameTime > 0.25)

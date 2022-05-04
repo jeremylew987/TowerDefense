@@ -194,7 +194,7 @@ public class Connection implements Runnable {
         switch (data.getDataCase()) {
             case TOWER: {
                 TowerSchema tower = data.getTower();
-                server.getGamestate().getMap().spawnEntity(
+                server.getGamestate().getMap().placeTower(
                         tower.getTypeId(),
                         new Point(
                                 tower.getX(),

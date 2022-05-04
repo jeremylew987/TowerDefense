@@ -18,10 +18,22 @@ public class Tower {
     private Point point;
     private int typeId;
     private int ownerId;
+    private int cooldown;
 
     // FROM FILE
     private String name;
-    private int range, damage, cooldown;
+    private int damage, speed;
+
+    /**
+     * Radius around the tower's origin that defines the attack range
+     */
+    private int range;
+
+    /**
+     * Radius around the tower's origin that defines the physical size of the tower
+     * Static so it can be accessed without instantiation, but towers now can't be different sizes
+     */
+    public static int size = 1;
 
     public Tower(Point point, int typeId, int ownerId) {
         this.point = point;
@@ -33,6 +45,7 @@ public class Tower {
             Server.logger.warning("Failed to parse objects.json!");
             Server.logger.warning("Failed to initialize new tower!");
         }
+
     }
 
     /**
@@ -52,11 +65,13 @@ public class Tower {
         for (int i = 0; i < objects.size(); i++) {
             JSONObject object = (JSONObject) objects.get(i);
             if ( (long) object.get("id") == (long) typeId ) {
+
                 this.typeId = typeId;
                 this.name = (String) object.get("name");
-                this.range = ((Long) object.get("range")).intValue();
-                this.cooldown = ((Long) object.get("cooldown")).intValue();
-                this.damage = ((Long) object.get("damage")).intValue();
+                this.size = (int) object.get("size");
+                this.range = (int) object.get("range");
+                this.speed = (int) object.get("speed");
+                this.damage = (int) object.get("damage");
                 break;
             }
         }
@@ -91,6 +106,13 @@ public class Tower {
     }
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public int getCooldown() {
