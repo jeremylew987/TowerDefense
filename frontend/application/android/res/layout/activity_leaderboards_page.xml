@@ -4,13 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#03A9F4"
+    android:background="#233C54"
     tools:context=".LeaderboardsPage">
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#4077AA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/LeaderboardBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,6 +37,8 @@
         android:id="@+id/LeaderboardLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Level"
         app:layout_constraintStart_toEndOf="@+id/LeaderboardBack"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +47,8 @@
         android:id="@+id/LeaderboardKills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Kills"
         app:layout_constraintStart_toEndOf="@+id/LeaderboardLevel"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,6 +57,8 @@
         android:id="@+id/LeaderboardFriends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Friends only: OFF"
         app:layout_constraintStart_toEndOf="@+id/leaderboardUsername"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,9 +67,9 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginEnd="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +157,8 @@
         android:id="@+id/leaderboardsWins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Wins"
         app:layout_constraintStart_toEndOf="@+id/LeaderboardKills"
         app:layout_constraintTop_toTopOf="parent" />
@@ -141,6 +167,8 @@
         android:id="@+id/leaderboardUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#5AA7F0"
+        android:fontFamily="@font/roboto_bold"
         android:text="Username"
         app:layout_constraintStart_toEndOf="@+id/leaderboardsWins"
         app:layout_constraintTop_toTopOf="parent" />

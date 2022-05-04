@@ -1,6 +1,8 @@
 package com.se309.tower;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -150,6 +152,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        Typeface typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
         layout.addView(cur);
 
 
@@ -168,6 +172,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
         layout.addView(cur);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardKillsList);
@@ -178,6 +184,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
         layout.addView(cur);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsWinsList);
@@ -188,6 +196,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
         layout.addView(cur);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsLossList);
@@ -198,6 +208,8 @@ public class LeaderboardsPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
         layout.addView(cur);
 
 
@@ -211,30 +223,40 @@ public class LeaderboardsPage extends AppCompatActivity {
         layout.removeAllViews();
         TextView title = new TextView(this);
         title.setText("Username");
+        Typeface typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
         layout.addView(title);
 
          layout = (ViewGroup) findViewById(R.id.leaderboardLevelList);
         layout.removeAllViews();
          title = new TextView(this);
         title.setText("Level");
+         typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
         layout.addView(title);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardKillsList);
         layout.removeAllViews();
         title = new TextView(this);
         title.setText("Kills");
+        typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
         layout.addView(title);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsWinsList);
         layout.removeAllViews();
         title = new TextView(this);
         title.setText("Wins");
+        typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
         layout.addView(title);
 
         layout = (ViewGroup) findViewById(R.id.leaderboardsLossList);
         layout.removeAllViews();
         title = new TextView(this);
         title.setText("Losses");
+        typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
         layout.addView(title);
 
     }

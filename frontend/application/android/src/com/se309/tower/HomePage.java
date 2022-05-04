@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.se309.config.NetworkConfig;
+import com.se309.game.GameLauncher;
+import com.se309.net.NetworkManager;
+import com.se309.test.NetworkManagerTestBench;
+
 public class HomePage extends AppCompatActivity {
     /**
      * just has basic onclick funcitons to get to other pages
@@ -61,5 +66,30 @@ public class HomePage extends AppCompatActivity {
                 startActivity(new Intent(HomePage.this, ProfilePage.class));
 
             }});
+
+        // Set up initial network manager
+        final NetworkManager networkManager = new NetworkManager(this, NetworkConfig.BACKEND_URL);
+
+
+        Button debug = findViewById(R.id.PlayButton);
+
+
+
+        // Create Click Listener for debug routine
+        debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                System.out.println("Starting network tests...");
+
+                NetworkManagerTestBench.testNetworkFunctions(networkManager, HomePage.this);
+
+                Intent intent = new Intent(getBaseContext(), GameLauncher.class);
+                startActivity(intent);
+
+            }
+        });
+
+
     }
 }
