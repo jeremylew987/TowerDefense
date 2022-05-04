@@ -122,31 +122,38 @@ public class GameState implements Runnable {
         Server.logger.info("All clients connected, waiting for start signal.");
         this.setStatus(2); // set to waiting
 
-        long t = (long) 0.0;
-        final long dt = 1000;
+        long t = 0;
 
-        long currentTime = System.currentTimeMillis();
-        long accumulator = (long) 0.0;
+
+        long deltaTime = 0;
+        long currentTime = 0;
+        long lastTime = 0;
+        long timePassed = 0;
+        long timePerTimestep = 1000 / 50;
 
         while (true) {
-            long newTime = System.currentTimeMillis();
-            long frameTime = newTime - currentTime;
-            if ( frameTime > 0.25 )
-                frameTime = (long) 0.25;
-            currentTime = newTime;
+            currentTime = System.currentTimeMillis();
+            deltaTime = currentTime - lastTime;
+            // Update game logic based on time passed
 
-            accumulator += frameTime;
+            timePassed += deltaTime;
 
-            while ( accumulator >= dt )
+            // Update game logic once for every tick passed
+            while ( timePassed >= timePerTimestep )
             {
-                // do math based on t, dt
-                accumulator -= dt;
-                t += dt;
+                // Update fixed step?????
+                map.update(0,deltaTime);
+                timePassed -= timePerTimestep;
+
+                // t += deltaTime; // Done outside of this while????
             }
 
             // non-tick based
-            if (server.getConnectionHandler().updateConnectionStatus())
+            if (server.getConnectionHandler().updateConnectionStatus()) {
                 server.getConnectionHandler().announcePlayers();
+            }
+
+            lastTime = System.currentTimeMillis();
         }
     }
 
