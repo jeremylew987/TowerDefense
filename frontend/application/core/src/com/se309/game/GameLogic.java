@@ -22,11 +22,17 @@ public class GameLogic {
     private ResourceContext context;
     private GameScene game;
 
+    private ArrayList<Point> path;
+
     private ArrayList<Element> playerListBag = new ArrayList<>();
+
+    private ArrayList<Element> entityBag = new ArrayList<>();
 
     public GameLogic(GameLogicProcessor processor, ResourceContext context) {
         this.processor = processor;
         this.context = context;
+
+        this.path = GamePath.getPath(0, 0, 3);
     }
 
     public void setGameScene(GameScene game) {
@@ -62,6 +68,14 @@ public class GameLogic {
         }
     }
 
+    public void advanceEnemies() {
+        for (Element e : entityBag) {
+            if (e instanceof Enemy) {
+
+            }
+        }
+    }
+
     private void generatePlayerList() {
         int y = 50;
 
@@ -86,6 +100,12 @@ public class GameLogic {
 
     private void emptyPlayerListBag() {
         for (Element e : playerListBag) {
+            context.getRenderer().removeElement(e);
+        }
+    }
+
+    private void emptyEntityBag() {
+        for (Element e : entityBag) {
             context.getRenderer().removeElement(e);
         }
     }
