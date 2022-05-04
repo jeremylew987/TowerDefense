@@ -106,7 +106,7 @@ public class Map {
      */
     public Tower placeTower(int typeId, Point point, int ownerId) {
         if (!isValidTowerLocation(point)) {
-            Server.logger.info("Failed to place tower [type:" + typeId + ",("  + point.x + ", " + point.y + ").");
+            Server.logger.info("Failed to place tower [type:" + typeId + ",("  + point.x + ", " + point.y + ")].");
             return null;
         }
         Tower newTower = new Tower(point, typeId, ownerId);
@@ -229,7 +229,7 @@ public class Map {
 
         boolean result = Math.sqrt((Math.pow(pX - tX, 2) + Math.pow(pY - tY, 2))) < tower.getRange();
 
-        if (result) Server.logger.info("Collision detected Tower=(" + tX +", " + tY + "), Enemy=(" + pX + ", " + pY + ").";
+        if (result) Server.logger.info("Collision detected Tower=(" + tX +", " + tY + "), Enemy=(" + pX + ", " + pY + ").");
         return result;
     }
 
@@ -245,7 +245,7 @@ public class Map {
 
         // Check bounds
         if (isOutOfBounds(location)) {
-            Server.logger.info("Invalid Tower Location: Out of bounds (" + location.getX() + "," + location.getY() + ").");
+            Server.logger.info("Invalid Tower Location: Out of Bounds (" + location.getX() + "," + location.getY() + ").");
             return false;
         }
         // Check collisions against all other towers
