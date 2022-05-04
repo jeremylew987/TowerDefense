@@ -24,6 +24,9 @@ public class GameScene implements Scene {
     public Texture dotTexture;
     public Texture enemyTexture;
 
+    public Texture towerTexture;
+    public Texture towerAlphaTexture;
+
     // Fonts
     public BitmapFont boldLarge;
     public BitmapFont regularLarge;
@@ -46,6 +49,9 @@ public class GameScene implements Scene {
         menuTall = new Texture("textures/game_menutall.png");
         menuShort = new Texture("textures/game_menushort.png");
         dotTexture = new Texture("textures/dot.png");
+
+        towerTexture = new Texture("textures/game_tower.png");
+        towerAlphaTexture = new Texture("textures/game_toweralpha.png");
 
         tower1ButtonTexture = new Texture("textures/game_tower1button.png");
         tower2ButtonTexture = new Texture("textures/game_tower2button.png");
@@ -150,11 +156,11 @@ public class GameScene implements Scene {
         tower1Button.setOrientation(Orientation.TopMiddle);
         scene.add(tower1Button);
 
-        Button tower2Button = new Button(tower2ButtonTexture, xOffset, 780, 300, 90, 11);
+        Button tower2Button = new Button(tower2ButtonTexture, xOffset, 780, 300, 90, 10);
         tower2Button.setOrientation(Orientation.TopMiddle);
         scene.add(tower2Button);
 
-        Button tower3Button = new Button(tower3ButtonTexture, xOffset, 880, 300, 90, 12);
+        Button tower3Button = new Button(tower3ButtonTexture, xOffset, 880, 300, 90, 10);
         tower3Button.setOrientation(Orientation.TopMiddle);
         scene.add(tower3Button);
     }
@@ -171,5 +177,8 @@ public class GameScene implements Scene {
         tower3ButtonTexture.dispose();
 
         enemyTexture.dispose();
+
+        towerTexture.dispose();
+        towerAlphaTexture.dispose();
     }
 }

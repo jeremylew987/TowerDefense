@@ -1,6 +1,7 @@
 package com.se309.game;
 
 import com.se309.queue.ButtonEvent;
+import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
 import com.se309.queue.PlayerJoinEvent;
 import com.se309.queue.RedrawEvent;
@@ -80,6 +81,8 @@ public class LobbyLogic {
         if (deconstruct) {
             emptyPlayerListBag();
             context.getEventQueue().queue(new RedrawEvent());
+
+            context.getEventQueue().queue(new EnemySpawnEvent(1));
         }
     }
 

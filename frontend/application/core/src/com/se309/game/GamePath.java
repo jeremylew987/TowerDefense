@@ -26,11 +26,11 @@ public class GamePath {
             for (int i = 0; i < path.size(); i++) {
                 Point currPoint = path.get(i);
 
-                newPath.add(currPoint);
-
                 if (lastPoint != null) {
                     newPath.add(new Point((currPoint.getX() + lastPoint.getX()) / 2,  (currPoint.getY() + lastPoint.getY()) / 2));
                 }
+
+                newPath.add(currPoint);
 
                 lastPoint = path.get(i);
             }

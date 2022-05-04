@@ -1,5 +1,6 @@
 package com.se309.button;
 
+import com.se309.queue.ButtonDownEvent;
 import com.se309.queue.ButtonEvent;
 import com.se309.queue.TouchDownEvent;
 import com.se309.queue.TouchEvent;
@@ -55,6 +56,8 @@ public class ButtonManager {
                 if (focusedButton != null) unFocusButton(focusedButton);
 
                 focusButton(touchedButton);
+
+                context.getEventQueue().queue(new ButtonDownEvent(touchedButton.getSignal()));
             }
 
             if (focusedButton != null && t instanceof TouchUpEvent) {

@@ -3,8 +3,11 @@ package com.se309.socket;
 import com.se309.render.TextElement;
 import com.se309.schema.DataObjectSchema;
 import com.se309.socket.SocketClient;
+import com.se309.tower.ResourceContext;
 
 import java.io.IOException;
+
+import jdk.internal.loader.Resource;
 
 /**
  * Connects to the socket to the backend, and continually polls for data.
@@ -14,16 +17,16 @@ import java.io.IOException;
  */
 public class NetworkDataHandler extends Thread {
 
-    private TextElement output;
+    private ResourceContext context;
     private SocketClient client;
 
     /**
      * Creates a new NetworkDataHandler class
      * @param client The socket client to receive data from
-     * @param output Testing debug object
+     * @param context Resource context
      */
-    public NetworkDataHandler(SocketClient client, TextElement output) {
-        this.output = output;
+    public NetworkDataHandler(SocketClient client, ResourceContext context) {
+        this.context = context;
         this.client = client;
     }
 
@@ -37,9 +40,6 @@ public class NetworkDataHandler extends Thread {
                 DataObjectSchema data =
                         DataObjectSchema.parseDelimitedFrom(client.getDataIn());
 
-                if (data.hasMessage()) {
-                    output.setText(output.getText() + "" + data.getMessage().getMessage() + "\n");
-                }
 
             } catch (IOException e) {
                 e.printStackTrace();
