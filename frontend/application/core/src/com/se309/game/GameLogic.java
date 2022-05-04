@@ -9,13 +9,17 @@ import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
 import com.se309.queue.TouchEvent;
 import com.se309.queue.TouchUpEvent;
+import com.se309.queue.TowerPlaceEvent;
 import com.se309.render.Element;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
 import com.se309.render.TextureElement;
 import com.se309.scene.GameScene;
+import com.se309.schema.DataObjectSchema;
+import com.se309.schema.TowerSchema;
 import com.se309.tower.ResourceContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameLogic {
@@ -43,8 +47,6 @@ public class GameLogic {
         this.game = game;
     }
 
-    int counter = 0;
-
     public void handleGameLogic() {
 
         // bad code :(
@@ -57,10 +59,6 @@ public class GameLogic {
 
         boolean deconstruct = false;
 
-        if (counter++ > 50) {
-            context.getEventQueue().queue(new EnemySpawnEvent(1));
-            counter = 0;
-        }
 
         advanceEnemies();
 
@@ -84,9 +82,31 @@ public class GameLogic {
 
                 if (e instanceof TouchUpEvent && pointerDown) {
                     context.getRenderer().removeElement(pointer);
+
+                    try {
+                        DataObjectSchema.newBuilder()
+                                .setTower(
+                                        TowerSchema.newBuilder()
+                                                .setX(((TouchEvent) e).getX())
+                                                .setY(((TouchEvent) e).getY())
+                                                .setTypeId(0)
+                                                .build()
+                                ).build().writeDelimitedTo(context.getDataOut());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
                     pointerDown = false;
                 }
-            }else if (e instanceof EnemySpawnEvent) {
+            } else if (e instanceof TowerPlaceEvent) {
+                TowerPlaceEvent tpe = (TowerPlaceEvent) e;
+
+                Tower t = new Tower(game.towerTexture, tpe.getX() - 40, tpe.getY() - 40, 80, 80, tpe.getId());
+
+                entityBag.add(t);
+                context.getRenderer().addElement(t);
+
+            } else if (e instanceof EnemySpawnEvent) {
                 EnemySpawnEvent ese = (EnemySpawnEvent) e;
 
                 Enemy newEnemy = new Enemy(game.enemyTexture, 0, 0, 50, 50, ese.getId());

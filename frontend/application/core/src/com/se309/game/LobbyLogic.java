@@ -85,8 +85,6 @@ public class LobbyLogic {
             emptyPlayerListBag();
             context.getEventQueue().queue(new RedrawEvent());
 
-            context.getEventQueue().queue(new EnemySpawnEvent(1));
-
             DataObjectSchema d = DataObjectSchema.newBuilder().setGamestate(GamestateSchema.newBuilder().setStatus(1).build()).build();
 
             try {

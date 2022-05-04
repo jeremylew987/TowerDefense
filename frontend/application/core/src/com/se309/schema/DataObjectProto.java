@@ -78,12 +78,12 @@ public final class DataObjectProto {
       "\r\022\t\n\001y\030\002 \002(\r\022\016\n\006typeId\030\003 \002(\r\022\017\n\007ownerId\030" +
       "\004 \001(\r\"o\n\020ConnectedClients\0228\n\007clients\030\001 \003" +
       "(\0132\'.coms309.server.ConnectedClients.Cli" +
-      "ent\032!\n\006Client\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\"u" +
-      "\n\010gameTick\0229\n\013enemyUpdate\030\001 \003(\0132$.coms30" +
-      "9.server.gameTick.EnemyUpdate\032.\n\013EnemyUp" +
-      "date\022\017\n\007enemyId\030\001 \002(\r\022\016\n\006health\030\002 \002(\rB*\n" +
-      "\025coms309.server.SchemaB\017DataObjectProtoP",
-      "\001"
+      "ent\032!\n\006Client\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\"\211" +
+      "\001\n\010gameTick\0229\n\013enemyUpdate\030\001 \003(\0132$.coms3" +
+      "09.server.gameTick.EnemyUpdate\032B\n\013EnemyU" +
+      "pdate\022\017\n\007enemyId\030\001 \002(\r\022\016\n\006health\030\002 \002(\r\022\022" +
+      "\n\nattackedBy\030\003 \001(\rB*\n\025coms309.server.Sch",
+      "emaB\017DataObjectProtoP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -144,7 +144,7 @@ public final class DataObjectProto {
     internal_static_coms309_server_gameTick_EnemyUpdate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_gameTick_EnemyUpdate_descriptor,
-        new String[] { "EnemyId", "Health", });
+        new String[] { "EnemyId", "Health", "AttackedBy", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
