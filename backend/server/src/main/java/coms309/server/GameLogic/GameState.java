@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class GameState implements Runnable {
 
-    public final Server server;
+    public Server server;
 
     /**
      * status of the game
@@ -41,7 +41,7 @@ public class GameState implements Runnable {
         difficulty = 1;
         round = 1;
         try {
-            this.map = new Map(1);
+            this.map = new Map(1, s.getGamestate());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class GameState implements Runnable {
             while ( timePassed >= timePerTimestep )
             {
                 // Update fixed step?????
-                map.update(0,deltaTime);
+                map.update(timePassed, deltaTime);
                 timePassed -= timePerTimestep;
 
                 // t += deltaTime; // Done outside of this while????
