@@ -4,8 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#03A9F4"
+    android:background="#233C54"
     tools:context=".SocialPage">
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#4077AA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -22,6 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto"
             android:text="Back" />
 
         <Button
@@ -29,7 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:backgroundTint="#B5B0B0"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:state_pressed="true"
             android:text="Friends" />
 
@@ -38,20 +55,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Recent Players" />
 
         <Button
             android:id="@+id/Leaderboards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#5AA7F0"
+            android:fontFamily="@font/roboto_bold"
             android:text="Leaderboards" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="729dp"
+        android:layout_width="0dp"
         android:layout_height="353dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +90,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:text="Add Freind" />
 
             <EditText
@@ -74,6 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:fontFamily="@font/roboto_bold"
                 android:hint="Friend Name"
                 android:inputType="textPersonName" />
 
@@ -81,40 +106,20 @@
                 android:id="@+id/addFriendButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#5AA7F0"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Add" />
-
-            <EditText
-                android:id="@+id/RequestHandle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Friend Name" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/friendAccept"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Accept" />
-
-                <Button
-                    android:id="@+id/friendDecline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Decline" />
-            </LinearLayout>
+                android:orientation="horizontal"/>
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:text="Friend Requests" />
         </LinearLayout>
 
@@ -128,6 +133,7 @@
                 android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
                 android:text="Friends List" />
         </LinearLayout>
     </LinearLayout>

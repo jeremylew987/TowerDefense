@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -106,107 +108,12 @@ public class SocialPage extends AppCompatActivity {
                 queue.add(request);
             }});
 
-        Button RequestAccept = findViewById(R.id.friendAccept);
-        Button RequestDecline = findViewById(R.id.friendDecline);
-        final EditText RequestText = findViewById(R.id.RequestHandle);
 
-        RequestAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String friendUsername = RequestText.getText().toString();
 
-                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/accept?user=" + friendUsername;
-                //call add friend command
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject res = null;
-                        try {
-                            res = response.getJSONObject("data");
-                            if (res == null){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                                alertDialogBuilder.setTitle("Error");
-                                alertDialogBuilder.setMessage("Invalid username");
-                                alertDialogBuilder.setPositiveButton("Ok", null);
-                                alertDialogBuilder.setNegativeButton("", null);
-                                alertDialogBuilder.create().show();
-                            }
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                            alertDialogBuilder.setTitle("Added User");
-                            alertDialogBuilder.setMessage("");
-                            alertDialogBuilder.setPositiveButton("Ok", null);
-                            alertDialogBuilder.setNegativeButton("", null);
-                            alertDialogBuilder.create().show();
 
-                        } catch (JSONException e) {
 
-                        }
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
-                        error.printStackTrace();
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                        alertDialogBuilder.setTitle("Error");
-                        alertDialogBuilder.setMessage(error.getMessage());
-                        alertDialogBuilder.setPositiveButton("Ok", null);
-                        alertDialogBuilder.setNegativeButton("", null);
-                        alertDialogBuilder.create().show();
-                    }
-                });
-                queue.add(request);
-            }});
-
-        RequestDecline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String friendUsername = RequestText.getText().toString();
-
-                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/decline?user=" + friendUsername;
-                //call add friend command
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject res = null;
-                        try {
-                            res = response.getJSONObject("data");
-                            if (res == null){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                                alertDialogBuilder.setTitle("Error");
-                                alertDialogBuilder.setMessage("Invalid username");
-                                alertDialogBuilder.setPositiveButton("Ok", null);
-                                alertDialogBuilder.setNegativeButton("", null);
-                                alertDialogBuilder.create().show();
-                            }
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                            alertDialogBuilder.setTitle("Declined Request");
-                            alertDialogBuilder.setMessage("");
-                            alertDialogBuilder.setPositiveButton("Ok", null);
-                            alertDialogBuilder.setNegativeButton("", null);
-                            alertDialogBuilder.create().show();
-
-                        } catch (JSONException e) {
-
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error.printStackTrace();
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
-                        alertDialogBuilder.setTitle("Error");
-                        alertDialogBuilder.setMessage(error.getMessage());
-                        alertDialogBuilder.setPositiveButton("Ok", null);
-                        alertDialogBuilder.setNegativeButton("", null);
-                        alertDialogBuilder.create().show();
-                    }
-                });
-                queue.add(request);
-            }});
 
 
 
@@ -259,6 +166,8 @@ public class SocialPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        Typeface typeface = getResources().getFont(R.font.roboto);
+        cur.setTypeface(typeface);
 
         layout.addView(cur);
 
@@ -272,14 +181,14 @@ public class SocialPage extends AppCompatActivity {
         final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
 
         String username = "";
-        ViewGroup layout = (ViewGroup) findViewById(R.id.friendRequest);
+        final ViewGroup layout = (ViewGroup) findViewById(R.id.friendRequest);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
 
-        LinearLayout hort = new LinearLayout(this);
+        final LinearLayout hort = new LinearLayout(this);
         hort.setOrientation(LinearLayout.HORIZONTAL);
 
 
-        TextView cur = new TextView(this);
+        final TextView cur = new TextView(this);
         cur.setLayoutParams(lparams);
         try {
             JSONObject temp = friend.getJSONObject("sender");
@@ -289,7 +198,13 @@ public class SocialPage extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-        Button accept = new Button(this);
+        final Button accept = new Button(this);
+        final Button decline = new Button(this);
+        accept.setBackgroundColor(0x5AA7F0);
+        decline.setBackgroundColor(0x5AA7F0);
+
+
+
         accept.setText("accept");
         final String finalUsername = username;
         accept.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +234,10 @@ public class SocialPage extends AppCompatActivity {
                             alertDialogBuilder.setPositiveButton("Ok", null);
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
+                            friendlayout();
+                            hort.removeView(decline);
+                            hort.removeView(accept);
+                            hort.removeView(cur);
 
                         } catch (JSONException e) {
 
@@ -346,7 +265,7 @@ public class SocialPage extends AppCompatActivity {
 
 
 
-        Button decline = new Button(this);
+
         decline.setText("decline");
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -375,6 +294,9 @@ public class SocialPage extends AppCompatActivity {
                             alertDialogBuilder.setPositiveButton("Ok", null);
                             alertDialogBuilder.setNegativeButton("", null);
                             alertDialogBuilder.create().show();
+                            hort.removeView(decline);
+                            hort.removeView(accept);
+                            hort.removeView(cur);
 
                         } catch (JSONException e) {
 
@@ -411,6 +333,13 @@ public class SocialPage extends AppCompatActivity {
     }
     void friendlayout(){
         final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
+        ViewGroup layout = (ViewGroup) findViewById(R.id.friendList);
+        layout.removeAllViews();
+        TextView title = new TextView(this);
+        title.setText("Friends List");
+        Typeface typeface = getResources().getFont(R.font.roboto);
+        title.setTypeface(typeface);
+        layout.addView(title);
 
         String friendaddress = "http://coms-309-027.class.las.iastate.edu:8080/user/friends";
         JsonObjectRequest FriendList = new JsonObjectRequest(Request.Method.GET, friendaddress, null, new Response.Listener<JSONObject>() {
