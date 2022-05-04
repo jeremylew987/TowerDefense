@@ -108,7 +108,6 @@ public  final class GamestateSchema extends
   }
   /**
    * <code>optional uint32 difficulty = 1;</code>
-   * @return
    */
   public int getDifficulty() {
     return difficulty_;
@@ -124,7 +123,6 @@ public  final class GamestateSchema extends
   }
   /**
    * <code>optional uint32 status = 2;</code>
-   * @return
    */
   public int getStatus() {
     return status_;
@@ -533,14 +531,12 @@ public  final class GamestateSchema extends
     }
     /**
      * <code>optional uint32 difficulty = 1;</code>
-     * @return
      */
     public int getDifficulty() {
       return difficulty_;
     }
     /**
      * <code>optional uint32 difficulty = 1;</code>
-     * @param value
      */
     public Builder setDifficulty(int value) {
       bitField0_ |= 0x00000001;
@@ -567,14 +563,12 @@ public  final class GamestateSchema extends
     }
     /**
      * <code>optional uint32 status = 2;</code>
-     * @return
      */
     public int getStatus() {
       return status_;
     }
     /**
      * <code>optional uint32 status = 2;</code>
-     * @param value
      */
     public Builder setStatus(int value) {
       bitField0_ |= 0x00000002;
