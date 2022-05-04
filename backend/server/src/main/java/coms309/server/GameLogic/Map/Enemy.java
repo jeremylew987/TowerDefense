@@ -2,7 +2,7 @@ package coms309.server.GameLogic.Map;
 
 import java.awt.*;
 
-public class Enemy {
+public class Enemy implements Comparable{
 
     public int id;
     private Point point;
@@ -53,4 +53,9 @@ public class Enemy {
         this.health = health;
     }
     public void decreaseHealth(int health) { this.health -= health; }
+
+    @Override
+    public int compareTo(Object e) {
+        return ((Enemy)e).id - this.id;
+    }
 }
