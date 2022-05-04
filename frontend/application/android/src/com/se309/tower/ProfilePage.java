@@ -56,6 +56,7 @@ public class ProfilePage extends AppCompatActivity {
                 Log.i("Response: " , response.toString());
                 try {
                     JSONObject data = response.getJSONObject("data");
+                     data = data.getJSONObject("user");
 
                     result[0] +="Username: " + data.getString("username") + "\n";
                     result[0] +="Email: " + data.getString("email") + "\n";

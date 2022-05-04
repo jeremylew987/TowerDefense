@@ -1,17 +1,14 @@
+
 package com.se309.tower;
-
-
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.se309.tower.LoginPage;
-
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.rule.ActivityTestRule;
 
 
 
@@ -23,18 +20,16 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.StringEndsWith.endsWith;
-
+// Mock the RequestServerForService class
 @RunWith(AndroidJUnit4ClassRunner.class)
 @LargeTest   // large execution time
-
-
-public class EspressClass {
+public class EspreTest {
     private static final int SIMULATED_DELAY_MS = 500;
-
     @Rule   // needed to launch the activity
-    public ActivityTestRule<LoginPage> activityRule = new ActivityTestRule<>(LoginPage.class);
-
-
+    public ActivityScenarioRule<LoginPage> activityRule = new ActivityScenarioRule<>(LoginPage.class);
+    /**
+     * Start the server and run this test
+     */
     @Test
     public void reverseString(){
         String testString = "hello";
@@ -54,6 +49,5 @@ public class EspressClass {
         onView(withId(R.id.textView)).check(matches(withText(endsWith(resultString))));
 
     }
-
 
 }
