@@ -73,6 +73,7 @@ message gameTick {
     required uint32 enemyId = 1;
     required uint32 health = 2;
     optional uint32 attackedBy = 3;
+    optional uint32 damageInflicted = 4;
 
   }
 }
