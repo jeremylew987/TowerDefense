@@ -65,7 +65,7 @@ public class Map {
         enemyPath = getPath(2);
         enemyQueue = new PriorityQueue<Enemy>();
         loadMap(mapId);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 1; i++) {
             enemyQueue.add(new Enemy(i, enemyPath.get(0), 1, 1));
         }
     }
@@ -142,7 +142,6 @@ public class Map {
         // updateEnemyPositions(t, dt);
         for (Enemy e : enemyArray) {
             e.setIterator(e.getIterator()+e.getSpeed());
-
         }
 
         Enemy e;
@@ -162,21 +161,45 @@ public class Map {
 
                     e.decreaseHealth(tower.getDamage());
 
-                    // If dead, remove
+                    // Dead: Remove from array. Protobuf will send health <= 0
                     if (e.getHealth() <= 0) {
                         enemyArray.remove(i);
                         i--;
                         Server.logger.info("[EnemyID=" + e.getId() + "] eliminated by [TowerID=" + j + "].");
                     }
-                        // create protobuf array for alive but damaged enemies
+                    tickBuilder.addEnemyUpdate(
+                            gameTick.EnemyUpdate.newBuilder()
+                                    .setEnemyId(e.getId())
+                                    .setHealth(e.getHealth())
+                                    .setAttackedBy(j + 1) // TODO: hack. pls make tower store uid
+                                    .build()
+                    );
+                    break; // Because one tower can only attack one enemy at a time
+
+                } else {
+                    // Assumes attacking a balloon will always kill it
+
+                    // Enemy hit the end and inflicts damage
+                    if (e.getHealth() > 0 && e.getIterator() >= enemyPath.size() - 2) {
+                        enemyArray.remove(i);
+                        i--;
+                        gameState.setHealth(gameState.getHealth() - 1); // Hardcode 1 heart per balloon
+                        Server.logger.info("[EnemyID=" + e.getId() + "] inflicted 1 damage");
+                        // Create protobuf for enemy that hit the end and made us lose life
                         tickBuilder.addEnemyUpdate(
                                 gameTick.EnemyUpdate.newBuilder()
                                         .setEnemyId(e.getId())
                                         .setHealth(e.getHealth())
-                                        .setAttackedBy(j+1) // TODO: hack. pls make tower store uid
+                                        .setDamageInflicted(1) // Hardcode 1 heart per balloon
                                         .build()
                         );
-                    break; // Because one tower can only attack one enemy at a time
+
+                        if (gameState.getHealth() <= 0) {
+                            gameState.setStatus(5); // Game over
+                            Server.logger.info("Game over");
+                        }
+
+                    }
                 }
             }
         }
