@@ -42,4 +42,13 @@ public interface GamestateSchemaOrBuilder extends
    * <code>optional uint32 round = 4;</code>
    */
   int getRound();
+
+  /**
+   * <code>optional uint32 health = 5;</code>
+   */
+  boolean hasHealth();
+  /**
+   * <code>optional uint32 health = 5;</code>
+   */
+  int getHealth();
 }

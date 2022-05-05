@@ -140,9 +140,29 @@ public class Map {
         gameTick.Builder tickBuilder = gameTick.newBuilder();
 
         // updateEnemyPositions(t, dt);
-        for (Enemy e : enemyArray) {
+        for (int i = 0; i < enemyArray.size(); i++) {
+            Enemy e = enemyArray.get(i);
             e.setIterator(e.getIterator()+e.getSpeed());
+            // Enemy hit the end and inflicts damage
+            if (e.getIterator() >= enemyPath.size() - 2) {
+                gameState.setHealth(gameState.getHealth() - 1); // Hardcode 1 heart per balloon
+                Server.logger.info("[EnemyID=" + e.getId() + "] inflicted 1 damage");
+                // Create protobuf for enemy that hit the end and made us lose life
+                tickBuilder.addEnemyUpdate(
+                        gameTick.EnemyUpdate.newBuilder()
+                                .setEnemyId(e.getId())
+                                .setHealth(e.getHealth())
+                                .setDamageInflicted(1) // Hardcode 1 heart per balloon
+                                .build()
+                );
 
+                if (gameState.getHealth() <= 0) {
+                    gameState.setStatus(5); // Game over
+                    Server.logger.info("Game over");
+                }
+                enemyArray.remove(i);
+                i--;
+            }
         }
 
         Enemy e;
@@ -162,21 +182,21 @@ public class Map {
 
                     e.decreaseHealth(tower.getDamage());
 
-                    // If dead, remove
+                    // Dead: Remove from array. Protobuf will send health <= 0
                     if (e.getHealth() <= 0) {
                         enemyArray.remove(i);
                         i--;
                         Server.logger.info("[EnemyID=" + e.getId() + "] eliminated by [TowerID=" + j + "].");
                     }
-                        // create protobuf array for alive but damaged enemies
-                        tickBuilder.addEnemyUpdate(
-                                gameTick.EnemyUpdate.newBuilder()
-                                        .setEnemyId(e.getId())
-                                        .setHealth(e.getHealth())
-                                        .setAttackedBy(j+1) // TODO: hack. pls make tower store uid
-                                        .build()
-                        );
+                    tickBuilder.addEnemyUpdate(
+                            gameTick.EnemyUpdate.newBuilder()
+                                    .setEnemyId(e.getId())
+                                    .setHealth(e.getHealth())
+                                    .setAttackedBy(j + 1) // TODO: hack. pls make tower store uid
+                                    .build()
+                    );
                     break; // Because one tower can only attack one enemy at a time
+
                 }
             }
         }

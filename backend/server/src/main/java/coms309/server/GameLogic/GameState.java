@@ -32,6 +32,7 @@ public class GameState implements Runnable {
     private int difficulty;
 
     private int round;
+    private int health;
     private Map map;
 
     // CONSTRUCTOR
@@ -40,6 +41,7 @@ public class GameState implements Runnable {
         status = 0;
         difficulty = 1;
         round = 1;
+        health = 10;
         try {
             this.map = new Map(1, this);
         } catch (Exception e) {
@@ -56,6 +58,9 @@ public class GameState implements Runnable {
     }
     public int getRound() {
         return round;
+    }
+    public int getHealth() {
+        return health;
     }
     public Map getMap() {
         return map;
@@ -115,6 +120,18 @@ public class GameState implements Runnable {
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
+    public void setHealth(int health) {
+        this.health = health;
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setHealth(health)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+        server.logger.log(Level.INFO, "Health has been set to " + health);
+    }
 
     // RUN
     public void run() {
@@ -137,7 +154,8 @@ public class GameState implements Runnable {
         long lastTime = System.currentTimeMillis();
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
-        while (true) {
+        this.setStatus(3);
+        while (this.getStatus() == 3) {
             currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;
             // Update game logic based on time passed

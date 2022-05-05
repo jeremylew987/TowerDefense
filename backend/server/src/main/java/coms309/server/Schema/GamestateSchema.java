@@ -23,6 +23,7 @@ public  final class GamestateSchema extends
     status_ = 0;
     map_ = 0;
     round_ = 0;
+    health_ = 0;
   }
 
   @java.lang.Override
@@ -71,6 +72,11 @@ public  final class GamestateSchema extends
           case 32: {
             bitField0_ |= 0x00000008;
             round_ = input.readUInt32();
+            break;
+          }
+          case 40: {
+            bitField0_ |= 0x00000010;
+            health_ = input.readUInt32();
             break;
           }
         }
@@ -158,6 +164,21 @@ public  final class GamestateSchema extends
     return round_;
   }
 
+  public static final int HEALTH_FIELD_NUMBER = 5;
+  private int health_;
+  /**
+   * <code>optional uint32 health = 5;</code>
+   */
+  public boolean hasHealth() {
+    return ((bitField0_ & 0x00000010) == 0x00000010);
+  }
+  /**
+   * <code>optional uint32 health = 5;</code>
+   */
+  public int getHealth() {
+    return health_;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -182,6 +203,9 @@ public  final class GamestateSchema extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       output.writeUInt32(4, round_);
     }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      output.writeUInt32(5, health_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -205,6 +229,10 @@ public  final class GamestateSchema extends
     if (((bitField0_ & 0x00000008) == 0x00000008)) {
       size += com.google.protobuf.CodedOutputStream
         .computeUInt32Size(4, round_);
+    }
+    if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(5, health_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -243,6 +271,11 @@ public  final class GamestateSchema extends
       result = result && (getRound()
           == other.getRound());
     }
+    result = result && (hasHealth() == other.hasHealth());
+    if (hasHealth()) {
+      result = result && (getHealth()
+          == other.getHealth());
+    }
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -269,6 +302,10 @@ public  final class GamestateSchema extends
     if (hasRound()) {
       hash = (37 * hash) + ROUND_FIELD_NUMBER;
       hash = (53 * hash) + getRound();
+    }
+    if (hasHealth()) {
+      hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+      hash = (53 * hash) + getHealth();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -400,6 +437,8 @@ public  final class GamestateSchema extends
       bitField0_ = (bitField0_ & ~0x00000004);
       round_ = 0;
       bitField0_ = (bitField0_ & ~0x00000008);
+      health_ = 0;
+      bitField0_ = (bitField0_ & ~0x00000010);
       return this;
     }
 
@@ -440,6 +479,10 @@ public  final class GamestateSchema extends
         to_bitField0_ |= 0x00000008;
       }
       result.round_ = round_;
+      if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        to_bitField0_ |= 0x00000010;
+      }
+      result.health_ = health_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -493,6 +536,9 @@ public  final class GamestateSchema extends
       }
       if (other.hasRound()) {
         setRound(other.getRound());
+      }
+      if (other.hasHealth()) {
+        setHealth(other.getHealth());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -646,6 +692,38 @@ public  final class GamestateSchema extends
     public Builder clearRound() {
       bitField0_ = (bitField0_ & ~0x00000008);
       round_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int health_ ;
+    /**
+     * <code>optional uint32 health = 5;</code>
+     */
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 health = 5;</code>
+     */
+    public int getHealth() {
+      return health_;
+    }
+    /**
+     * <code>optional uint32 health = 5;</code>
+     */
+    public Builder setHealth(int value) {
+      bitField0_ |= 0x00000010;
+      health_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional uint32 health = 5;</code>
+     */
+    public Builder clearHealth() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      health_ = 0;
       onChanged();
       return this;
     }
