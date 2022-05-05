@@ -47,6 +47,10 @@ public class FriendPage {
 
     @Test
     public void AsendFriendRequest(){
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
         String testString = "test";
         String resultString = "test";
         // Type in testString and send request
@@ -90,6 +94,10 @@ public class FriendPage {
 
     @Test
     public void BDeclineFriendRequest(){
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
         String testString = "test2";
         String resultString = "test";
         // Type in testString and send request
@@ -111,7 +119,7 @@ public class FriendPage {
 
 
 
-        onView(withText("decline")).perform(click());
+        onView(withText("DECLINE")).perform(click());
         try {
             Thread.sleep(SIMULATED_DELAY_MS);
         } catch (InterruptedException e) {
@@ -151,6 +159,10 @@ public class FriendPage {
 
     @Test
     public void CAcceptFriendRequest(){
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
         String testString = "test";
         String resultString = "test";
         // Type in testString and send request
@@ -172,7 +184,7 @@ public class FriendPage {
 
 
 
-        onView(withText("accept")).perform(click());
+        onView(withText("ACCEPT")).perform(click());
         try {
             Thread.sleep(SIMULATED_DELAY_MS);
         } catch (InterruptedException e) {
@@ -186,6 +198,56 @@ public class FriendPage {
 
 
         onView(withText("test2"));
+
+
+
+        onView(withId(R.id.backSocial)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
+
+    }
+
+
+    @Test
+    public void DRemoveFriend(){
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+        String testString = "test2";
+        String resultString = "test";
+        // Type in testString and send request
+        onView(withId(R.id.editTextTextPersonName))
+                .perform(typeText(testString), closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(typeText(resultString), closeSoftKeyboard());
+        onView(withId(R.id.button)).perform(click());
+
+        // Put thread to sleep to allow volley to handle the request
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withId(R.id.Social)).perform(click());
+
+
+
+
+
+        onView(withText("Remove Friend")).perform(click());
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withText("removed User")).inRoot(isDialog())
+                .check(matches(isDisplayed()));
+        onView(withText("Ok")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+
+
 
 
 
