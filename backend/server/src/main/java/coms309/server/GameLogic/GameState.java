@@ -33,6 +33,7 @@ public class GameState implements Runnable {
 
     private int round;
     private int health;
+    private int balance;
     private Map map;
 
     // CONSTRUCTOR
@@ -65,6 +66,7 @@ public class GameState implements Runnable {
     public Map getMap() {
         return map;
     }
+    public int getBalance() { return balance;}
 
     // SETTERS
     public void setDifficulty(int difficulty) {
@@ -131,6 +133,18 @@ public class GameState implements Runnable {
                         ).build();
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Health has been set to " + health);
+    }
+    public void setBalance(int balance) {
+        this.balance = balance;
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setBalance(balance)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+        server.logger.log(Level.INFO, "balance has been set to " + balance);
     }
 
     // RUN

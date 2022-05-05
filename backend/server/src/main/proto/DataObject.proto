@@ -28,6 +28,7 @@ message GamestateSchema {
   optional uint32 map = 3;
   optional uint32 round = 4;
   optional uint32 health = 5;
+  optional uint32 balance = 6;
 }
 
 /*
@@ -74,7 +75,6 @@ message gameTick {
     required uint32 enemyId = 1;
     required uint32 health = 2;
     optional uint32 attackedBy = 3;
-    optional uint32 damageInflicted = 4;
 
   }
 }

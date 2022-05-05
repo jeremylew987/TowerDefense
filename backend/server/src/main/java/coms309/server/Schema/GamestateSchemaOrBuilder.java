@@ -51,4 +51,13 @@ public interface GamestateSchemaOrBuilder extends
    * <code>optional uint32 health = 5;</code>
    */
   int getHealth();
+
+  /**
+   * <code>optional uint32 balance = 6;</code>
+   */
+  boolean hasBalance();
+  /**
+   * <code>optional uint32 balance = 6;</code>
+   */
+  int getBalance();
 }
