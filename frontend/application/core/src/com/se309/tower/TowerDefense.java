@@ -35,6 +35,8 @@ public class TowerDefense extends ApplicationAdapter {
 
 	private GameLogicProcessor processor;
 
+	private GameConfiguration config;
+
 
 	/**
 	 * Default constructor for TowerDefense activity
@@ -66,6 +68,8 @@ public class TowerDefense extends ApplicationAdapter {
 
 		tickHandler = new GameTickHandler(processor);
 
+		this.config = config;
+
 
 	}
 
@@ -96,7 +100,7 @@ public class TowerDefense extends ApplicationAdapter {
 		context.setDataOut(client.getDataOut());
 
 		// Login to backend
-		Message m = new Message("na", "na", "1cb8af81-92d6-4abc-baf6-8348529577ca");
+		Message m = new Message("na", "na", config.getUserLoginToken());
 
 		try {
 			m.serialize().writeDelimitedTo(client.getDataOut());
