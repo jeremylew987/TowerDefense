@@ -32,6 +32,8 @@ public class GameState implements Runnable {
     private int difficulty;
 
     private int round;
+    private int health;
+    private int balance;
     private Map map;
 
     // CONSTRUCTOR
@@ -40,6 +42,8 @@ public class GameState implements Runnable {
         status = 0;
         difficulty = 1;
         round = 1;
+        health = 10;
+        balance = 1000;
         try {
             this.map = new Map(1, this);
         } catch (Exception e) {
@@ -57,9 +61,13 @@ public class GameState implements Runnable {
     public int getRound() {
         return round;
     }
+    public int getHealth() {
+        return health;
+    }
     public Map getMap() {
         return map;
     }
+    public int getBalance() { return balance;}
 
     // SETTERS
     public void setDifficulty(int difficulty) {
@@ -115,6 +123,30 @@ public class GameState implements Runnable {
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Round has been set to " + round);
     }
+    public void setHealth(int health) {
+        this.health = health;
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setHealth(health)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+        server.logger.log(Level.INFO, "Health has been set to " + health);
+    }
+    public void setBalance(int balance) {
+        this.balance = balance;
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setBalance(balance)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+        server.logger.log(Level.INFO, "balance has been set to " + balance);
+    }
 
     // RUN
     public void run() {
@@ -137,7 +169,20 @@ public class GameState implements Runnable {
         long lastTime = System.currentTimeMillis();
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
-        while (true) {
+
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setBalance(balance)
+                                        .setStatus(3)
+                                        .setHealth(10)
+                                        .setRound(1)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+
+        while (this.getStatus() == 3) {
             currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;
             // Update game logic based on time passed

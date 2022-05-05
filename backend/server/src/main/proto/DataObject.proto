@@ -27,6 +27,8 @@ message GamestateSchema {
   optional uint32 status = 2;
   optional uint32 map = 3;
   optional uint32 round = 4;
+  optional uint32 health = 5;
+  optional uint32 balance = 6;
 }
 
 /*
@@ -61,6 +63,7 @@ message ConnectedClients {
   message Client {
     optional uint32 pid = 1;
     optional uint64 id = 2;
+    optional string name = 3;
   }
 }
 

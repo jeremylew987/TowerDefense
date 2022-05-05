@@ -56,7 +56,8 @@ public class ConnectionHandler {
                 conn.addClients(
                         ConnectedClients.Client.newBuilder()
                                 .setPid(i)
-                                .setId(clients[i].getPlayer().getUserId()));
+                                .setId(clients[i].getPlayer().getUserId())
+                                .setName(clients[i].getPlayer().getUsername()));
             }
         }
         DataObjectSchema d =

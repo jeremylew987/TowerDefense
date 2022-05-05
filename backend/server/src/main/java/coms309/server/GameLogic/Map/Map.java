@@ -33,7 +33,7 @@ public class Map {
      * Path radius each point on the path
      * Used to calculate collision with path
      */
-    private final int pathRadius = 1;
+    private final int pathRadius = 40;
 
     private GameState gameState;
 
@@ -140,21 +140,33 @@ public class Map {
         gameTick.Builder tickBuilder = gameTick.newBuilder();
 
         // updateEnemyPositions(t, dt);
-        for (Enemy e : enemyArray) {
+        for (int i = 0; i < enemyArray.size(); i++) {
+            Enemy e = enemyArray.get(i);
             e.setIterator(e.getIterator()+e.getSpeed());
+            // Enemy hit the end and inflicts damage
+            if (e.getIterator() >= enemyPath.size() - 2) {
+                gameState.setHealth(gameState.getHealth() - 1); // Hardcode 1 heart per balloon
+                Server.logger.info("[EnemyID=" + e.getId() + "] inflicted 1 damage");
 
+                if (gameState.getHealth() <= 0) {
+                    gameState.setStatus(5); // Game over
+                    Server.logger.info("Game over: You lose");
+                }
+                enemyArray.remove(i);
+                i--;
+            }
         }
 
         Enemy e;
         for (int j = 0; j  < towerArray.size(); j++) {
             Tower tower = towerArray.get(j);
+            // Decrement cooldown
+            if (tower.getCooldown() > 0) {
+                tower.setCooldown(tower.getCooldown() - 1);
+            }
+
             for (int i = 0; i < enemyArray.size(); i++) {
                 e = enemyArray.get(i);
-
-                // Decrement cooldown
-                if (tower.getCooldown() > 0) {
-                    tower.setCooldown(tower.getCooldown() - 1);
-                }
 
                 // Check if tower can attack this balloon
                 if (tower.getCooldown() <= 0 && isAttackCollision(enemyPath.get(e.getIterator()), tower)) {
@@ -162,21 +174,23 @@ public class Map {
 
                     e.decreaseHealth(tower.getDamage());
 
-                    // If dead, remove
+                    gameState.setBalance(gameState.getBalance() + 50);
+
+                    // Dead: Remove from array. Protobuf will send health <= 0
                     if (e.getHealth() <= 0) {
                         enemyArray.remove(i);
                         i--;
                         Server.logger.info("[EnemyID=" + e.getId() + "] eliminated by [TowerID=" + j + "].");
                     }
-                        // create protobuf array for alive but damaged enemies
-                        tickBuilder.addEnemyUpdate(
-                                gameTick.EnemyUpdate.newBuilder()
-                                        .setEnemyId(e.getId())
-                                        .setHealth(e.getHealth())
-                                        .setAttackedBy(j+1) // TODO: hack. pls make tower store uid
-                                        .build()
-                        );
+                    tickBuilder.addEnemyUpdate(
+                            gameTick.EnemyUpdate.newBuilder()
+                                    .setEnemyId(e.getId())
+                                    .setHealth(e.getHealth())
+                                    .setAttackedBy(j + 1) // TODO: hack. pls make tower store uid
+                                    .build()
+                    );
                     break; // Because one tower can only attack one enemy at a time
+
                 }
             }
         }
@@ -194,6 +208,11 @@ public class Map {
                             .setHealth(enemy.getHealth())
                             .build()
             );
+        }
+
+        if (enemyQueue.isEmpty() && enemyArray.isEmpty()) {
+            gameState.setStatus(5); // Game over
+            Server.logger.info("Game over: You win");
         }
 
 
