@@ -123,6 +123,72 @@ public class FriendPage {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
+
+        String friendString = "test";
+        onView(withId(R.id.addFriendText))
+                .perform(typeText(friendString), closeSoftKeyboard());
+
+
+        onView(withId(R.id.addFriendButton)).perform(click());
+
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withText("sentRequest")).inRoot(isDialog())
+                .check(matches(isDisplayed()));
+        onView(withText("Ok")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+
+
+        onView(withId(R.id.backSocial)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
+
+    }
+
+    @Test
+    public void CAcceptFriendRequest(){
+        String testString = "test";
+        String resultString = "test";
+        // Type in testString and send request
+        onView(withId(R.id.editTextTextPersonName))
+                .perform(typeText(testString), closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(typeText(resultString), closeSoftKeyboard());
+        onView(withId(R.id.button)).perform(click());
+
+        // Put thread to sleep to allow volley to handle the request
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withId(R.id.Social)).perform(click());
+
+
+
+
+
+        onView(withText("accept")).perform(click());
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withText("Added User")).inRoot(isDialog())
+                .check(matches(isDisplayed()));
+        onView(withText("Ok")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+
+        onView(withText("test2"));
+
+
+
         onView(withId(R.id.backSocial)).perform(click());
         onView(withId(R.id.logout)).perform(click());
 
