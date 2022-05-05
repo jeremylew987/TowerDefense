@@ -154,8 +154,11 @@ public class LoginPage extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         String res = "";
+                        String token = "";
                         try {
                             res = response.getString("message");
+                            //token = response.getString("token");
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginPage.this);
@@ -168,6 +171,7 @@ public class LoginPage extends AppCompatActivity {
                         if(res.equals("Login Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
+                            //mEditor.putString("token", token).commit();
                             mEditor.putString("password", pass).commit();
                             password1.setText(res);
                             username1.setText(mPrefs.getString("username","none"));

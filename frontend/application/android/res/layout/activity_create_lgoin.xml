@@ -102,5 +102,11 @@
             android:fontFamily="@font/roboto_bold"
             android:text="Create Login" />
 
+        <TextView
+            android:id="@+id/tokenText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:visibility="invisible" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
