@@ -170,17 +170,8 @@ public class GameState implements Runnable {
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
 
-        DataObjectSchema d =
-                DataObjectSchema.newBuilder()
-                        .setGamestate(
-                                GamestateSchema.newBuilder()
-                                        .setBalance(balance)
-                                        .setStatus(3)
-                                        .setHealth(10)
-                                        .setRound(1)
-                                        .build()
-                        ).build();
-        server.getConnectionHandler().writeToAll(d);
+        status = 3;
+        server.getConnectionHandler().writeToAll(this.serialize());
 
         while (this.getStatus() == 3) {
             currentTime = System.currentTimeMillis();
@@ -217,10 +208,12 @@ public class GameState implements Runnable {
                 DataObjectSchema.newBuilder()
                         .setGamestate(
                                 GamestateSchema.newBuilder()
+                                        .setBalance(balance)
                                         .setDifficulty(difficulty)
                                         .setStatus(status)
                                         .setMap(map.getMapId())
                                         .setRound(round)
+                                        .setHealth(health)
                                         .build()
                         ).build();
         return d;
