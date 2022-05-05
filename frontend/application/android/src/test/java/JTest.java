@@ -119,6 +119,21 @@ public class JTest {
         assertFalse(isValidEmail("@gdgd"));
     }
 
+    @Test
+    public void gameConfigTest() {
+        GameConfiguration config = new GameConfiguration("foo", 69);
+
+        assertEquals(config.getSocketServerAddress(), "foo");
+        assertEquals(config.getSocketServerPort(), 69);
+    }
+
+    @Test
+    public void gameConfigDefaultTest() {
+        GameConfiguration config = new GameConfiguration("foo", 69);
+
+        assertEquals(config.getUserLoginToken(), "1cb8af81-92d6-4abc-baf6-8348529577ca");
+    }
+
  
 
 
