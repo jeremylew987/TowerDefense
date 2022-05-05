@@ -57,7 +57,7 @@ public class NetworkDataHandler extends Thread {
                 if (data.hasClients()) {
                     ArrayList<String> names = new ArrayList<>();
                     for (int i = 0; i < data.getClients().getClientsCount(); i++) {
-                        names.add("Player " + data.getClients().getClients(i).getPid());
+                        names.add(data.getClients().getClients(i).getName());
                     }
 
                     context.getEventQueue().queue(new PlayerListUpdateEvent(names));

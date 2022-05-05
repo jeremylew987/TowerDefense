@@ -43,6 +43,7 @@ public class GameState implements Runnable {
         difficulty = 1;
         round = 1;
         health = 10;
+        balance = 1000;
         try {
             this.map = new Map(1, this);
         } catch (Exception e) {
@@ -168,7 +169,19 @@ public class GameState implements Runnable {
         long lastTime = System.currentTimeMillis();
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
-        this.setStatus(3);
+
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setBalance(balance)
+                                        .setStatus(3)
+                                        .setHealth(10)
+                                        .setRound(1)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+
         while (this.getStatus() == 3) {
             currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;

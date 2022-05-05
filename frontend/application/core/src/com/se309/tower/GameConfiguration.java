@@ -10,6 +10,7 @@ public class GameConfiguration {
 
     private String socketServerAddress;
     private int socketServerPort;
+    private String userLoginToken;
 
     /**
      * Default constructor for GameConfiguration
@@ -19,6 +20,8 @@ public class GameConfiguration {
     public GameConfiguration(String socketServerAddress, int socketServerPort) {
         this.socketServerAddress = socketServerAddress;
         this.socketServerPort = socketServerPort;
+
+        userLoginToken = "1cb8af81-92d6-4abc-baf6-8348529577ca";
     }
 
     /**
@@ -51,5 +54,13 @@ public class GameConfiguration {
      */
     public void setSocketServerPort(int socketServerPort) {
         this.socketServerPort = socketServerPort;
+    }
+
+    public String getUserLoginToken() {
+        return userLoginToken;
+    }
+
+    public void setUserLoginToken(String userLoginToken) {
+        this.userLoginToken = userLoginToken;
     }
 }

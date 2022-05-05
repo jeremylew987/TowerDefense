@@ -78,6 +78,9 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
         queue.add(FriendList);
+        try{Thread.sleep( 1000);} catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String friendaddress2 =  "http://coms-309-027.class.las.iastate.edu:8080/user/stats";
         JsonObjectRequest FriendList2 = new JsonObjectRequest(Request.Method.GET, friendaddress2, null, new Response.Listener<JSONObject>() {
             @Override

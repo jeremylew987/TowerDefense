@@ -15,6 +15,8 @@ public class GameArguments {
 
     private static int socketServerPort;
 
+    private static String userLoginToken;
+
     public static String getSocketServerAddress() {
         return socketServerAddress;
     }
@@ -30,4 +32,6 @@ public class GameArguments {
     public static void setSocketServerPort(int socketServerPort) {
         GameArguments.socketServerPort = socketServerPort;
     }
+
+
 }

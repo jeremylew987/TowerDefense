@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.regex.Pattern;
 
@@ -49,7 +51,7 @@ public class CreateLoginPage extends AppCompatActivity {
 
                 String emailS = email.getText().toString();
 
-                if(isValidEmail(emailS)) {
+                if(!isValidEmail(emailS)) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                     alertDialogBuilder.setTitle("Error");
                     alertDialogBuilder.setMessage("Invalid Email");
@@ -86,13 +88,18 @@ public class CreateLoginPage extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 String res = "";
                 try {
-                    res = response.getString("message");
+
+                    response = response.getJSONObject("data");
+                    res = response.getString("token");
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("");
-                    alertDialogBuilder.setMessage(res);
+                    alertDialogBuilder.setTitle("Check Email");
+                    alertDialogBuilder.setMessage("Register token: "+res);
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
+                    TextView token = findViewById(R.id.tokenText);
+                    token.setText(res);
+
                 } catch (JSONException e) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                     alertDialogBuilder.setTitle("error");

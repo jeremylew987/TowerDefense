@@ -76,15 +76,15 @@ public final class DataObjectProto {
       "h\030\005 \001(\r\022\017\n\007balance\030\006 \001(\r\">\n\rMessageSchem" +
       "a\022\016\n\006author\030\001 \001(\t\022\014\n\004code\030\002 \002(\t\022\017\n\007messa" +
       "ge\030\003 \002(\t\"D\n\013TowerSchema\022\t\n\001x\030\001 \002(\r\022\t\n\001y\030" +
-      "\002 \002(\r\022\016\n\006typeId\030\003 \002(\r\022\017\n\007ownerId\030\004 \001(\r\"o" +
+      "\002 \002(\r\022\016\n\006typeId\030\003 \002(\r\022\017\n\007ownerId\030\004 \001(\r\"}" +
       "\n\020ConnectedClients\0228\n\007clients\030\001 \003(\0132\'.co" +
-      "ms309.server.ConnectedClients.Client\032!\n\006" +
-      "Client\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\"\211\001\n\010game" +
-      "Tick\0229\n\013enemyUpdate\030\001 \003(\0132$.coms309.serv" +
-      "er.gameTick.EnemyUpdate\032B\n\013EnemyUpdate\022\017" +
-      "\n\007enemyId\030\001 \002(\r\022\016\n\006health\030\002 \002(\r\022\022\n\nattac",
-      "kedBy\030\003 \001(\rB*\n\025com.se309.schemaB\017Da" +
-      "taObjectProtoP\001"
+      "ms309.server.ConnectedClients.Client\032/\n\006" +
+      "Client\022\013\n\003pid\030\001 \001(\r\022\n\n\002id\030\002 \001(\004\022\014\n\004name\030" +
+      "\003 \001(\t\"\211\001\n\010gameTick\0229\n\013enemyUpdate\030\001 \003(\0132" +
+      "$.coms309.server.gameTick.EnemyUpdate\032B\n" +
+      "\013EnemyUpdate\022\017\n\007enemyId\030\001 \002(\r\022\016\n\006health\030",
+      "\002 \002(\r\022\022\n\nattackedBy\030\003 \001(\rB*\n\025coms309.ser" +
+      "ver.SchemaB\017DataObjectProtoP\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -133,7 +133,7 @@ public final class DataObjectProto {
     internal_static_coms309_server_ConnectedClients_Client_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_coms309_server_ConnectedClients_Client_descriptor,
-        new String[] { "Pid", "Id", });
+        new String[] { "Pid", "Id", "Name", });
     internal_static_coms309_server_gameTick_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_coms309_server_gameTick_fieldAccessorTable = new
