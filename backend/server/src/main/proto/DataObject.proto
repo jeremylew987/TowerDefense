@@ -27,6 +27,7 @@ message GamestateSchema {
   optional uint32 status = 2;
   optional uint32 map = 3;
   optional uint32 round = 4;
+  optional uint32 health = 5;
 }
 
 /*
