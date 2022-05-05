@@ -102,7 +102,8 @@ public class GameLogic {
 
                         if (tw.getId() == eae.getTowerId()) attackingTower = tw;
 
-                    }                }
+                    }
+                }
 
                 if (attackingTower != null && attackedEnemy != null) {
                     Vector vect1 = new Vector(0, 1);
