@@ -33,7 +33,7 @@ public class Tower {
      * Radius around the tower's origin that defines the physical size of the tower
      * Static so it can be accessed without instantiation, but towers now can't be different sizes
      */
-    public static int size = 1;
+    public static int size = 80;
 
     public Tower(Point point, int typeId, int ownerId) {
         this.point = point;

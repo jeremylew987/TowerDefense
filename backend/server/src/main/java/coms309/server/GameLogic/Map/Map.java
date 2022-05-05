@@ -33,7 +33,7 @@ public class Map {
      * Path radius each point on the path
      * Used to calculate collision with path
      */
-    private final int pathRadius = 1;
+    private final int pathRadius = 40;
 
     private GameState gameState;
 
