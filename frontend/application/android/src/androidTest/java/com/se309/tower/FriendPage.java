@@ -1,6 +1,8 @@
-
 package com.se309.tower;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -25,47 +27,28 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.core.StringEndsWith.endsWith;
+
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
 // Mock the RequestServerForService class
 @RunWith(AndroidJUnit4ClassRunner.class)
 @LargeTest   // large execution time
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EspreTest {
+
+public class FriendPage {
+
     private static final int SIMULATED_DELAY_MS = 1000;
     @Rule   // needed to launch the activity
     public ActivityScenarioRule<LoginPage> activityRule = new ActivityScenarioRule<>(LoginPage.class);
 
 
 
-    /**
-     * Start the server and run this test
-     */
     @Test
-    public void Aloginreading(){
-        String testString = "hello";
-        String resultString = "hello";
-        // Type in testString and send request
-        onView(withId(R.id.editTextTextPersonName))
-                .perform(typeText(testString), closeSoftKeyboard());
-        onView(withId(R.id.button)).perform(click());
-
-        // Put thread to sleep to allow volley to handle the request
-        try {
-            Thread.sleep(SIMULATED_DELAY_MS);
-        } catch (InterruptedException e) {
-        }
-        onView(withText("OK")).inRoot(isDialog())
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        // Verify that volley returned the correct value
-        onView(withId(R.id.textView)).check(matches(withText(endsWith(resultString))));
-
-    }
-
-    @Test
-    public void BloginTest(){
-        String testString = "jeremy";
-        String resultString = "pass";
+    public void AsendFriendRequest(){
+        String testString = "test";
+        String resultString = "test";
         // Type in testString and send request
         onView(withId(R.id.editTextTextPersonName))
                 .perform(typeText(testString), closeSoftKeyboard());
@@ -79,13 +62,76 @@ public class EspreTest {
         } catch (InterruptedException e) {
         }
 
+        onView(withId(R.id.Social)).perform(click());
+
+
+        String friendString = "test2";
+        onView(withId(R.id.addFriendText))
+                .perform(typeText(friendString), closeSoftKeyboard());
+
+
+        onView(withId(R.id.addFriendButton)).perform(click());
+
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withText("sentRequest")).inRoot(isDialog())
+                .check(matches(isDisplayed()));
+        onView(withText("Ok")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        onView(withId(R.id.backSocial)).perform(click());
         onView(withId(R.id.logout)).perform(click());
 
+    }
+
+    @Test
+    public void BDeclineFriendRequest(){
+        String testString = "test2";
+        String resultString = "test";
+        // Type in testString and send request
+        onView(withId(R.id.editTextTextPersonName))
+                .perform(typeText(testString), closeSoftKeyboard());
+        onView(withId(R.id.editTextTextPassword))
+                .perform(typeText(resultString), closeSoftKeyboard());
+        onView(withId(R.id.button)).perform(click());
+
+        // Put thread to sleep to allow volley to handle the request
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withId(R.id.Social)).perform(click());
 
 
 
+
+
+        onView(withText("decline")).perform(click());
+        try {
+            Thread.sleep(SIMULATED_DELAY_MS);
+        } catch (InterruptedException e) {
+        }
+
+        onView(withText("Declined User")).inRoot(isDialog())
+                .check(matches(isDisplayed()));
+        onView(withText("Ok")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        onView(withId(R.id.backSocial)).perform(click());
+        onView(withId(R.id.logout)).perform(click());
 
     }
+
+
+
+
+
 
 
 }
