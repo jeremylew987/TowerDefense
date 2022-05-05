@@ -116,15 +116,6 @@ public  final class gameTick extends
      * <code>optional uint32 attackedBy = 3;</code>
      */
     int getAttackedBy();
-
-    /**
-     * <code>optional uint32 damageInflicted = 4;</code>
-     */
-    boolean hasDamageInflicted();
-    /**
-     * <code>optional uint32 damageInflicted = 4;</code>
-     */
-    int getDamageInflicted();
   }
   /**
    * Protobuf type {@code coms309.server.gameTick.EnemyUpdate}
@@ -141,7 +132,6 @@ public  final class gameTick extends
       enemyId_ = 0;
       health_ = 0;
       attackedBy_ = 0;
-      damageInflicted_ = 0;
     }
 
     @java.lang.Override
@@ -185,11 +175,6 @@ public  final class gameTick extends
             case 24: {
               bitField0_ |= 0x00000004;
               attackedBy_ = input.readUInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              damageInflicted_ = input.readUInt32();
               break;
             }
           }
@@ -262,21 +247,6 @@ public  final class gameTick extends
       return attackedBy_;
     }
 
-    public static final int DAMAGEINFLICTED_FIELD_NUMBER = 4;
-    private int damageInflicted_;
-    /**
-     * <code>optional uint32 damageInflicted = 4;</code>
-     */
-    public boolean hasDamageInflicted() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional uint32 damageInflicted = 4;</code>
-     */
-    public int getDamageInflicted() {
-      return damageInflicted_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -306,9 +276,6 @@ public  final class gameTick extends
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(3, attackedBy_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeUInt32(4, damageInflicted_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -328,10 +295,6 @@ public  final class gameTick extends
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, attackedBy_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(4, damageInflicted_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -365,11 +328,6 @@ public  final class gameTick extends
         result = result && (getAttackedBy()
             == other.getAttackedBy());
       }
-      result = result && (hasDamageInflicted() == other.hasDamageInflicted());
-      if (hasDamageInflicted()) {
-        result = result && (getDamageInflicted()
-            == other.getDamageInflicted());
-      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -392,10 +350,6 @@ public  final class gameTick extends
       if (hasAttackedBy()) {
         hash = (37 * hash) + ATTACKEDBY_FIELD_NUMBER;
         hash = (53 * hash) + getAttackedBy();
-      }
-      if (hasDamageInflicted()) {
-        hash = (37 * hash) + DAMAGEINFLICTED_FIELD_NUMBER;
-        hash = (53 * hash) + getDamageInflicted();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -521,8 +475,6 @@ public  final class gameTick extends
         bitField0_ = (bitField0_ & ~0x00000002);
         attackedBy_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        damageInflicted_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -559,10 +511,6 @@ public  final class gameTick extends
           to_bitField0_ |= 0x00000004;
         }
         result.attackedBy_ = attackedBy_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.damageInflicted_ = damageInflicted_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -613,9 +561,6 @@ public  final class gameTick extends
         }
         if (other.hasAttackedBy()) {
           setAttackedBy(other.getAttackedBy());
-        }
-        if (other.hasDamageInflicted()) {
-          setDamageInflicted(other.getDamageInflicted());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -743,38 +688,6 @@ public  final class gameTick extends
       public Builder clearAttackedBy() {
         bitField0_ = (bitField0_ & ~0x00000004);
         attackedBy_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int damageInflicted_ ;
-      /**
-       * <code>optional uint32 damageInflicted = 4;</code>
-       */
-      public boolean hasDamageInflicted() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional uint32 damageInflicted = 4;</code>
-       */
-      public int getDamageInflicted() {
-        return damageInflicted_;
-      }
-      /**
-       * <code>optional uint32 damageInflicted = 4;</code>
-       */
-      public Builder setDamageInflicted(int value) {
-        bitField0_ |= 0x00000008;
-        damageInflicted_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 damageInflicted = 4;</code>
-       */
-      public Builder clearDamageInflicted() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        damageInflicted_ = 0;
         onChanged();
         return this;
       }

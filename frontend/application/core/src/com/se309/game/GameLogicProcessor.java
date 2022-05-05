@@ -19,6 +19,10 @@ public class GameLogicProcessor {
     private int gameState;
     private ArrayList<String> players;
 
+    private int balance;
+    private int round;
+    private int health;
+
     public GameLogicProcessor(ResourceContext context) {
         this.context = context;
 
@@ -28,6 +32,11 @@ public class GameLogicProcessor {
 
         lobbyLogic = new LobbyLogic(this, context);
         gameLogic = new GameLogic(this, context);
+
+        // Initial values
+        balance = 0;
+        round = 0;
+        health = 0;
     }
 
     int count = 0;
@@ -62,5 +71,29 @@ public class GameLogicProcessor {
 
     public void setPlayers(ArrayList<String> players) {
         this.players = players;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

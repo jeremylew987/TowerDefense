@@ -205,6 +205,15 @@ public class Connection implements Runnable {
                 break;
             }
             case GAMESTATE: {
+                if (this.player.getPlayerId() > 0) {
+                    Server.logger.info("Player with pid=" + this.player.getPlayerId() + " attempted to modify the gamestate.");
+                    write(new Message(
+                            "Server",
+                            "ERR",
+                            "You do not have permissions to modify the lobby!"
+                    ).serialize());
+                    break;
+                }
                 GamestateSchema g = data.getGamestate();
                 if (g.hasMap()) {
                     try {

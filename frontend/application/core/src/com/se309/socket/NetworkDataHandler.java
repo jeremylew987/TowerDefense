@@ -4,6 +4,7 @@ import com.se309.queue.EnemyAttackEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameStartEvent;
 import com.se309.queue.PlayerListUpdateEvent;
+import com.se309.queue.StatusUpdateEvent;
 import com.se309.queue.TowerPlaceEvent;
 import com.se309.schema.DataObjectSchema;
 import com.se309.schema.gameTick;
@@ -56,7 +57,7 @@ public class NetworkDataHandler extends Thread {
                 if (data.hasClients()) {
                     ArrayList<String> names = new ArrayList<>();
                     for (int i = 0; i < data.getClients().getClientsCount(); i++) {
-                        names.add("Player " + data.getClients().getClients(i).getPid());
+                        names.add(data.getClients().getClients(i).getName());
                     }
 
                     context.getEventQueue().queue(new PlayerListUpdateEvent(names));
@@ -80,6 +81,8 @@ public class NetworkDataHandler extends Thread {
                     if (data.getGamestate().getStatus() == 1) {
                         context.getEventQueue().queue(new GameStartEvent());
                     }
+
+                    context.getEventQueue().queue(new StatusUpdateEvent(data.getGamestate().hasHealth() ? data.getGamestate().getHealth() : -69, data.getGamestate().hasRound() ? data.getGamestate().getRound() : -69, data.getGamestate().hasBalance() ? data.getGamestate().getBalance() : -69));
                 }
 
                 if (data.hasTower()) {

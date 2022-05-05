@@ -33,6 +33,7 @@ public class GameState implements Runnable {
 
     private int round;
     private int health;
+    private int balance;
     private Map map;
 
     // CONSTRUCTOR
@@ -42,6 +43,7 @@ public class GameState implements Runnable {
         difficulty = 1;
         round = 1;
         health = 10;
+        balance = 1000;
         try {
             this.map = new Map(1, this);
         } catch (Exception e) {
@@ -65,6 +67,7 @@ public class GameState implements Runnable {
     public Map getMap() {
         return map;
     }
+    public int getBalance() { return balance;}
 
     // SETTERS
     public void setDifficulty(int difficulty) {
@@ -132,6 +135,18 @@ public class GameState implements Runnable {
         server.getConnectionHandler().writeToAll(d);
         server.logger.log(Level.INFO, "Health has been set to " + health);
     }
+    public void setBalance(int balance) {
+        this.balance = balance;
+        DataObjectSchema d =
+                DataObjectSchema.newBuilder()
+                        .setGamestate(
+                                GamestateSchema.newBuilder()
+                                        .setBalance(balance)
+                                        .build()
+                        ).build();
+        server.getConnectionHandler().writeToAll(d);
+        server.logger.log(Level.INFO, "balance has been set to " + balance);
+    }
 
     // RUN
     public void run() {
@@ -154,7 +169,10 @@ public class GameState implements Runnable {
         long lastTime = System.currentTimeMillis();
         long timePassed = 0;
         long timePerTimestep = 1000 / 50;
-        this.setStatus(3);
+
+        status = 3;
+        server.getConnectionHandler().writeToAll(this.serialize());
+
         while (this.getStatus() == 3) {
             currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;
@@ -190,10 +208,12 @@ public class GameState implements Runnable {
                 DataObjectSchema.newBuilder()
                         .setGamestate(
                                 GamestateSchema.newBuilder()
+                                        .setBalance(balance)
                                         .setDifficulty(difficulty)
                                         .setStatus(status)
                                         .setMap(map.getMapId())
                                         .setRound(round)
+                                        .setHealth(health)
                                         .build()
                         ).build();
         return d;

@@ -6,6 +6,7 @@ import com.se309.queue.GameEvent;
 import com.se309.queue.GameStartEvent;
 import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
+import com.se309.queue.StatusUpdateEvent;
 import com.se309.render.Element;
 import com.se309.render.Orientation;
 import com.se309.render.TextElement;
@@ -47,6 +48,16 @@ public class LobbyLogic {
                 context.getSceneManager().display("GAME");
 
                 deconstruct = true;
+            }  else if (e instanceof StatusUpdateEvent) {
+                // STATUS UPDATE EVENT HANDLER
+                StatusUpdateEvent sue = (StatusUpdateEvent) e;
+
+                if (sue.getRound() != -69) processor.setRound(sue.getRound());
+                if (sue.getBalance() != -69) processor.setBalance(sue.getBalance());
+                if (sue.getHealth() != -69) processor.setHealth(sue.getHealth());
+
+                context.getEventQueue().queue(new RedrawEvent());
+
             } else if (e instanceof ButtonEvent) {
                 // BUTTON EVENT HANDLER
                 ButtonEvent be = (ButtonEvent) e;

@@ -22,7 +22,6 @@ public class GameLauncher extends AndroidApplication {
 		// Set up the configuration object
 		GameConfiguration gameConfig = new GameConfiguration(GameArguments.getSocketServerAddress(), GameArguments.getSocketServerPort());
 
-
 		// Jump into LibGDX mode
 		initialize(new TowerDefense(gameConfig), config);
 	}

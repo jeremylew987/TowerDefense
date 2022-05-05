@@ -28,7 +28,6 @@ public class UserService {
     private final static String EMAIL_NOT_FOUND_MSG = "User with email %s does not exist";
     private final static String BAD_CREDENTIALS_MSG = "Username %s does not exist";
 
-    @Autowired
     private UserRepository userRepository;
 
     private final FriendshipRepository friendshipRepository;
@@ -89,6 +88,7 @@ public class UserService {
                 new Date(date.getTime() + (15 * 60 * 1000)), // 15 minutes +
                 user
         );
+        user.setConfirmationToken(token);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         logger.info("Saved confirmation token");
         return confirmationToken;

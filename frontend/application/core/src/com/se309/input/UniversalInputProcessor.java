@@ -1,15 +1,7 @@
 package com.se309.input;
 
 import com.badlogic.gdx.InputProcessor;
-import com.se309.queue.TouchDownEvent;
-import com.se309.queue.TouchEvent;
-import com.se309.queue.TouchUpEvent;
-import com.se309.render.TextElement;
-import com.se309.socket.Message;
-import com.se309.socket.SocketClient;
 import com.se309.tower.ResourceContext;
-
-import java.io.IOException;
 
 /**
  * Keyboard input processor for data entry in LibGDX.

@@ -1,6 +1,7 @@
 package coms309.proj1.registration.token;
 
 import coms309.proj1.exception.InvalidTokenException;
+import coms309.proj1.user.User;
 import coms309.proj1.user.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -23,6 +24,10 @@ public class ConfirmationTokenService {
 
     public Optional<ConfirmationToken> getToken(String token) {
         return confirmationTokenRepository.findByToken(token);
+    }
+
+    public Optional<ConfirmationToken> getTokenByUser(User user) {
+        return confirmationTokenRepository.findByUser(user);
     }
 
     public int setConfirmedAt(String token) {

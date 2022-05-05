@@ -1,4 +1,6 @@
-package com.se309.queue;
+package com.se309.input;
+
+import com.se309.queue.GameEvent;
 
 public class TouchEvent extends GameEvent {
 

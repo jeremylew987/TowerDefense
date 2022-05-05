@@ -47,10 +47,10 @@ public class Tower {
 //        }
         this.typeId = typeId;
         this.name = "tower";
-        this.size = 80;
+        this.size = 40;
         this.range = 300;
         this.setOwnerId(ownerId);
-        this.speed = 350;
+        this.speed = 100;
         this.damage = 1;
 
     }

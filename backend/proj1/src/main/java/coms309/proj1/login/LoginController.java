@@ -1,11 +1,16 @@
 package coms309.proj1.login;
 
 import coms309.proj1.exception.GeneralResponse;
+import coms309.proj1.registration.token.ConfirmationTokenService;
+import coms309.proj1.user.User;
+import coms309.proj1.user.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
+    private ConfirmationTokenService confirmationTokenService;
 
     /**
      * Login page returned by a get request to /login.
@@ -32,9 +37,16 @@ public class LoginController {
      * @return "Login Success"
      */
     @GetMapping(path = "/login/success")
-    public ResponseEntity<GeneralResponse> loginResponse() {
+    public ResponseEntity<GeneralResponse> loginResponse(Authentication authentication) {
         logger.info("Entered into Login Controller Layer");
-        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success"), HttpStatus.ACCEPTED);
+        User u = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
+        if (u.getConfirmationToken() == null) {
+            if (confirmationTokenService.getTokenByUser(u).isPresent()) {
+                u.setConfirmationToken(confirmationTokenService.getTokenByUser(u).get().getToken());
+                confirmationTokenService.saveConfirmationToken(confirmationTokenService.getTokenByUser(u).get());
+            }
+        }
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success", u), HttpStatus.ACCEPTED);
     }
 
     /**

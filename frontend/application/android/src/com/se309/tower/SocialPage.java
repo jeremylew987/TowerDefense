@@ -171,20 +171,80 @@ public class SocialPage extends AppCompatActivity {
      * @param friend
      */
     public void friend(JSONObject friend){
+        final RequestQueue queue = Volley.newRequestQueue(SocialPage.this);
         ViewGroup layout = (ViewGroup) findViewById(R.id.friendList);
         Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-
+        final LinearLayout hort = new LinearLayout(this);
+        hort.setOrientation(LinearLayout.HORIZONTAL);
+        String username = "";
         TextView cur = new TextView(this);
         cur.setLayoutParams(lparams);
         try {
-            cur.setText(friend.getString("username"));
+            cur.setText(username=friend.getString("username"));
         } catch (Exception e){
             e.printStackTrace();
         }
         Typeface typeface = getResources().getFont(R.font.roboto);
         cur.setTypeface(typeface);
 
-        layout.addView(cur);
+        final Button decline = new Button(this);
+        decline.setBackgroundColor(0x5AA7F0);
+
+        decline.setText("Remove Friend");
+        final String finalUsername = username;
+        decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String friendrequestaddress =  "http://coms-309-027.class.las.iastate.edu:8080/user/friends/remove?user=" + finalUsername;
+                //call add friend command
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, friendrequestaddress, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject res = null;
+                        try {
+                            res = response.getJSONObject("data");
+                            if (res == null){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                                alertDialogBuilder.setTitle("Error");
+                                alertDialogBuilder.setMessage("Invalid username");
+                                alertDialogBuilder.setPositiveButton("Ok", null);
+                                alertDialogBuilder.setNegativeButton("", null);
+                                alertDialogBuilder.create().show();
+                            }
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                            alertDialogBuilder.setTitle("removed User");
+                            alertDialogBuilder.setMessage("");
+                            alertDialogBuilder.setPositiveButton("Ok", null);
+                            alertDialogBuilder.setNegativeButton("", null);
+                            alertDialogBuilder.create().show();
+                            friendlayout();
+
+                        } catch (JSONException e) {
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SocialPage.this);
+                        alertDialogBuilder.setTitle("Error");
+                        alertDialogBuilder.setMessage(error.getMessage());
+                        alertDialogBuilder.setPositiveButton("Ok", null);
+                        alertDialogBuilder.setNegativeButton("", null);
+                        alertDialogBuilder.create().show();
+                    }
+                });
+                queue.add(request);
+
+            }});
+        hort.addView(cur);
+        hort.addView(decline);
+        layout.addView(hort);
 
     }
 

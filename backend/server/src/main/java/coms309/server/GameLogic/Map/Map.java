@@ -147,14 +147,6 @@ public class Map {
             if (e.getIterator() >= enemyPath.size() - 2) {
                 gameState.setHealth(gameState.getHealth() - 1); // Hardcode 1 heart per balloon
                 Server.logger.info("[EnemyID=" + e.getId() + "] inflicted 1 damage");
-                // Create protobuf for enemy that hit the end and made us lose life
-                tickBuilder.addEnemyUpdate(
-                        gameTick.EnemyUpdate.newBuilder()
-                                .setEnemyId(e.getId())
-                                .setHealth(e.getHealth())
-                                .setDamageInflicted(1) // Hardcode 1 heart per balloon
-                                .build()
-                );
 
                 if (gameState.getHealth() <= 0) {
                     gameState.setStatus(5); // Game over
@@ -168,19 +160,21 @@ public class Map {
         Enemy e;
         for (int j = 0; j  < towerArray.size(); j++) {
             Tower tower = towerArray.get(j);
+            // Decrement cooldown
+            if (tower.getCooldown() > 0) {
+                tower.setCooldown(tower.getCooldown() - 1);
+            }
+
             for (int i = 0; i < enemyArray.size(); i++) {
                 e = enemyArray.get(i);
-
-                // Decrement cooldown
-                if (tower.getCooldown() > 0) {
-                    tower.setCooldown(tower.getCooldown() - 1);
-                }
 
                 // Check if tower can attack this balloon
                 if (tower.getCooldown() <= 0 && isAttackCollision(enemyPath.get(e.getIterator()), tower)) {
                     tower.setCooldown(tower.getSpeed());
 
                     e.decreaseHealth(tower.getDamage());
+
+                    gameState.setBalance(gameState.getBalance() + 50);
 
                     // Dead: Remove from array. Protobuf will send health <= 0
                     if (e.getHealth() <= 0) {
