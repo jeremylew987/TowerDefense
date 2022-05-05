@@ -7,12 +7,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 import coms309.proj1.Views;
 import coms309.proj1.friend.FriendRequest;
 import coms309.proj1.friend.Friendship;
+import coms309.proj1.registration.token.ConfirmationToken;
+import coms309.proj1.registration.token.ConfirmationTokenService;
 import coms309.proj1.user.stat.UserStats;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @JsonView(Views.Summary.class)
 @NoArgsConstructor
@@ -48,6 +52,9 @@ public class User{
 	 */
 	@JsonIgnore
 	private String password;
+
+	@Transient
+	private String confirmationToken;
 
 	@Enumerated(EnumType.STRING)
 	@JsonView(Views.Detailed.class)
@@ -115,7 +122,8 @@ public class User{
 	public UserStats getStats() {
 		return stats;
 	}
-
+	public void setConfirmationToken(String confirmationToken) { this.confirmationToken = confirmationToken; }
+	public String getConfirmationToken() { return this.confirmationToken; }
 	public void setPassword(String password) {
         this.password = password;
     }

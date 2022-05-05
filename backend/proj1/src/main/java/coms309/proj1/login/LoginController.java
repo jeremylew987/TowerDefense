@@ -1,11 +1,15 @@
 package coms309.proj1.login;
 
 import coms309.proj1.exception.GeneralResponse;
+import coms309.proj1.user.User;
+import coms309.proj1.user.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,9 +36,10 @@ public class LoginController {
      * @return "Login Success"
      */
     @GetMapping(path = "/login/success")
-    public ResponseEntity<GeneralResponse> loginResponse() {
+    public ResponseEntity<GeneralResponse> loginResponse(Authentication authentication) {
         logger.info("Entered into Login Controller Layer");
-        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success"), HttpStatus.ACCEPTED);
+        User u = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
+        return new ResponseEntity<GeneralResponse>(new GeneralResponse(HttpStatus.ACCEPTED, "Login Success", u), HttpStatus.ACCEPTED);
     }
 
     /**
