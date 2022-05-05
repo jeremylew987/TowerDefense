@@ -158,7 +158,7 @@ public class Map {
 
                 if (gameState.getHealth() <= 0) {
                     gameState.setStatus(5); // Game over
-                    Server.logger.info("Game over");
+                    Server.logger.info("Game over: You lose");
                 }
                 enemyArray.remove(i);
                 i--;
@@ -214,6 +214,11 @@ public class Map {
                             .setHealth(enemy.getHealth())
                             .build()
             );
+        }
+
+        if (enemyQueue.isEmpty() && enemyArray.isEmpty()) {
+            gameState.setStatus(5); // Game over
+            Server.logger.info("Game over: You win");
         }
 
 
