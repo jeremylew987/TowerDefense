@@ -174,6 +174,8 @@ public class GameLogic {
                 entityBag.add(newEnemy);
                 context.getRenderer().addElement(newEnemy);
 
+                context.getEventQueue().queue(new RedrawEvent());
+
             } else if (e instanceof PlayerListUpdateEvent) {
                 // PLAYER LIST UPDATE EVENT HANDLER
                 PlayerListUpdateEvent pje = (PlayerListUpdateEvent) e;
