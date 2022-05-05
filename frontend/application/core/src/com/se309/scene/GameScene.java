@@ -35,6 +35,11 @@ public class GameScene implements Scene {
     public BitmapFont regularMediumGreen;
     public BitmapFont regularMediumRed;
 
+    // Values
+    public TextElement balanceValue;
+    public TextElement roundValue;
+    public TextElement liveValue;
+
     // Constants
     private static final int TOWER_MENU_LEFT_PADDING = 30;
     private static final int TOWER_MENU_TOP_PADDING = 30;
@@ -122,7 +127,7 @@ public class GameScene implements Scene {
         balanceLabel.setFont(regularMedium);
         scene.add(balanceLabel);
 
-        TextElement balanceValue = new TextElement("$0", xOffset, 190);
+        balanceValue = new TextElement("$0", xOffset, 190);
         balanceValue.setOrientation(Orientation.TopMiddle);
         balanceValue.setFont(regularMediumGold);
         scene.add(balanceValue);
@@ -132,7 +137,7 @@ public class GameScene implements Scene {
         roundLabel.setFont(regularMedium);
         scene.add(roundLabel);
 
-        TextElement roundValue = new TextElement("1", xOffset, 330);
+        roundValue = new TextElement("1", xOffset, 330);
         roundValue.setOrientation(Orientation.TopMiddle);
         roundValue.setFont(regularMediumGreen);
         scene.add(roundValue);
@@ -142,7 +147,7 @@ public class GameScene implements Scene {
         liveLabel.setFont(regularMedium);
         scene.add(liveLabel);
 
-        TextElement liveValue = new TextElement("50", xOffset, 470);
+        liveValue = new TextElement("50", xOffset, 470);
         liveValue.setOrientation(Orientation.TopMiddle);
         liveValue.setFont(regularMediumRed);
         scene.add(liveValue);

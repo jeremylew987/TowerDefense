@@ -4,6 +4,7 @@ import com.se309.queue.EnemyAttackEvent;
 import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameStartEvent;
 import com.se309.queue.PlayerListUpdateEvent;
+import com.se309.queue.StatusUpdateEvent;
 import com.se309.queue.TowerPlaceEvent;
 import com.se309.schema.DataObjectSchema;
 import com.se309.schema.gameTick;
@@ -80,6 +81,8 @@ public class NetworkDataHandler extends Thread {
                     if (data.getGamestate().getStatus() == 1) {
                         context.getEventQueue().queue(new GameStartEvent());
                     }
+
+                    context.getEventQueue().queue(new StatusUpdateEvent(data.getGamestate().getHealth(), data.getGamestate().getRound(), data.getGamestate().getBalance()));
                 }
 
                 if (data.hasTower()) {

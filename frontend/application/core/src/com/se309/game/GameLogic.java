@@ -8,8 +8,9 @@ import com.se309.queue.EnemySpawnEvent;
 import com.se309.queue.GameEvent;
 import com.se309.queue.PlayerListUpdateEvent;
 import com.se309.queue.RedrawEvent;
-import com.se309.queue.TouchEvent;
-import com.se309.queue.TouchUpEvent;
+import com.se309.input.TouchEvent;
+import com.se309.input.TouchUpEvent;
+import com.se309.queue.StatusUpdateEvent;
 import com.se309.queue.TowerPlaceEvent;
 import com.se309.render.Element;
 import com.se309.render.Orientation;
@@ -68,7 +69,18 @@ public class GameLogic {
                 // BUTTON EVENT HANDLER
                 ButtonEvent be = (ButtonEvent) e;
                 int signal = be.getSignal();
+            } else if (e instanceof StatusUpdateEvent) {
+                // STATUS UPDATE EVENT HANDLER
+                StatusUpdateEvent sue = (StatusUpdateEvent) e;
+
+                processor.setRound(sue.getRound());
+                processor.setBalance(sue.getBalance());
+                processor.setHealth(sue.getHealth());
+
+                context.getEventQueue().queue(new RedrawEvent());
+
             } else if (e instanceof EnemyAttackEvent) {
+                // ENEMY ATTACK EVENT HANDLER
                 EnemyAttackEvent eae = (EnemyAttackEvent) e;
 
                 Enemy attackedEnemy = null;
@@ -113,6 +125,7 @@ public class GameLogic {
                 }
 
             }else if (e instanceof ButtonDownEvent) {
+                // BUTTON DOWN EVENT HANDLER
                 ButtonDownEvent bde = (ButtonDownEvent) e;
 
                 if (!pointerDown && ((ButtonDownEvent) e).getSignal() == 10) {
@@ -121,7 +134,7 @@ public class GameLogic {
                 }
 
             } else if (e instanceof TouchEvent) {
-
+                // TOUCH EVENT HANDLER
                 pointer.setX(((TouchEvent) e).getX() - pointer.getWidth() / 2);
                 pointer.setY(((TouchEvent) e).getY() - pointer.getHeight() / 2);
 
@@ -144,6 +157,7 @@ public class GameLogic {
                     pointerDown = false;
                 }
             } else if (e instanceof TowerPlaceEvent) {
+                // TOWER PLACE EVENT HANDLER
                 TowerPlaceEvent tpe = (TowerPlaceEvent) e;
 
                 Tower t = new Tower(game.towerTexture, tpe.getX() - 40, tpe.getY() - 40, 80, 80, tpe.getId());
@@ -152,6 +166,7 @@ public class GameLogic {
                 context.getRenderer().addElement(t);
 
             } else if (e instanceof EnemySpawnEvent) {
+                // ENEMY SPAWN EVENT HANDLER
                 EnemySpawnEvent ese = (EnemySpawnEvent) e;
 
                 Enemy newEnemy = new Enemy(game.enemyTexture, 0, 0, 50, 50, ese.getId());
@@ -160,6 +175,7 @@ public class GameLogic {
                 context.getRenderer().addElement(newEnemy);
 
             } else if (e instanceof PlayerListUpdateEvent) {
+                // PLAYER LIST UPDATE EVENT HANDLER
                 PlayerListUpdateEvent pje = (PlayerListUpdateEvent) e;
 
                 processor.setPlayers(pje.getNames());
@@ -167,8 +183,13 @@ public class GameLogic {
                 context.getEventQueue().queue(new RedrawEvent());
 
             } else if (e instanceof RedrawEvent) {
+                // REDRAW EVENT HANDLER
                 emptyPlayerListBag();
                 generatePlayerList();
+
+                game.balanceValue.setText("$" + processor.getBalance());
+                game.roundValue.setText(processor.getRound() + "");
+                game.liveValue.setText(processor.getHealth() + "");
             }
         }
 

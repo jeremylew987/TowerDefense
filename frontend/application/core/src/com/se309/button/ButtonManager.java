@@ -2,9 +2,9 @@ package com.se309.button;
 
 import com.se309.queue.ButtonDownEvent;
 import com.se309.queue.ButtonEvent;
-import com.se309.queue.TouchDownEvent;
-import com.se309.queue.TouchEvent;
-import com.se309.queue.TouchUpEvent;
+import com.se309.input.TouchDownEvent;
+import com.se309.input.TouchEvent;
+import com.se309.input.TouchUpEvent;
 import com.se309.render.Element;
 import com.se309.render.Orientation;
 import com.se309.tower.ResourceContext;
