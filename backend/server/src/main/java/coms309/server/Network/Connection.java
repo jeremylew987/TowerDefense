@@ -82,6 +82,7 @@ public class Connection implements Runnable {
                     DataObjectSchema.parseDelimitedFrom(dataIn);
 
             if (!data.hasMessage()) { throw new IOException("Did not receive proper authentication token."); }
+            Server.logger.info("Client attempting to authenticate with Token=" + data.getMessage().getMessage());
             String authToken = data.getMessage().getMessage();
 
             // 2. Form HTTP Request to Authentication Server
