@@ -157,7 +157,7 @@ public class LoginPage extends AppCompatActivity {
                         String token = "";
                         try {
                             res = response.getString("message");
-                            //token = response.getString("token");
+                            token = response.getString("confirmationToken");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,7 +171,8 @@ public class LoginPage extends AppCompatActivity {
                         if(res.equals("Login Success")) {
                             SharedPreferences.Editor mEditor = mPrefs.edit();
                             mEditor.putString("username", name).commit();
-                            //mEditor.putString("token", token).commit();
+                            if(!token.equals(null))
+                            mEditor.putString("token", token).commit();
                             mEditor.putString("password", pass).commit();
                             password1.setText(res);
                             username1.setText(mPrefs.getString("username","none"));
