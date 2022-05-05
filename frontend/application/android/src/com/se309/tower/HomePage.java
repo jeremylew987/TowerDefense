@@ -48,6 +48,7 @@ public class HomePage extends AppCompatActivity {
                 SharedPreferences.Editor mEditor = mPrefs.edit();
                 mEditor.remove("username").commit();
                 mEditor.remove("password").commit();
+                mEditor.remove("token").commit();
                 startActivity(new Intent(HomePage.this, LoginPage.class));
 
             }});

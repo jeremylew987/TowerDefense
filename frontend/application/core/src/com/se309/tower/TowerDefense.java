@@ -92,7 +92,10 @@ public class TowerDefense extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(new UniversalInputProcessor(context));
 
 		// Set up the client connection stuff
-		SocketClient client = new SocketClient("10.30.35.148", 25565);
+
+		SocketClient client = new SocketClient("10.30.34.106", 25565);
+
+		//SocketClient client = new SocketClient("10.30.35.148", 25565);
 		NetworkDataHandler reader = new NetworkDataHandler(client, context);
 		reader.start();
 

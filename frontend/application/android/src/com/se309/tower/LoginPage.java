@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -157,7 +158,8 @@ public class LoginPage extends AppCompatActivity {
                         String token = "";
                         try {
                             res = response.getString("message");
-                            token = response.getString("confirmationToken");
+                            JSONObject temp = response.getJSONObject("data");
+                            token = temp.getString("confirmationToken");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -174,6 +176,7 @@ public class LoginPage extends AppCompatActivity {
                             if(!token.equals(null))
                             mEditor.putString("token", token).commit();
                             mEditor.putString("password", pass).commit();
+                            Log.i("Response: " , token);
                             password1.setText(res);
                             username1.setText(mPrefs.getString("username","none"));
                             password1.setText(mPrefs.getString("password","none"));
