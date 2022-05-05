@@ -82,7 +82,7 @@ public class NetworkDataHandler extends Thread {
                         context.getEventQueue().queue(new GameStartEvent());
                     }
 
-                    context.getEventQueue().queue(new StatusUpdateEvent(data.getGamestate().getHealth(), data.getGamestate().getRound(), data.getGamestate().getBalance()));
+                    context.getEventQueue().queue(new StatusUpdateEvent(data.getGamestate().hasHealth() ? data.getGamestate().getHealth() : -69, data.getGamestate().hasRound() ? data.getGamestate().getRound() : -69, data.getGamestate().hasBalance() ? data.getGamestate().getBalance() : -69));
                 }
 
                 if (data.hasTower()) {
