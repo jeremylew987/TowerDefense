@@ -73,9 +73,9 @@ public class GameLogic {
                 // STATUS UPDATE EVENT HANDLER
                 StatusUpdateEvent sue = (StatusUpdateEvent) e;
 
-                processor.setRound(sue.getRound());
-                processor.setBalance(sue.getBalance());
-                processor.setHealth(sue.getHealth());
+                if (sue.getRound() != -69) processor.setRound(sue.getRound());
+                if (sue.getBalance() != -69) processor.setBalance(sue.getBalance());
+                if (sue.getHealth() != -69) processor.setHealth(sue.getHealth());
 
                 context.getEventQueue().queue(new RedrawEvent());
 
