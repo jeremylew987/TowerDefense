@@ -65,7 +65,7 @@ public class Map {
         enemyPath = getPath(2);
         enemyQueue = new PriorityQueue<Enemy>();
         loadMap(mapId);
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 30; i++) {
             enemyQueue.add(new Enemy(i, enemyPath.get(0), 1, 1));
         }
     }
