@@ -31,6 +31,8 @@
 //	private static User testUser2;
 //
 //	@Autowired
+//	private UserRepository userRepository;
+//	@Autowired
 //	private UserStatsService userStatsService;
 //
 //	@BeforeAll
@@ -52,14 +54,14 @@
 //
 //	@BeforeEach
 //	void addUsers() {
-//		userStatsService.getUserRepository().save(testUser1);
-//		userStatsService.getUserRepository().save(testUser2);
+//		userRepository.save(testUser1);
+//		userRepository.save(testUser2);
 //	}
 //
 //	@AfterEach
 //	void removeUsers() {
-//		userStatsService.getUserRepository().delete(testUser1);
-//		userStatsService.getUserRepository().delete(testUser2);
+//		userRepository.delete(testUser1);
+//		userRepository.delete(testUser2);
 //	}
 //
 //	@Test
