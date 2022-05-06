@@ -36,10 +36,13 @@ public class LoginTests
 
 	@Test
 	public void loginSuccessTest() {
-		io.restassured.RestAssured.with().body(new LoginRequest("james", "1234")).when().
-				request("POST", "/login").then().assertThat().statusCode(302);
 		io.restassured.RestAssured.get("/login/success").then().assertThat().statusCode(202);
 		io.restassured.RestAssured.get("/login/success").then().assertThat().body("data.username", equalTo("james"));
+	}
+
+	@Test
+	public void logoutSuccessTest() {
+		io.restassured.RestAssured.get("/logout").then().assertThat().statusCode(204);
 	}
 
 	@Test
