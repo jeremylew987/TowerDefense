@@ -75,29 +75,7 @@ public class JTest {
         assertEquals(4, 2 + 2);
     }
 
-    @Test
-    public void friendTest(){//main code style for both friendlist and friend Request list
-        JSONObject temp = new JSONObject();
-        try {
-            temp.put("username", "jeremy");
-            temp.put("email", "jalewis1@iastate.edu");
-            temp.put("role", "USER");
-            temp.put("id", 47);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        assertTrue(friend(temp));
-    }
-    public boolean friend(JSONObject friend){
-        try {
-            if((friend.getString("username")).equals("jeremy"))
-                return true;
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     @Test
     public void emailCorrect(){

@@ -93,9 +93,9 @@ public class TowerDefense extends ApplicationAdapter {
 
 		// Set up the client connection stuff
 
-		SocketClient client = new SocketClient("10.30.34.106", 25565);
+		//SocketClient client = new SocketClient("10.26", 25565);
 
-		//SocketClient client = new SocketClient("10.30.35.148", 25565);
+		SocketClient client = new SocketClient("10.30.35.148", 25565);
 		NetworkDataHandler reader = new NetworkDataHandler(client, context);
 		reader.start();
 

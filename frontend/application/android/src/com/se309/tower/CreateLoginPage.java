@@ -87,27 +87,19 @@ public class CreateLoginPage extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 String res = "";
-                try {
 
-                    response = response.getJSONObject("data");
-                    res = response.getString("token");
+
+
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
                     alertDialogBuilder.setTitle("Check Email");
-                    alertDialogBuilder.setMessage("Register token: "+res);
+                    alertDialogBuilder.setMessage("Register token: ");
                     alertDialogBuilder.setPositiveButton("Ok", null);
                     alertDialogBuilder.setNegativeButton("", null);
                     alertDialogBuilder.create().show();
                     TextView token = findViewById(R.id.tokenText);
                     token.setText(res);
 
-                } catch (JSONException e) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateLoginPage.this);
-                    alertDialogBuilder.setTitle("error");
-                    alertDialogBuilder.setMessage("Issue completing the request");
-                    alertDialogBuilder.setPositiveButton("Ok", null);
-                    alertDialogBuilder.setNegativeButton("", null);
-                    alertDialogBuilder.create().show();
-                }
+
 
             }
         }, new Response.ErrorListener() {
